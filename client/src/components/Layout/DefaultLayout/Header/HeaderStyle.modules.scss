@@ -1,0 +1,99 @@
+@use "../Defaultcss.modules.scss";
+
+%nav{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    justify-content: center;
+    padding:8px;
+    margin-top: 10px;
+}
+.header {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 40px;
+    font-family: "Roboto", sans-serif;  
+    .nav_left{
+        @extend %nav;
+        margin-right: auto;
+        margin-left:100px;
+        .logo{
+            height: 40px;
+            width: 160px;
+        }
+        .search_container{
+            @extend %nav;
+            padding:14px;
+            border-radius: 20px;
+            border: Defaultcss.$darkgray 1px solid;
+            box-shadow: inset 0 0 1px;
+            width: 400px;
+            height: 40px;
+            margin-left:300px ;
+            .search_icon{
+                width: 20px;
+                height:20px;
+                float: right;
+                cursor: pointer;
+            }
+            .search_input{
+                outline: none;
+                border: none;
+                width:inherit;
+            }
+        }
+    }
+    .nav_right{
+        @extend %nav;
+        margin-left: auto;
+        margin-right:100px;
+        .noti{
+            outline: none;
+            border: none;
+            background-color:Defaultcss.$global_color ;
+            cursor: pointer;
+            display: inline-flex;  /* Make the container inline and flexible */
+            align-items: center;  
+        }
+        .sign, .support, .noti{
+            display: inline-flex;  /* Make the container inline and flexible */
+            align-items: center;  
+            flex-direction: row;
+            justify-content: center;
+        }
+        .sign{
+            @extend .noti;
+          }
+          .support{
+            display: inline-flex;  /* Make the container inline and flexible */
+            align-items: center;  
+        }
+    }
+}
+
+
+
+
+
+.noti_info{
+    width: 400px ;
+    height: 600px;
+    margin-top: 100px;
+    border: black 1px solid;
+    z-index: 1;
+}
+
+
+.icon_text{
+    width:fit-content;
+    height:20px;
+    line-height: normal;
+
+}
+.icon_header{
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+}

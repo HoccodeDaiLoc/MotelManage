@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('./Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+
+
+*{
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box; /* Added */
+    font-family:'Roboto', sans-serif ;
+}
+
+$lightgray_line:#dfdfdf;
+$midgray_line:#ededed;
+$global_color:#ffffff;
+$darkgray:#504848;
