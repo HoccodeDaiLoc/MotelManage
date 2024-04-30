@@ -1,18 +1,16 @@
-import { Fragment, useState } from "react";
-import {Routes, Route } from "react-router-dom";
-import {publicRoutes } from "./routes";
-import DefaultLayout from "./components/Layout/DefaultLayout";
+import {BrowserRouter,Route,Routes} from 'react-router-dom';
+import Rooms from './Pages/Rooms';
+import RoomDetail from './Pages/RoomDetail';
 function App() {
-
   return (
+    <BrowserRouter>
     <Routes>
-      <Route path="/" element={<DefaultLayout></DefaultLayout>}></Route>
-      <Route path="Home" element={<DefaultLayout></DefaultLayout>}></Route>
-      <Route path="Support"></Route>
-      <Route path="SignIn"></Route>
+    <Route path='/' element={<Rooms/>}/>
+    {/* <Route path='/Rooms/:page' element={<Rooms/>}/> */}
+    <Route path="Rooms/:RoomId"  element={<RoomDetail/>} />
     </Routes>
+    </BrowserRouter>
   );
-
 }
 
 export default App;

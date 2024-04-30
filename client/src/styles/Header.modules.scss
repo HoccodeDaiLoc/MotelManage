@@ -1,0 +1,121 @@
+@use "./Global.modules.scss";
+
+%nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    justify-content: center;
+    padding: 8px;
+    margin-top: 10px;
+}
+
+.header_container {
+
+    @extend %base;
+
+    .header {
+        @extend %fixat1360;
+
+        border-bottom: 1px Global.$midgray_line solid;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-family: "Roboto", sans-serif;
+        line-height: 1.5;
+        z-index: 1;
+
+        .nav_left {
+            @extend %nav;
+            margin-right: auto;
+            .logo {
+                height: 40px;
+                width: 160px;
+            }
+
+        }
+    }
+
+    .search_form {
+        display: flex;
+        justify-content: center;
+
+        align-items: center;
+
+        margin: 0 auto;
+        .search_container {
+            @extend %nav;
+            padding: 14px;
+            border-radius: 20px;
+            border: Global.$darkgray 1px solid;
+            box-shadow: inset 0 0 1px;
+            width: 400px;
+            height: 40px;
+
+            .search_icon {
+                width: 20px;
+                height: 20px;
+                float: right;
+                cursor: pointer;
+            }
+
+            .search_input {
+                outline: none;
+                border: none;
+                width: inherit;
+            }
+        }
+    }
+
+    .nav_right {
+        @extend %nav;
+        width: 300px;
+
+        .nav_right_item {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            height: inherit;
+            margin-left: 15px;
+
+            .icon_text {
+                height: inherit;
+                width: fit-content;
+                line-height: normal;
+                white-space: nowrap;
+
+            }
+
+            .icon_container {
+                width: fit-content;
+                height: inherit;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                margin-left: 10px;
+
+                .icon {
+                    padding: 0px;
+                    margin: 0px;
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+
+        }
+
+    }
+}
+
+
+
+.noti_info {
+    width: 400px;
+    height: 600px;
+    margin-top: 100px;
+    border: black 1px solid;
+    z-index: 1;
+}
