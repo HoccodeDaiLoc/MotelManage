@@ -15,13 +15,13 @@ function RoomDetailModal({ data }) {
   const imgArray=data;
   return (
     <div>
-      <button onClick={handleShow}>Mở Modal</button>
+      <button className="button_modal" onClick={handleShow}>Xem chi tiết</button>
       {show ? (
         <div className="modal" onClick={(e)=>handleOutsideClick(e)}>
           <div className="modal-content">
             <div className="img_container">
-              <div className="big_img">
-                {imgArray[0] && <img src={imgArray[0].url} alt="" />}
+              <div className="big_img_container">
+                {imgArray[0] && <img className="big_img" src={imgArray[0].url} alt="" />}
               </div>
               <div className="side_container">
                 {imgArray.slice(1,10).map(
@@ -36,7 +36,6 @@ function RoomDetailModal({ data }) {
                 )}
               </div>
             </div>
-            <button onClick={handleClose}>Đóng</button>
           </div>
         </div>
       ) : null}

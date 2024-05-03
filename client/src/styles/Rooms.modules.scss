@@ -6,24 +6,23 @@ $imgheight: $imgwidth+20px;
 #Content_wrapper {
     @extend %base;
     margin-top: 30px;
-    .Content{
-        @extend %fixat1360;
 
+    .Content {
+        @extend %fixat1360;
         overflow: hidden;
         display: grid;
         grid-template-columns: auto auto auto auto;
-        grid-template-rows: auto auto auto ;
+        grid-template-rows: auto auto auto;
         height: 200vh;
 
     }
-    }
+}
 
 .bold {
     font-family: "Roboto", sans-serif;
     font-size: medium;
     font-weight: bold;
 }
-
 .container {
     display: flex;
     flex-direction: column;
@@ -34,16 +33,13 @@ $imgheight: $imgwidth+20px;
         max-width: 400px;
         height: $imgheight;
     }
-    
-.info {
-    padding-top: 10px;
 
-    display: flex;
-    flex-direction: column;}
+    .info {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
 }
-
-
-
 .number {
     margin: auto 0px;
 }

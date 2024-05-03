@@ -30,7 +30,7 @@ function Header() {
         </form>
 
         <div className="nav_right">
-          <Link className="nav_right_item">
+          <Link to={"Notification"} className="nav_right_item">
             <span className="icon_text">Thông báo</span>
             <span className="icon_container">
               <img

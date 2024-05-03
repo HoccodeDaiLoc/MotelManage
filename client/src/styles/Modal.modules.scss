@@ -4,8 +4,15 @@
     display: none;
   }
 
+.button_modal{
+  padding: 8px;
+  background-color: #ffffff;
+  border:1px solid #30302e;
+  border-radius: 10px;
+}
 .modal {
-    overflow-y: auto;
+
+    overflow:hidden;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     position: fixed;
@@ -23,10 +30,47 @@
      .modal-content {
         background-color: #fefefe;
         margin: 15% auto;
-        padding: 20px;
         border: 1px solid #888;
-        height: 80%;
-        width: 50%;
+        height: 540px;
+        width: 836px;
+        border-radius: 5px;
+        .img_container{
+          height: 540px;
+          width: 836px;
+          display: flex;
+          flex-direction: row;
+
+          .big_img_container{
+            margin: auto 10px;
+
+            width:516px;
+            height: 516px;
+            display: block;
+            .big_img{
+              width: 516px;
+              height: 516px;
+              object-fit: cover;
+            }
+
+          }
+          .side_container{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            width:414px;
+            height:296px;
+            margin-top:  12px;
+
+            .small_img_container{
+              width: 80px;
+              height: 80px;
+              
+              .small_img{
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+        }
       }
   }
   

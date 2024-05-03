@@ -9,6 +9,7 @@ function RoomsContent() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(()=>{
+    // fetch(`https://noneedtoaskthereasonswhy.onrender.com/api/v1/plants/2/image?page=${currentPage}`)
     fetch(`https://noneedtoaskthereasonswhy.onrender.com/api/v1/plants/2/image?page=${currentPage}`)
     .then((response)=>response.json())
     .then((data)=>{
@@ -60,8 +61,6 @@ function RoomsContent() {
           </div>
         ))}
       </div>
-      </div>
-
       <button onClick={handlePrevious} disabled={currentPage === 1}>
         Trang trước
       </button>
@@ -71,6 +70,9 @@ function RoomsContent() {
       <button onClick={handleNext} disabled={currentPage === totalpage}>
         Trang sau
       </button>
+      </div>
+
+
     </>
   );
 }
