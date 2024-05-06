@@ -1,9 +1,10 @@
-import TableUser from '../Components/TableUser';
+import TableUsers from '../Components/TableUsers';
 const Notification=(props)=> {
     return ( 
-        <TableUser>
+        <TableUsers>
 
-        </TableUser>
+        </TableUsers>
+        
      );
 }
 

@@ -1,78 +1,88 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Rooms.modules.scss";
-import Pagination from "../Components/Pagination";
+import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 
 function RoomsContent() {
-  const [SetItem, setSetItem] = useState([]);
-  const [totalpage, setTotalPage] = useState(1);
+  const [items, setItems] = useState([]); // Use a more descriptive name
+  const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(()=>{
-    // fetch(`https://noneedtoaskthereasonswhy.onrender.com/api/v1/plants/2/image?page=${currentPage}`)
-    fetch(`https://noneedtoaskthereasonswhy.onrender.com/api/v1/plants/2/image?page=${currentPage}`)
-    .then((response)=>response.json())
-    .then((data)=>{
-      const images = data.plant_imgs;
-      setTotalPage(data.total_pages);
-      setSetItem(images)})  
-  },[currentPage])
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(
+          `https://reqres.in/api/users?page=${currentPage}`
+        );
+        if (!response.ok) {
+          throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setItems(data.data);
+        setTotalPages(data.total_pages);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
 
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    fetchItems();
+  }, [currentPage]);
+
+  const navigate = useNavigate();
+
+  const RoomItem = ({ item }) => (
+    <div className="container" key={item.id}>
+      <div onClick={() => navigate(`/Rooms/${item.id}`, { state: item })}>
+        <div className="img_container">
+          <img className="room_img" src={item.avatar} alt="Room" />
+        </div>
+        <div className="info">
+          <div className="bold">Phòng {item.id}</div>
+          <div className="area">Diện tích phòng {item.first_name}</div>
+          <div className="max">Số người ở {item.last_name}</div>
+          <div className="cost bold">Giá phòng {item.email}</div>
+        </div>
+        {/* Add a button or visual cue for navigation */}
+      </div>
+    </div>
+  );
+
+  const handlePageClick = (event) => {
+    const newCurrentPage = event.selected + 1; // Adjust for 0-based indexing
+    setCurrentPage(newCurrentPage);
   };
 
-  const handleNext = () => {
-    if (currentPage === 1) {
-      setCurrentPage(currentPage + 1);
-    }
-    if (currentPage < totalpage) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const Navigate = useNavigate();
   return (
     <>
       <div id="Content_wrapper">
         <div className="Content">
-        {console.log(totalpage)}
-        {SetItem.map((item,index) => (
-          <div
-            className="container"
-            key={index} //key giúp định danh => dễ xóa sửa
-            //khi cập nhật, nó sẽ so sánh phần tử cũ mới, nếu key giữ nguyên pt = > khỏi cn
-            onClick={() => {
-              Navigate(`/Rooms/${index}`, { state: item });
-            }}
-          >
-            <div className="img_container">
-            <img className="room_img" src={item.img_url} alt="anh" />
-
-            </div>
-            <div className="info">
-              <div className="bold">Phòng {item.organ}</div>
-              <div className="area">Diện tích phòng {item.organ}</div>
-              <div className="max">Số người ở {item.organ}</div>
-              <div className="cost bold">Giá phòng {item.organ}</div>
-            </div>
-          </div>
-        ))}
+          {items.map((item) => (
+            <RoomItem key={item.id} item={item} />
+          ))}
+        </div>
+        <div className="paginate_container">
+          <ReactPaginate
+            previousLabel="Previous"
+            nextLabel="Next"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            pageCount={20} //tổng
+            marginPagesDisplayed={2} //số page đầu cuối
+            pageRangeDisplayed={5} //số page ở giữa
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            activeClassName="active"
+            // forcePage={pageOffset}
+          />
+        </div>
       </div>
-      <button onClick={handlePrevious} disabled={currentPage === 1}>
-        Trang trước
-      </button>
-      <span>
-        {currentPage} / {totalpage}
-      </span>
-      <button onClick={handleNext} disabled={currentPage === totalpage}>
-        Trang sau
-      </button>
-      </div>
-
-
     </>
   );
 }

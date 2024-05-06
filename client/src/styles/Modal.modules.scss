@@ -1,76 +1,76 @@
+.modal::-webkit-scrollbar {
+  //ẩn lăn chuột
+  display: none;
+}
 
-
-.modal::-webkit-scrollbar { //ẩn lăn chuột
-    display: none;
-  }
-
-.button_modal{
+.button_modal {
   padding: 8px;
   background-color: #ffffff;
-  border:1px solid #30302e;
+  border: 1px solid #30302e;
   border-radius: 10px;
 }
-.modal {
 
-    overflow:hidden;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    overflow: auto;//hiện thanh cuộn
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.4);
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    
-     .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        border: 1px solid #888;
-        height: 540px;
-        width: 836px;
-        border-radius: 5px;
-        .img_container{
-          height: 540px;
-          width: 836px;
-          display: flex;
-          flex-direction: row;
+.modal_me {
+  overflow: none;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-          .big_img_container{
-            margin: auto 10px;
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    border: 1px solid #888;
+    height: 540px;
+    width: 836px;
+    border-radius: 5px;
 
-            width:516px;
-            height: 516px;
-            display: block;
-            .big_img{
-              width: 516px;
-              height: 516px;
-              object-fit: cover;
-            }
+    .img_container {
+      height: 540px;
+      width: 836px;
+      display: flex;
+      flex-direction: row;
 
-          }
-          .side_container{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            width:414px;
-            height:296px;
-            margin-top:  12px;
+      .big_img_container {
+        margin: auto 10px;
+        width: 516px;
+        height: 516px;
+        display: block;
 
-            .small_img_container{
-              width: 80px;
-              height: 80px;
-              
-              .small_img{
-                width: 100%;
-                height: 100%;
-              }
-            }
+        .big_img {
+          width: 516px;
+          height: 516px;
+          object-fit: cover;
+        }
+      }
+
+      .side_container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 414px;
+        height: 296px;
+        margin-top: 12px;
+
+        .small_img_container {
+          width: 80px;
+          height: 80px;
+
+          .small_img {
+            width: 100%;
+            height: 100%;
           }
         }
       }
+    }
   }
-  
+}

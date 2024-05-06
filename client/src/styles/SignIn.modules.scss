@@ -5,16 +5,16 @@
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    border-radius: 10px;
-    width: 1000px;
+    width: 100%;
     margin: 0px auto;
-    height: 520px;
+    height: 100vh;
+    background-color: #ff718a;
+
     .logo_container{
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #F67280;
-        width: 500px;
+        width: 50%;
             height: inherit;
     }
     .SignRight{
@@ -22,32 +22,86 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background-color: #6C5B7B;
-        width: 500px;
+        width: 50%;
         height: inherit;
+
         .title{
-            font-size:larger;
+            color: #fff7f7;
+            font-size:xx-large;
             margin-bottom: 20px;
         }
         .SignForm{
             display: flex;
             flex-direction: column;
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-            &.user_name,&.pass{
+            border: #fff7f7 1px solid;
+            border-radius: 10px;
+            padding: 20px;
+            button[disabled=disabled], button:disabled {
+                cursor: not-allowed;
+            }
+            .spinner {
+                margin-right: 10px;
+                animation: spin infinite 5s linear;
+            
+                /*You can increase or decrease the timer (5s) to 
+                 increase or decrease the speed of the spinner*/
+              }
+            .pass_container{
+                position: relative;
+                .icon1{
+                    cursor: pointer;
+                    position: absolute;
+                    top: 22px;
+                    right: 15px;
+                }
+            }
+
+            &.user_email,&.pass{
+                border: none;
                 padding:20px;
                 margin: 10px;
+                border-radius: 20px;
+                padding: 5px 0px;
+                margin-top:10px;
+
             }
             .inputbox{
+                margin-top:10px;
+                border: none;
+                padding: 5px 10px;
+
+                border-radius: 20px;
                 height: 40px;
                 width: 340px;
                 display: flex;
                 justify-content: center;
                 align-items: start;
             }
+            .submit_loggin{
+                border: none;
+
+                padding: 5px 0px;
+                border-radius: 20px;
+                margin-top:10px;
+                background-color: #fff7f7;
+            }
+            .active{
+                background-color: #ff385c;
+                cursor: pointer;
+            }
         }
         
     }
 
     
+}
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

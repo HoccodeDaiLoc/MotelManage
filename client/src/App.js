@@ -3,17 +3,20 @@ import Rooms from './Pages/Rooms';
 import RoomDetail from './Pages/RoomDetail';
 import Sign from './Pages/Sign';
 import Notification from './Pages/Notification';
+import UserHomePage from './Pages/UserHomePage';
 function App() {
   return (
     <BrowserRouter>
     <Routes>
     <Route path='/' element={<Rooms/>}/>
+    <Route path='/user/account' element={<UserHomePage/>}></Route>
     {/* <Route path='/Rooms/:page' element={<Rooms/>}/> */}
     <Route path='/Notification' element={<Notification/>}></Route>
     <Route path='/Sign' element={<Sign></Sign>}></Route>
     <Route path="Rooms/:RoomId"  element={<RoomDetail/>} />
     </Routes>
     </BrowserRouter>
+    
   );
 }
 

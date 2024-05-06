@@ -16,6 +16,7 @@ $imgheight: $imgwidth+20px;
         height: 200vh;
 
     }
+    
 }
 
 .bold {
@@ -39,7 +40,29 @@ $imgheight: $imgwidth+20px;
         display: flex;
         flex-direction: column;
     }
-}
+}   
 .number {
     margin: auto 0px;
+}
+.repo-title {
+    margin-bottom: 1.5rem;
+  }
+  
+  .listing {
+    margin-bottom: 1rem;
+  }
+.paginate_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .paginate{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+    }
+    li{
+        padding: 5px;
+    }
 }

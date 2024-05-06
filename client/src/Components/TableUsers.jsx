@@ -1,5 +1,24 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
-const  TableUser=(props)=> {
+import {fetchAllUser} from '../service/UserService';
+function TableUsers(props) {
+  const[listUsers,setListUser] =useState([]);
+  const[totalUser,setTotalUser] =useState("");
+  const[totalPage,setTotalPage] =useState("");
+  useEffect(()=>{
+    getUsers(1);
+  },[])
+  const getUsers = async ()=>{
+    let res = await fetchAllUser();
+    console.log("check respone:",res);
+    if(res&&res.data){
+      setListUser(res.data);
+      setTotalUser(res.total);
+      setTotalPage(res.total_pages);
+    }
+  }
+
   return (
     <>
     <Table striped bordered hover>
@@ -12,6 +31,7 @@ const  TableUser=(props)=> {
         </tr>
       </thead>
       <tbody>
+        
         <tr>
           <td>1</td>
           <td>Mark</td>
@@ -35,4 +55,4 @@ const  TableUser=(props)=> {
   );
 }
 
-export default TableUser;
+export default TableUsers;

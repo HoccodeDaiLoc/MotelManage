@@ -26,11 +26,13 @@ function SideBar() {
   const ReturnKind=(kind)=>{
     SetCurrentKind(kind);
   }
+  
   const renderItems = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return items.slice(startIndex, endIndex).map((item) => (
-      <div className="sidebar_container"  key={item.id} onClick={()=>{ReturnKind(item.id)}}>
+    return <div className="sidebar_container">
+     {items.slice(startIndex, endIndex).map((item) => (
+      <div className="sidebar"  key={item.id} onClick={()=>{ReturnKind(item.id)}}>
         <span className="icon_container">
           <img
             className="side_icon"
@@ -39,8 +41,10 @@ function SideBar() {
           ></img>
         </span>
         <span className="text">{item.common_name}</span>
+        </div>
+         ))}
       </div>
-    ));
+   
   };
 
   return (

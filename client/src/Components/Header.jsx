@@ -1,7 +1,18 @@
 import React, { useState } from "react";
 import style from "../styles/Header.modules.scss";
-import { Form, Link } from "react-router-dom";
-function Header() {
+import { Form, Link, NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+function Header(props) {
+  const navigate = useNavigate();
+  let token = localStorage.getItem("token");
+
+  const handleLogout= ()=>{
+    localStorage.removeItem("token");
+    navigate("localhost:3000/");
+    toast.success("logout success",{
+      position: "top-center",
+    })
+  }
   return (
     <div className="header_container">
       <div className="header">
@@ -30,7 +41,7 @@ function Header() {
         </form>
 
         <div className="nav_right">
-          <Link to={"Notification"} className="nav_right_item">
+          <NavLink to={"Notification"} className="nav_right_item">
             <span className="icon_text">Thông báo</span>
             <span className="icon_container">
               <img
@@ -39,9 +50,9 @@ function Header() {
                 alt="help me nick"
               ></img>
             </span>
-          </Link>
+          </NavLink>
 
-          <Link className="nav_right_item" to="Support">
+          <NavLink className="nav_right_item" to="Support">
             <span className="icon_text">Hỗ trợ</span>
             <span className="icon_container">
               <img
@@ -50,10 +61,17 @@ function Header() {
                 alt="?"
               ></img>
             </span>
-          </Link>
+          </NavLink>
 
-          <Link to={"/Sign"} className="nav_right_item">
-            <span className="icon_text"> Đăng nhập</span>
+          <NavLink to={"/Sign"} className="nav_right_item">
+            <span
+              className="icon_text"
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              {token  ?"Đăng xuất" :"Đăng nhập" }
+            </span>
             <span className="icon_container">
               <img
                 className="icon"
@@ -61,7 +79,7 @@ function Header() {
                 alt="?"
               ></img>
             </span>
-          </Link>
+          </NavLink>
         </div>
       </div>
     </div>

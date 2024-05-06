@@ -7,17 +7,28 @@ function RoomDetailModal({ data }) {
 
   const handleOutsideClick = (e) => {
     //dom  kiếm classname
-    if (e.target.className === 'modal') {
+
+    if (e.target.className === 'modal_me') {
         setShow(false);
     }
   };
-  
+  const check=()=>{
+    if(show===true){
+      document.body.style.overflow = 'hidden';
+    }
+    else{
+      document.body.style.overflow = 'auto';
+
+    }
+  }
   const imgArray=data;
+  check();
   return (
     <div>
       <button className="button_modal" onClick={handleShow}>Xem chi tiết</button>
+     {console.log(show)}
       {show ? (
-        <div className="modal" onClick={(e)=>handleOutsideClick(e)}>
+        <div className="modal_me" onClick={(e)=>handleOutsideClick(e)}>
           <div className="modal-content">
             <div className="img_container">
               <div className="big_img_container">

@@ -1,17 +1,15 @@
-import DumbHeader from "../Components/DumbHeader";
+import Footer from "../Components/Footer";
 import SignIn from '../Components/SignIn';
+import DumbHeader from '../Components/DumbHeader';
+
 function Sign() {
     return ( 
-        <div>
-        <DumbHeader></DumbHeader>
-        <div className="container">
-        <div className="content">
+        <>
+        <DumbHeader/>
             <SignIn>
             </SignIn>
-            </div>
-    </div>
-    </div>
-
+            <Footer/>
+</>
      );
 }
 
