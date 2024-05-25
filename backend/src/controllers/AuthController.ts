@@ -113,4 +113,18 @@ export class AuthController {
       next(err);
     }
   };
+
+  checkResetToken = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, token } = req.body;
+      const result = await this.accountService.checkResetToken(email, token);
+      return res.status(200).json({
+        message: "success",
+        result,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
 }

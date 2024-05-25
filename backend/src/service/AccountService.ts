@@ -205,4 +205,25 @@ export class AccountService implements IAccountService {
       throw err;
     }
   }
+
+  async checkResetToken(email: string, token: string): Promise<boolean> {
+    try {
+      const renter = await this.renterRepository.getRenterByEmail(email);
+      const account = await this.accountRepository.getOneAccount({
+        renterId: renter?.renterId,
+      });
+      if (!account) {
+        throw new AppError("Không tìm thấy người dùng", 404);
+      }
+      if (account.passwordResetToken !== token) {
+        throw new AppError("Mã khôi phục mật khẩu không hợp lệ", 400);
+      }
+      if (new Date() > new Date(account.passwordResetExpires)) {
+        throw new AppError("Mã khôi phục mật khẩu đã hết hạn", 400);
+      }
+      return true;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

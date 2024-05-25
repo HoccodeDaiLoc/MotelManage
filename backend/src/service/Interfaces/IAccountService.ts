@@ -13,4 +13,5 @@ export interface IAccountService {
   getAccessTokenByRefreshToken: (refreshToken: string) => Promise<any>;
   forgotPassword(email: string): Promise<void>;
   resetPassword(email: string, token: string, newPassword: string): Promise<void>;
+  checkResetToken(email: string, token: string): Promise<boolean>;
 }
