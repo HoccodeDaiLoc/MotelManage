@@ -14,6 +14,7 @@ export class Room extends Model {
     private static ROOM_TABLE_NAME = "rooms" as string;
     private static ROOM_ID = "room_id" as string;
     private static ROOM_NUMBER = "room_number" as string;
+    private static ROOM_DESCRIPTION = "description" as string
     private static ROOM_PRICE = "price" as string;
     private static ROOM_STATUS = "status" as string;
     private static ROOM_AREA = "area" as string;
@@ -33,6 +34,12 @@ export class Room extends Model {
         unique: true
     })
     roomNumber!: number;
+
+    @Column({
+        type: DataType.TEXT,
+        field: Room.ROOM_DESCRIPTION
+    })
+    description!: string;
 
     @Column({
         type: DataType.DOUBLE,

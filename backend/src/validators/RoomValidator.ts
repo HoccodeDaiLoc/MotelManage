@@ -6,20 +6,21 @@ export const validateRoomId = [
     .withMessage("roomId is required")
     .isNumeric()
     .isLength({ min: 1 })
-    .withMessage("actorId must be an integer"),
+    .withMessage("roomId must be an integer"),
 ];
 
 export const validateRoom = [
-  body("room_number")
+  body("roomNumber")
     .notEmpty()
-    .withMessage("room_number is required")
+    .withMessage("roomNumber is required")
     .isInt()
-    .withMessage("room_number must be an integer"),
-  body("room_status")
+    .withMessage("roomNumber must be an integer"),
+    body("description").notEmpty().withMessage("description is required").isString().withMessage("description must be a string"),
+  body("status")
     .optional()
     .isIn(["Đang cho thuê", "Phòng trống"])
-    .withMessage("room_status là đang cho thuê hoặc phòng trống"),
-  body("room_area")
+    .withMessage("status là đang cho thuê hoặc phòng trống"),
+  body("roomArea")
     .notEmpty()
     .withMessage("room_area is required")
     .isNumeric()

@@ -3,9 +3,23 @@ import { BaseInterface } from "./BaseInterface";
 import { Room } from "../../models/Room";
 
 export interface IRoomRepository extends BaseInterface {
-    getAllRooms(): Promise<Room[]>;
-    getRoomById(id: string): Promise<Room | null>;
-    deleteRoomById(id: string): Promise<void>;
-    createRoom(roomNumber: number, price: number, roomArea: number, roomStatus: string | undefined): Promise<void>;
-    filterRoomByPrice(leftPrice: number, rightPrice: number): Promise<Room[]>;
+  getAllRooms(page: number, limit: number): Promise<Room[]>;
+  getRoomById(id: number): Promise<Room | null>;
+  getRoomByDeviceCategory(
+    categoryId: number,
+    limit: number,
+    offset: number
+  ): Promise<{ rows: Room[]; count: number }>;
+  deleteRoomById(id: number): Promise<void>;
+  createRoom(
+    roomNumber: number,
+    description: string,
+    price: number,
+    roomArea: number,
+    max_occupancy: number,
+    roomStatus: string | undefined
+  ): Promise<Room>;
+  filterRoomByPrice(leftPrice: number, rightPrice: number): Promise<Room[]>;
+  getNumberRoom(): Promise<number>;
+  updateRoomById(id: string, newData: any): Promise<Room>;
 }

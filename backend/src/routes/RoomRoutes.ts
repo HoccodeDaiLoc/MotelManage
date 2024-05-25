@@ -9,14 +9,22 @@ class RoomRoutes extends BaseRoutes {
   }
 
   public routes(): void {
+    this.router.route("/device").get(this.controller.getRoomByCategoryDevice);
+    this.router.route("/price").get(this.controller.filterRoomByPrice);
     this.router
       .route("/")
-      .get(this.controller.filterRoomByPrice)
+      .get(this.controller.getAllRooms)
       .post(validateRoom, validate, this.controller.addRoom);
     this.router
       .route("/:roomId")
       .get(validateRoomId, validate, this.controller.getRoomById)
-      .delete(validateRoomId, validate, this.controller.deleteRoomById);
+      .delete(validateRoomId, validate, this.controller.deleteRoomById)
+      .put(
+        validateRoomId,
+        validateRoom,
+        validate,
+        this.controller.updateRoomById
+      );
   }
 }
 

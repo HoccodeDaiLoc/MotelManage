@@ -1,0 +1,58 @@
+@use "./Global.modules.scss";
+@use "./UserHomePage.modules.scss";
+
+.UserInfo_Wrapper{
+    @extend %UserInfo;
+    background-color:#ffffff ;  
+    border-left: 1px solid #dee3e9;  
+    .UserInfo_Container{
+        .UserInfo_Item_Heading{
+            padding-bottom: 10px;
+            border-bottom: 1px rgba(0, 0, 0, .05) solid;
+        }
+        .UserInfo_Item{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-bottom: 20px;
+
+            .UserInfo_Item_Text{
+                width: 150px;
+            }
+            .SecondaryText{
+                @extend %SecondaryText;
+                padding: 5px 0px;
+            }
+            .UserInfo_Item_Input{
+                width: 500px;
+                border-radius: 10px;
+                border: 0.2px solid rgba(0, 0, 0, .05);
+                padding:16px 10px;
+                outline: none;
+                // ko có viền khi click vào
+            }
+            .UserInfo_Edit_Button{
+                border: none;
+                width: fit-content;
+                padding: 5px 10px;
+                border-radius: 10px;
+                color: Global.$background;
+                width: 100%;
+                height: 100%;
+            }
+            .UserInfo_Edit_Button:hover{
+            }
+        }
+    }
+}
+.sub_dob_container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items: baseline;
+
+    .dob{
+        margin-left: 30px;
+    }
+}

@@ -12,7 +12,8 @@ export class DeviceImage extends Model {
     @Column({
         type: DataType.INTEGER,
         field: DeviceImage.DEVICEIMAGE_ID,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     })
     deviceImageId!: number;
 
@@ -25,8 +26,8 @@ export class DeviceImage extends Model {
 
     @ForeignKey(() => Image)
     @Column({
-        type: DataType.STRING(11),
+        type: DataType.INTEGER,
         field: "imageId"
     })
-    imageId!: string
+    imageId!: number;
 }

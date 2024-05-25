@@ -1,105 +1,155 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import style from "../styles/SignIn.modules.scss";
-import { loginApi } from "../service/UserService";
+import { handleSignInRedux } from "../redux/actions/userAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons/faEye";
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons/faEyeSlash";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"; // Import the spinner icon
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../feature/auth/authApiSlice";
+import { setCredentials } from "../feature/auth/authSlice";
+import "react-datepicker/dist/react-datepicker.css";
+
 <script
   src="https://kit.fontawesome.com/657d725d03.js"
   crossorigin="anonymous"
 ></script>;
 
-function Login() {
+function SignIn() {
+  // const userRef = useRef();
+  // const errRef = useRef();
+
+  //   const [firstname, setFirstname] = useState("");
+  //   const [lastname, setLastname] = useState("");
+  // const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
+
+  const [dateofbirth, setDateOfBirth] = useState(new Date());
+  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); // Use a more descriptive name
-  const [showPassword, setShowPassword] = useState(false); // Corrected casing
-  const [callLoginApi, SetCallLoginApi] = useState(false);
+
+  const dispatch = useDispatch();
+  const account = useSelector((state) => state.user.account);
   const navigate = useNavigate();
-  useEffect(()=>{
-    let token=localStorage.getItem("token");
-    if(token){
-      navigate("/");
-    }
-  },[])
-  const handleLogin = async () => {
-    if (!email || !password) {
+  const [user, setUser] = useState("");
+
+  const handleSignIn = async () => {
+    if (
+      !username ||
+      !password ||
+      !email
+      // || !dateofbirth
+    ) {
       toast.error("Xin hãy nhập đầy đủ thông tin", {
         position: "top-center",
       });
       return;
     }
-    SetCallLoginApi(true);
-    let res = await loginApi(email, password);
-    console.log("check login", res);
-    if (res && res.token) {
-      localStorage.setItem("token", res.token);
-      navigate("/");
-    }
-    if (res && res.status === 400) {
-      toast.error("không tìm thấy email và mật khẩu", {
-        position: "top-center",
-      });
-    }
-    SetCallLoginApi(false);
+    dispatch(
+      handleSignInRedux(
+        username,
+        email,
+        password
+        // , dateofbirth
+      )
+    );
+    navigate("/Loggin");
   };
 
   return (
-    <div className="SignWrapper">
-      <div className="logo_container">
+    <section className="SignWrapper">
+      <Link to={"/"} className="logo_container">
         <img
-          className="logo_banner"
-          src="https://cdn4.iconfinder.com/data/icons/flat-brand-logo-2/512/youtube-512.png"
+          className="logo"
+          src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
+          alt=""
+          srcSet=""
         />
-      </div>
-
-      <div className="SignRight">
-        <div className="title">Thuê trọ ngay eve.holt@reqres.in</div>
-        <div className="SignForm">
-          <input
-            className="user_email inputbox"
-            value={email}
-            placeholder="Tên đăng nhập"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <div className="pass_container">
-            <input
-              className="pass inputbox"
-              type={showPassword ? "text" : "password"}
-              value={password} // Use password instead of pass for clarity
-              placeholder="Mật khẩu"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <FontAwesomeIcon
-              onClick={() => setShowPassword(!showPassword)}
-              className="icon1"
-              icon={showPassword ? faEye : faEyeSlash}
-            ></FontAwesomeIcon>
+      </Link>
+      <div className="SignContainer">
+        <div className="SubSignContainer">
+          <div className="text_container">
+            <h3 className="title">Tạo tài khoản mới</h3>
+            <h6 className="desc">Nhanh chóng và dễ dàng</h6>
           </div>
+          {/* <form //onSubmit={handleSubmit} */}
+          <div className="SignForm">
+            <div className="name_container">
+              <input
+                type="text "
+                className="inputbox"
+                placeholder="Họ và tên"
+                onChange={
+                  (e) => setUserName(e.target.value)
+                  //  setName(e.target.value)
+                }
+              />
+              {/* <div className="firstname_container">
+                <input
+                  type="text "
+                  className="inputbox"
+                  placeholder="Họ"
+                  onChange={(e) => setFirstname(e.target.value)}
+                />
+              </div>
+              <div className="lastname_container">
+                <input
+                  type="text "
+                  className="inputbox"
+                  placeholder="Tên"
+                  onChange={(e) => setLastname(e.target.value)}
+                />
+              </div> */}
+            </div>
 
-          <button
-            className={
-              email && password ? "submit_loggin active" : "submit_loggin"
-            }
-            disabled={!email || !password||callLoginApi===true}
-            onClick={() => {
-              handleLogin();
-            }}
-          >
-            <FontAwesomeIcon
-              disabled={callLoginApi === true ? false : true}
+            <div className="email_container">
+              <input
+                type="email"
+                className="inputbox"
+                placeholder="email"
+                name=""
+                id=""
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-              icon={callLoginApi === true ? faSpinner : ""}
-              className="spinner"
-            />
-            Đăng nhập
-          </button>
+            <div className="pass_container">
+              <input
+                className="pass inputbox"
+                type={"text"}
+                value={password}
+                placeholder="Mật khẩu"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            {/* <div className="dob_container">
+              <div className="sub_dob_container">
+                <h6>Ngày sinh</h6>
+                <DatePicker
+                  className="dob"
+                  selected={dateofbirth}
+                  onChange={(date) => setDateOfBirth(date)}
+                />
+              </div>
+            </div> */}
+            <button
+              className={"submit_Sign active"}
+              onClick={() => {
+                handleSignIn();
+              }}
+            >
+              Đăng ký
+            </button>
+            {/* </form> */}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-export default Login;
+export default SignIn;

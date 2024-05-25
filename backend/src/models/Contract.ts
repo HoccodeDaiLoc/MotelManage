@@ -8,11 +8,11 @@ import { Renter } from "./Renter";
 })
 export class Contract extends Model {
     private static CONTRACT_TABLE_NAME = "contracts" as string;
-    private static CONTRACT_ID = "water_id" as string;
+    private static CONTRACT_ID = "id" as string;
     private static CONTRACT_START_DAY = "start_day" as string;
     private static CONTRACT_END_DAY = "end_day" as string;
     private static CONTRACT_RENT_AMOUNT = "rent_amount" as string;
-    private static CONTRACT_DEPOSIT_AMOUNT = "deposit_amount" as string; 
+    private static CONTRACT_DEPOSIT_AMOUNT = "deposit_amount" as string;
 
     @Column({
         type: DataType.INTEGER,

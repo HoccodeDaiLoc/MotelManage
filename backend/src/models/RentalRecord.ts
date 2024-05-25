@@ -8,8 +8,8 @@ import { Renter } from "./Renter";
 export class RentalRecord extends Model {
     private static RENTALRECORD_TABLE_NAME = "renterRecords" as string;
     private static RENTALRECORD_ID = "renter_id" as string;
-    private static RENTALRECORD_CHECK_IN_DATE = "date_of_birth" as string;
-    private static RENTALRECORD_CHECK_OUT_DATE = "address" as string;
+    private static RENTALRECORD_CHECK_IN_DATE = "checkInDate" as string;
+    private static RENTALRECORD_CHECK_OUT_DATE = "checkOutDate" as string;
 
     @Column({
         type: DataType.INTEGER,

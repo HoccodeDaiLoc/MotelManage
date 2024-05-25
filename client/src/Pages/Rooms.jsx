@@ -1,17 +1,13 @@
-import RoomsContent from '../Components/RoomsContent';
-import Header from '../Components/Header';
-import SideBar from '../Components/Sidebar';
-import Footer from '../Components/Footer';
-function Home() {
-    return ( 
-        <>
-        <Header></Header>
-        <SideBar></SideBar>    
+import RoomsContent from "../Components/RoomsContent";
+import SideBar from "../Components/Sidebar";
 
-        <RoomsContent></RoomsContent>
-        <Footer></Footer>
-        </>
-     );
+function Home() {
+  return (
+    <>
+      <SideBar></SideBar>
+      <RoomsContent></RoomsContent>
+    </>
+  );
 }
 
 export default Home;

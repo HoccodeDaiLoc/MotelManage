@@ -20,6 +20,7 @@ $maxheight: 1120px/4+20px;
         @extend %fixat1120;
 
         h1 {
+            margin: 10px 0;
             width: $maxwidth;
         }
     }

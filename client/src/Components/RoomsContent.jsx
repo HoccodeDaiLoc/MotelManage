@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/Rooms.modules.scss";
 import ReactPaginate from "react-paginate";
+import { fetchRoomByFeature } from "../service/RoomService";
 import { useNavigate } from "react-router-dom";
+import DropDownBoostrap from "./DropDownBoostrap";
 
 function RoomsContent() {
   const [items, setItems] = useState([]); // Use a more descriptive name
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 
+  // useEffect(() => {
+  //   const getFeature = async (index) => {
+  //     let res = await fetchRoomByFeature(index);
+  //     console.log(res);
+  //   };
+  //   getFeature(1);
+  // }, []);
+
   useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await fetch(
-          `https://reqres.in/api/users?page=${currentPage}`
+          `http://localhost:8080/api/room?limit=12&page=${currentPage}`
         );
         if (!response.ok) {
           throw new Error(`Error fetching data: ${response.statusText}`);
@@ -30,34 +40,50 @@ function RoomsContent() {
 
   const navigate = useNavigate();
 
-  const RoomItem = ({ item }) => (
-    <div className="container" key={item.id}>
-      <div onClick={() => navigate(`/Rooms/${item.id}`, { state: item })}>
+  const RoomItem = ({ item, index }) => (
+    <div
+      className="Room_container"
+      key={index}
+      onClick={() => navigate(`/Rooms/${item.roomId}`, { state: item })}
+    >
+      <div className="Room_details_container">
         <div className="img_container">
-          <img className="room_img" src={item.avatar} alt="Room" />
+          <img
+            className="room_img"
+            src={item.roomImage[0].image.imageUrl}
+            alt="Room"
+          />
         </div>
         <div className="info">
-          <div className="bold">Phòng {item.id}</div>
-          <div className="area">Diện tích phòng {item.first_name}</div>
-          <div className="max">Số người ở {item.last_name}</div>
-          <div className="cost bold">Giá phòng {item.email}</div>
+          <div className="bold">Phòng {item.roomNumber}</div>
+          <div className="area">Diện tích phòng {item.roomArea} m²</div>
+          <div className="max">Phòng {item.roomStatus}</div>
+          <div className="max">Số người ở tối đa {item.maxOccupancy}</div>
+          <div className="cost bold">Giá phòng {item.price} vnđ/tháng</div>
         </div>
-        {/* Add a button or visual cue for navigation */}
       </div>
     </div>
   );
 
   const handlePageClick = (event) => {
-    const newCurrentPage = event.selected + 1; // Adjust for 0-based indexing
+    const newCurrentPage = event.selected + 1;
     setCurrentPage(newCurrentPage);
+  };
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleDropdownClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
     <>
       <div id="Content_wrapper">
+        <div className="dropdownbar">
+          <DropDownBoostrap className="DropDownBar" />
+        </div>
         <div className="Content">
-          {items.map((item) => (
-            <RoomItem key={item.id} item={item} />
+          {items.map((item, index) => (
+            <RoomItem key={index} item={item} />
           ))}
         </div>
         <div className="paginate_container">
@@ -73,7 +99,7 @@ function RoomsContent() {
             breakLabel="..."
             breakClassName="page-item"
             breakLinkClassName="page-link"
-            pageCount={20} //tổng
+            pageCount={totalPages} //tổng
             marginPagesDisplayed={2} //số page đầu cuối
             pageRangeDisplayed={5} //số page ở giữa
             onPageChange={handlePageClick}

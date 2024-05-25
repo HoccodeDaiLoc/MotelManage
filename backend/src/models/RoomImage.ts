@@ -12,6 +12,7 @@ export class RoomImage extends Model {
     @Column({
         type: DataType.INTEGER,
         field: RoomImage.ROOMIMAGE_ID,
+        autoIncrement: true,
         primaryKey: true
     })
     roomImageId!: number;
@@ -25,10 +26,10 @@ export class RoomImage extends Model {
 
     @ForeignKey(() => Image)
     @Column({
-        type: DataType.STRING(11),
+        type: DataType.INTEGER,
         field: "image_Id"
     })
-    imageId!: string
+    imageId!: number;
 
     @BelongsTo(() => Image)
     image!: Image[];

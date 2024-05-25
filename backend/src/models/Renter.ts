@@ -50,7 +50,8 @@ export class Renter extends Model {
 
     @Column({
         type: DataType.TEXT,
-        field: Renter.RENTER_EMAIL
+        field: Renter.RENTER_EMAIL,
+        unique: true
     })
     email!: number;
 

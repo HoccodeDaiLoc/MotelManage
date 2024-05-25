@@ -6,7 +6,9 @@ $imgheight: $imgwidth+20px;
 #Content_wrapper {
     @extend %base;
     margin-top: 30px;
-
+    .DropDownBar{
+        padding-bottom: 40px;
+    }
     .Content {
         @extend %fixat1360;
         overflow: hidden;
@@ -14,7 +16,7 @@ $imgheight: $imgwidth+20px;
         grid-template-columns: auto auto auto auto;
         grid-template-rows: auto auto auto;
         height: 200vh;
-
+        grid-column-gap: 92px;
     }
     
 }
@@ -24,22 +26,42 @@ $imgheight: $imgwidth+20px;
     font-size: medium;
     font-weight: bold;
 }
-.container {
+.Room_container {
+    display: flex;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
-    .room_img {
-        border-radius: 15px;
-        width: $imgwidth ;
-        min-width: 200px;
-        max-width: 400px;
-        height: $imgheight;
-    }
+    width: fit-content;
+    height: fit-content;
+    
+    .Room_details_container{
+            cursor: pointer;
 
-    .info {
-        padding-top: 10px;
         display: flex;
         flex-direction: column;
+        .img_container{
+            border-radius: 15px;
+            width: $imgwidth ;
+            min-width: 200px;
+            max-width: 400px;
+            height: $imgheight;
+            .room_img {
+                border-radius: 15px;
+                width: $imgwidth ;
+                min-width: 200px;
+                max-width: 400px;
+                height: $imgheight;
+            }
+        }
+        .info {
+            width: $imgwidth ;
+    
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+        }
     }
+
 }   
 .number {
     margin: auto 0px;

@@ -1,16 +1,11 @@
-import Footer from "../Components/Footer";
-import SignIn from '../Components/SignIn';
-import DumbHeader from '../Components/DumbHeader';
+import Sign from "../Components/SignIn";
 
-function Sign() {
-    return ( 
-        <>
-        <DumbHeader/>
-            <SignIn>
-            </SignIn>
-            <Footer/>
-</>
-     );
+function SignIn() {
+  return (
+    <>
+      <Sign></Sign>
+    </>
+  );
 }
 
-export default Sign;
+export default SignIn;

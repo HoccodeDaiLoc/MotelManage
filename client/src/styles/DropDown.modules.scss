@@ -1,0 +1,11 @@
+@use "./Global.modules.scss";
+.Dropdown_container{
+    @extend %fixat1360;
+    .Dropdown{
+        display: flex;
+        flex-direction: row;
+        .DropdownButton{
+            margin-right:20px ;
+        }
+    }
+}

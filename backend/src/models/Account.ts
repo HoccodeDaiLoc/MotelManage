@@ -11,8 +11,8 @@ export class Account extends Model {
     private static ACCOUNT_USERNAME = "username" as string;
     private static ACCOUNT_PASSWORD = "password" as string;
     private static ACCOUNT_PASSWORD_CHANGE_AT = "password_change_at" as string;
-    private static ACCOUNT_PASSWORD_RESET_TOKEN = "total_amout" as string;
-    private static ACCOUNT_PASSWORD_RESET_EXPIRES = "total_amout" as string;
+    private static ACCOUNT_PASSWORD_RESET_TOKEN = "password_reset_token" as string;
+    private static ACCOUNT_PASSWORD_RESET_EXPIRES = "password_reset_expires" as string;
     private static ACCOUNT_IS_ADMIN = "is_admin" as string;
 
 
@@ -26,7 +26,8 @@ export class Account extends Model {
 
     @Column({
         type: DataType.TEXT,
-        field: Account.ACCOUNT_USERNAME
+        field: Account.ACCOUNT_USERNAME,
+        unique: true
     })
     username!: string;
 
@@ -34,7 +35,7 @@ export class Account extends Model {
         type: DataType.TEXT,
         field: Account.ACCOUNT_PASSWORD
     })
-    password!: number;
+    password!: string;
 
     @Column({
         type: DataType.DATE,
@@ -56,7 +57,8 @@ export class Account extends Model {
 
     @Column({
         type: DataType.BOOLEAN,
-        field: Account.ACCOUNT_IS_ADMIN
+        field: Account.ACCOUNT_IS_ADMIN,
+        defaultValue: false,
     })
     isAdmin!: string;
 

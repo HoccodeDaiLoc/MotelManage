@@ -1,14 +1,24 @@
 import { Room } from "../../models/Room";
 
 export interface IRoomService {
-  getAllRooms(): Promise<Room[] | null>;
-  getRoomById(id: string): Promise<Room | null>;
-  deleteRoomById(id: string): Promise<void>;
+  getAllRooms(page: number, limit: number): Promise<Room[] | null>;
+  getRoomById(id: number): Promise<Room | null>;
+  getRoomByDeviceCategory(
+    categoryId: number,
+    limit: number,
+    offset: number
+  ): Promise<{ rows: Room[]; count: number }>;
+  deleteRoomById(id: number): Promise<void>;
   addRoom(
     roomNumber: number,
+    description: string,
     price: number,
     roomArea: number,
-    roomStatus: undefined | string
+    maxOccupancy: number,
+    roomStatus: undefined | string,
+    images: string[] | undefined
   ): Promise<void>;
   filterRoomByPrice(leftPrice: number, rightPrice: number): Promise<Room[]>;
+  getNumberRoom(): Promise<number>;
+  updateRoomById(id: string, newData: any): Promise<Room>;
 }

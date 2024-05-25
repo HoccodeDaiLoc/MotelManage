@@ -11,17 +11,18 @@ export class Image extends Model {
     private static IMAGE_URL = "image_url" as string;
 
     @Column({
-        type: DataType.STRING(11),
+        type: DataType.INTEGER,
         field: Image.IMAGE_ID,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     })
-    imageID!: string
+    imageID!: number;
 
     @Column({
         type: DataType.TEXT,
         field: Image.IMAGE_URL
     })
-    imageUrl!: string
+    imageUrl!: string;
 
     @HasOne(() => DeviceImage)
     deviceImageId!: DeviceImage;
