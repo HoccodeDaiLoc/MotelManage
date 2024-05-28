@@ -33,7 +33,7 @@ export class DeviceController {
         total,
         total_pages,
         message: "Success",
-        allDevice,
+        data: allDevice.rows,
       });
     } catch (err) {
       next(err);
@@ -74,11 +74,11 @@ export class DeviceController {
 
   addDevice = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const deviceName = req.body["device_name"] as string;
-      const devicePrice = req.body["device_price"] as number;
-      const roomId = req.body["room_id"] as number | undefined;
-      const deviceImage = req.body["device_image"] as string[] | undefined;
-      const categoryId = req.body["category_id"] as number | undefined;
+      const deviceName = req.body["deviceName"] as string;
+      const devicePrice = req.body["devicePrice"] as number;
+      const roomId = req.body["roomId"] as number | undefined;
+      const deviceImage = req.body["deviceImage"] as string[] | undefined;
+      const categoryId = req.body["categoryId"] as number | undefined;
       await this.deviceService.addDevice(
         deviceName,
         devicePrice,
