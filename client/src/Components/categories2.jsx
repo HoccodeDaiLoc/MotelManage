@@ -8,26 +8,31 @@ function Categories() {
   const [items, setItems] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const location = useLocation();
-  
-  useEffect(() => {
-    const fetchDataBasedOnLocation = async () => {
-      const dataReceive = location.state; 
-      const categoryId = dataReceive;// 
-      const res = await fetchRoomByDevice(categoryId);
-      if (res) {
-        console.log("check response", res);
-        const data = res;
-        setItems(data.data);
-        setTotalPages(data.total_pages); 
-      } else {
-        console.error('Error fetching data:', res.statusText);
-      }
-    };
-  
-    fetchDataBasedOnLocation();
-  }, [location]);// Thêm dataReceive vào mảng dependencies
+
+  useEffect(
+    () => {
+      const fetchDataBasedOnLocation = async () => {
+        const dataReceive = location.state;
+        const categoryId = dataReceive; //
+        const res = await fetchRoomByDevice(categoryId);
+        if (res) {
+          console.log("check response", res);
+          const data = res;
+          setItems(data.data);
+          setTotalPages(data.total_pages);
+          setCurrentPage(data.page);
+        } else {
+          console.error("Error fetching data:", res.statusText);
+        }
+      };
+
+      fetchDataBasedOnLocation();
+    },
+    [location],
+    [currentPage]
+  ); // Thêm dataReceive vào mảng dependencies
   const navigate = useNavigate();
   const RoomItem = ({ item, index }) => (
     <div
@@ -52,7 +57,8 @@ function Categories() {
         </div>
       </div>
     </div>
-  ); const handlePageClick = (event) => {
+  );
+  const handlePageClick = (event) => {
     const newCurrentPage = event.selected + 1;
     setCurrentPage(newCurrentPage);
   };

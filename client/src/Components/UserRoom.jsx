@@ -1,15 +1,9 @@
 import style from "../styles/UserInfo.modules.scss";
 import { useEffect, useState } from "react";
-// import {
-//   selectCurrentUser,
-//   selectCurrentToken,
-// } from "../feature/auth/authSlice";
+
 import { useSelector } from "react-redux";
 
 function UserRoom() {
-  // const user = useSelector(selectCurrentUser);
-  // const token = useSelector(selectCurrentToken);
-  // const tokenAbbr = `${token.slice(0, 9)}...`; //check token
   const user = useSelector((state) => state.user.account);
   const token = useSelector((state) => state.user.account.token);
   useEffect(() => {});

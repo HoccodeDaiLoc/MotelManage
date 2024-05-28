@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 //   selectCurrentUser,
 //   selectCurrentToken,
 // } from "../feature/auth/authSlice";
-import UploadImage from "./UploadImage";
+// import UploadImage from "../UploadImage";
 import { useSelector } from "react-redux";
 import { fetchCurrentUser, putUpdateUser } from "../service/UserService";
 import { toast } from "react-toastify";
@@ -25,7 +25,10 @@ function UserInfo() {
   const [phone, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [CCCD, setCCCD] = useState("");
-
+  const [dobInput, setDobInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  // const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
+  const dobRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/; // Biểu thức chính quy cho định dạng yyyy-mm-ddv
   useEffect(() => {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
@@ -43,6 +46,7 @@ function UserInfo() {
     };
     getCurrentUser(id);
   }, []);
+
   const [active, setActive] = useState();
   return (
     <div className="UserInfo_Wrapper">
@@ -134,22 +138,49 @@ function UserInfo() {
         </div>
         <div
           onClick={() => {
-            putUpdateUser(id, name, dateOfBirth, address, phone, email, CCCD)
-              .then(() => {
-                setName(name);
-                setDateOfBirth(dateOfBirth);
-                setAddress(address);
-                setPhoneNumber(phone);
-                setEmail(email);
-                setCCCD(CCCD);
-                toast.success("đã thay đổi thông tin thành công", {
-                  position: "top-center",
-                });
-                window.scrollBy({ top: -10000, behavior: "smooth" });
-              })
-              .catch((error) => {
-                console.error("Error updating user:", error);
+            //cần bắt email
+            if (phone.length !== 10) {
+              toast.error("số điện thoại phải có độ dài là 10 kí tự", {
+                position: "top-center",
               });
+            }
+            // api/room/price?lp=0&rp=1000000&limit=12&page=1
+            if (CCCD.length !== 12) {
+              toast.error("số căn cước công dân phải có độ dài là 12 kí tự", {
+                position: "top-center",
+              });
+            }
+            if (
+              name === "" ||
+              dateOfBirth === "" ||
+              address === "" ||
+              phone === "" ||
+              CCCD === ""
+            ) {
+              toast.error("hãy nhập đầy đủ thông tin", {
+                position: "top-center",
+              });
+            } else {
+              putUpdateUser(id, name, dateOfBirth, address, phone, email, CCCD)
+                .then(() => {
+                  setName(name);
+                  setDateOfBirth(dateOfBirth);
+                  setAddress(address);
+                  setPhoneNumber(phone);
+                  setEmail(email);
+                  setCCCD(CCCD);
+                  toast.success("đã thay đổi thông tin thành công", {
+                    position: "top-center",
+                  });
+                  window.scrollBy({ top: -10000, behavior: "smooth" });
+                  /* check định dạng
+                console.log(dateOfBirth.toLocaleDateString());
+                console.log("check dob", dobRegex.test(dateOfBirth));*/
+                })
+                .catch((error) => {
+                  console.error("Error updating user:", error);
+                });
+            }
           }}
           className="UserInfo_Edit_Button"
         >

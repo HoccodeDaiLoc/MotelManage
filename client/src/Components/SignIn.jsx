@@ -80,35 +80,19 @@ function SignIn() {
               <input
                 type="text "
                 className="inputbox"
-                placeholder="Họ và tên"
+                placeholder="Tên tài khoản"
                 onChange={
                   (e) => setUserName(e.target.value)
                   //  setName(e.target.value)
                 }
               />
-              {/* <div className="firstname_container">
-                <input
-                  type="text "
-                  className="inputbox"
-                  placeholder="Họ"
-                  onChange={(e) => setFirstname(e.target.value)}
-                />
-              </div>
-              <div className="lastname_container">
-                <input
-                  type="text "
-                  className="inputbox"
-                  placeholder="Tên"
-                  onChange={(e) => setLastname(e.target.value)}
-                />
-              </div> */}
             </div>
 
             <div className="email_container">
               <input
                 type="email"
                 className="inputbox"
-                placeholder="email"
+                placeholder="Email"
                 name=""
                 id=""
                 value={email}

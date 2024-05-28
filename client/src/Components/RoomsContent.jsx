@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/Rooms.modules.scss";
 import ReactPaginate from "react-paginate";
-import { fetchRoomByFeature } from "../service/RoomService";
+import { fetchRoomByPrice, fetchRoomByPage } from "../service/RoomService";
 import { useNavigate } from "react-router-dom";
 import DropDownBoostrap from "./DropDownBoostrap";
 
@@ -9,37 +9,36 @@ function RoomsContent() {
   const [items, setItems] = useState([]); // Use a more descriptive name
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-
-  // useEffect(() => {
-  //   const getFeature = async (index) => {
-  //     let res = await fetchRoomByFeature(index);
-  //     console.log(res);
-  //   };
-  //   getFeature(1);
-  // }, []);
+  const [lowerPrice, setLowerPrice] = useState("");
+  const [higherPrice, setHigherPrice] = useState("");
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/room?limit=12&page=${currentPage}`
-        );
-        if (!response.ok) {
-          throw new Error(`Error fetching data: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setItems(data.data);
-        setTotalPages(data.total_pages);
+        const res = await fetchRoomByPage(currentPage);
+        console.log("check res", res);
+        console.log("check res data", res.data);
+        setItems(res.data);
+        setTotalPages(res.total_pages);
       } catch (error) {
         console.error("Error fetching items:", error);
       }
     };
-
     fetchItems();
   }, [currentPage]);
+  const fetchItemsByPrice = async (lowerPrice, higherPrice) => {
+    try {
+      const res = await fetchRoomByPrice(lowerPrice, higherPrice);
+      console.log(res);
+      return res;
+      //
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
+  // fetchItemsByPrice(lowerPrice, higherPrice); //test
 
   const navigate = useNavigate();
-
   const RoomItem = ({ item, index }) => (
     <div
       className="Room_container"
@@ -69,18 +68,12 @@ function RoomsContent() {
     const newCurrentPage = event.selected + 1;
     setCurrentPage(newCurrentPage);
   };
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  const [buttonvalue, setButtonvalue] = useState("Giá phòng");
 
   return (
     <>
       <div id="Content_wrapper">
-        <div className="dropdownbar">
-          <DropDownBoostrap className="DropDownBar" />
-        </div>
+        <DropDownBoostrap></DropDownBoostrap>
         <div className="Content">
           {items.map((item, index) => (
             <RoomItem key={index} item={item} />

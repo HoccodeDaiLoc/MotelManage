@@ -1,3 +1,4 @@
+@use "./Global.modules.scss";
 .modal::-webkit-scrollbar {
   //ẩn lăn chuột
   display: none;
@@ -8,8 +9,13 @@
   background-color: #ffffff;
   border: 1px solid #30302e;
   border-radius: 10px;
+  margin-bottom: 20px;
 }
+.button_modal:hover{
+  background-color: Global.$primaryRed;
+  color: #ffffff;
 
+}
 .modal_me {
   overflow: none;
   scrollbar-width: none;

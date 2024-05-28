@@ -53,6 +53,26 @@ const UserSideBar = () => {
         </div>
         <div className="UserSideBar_Item">
           <Link
+            to={"/user/ChangePassword"}
+            onClick={() => {
+              handleClick("ChangePassword");
+            }}
+            className={`UserSideBar_Detail ${activeItem === "ChangePassword" ? "active" : ""}`}
+          >
+            <img
+              src="https://www.svgrepo.com/show/445942/password-lock.svg"
+              className="icon"
+              alt=""
+            />
+            <div
+              className={`UserSideBar_text ${activeItem === "ChangePassword" ? "active" : ""}`}
+            >
+              Thay đổi mật khẩu
+            </div>
+          </Link>
+        </div>
+        <div className="UserSideBar_Item">
+          <Link
             to={"/user/Complain"}
             onClick={() => {
               handleClick("Complain");
@@ -90,9 +110,6 @@ const UserSideBar = () => {
               Thông tin hợp đồng
             </div>
           </Link>
-        </div>
-        <div className="UserSideBar_Item">
-          <div className="UserSideBar"></div>
         </div>
       </div>
     </div>

@@ -175,6 +175,22 @@ $maxheight: 1120px/4+20px;
                 display: flex;
                 align-items: center;
             }
+            .Deposit_container{
+                .sub_Deposit_container{
+                    padding: 8px;
+                    background-color: #ffffff;
+                    border: 1px solid #30302e;
+                    border-radius: 10px;
+                }
+                span:hover{
+                    color: #ffffff;
+
+                }
+            }
+            .sub_Deposit_container:hover{
+                background-color: Global.$primaryRed;
+            }
+
         }
 
     }
