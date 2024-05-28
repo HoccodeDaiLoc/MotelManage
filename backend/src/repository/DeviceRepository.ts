@@ -10,9 +10,13 @@ export class DeviceRepository
   extends BaseRepository<Device>
   implements IDeviceRepository
 {
-  async getAllDevice(): Promise<Device[]> {
+  async getAllDevice(limit: number, page: number): Promise<{rows: Device[], count: number}> {
     try {
-      const allDevice = await Device.findAll({});
+      const allDevice = await Device.findAndCountAll({
+        limit: limit,
+        offset: (page - 1) * limit,
+        distinct: true,
+      });
       return allDevice;
     } catch (err) {
       throw err;
@@ -59,6 +63,24 @@ export class DeviceRepository
       });
       return newDevice;
     } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateDeviceById(id: number, newData: any): Promise<Device | null> {
+      try {
+        await Device.update(newData, {
+          where: {
+            room_id: id,
+          },
+        });
+        const device = await Device.findOne({
+          where: {
+            devices_id: id,
+          },
+        });
+        return device!;
+    }catch(err) {
       throw err;
     }
   }

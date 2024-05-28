@@ -18,7 +18,12 @@ export interface IRoomService {
     roomStatus: undefined | string,
     images: string[] | undefined
   ): Promise<void>;
-  filterRoomByPrice(leftPrice: number, rightPrice: number): Promise<Room[]>;
+  filterRoomByPrice(
+    leftPrice: number,
+    rightPrice: number,
+    page: number,
+    limit: number
+  ): Promise<{ rows: Room[]; count: number }>;
   getNumberRoom(): Promise<number>;
   updateRoomById(id: string, newData: any): Promise<Room>;
 }

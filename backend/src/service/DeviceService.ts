@@ -25,9 +25,9 @@ export class DeviceService implements IDeviceService {
   @Inject(() => DeviceCategoryRepository)
   deviceCategoryRepository!: IDeviceCategoryRepository;
 
-  async getAllDevice(): Promise<Device[]> {
+  async getAllDevice(limit: number, page: number): Promise<{rows: Device[], count: number}> {
     try {
-      const allDevice = await this.deviceRepository.getAllDevice();
+      const allDevice = await this.deviceRepository.getAllDevice(limit, page);
       return allDevice;
     } catch (err) {
       throw err;
@@ -85,6 +85,14 @@ export class DeviceService implements IDeviceService {
       const category = await this.deviceCategoryRepository.getCategoryOfDevice(id);
       return category;
     }catch(err){
+      throw err;
+    }
+  }
+
+  async updateDevice(id: number, newData: any): Promise<Device | null> {
+    try {
+      return await this.deviceRepository.updateDeviceById(id, newData);
+    }catch(err) {
       throw err;
     }
   }

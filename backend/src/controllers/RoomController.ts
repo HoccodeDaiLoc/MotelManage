@@ -167,18 +167,23 @@ export class RoomController {
     }
     const lp = Number(req.query["lp"]) as number;
     const rp = Number(req.query["rp"]) as number;
-    let rooms: Room[] | null;
+    let rooms: {rows: Room[] | null, count: number};
     if (!lp && !rp) {
-      rooms = await this.roomService.getAllRooms(page, limit);
+      const roomAll = await this.roomService.getAllRooms(page, limit);
+      rooms = { rows: roomAll, count: roomAll?.length ?? 0};
     } else {
-      rooms = await this.roomService.filterRoomByPrice(lp, rp);
+      rooms = await this.roomService.filterRoomByPrice(lp, rp, page, limit);
     }
-    if (rooms?.length === 0) {
+    if (rooms.count === 0) {
       return next(new AppError("Không thể tìm thấy phòng tương ứng", 404));
     }
     return res.status(200).json({
       message: "success",
-      rooms,
+      page,
+      limit,
+      total: rooms.count,
+      total_pages: Math.ceil(rooms.count / limit),
+      room: rooms.rows
     });
   };
 

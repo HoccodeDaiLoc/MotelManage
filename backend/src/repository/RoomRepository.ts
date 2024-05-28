@@ -148,8 +148,10 @@ export class RoomRepository
 
   async filterRoomByPrice(
     leftPrice: number | undefined,
-    rightPrice: number
-  ): Promise<Room[]> {
+    rightPrice: number,
+    page: number,
+    limit: number
+  ): Promise<{rows: Room[], count: number}> {
     try {
       let whereCondition: any = {};
       if (leftPrice !== undefined && rightPrice !== undefined) {
@@ -165,8 +167,11 @@ export class RoomRepository
           [Op.lte]: rightPrice,
         };
       }
-      const rooms = await this.model.findAll({
+      const rooms = await this.model.findAndCountAll({
         where: whereCondition,
+        limit: limit,
+        offset: (page - 1) * limit,
+        distinct: true,
         include: [
           {
             model: RoomImage,

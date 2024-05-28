@@ -92,12 +92,16 @@ export class RoomSevice implements IRoomService {
 
   async filterRoomByPrice(
     leftPrice: number,
-    rightPrice: number
-  ): Promise<Room[]> {
+    rightPrice: number,
+    page: number,
+    limit: number
+  ): Promise<{rows: Room[], count: number}> {
     try {
       const rooms = this.roomRepository.filterRoomByPrice(
         leftPrice,
-        rightPrice
+        rightPrice,
+        page,
+        limit
       );
       return rooms;
     } catch (err) {
