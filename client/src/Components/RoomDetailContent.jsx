@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import RoomsContent from "./RoomsContent";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import Modal from "./RoomDetailModal";
+import RoomModal from "./RoomDetailModal";
 import Style from "../styles/RoomDetail.modules.scss";
+import Deposit from "./Deposit";
 function RoomDetailContent() {
   const params = useParams(); // dùng để truyền giá trị các tham số trên URL, ở đây truyền vào RoomId
   const location = useLocation(); // biến location chứa pathname
@@ -19,12 +20,11 @@ function RoomDetailContent() {
       .then((respone) => respone.json())
       .then((data) => setDevices(data.room.device));
   }, []);
-
+  const navigate = useNavigate();
   let imgArray = Images.slice(0, 5);
 
   return (
     <div className="XD">
-      {console.log(imgArray)}
       {imgArray.length > 1 && (
         <>
           <div className="title_container">
@@ -95,9 +95,23 @@ function RoomDetailContent() {
               <div className="Side_info">
                 <div className="Modal_container">
                   {console.log("data image : ", Images)}
-                  <Modal roomNumber={data.roomNumber} data={Images}></Modal>
+                  <RoomModal
+                    roomNumber={data.roomNumber}
+                    data={Images}
+                  ></RoomModal>
                 </div>
-                <div className="Contact"></div>
+                <div className="Deposit_container">
+                  <div
+                    className="sub_Deposit_container"
+                    onClick={() => {
+                      navigate(`${location.pathname}/Deposit`, {
+                        state: data,
+                      });
+                    }}
+                  >
+                    <span>Đặt cọc trọ</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

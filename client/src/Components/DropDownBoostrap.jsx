@@ -2,9 +2,16 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import ListGroup from "react-bootstrap/ListGroup";
 import style from "../styles/DropDown.modules.scss";
-import { useState } from "react";
-function DropDownBoostrap({ props }) {
+import { useEffect, useState } from "react";
+import { fetchRoomByPrice } from "../service/RoomService";
+import { useNavigate, useParams } from "react-router-dom";
+function DropDownBoostrap({ items }) {
   const [buttonvalue, setButtonvalue] = useState("Giá phòng");
+  const [lowerPrice, setLowerPrice] = useState(0);
+  const [higherPrice, setHigherPrice] = useState(0);
+  const navigate = useNavigate();
+  const [isClicked, setIsClicked] = useState(false);
+  const [konoState, setKonoState] = useState("");
   return (
     <div className="Dropdown_container">
       <Dropdown className="Dropdown">
@@ -16,10 +23,38 @@ function DropDownBoostrap({ props }) {
           {buttonvalue}
         </Dropdown.Toggle>
         <ListGroup className="DropdownListGroup" horizontal>
-          <ListGroup.Item>This</ListGroup.Item>
-          <ListGroup.Item>ListGroup</ListGroup.Item>
-          <ListGroup.Item>renders</ListGroup.Item>
-          <ListGroup.Item>horizontally!</ListGroup.Item>
+          <ListGroup.Item
+            className="DropdownItem"
+            onClick={() => {
+              navigate(`/room/price?lp=0&rp=1000000&limit=12&page=1`);
+            }}
+          >
+            Dưới 1 triệu
+          </ListGroup.Item>
+          <ListGroup.Item
+            className="DropdownItem "
+            onClick={() => {
+              navigate(`/room/price?lp=1000000&rp=1200000&limit=12&page=1`);
+            }}
+          >
+            1-1,2 triệu
+          </ListGroup.Item>
+          <ListGroup.Item
+            className="DropdownItem"
+            onClick={() => {
+              navigate(`/room/price?lp=1200000&rp=1500000&limit=12&page=1`);
+            }}
+          >
+            1,2-1,5 triệu
+          </ListGroup.Item>
+          <ListGroup.Item
+            className="DropdownItem"
+            onClick={() => {
+              navigate(`/room/price?lp=1500000&rp=15000000&limit=12&page=1`);
+            }}
+          >
+            Hơn 1,5 triệu
+          </ListGroup.Item>
         </ListGroup>
         <Dropdown.Menu>
           <Dropdown.Item
@@ -29,6 +64,7 @@ function DropDownBoostrap({ props }) {
           >
             Giá phòng
           </Dropdown.Item>
+          {/* 
           <Dropdown.Item
             onClick={() => {
               setButtonvalue("Diện tích");
@@ -43,6 +79,7 @@ function DropDownBoostrap({ props }) {
           >
             Số người ở
           </Dropdown.Item>
+          */}
         </Dropdown.Menu>
       </Dropdown>
     </div>

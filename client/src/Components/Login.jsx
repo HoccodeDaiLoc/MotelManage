@@ -5,83 +5,25 @@ import { handleLoginRedux } from "../redux/actions/userAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons/faEye";
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons/faEyeSlash";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons"; // Import the spinner icon
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../feature/auth/authApiSlice";
-import { setCredentials } from "../feature/auth/authSlice";
-import { postResetPassWord } from "../service/UserService";
 <script
   src="https://kit.fontawesome.com/657d725d03.js"
   crossorigin="anonymous"
 ></script>;
 
 function Login() {
-  // const userRef = useRef();
-  // const errRef = useRef();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const [errMsg, setErrMsg] = useState("");
-
-  // const [login, { isLoading }] = useLoginMutation();
   const isLoading = useSelector((state) => state.user.isLoading);
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.user.account.auth);
   const account = useSelector((state) => state.user.account);
-  const tokenList = useSelector((state) => state.user.account.token);
   console.log("check acount", account);
   const navigate = useNavigate();
-  const [user, setUser] = useState("");
-  const [show, setShow] = useState(false);
-  const [resetEmail, setResetEmail] = useState();
-  // useEffect(() => {
-  //   if (tokenList[0]) {
-  //     // Gửi token đến máy chủ để lấy thông tin người dùng
-  //     fetch("/api/user/login", {
-  //       headers: {
-  //         Authorization: `Bearer ${tokenList[0]}`,
-  //       },
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => setUser(data))
-  //       .catch((error) =>
-  //         console.error("Lỗi khi lấy thông tin người dùng:", error)
-  //       );
-  //   }
-  //   console.log("check all token", tokenList);
-  // }, [tokenList]);
 
-  // useEffect(() => {
-  //   console.log(userRef.current);
-  // }, []);
-
-  // useEffect(() => {
-  //   setErrMsg("");
-  // }, [user, password]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault(); //ngăn load lại, vì form default sẽ load lại
-  //   try {
-  //     const userData = await login({ user, password }).unwrap();
-  //     dispatch(setCredentials({ ...userData, user }));
-  //     setUser("");
-  //     setPassword("");
-  //     navigate("/");
-  //   } catch (err) {
-  //     if (!err?.originalStatus) {
-  //       // isLoading: true until timeout occurs
-  //       setErrMsg("No Server Response");
-  //     } else if (err.originalStatus === 400) {
-  //       setErrMsg("Missing User or Password");
-  //     } else if (err.originalStatus === 401) {
-  //       setErrMsg("Unauthorized");
-  //     } else {
-  //       setErrMsg("Login Failed");
-  //     }
-  //     errRef.current.focus();
-  //   }
-  // };
   const handleLogin = async () => {
     if (!username || !password) {
       toast.error("Xin hãy nhập đầy đủ thông tin", {
@@ -90,37 +32,20 @@ function Login() {
       return;
     }
     dispatch(handleLoginRedux(username, password));
-    navigate("/");
+    if (auth === true) {
+      navigate("/");
+    }
   };
-
-  // let token=
-  // const handleUserInput = (e) => {
-  //   setUser(e.target.value);
-  // };
-
-  // const handlePwdInput = (e) => {
-  //   setPassword(e.target.value);
-  // };
 
   useEffect(() => {
     if (account && account.auth === true) {
       console.log("token checking", account.token);
       console.log("account checking", account);
-      // document.cookie = `userData=${JSON.stringify({ ...username })}`;
-      // console.log("cookie checking", document.cookie);
     }
   }, [account]);
 
   return (
     <section className="LogginWrapper">
-      {/* <p
-        ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
-      >
-        {errMsg}
-      </p> */}
-
       <Link to={"/"} className="logo_container">
         <img
           className="logo"
@@ -131,11 +56,11 @@ function Login() {
       </Link>
       <div className="LogginContainer">
         <div className="LogginRight">
-          <div className="title">Thuê trọ ngay</div>
+          <div className="title">Đăng nhập</div>
           {/* <form //onSubmit={handleSubmit} */}
           <div className="LogginForm">
             <div className="username_container">
-              <label htmlFor="user_username">Tài khoản</label>
+              <div className="user_text">Tài khoản</div>
               <input
                 className="user_username inputbox"
                 value={username}
@@ -144,7 +69,7 @@ function Login() {
               />
             </div>
             <div className="pass_container">
-              <label htmlFor="pass">Mật khẩu</label>
+              <div className="pass_text">Mật khẩu</div>
               <input
                 className="pass inputbox"
                 type={showPassword ? "text" : "password"}
@@ -159,69 +84,22 @@ function Login() {
               />
             </div>
             <div className="forgetpass_container">
-              <h6
-                onClick={() => {
-                  setShow(!show);
-                }}
-                className="forgetpass_text"
-              >
-                Bạn quên mật khẩu?
-              </h6>
-
-              <div
-                className="hidden_wrapper"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div className="sub_hidden">
-                  {show ? (
-                    //chưa xử lý xác nhận email
-                    <input
-                      onChange={(e) => setResetEmail(e.target.value)}
-                      className="forgetpass_box"
-                      placeholder="email"
-                      type="text"
-                    />
-                  ) : (
-                    ""
-                  )}
-                  {show ? (
-                    <button
-                      className="forgetpass_button"
-                      onClick={() => {
-                        console.log(resetEmail);
-                        postResetPassWord(resetEmail).then(
-                          toast.success("đã gửi email", {
-                            position: "top-center",
-                          })
-                        );
-                      }}
-                    >
-                      Gửi email
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
+              <Link to={"/Identify"}>
+                <h6 onClick={() => {}} className="forgetpass_text">
+                  Bạn quên mật khẩu?
+                </h6>
+              </Link>
             </div>
             <button
               className={
                 username && password ? "submit_loggin active" : "submit_loggin"
               }
-              disabled={!username || !password || isLoading === true}
+              disabled={!username || !password}
               onClick={() => {
                 handleLogin();
               }}
             >
-              <FontAwesomeIcon
-                disabled={isLoading === true ? true : false}
-                icon={isLoading === true ? faSpinner : ""}
-                className="spinner"
-              />
+              <FontAwesomeIcon className="spinner" />
               Đăng nhập
             </button>
             {/* </form> */}

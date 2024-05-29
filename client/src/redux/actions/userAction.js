@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 import { loginApi, postCreateUser } from "../../service/UserService";
 import { useDispatch } from "react-redux";
-
 export const FETCH_USER_lOGIN = "FETCH_USER_lOGIN";
 export const FETCH_USER_ERROR = "FETCH_USER_ERROR";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
@@ -46,7 +45,11 @@ export const handleLoginRedux = (username, password) => {
       });
     } else {
       if (res && res.status === 400) {
-        toast.error("không tìm thấy username và mật khẩu", {
+        toast.error("không tìm thấy tài khoản hoặc mật khẩu", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("xin hãy kiểm tra lại tài khoản và mật khẩu", {
           position: "top-center",
         });
       }

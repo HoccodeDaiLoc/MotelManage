@@ -1,9 +1,15 @@
 import UserSideBar from "../Components/UserSideBar";
 import style from "../styles/UserHomePage.modules.scss";
-import UserInfo from "../Components/UserInfo";
-
+import UserChangePassComponent from "../Components/UserChangePass";
 function UserChangePass() {
-  return <>lmao</>;
+  return (
+    <div className="wrapper">
+      <div className="main_container">
+        <UserSideBar />
+        <UserChangePassComponent className="UserInfo"></UserChangePassComponent>
+      </div>
+    </div>
+  );
 }
 
 export default UserChangePass;
