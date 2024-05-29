@@ -2,32 +2,43 @@ import { useState, useEffect } from "react";
 import styles from "../styles/Rooms.modules.scss";
 import { fetchRoomByPrice } from "../service/RoomService";
 import ReactPaginate from "react-paginate";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import DropDownBoostrap from "./DropDownBoostrap";
 
 function RoomPriceFilter() {
   const [items, setItems] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [lowerPrice, setLowerPrice] = useState("");
-  const [higherPrice, setHigherPrice] = useState("");
   const location = useLocation(); // biến location chứa pathname
-
+  console.log(location.pathname + location.search);
+  console.log(location.search);
+  // let url = new URL(
+  //   "localhost:3000/room/price?lp=1200000&rp=1500000&limit=12&page=1"
+  // );
+  let url = new URL("localhost:3000" + location.pathname + location.search);
+  let params = new URLSearchParams(url.search);
+  let lowerPrice = params.getAll("lp");
+  let higherPrice = params.getAll("rp");
   useEffect(
     () => {
       const fetchDataBasedOnLocation = async () => {
-        console.log("check location", location);
-        if (lowerPrice) setLowerPrice(location.state.lowerPrice);
-        setHigherPrice(location.state.higherPrice);
-        console.log("check location lower", lowerPrice);
-        console.log("check location higher", higherPrice);
-        const res = fetchRoomByPrice(lowerPrice, higherPrice);
+        const res = await fetchRoomByPrice(
+          lowerPrice,
+          higherPrice,
+          currentPage
+        );
         console.log("check response", res);
-        // setItems(res.room);
-        // setTotalPages(res.total_pages);
-        // setCurrentPage(res.page);
-        // console.log(res.room);
+        setItems(res.room);
+        console.log(items);
+        setTotalPages(res.total_pages);
+        setCurrentPage(res.page);
+        console.log(res.room);
       };
-
       fetchDataBasedOnLocation();
     },
     [location],
@@ -67,6 +78,7 @@ function RoomPriceFilter() {
   return (
     <>
       <div id="Content_wrapper">
+        <DropDownBoostrap></DropDownBoostrap>
         <div className="Content">
           {items.map((item, index) => (
             <RoomItem key={index} item={item} />

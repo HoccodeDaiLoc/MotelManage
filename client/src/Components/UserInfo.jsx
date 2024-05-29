@@ -1,20 +1,11 @@
 import style from "../styles/UserInfo.modules.scss";
 import DatePicker from "react-datepicker";
-
 import { useEffect, useState } from "react";
-// import {
-//   selectCurrentUser,
-//   selectCurrentToken,
-// } from "../feature/auth/authSlice";
-// import UploadImage from "../UploadImage";
 import { useSelector } from "react-redux";
 import { fetchCurrentUser, putUpdateUser } from "../service/UserService";
 import { toast } from "react-toastify";
 
 function UserInfo() {
-  // const user = useSelector(selectCurrentUser);
-  // const token = useSelector(selectCurrentToken);
-  // const tokenAbbr = `${token.slice(0, 9)}...`; //check token
   const id = useSelector((state) => state.user.account.id);
   console.log(id);
   const username = useSelector((state) => state.user.account.username);

@@ -7,28 +7,11 @@ import { fetchRoomByPrice } from "../service/RoomService";
 import { useNavigate, useParams } from "react-router-dom";
 function DropDownBoostrap({ items }) {
   const [buttonvalue, setButtonvalue] = useState("Giá phòng");
-  const [lowerPrice, setLowerPrice] = useState("");
-  const [higherPrice, setHigherPrice] = useState("");
+  const [lowerPrice, setLowerPrice] = useState(0);
+  const [higherPrice, setHigherPrice] = useState(0);
   const navigate = useNavigate();
+  const [isClicked, setIsClicked] = useState(false);
   const [konoState, setKonoState] = useState("");
-  useEffect(() => {
-    if (
-      (lowerPrice !== null && higherPrice !== null) ||
-      (lowerPrice !== undefined && higherPrice !== undefined) ||
-      (lowerPrice !== "" && higherPrice !== "")
-    ) {
-      console.log(lowerPrice);
-      console.log(higherPrice);
-      setKonoState({ lowerPrice, higherPrice });
-      console.log("now");
-    }
-    // {
-    //   navigate(
-    //     `/room/price?lp=${lowerPrice}&rp=${higherPrice}&limit=12&page=1`,
-    //     { state: { lowerPrice, higherPrice } }
-    //   );
-    // }
-  }, [lowerPrice, higherPrice]);
   return (
     <div className="Dropdown_container">
       <Dropdown className="Dropdown">
@@ -43,16 +26,7 @@ function DropDownBoostrap({ items }) {
           <ListGroup.Item
             className="DropdownItem"
             onClick={() => {
-              setLowerPrice(0);
-              setHigherPrice(1000000);
-
-              // Conditional navigation based on state values
-              if (lowerPrice === 0 && higherPrice === 1000000) {
-                navigate(
-                  `/room/price?lp=${lowerPrice}&rp=${higherPrice}&limit=12&page=1`,
-                  { state: konoState }
-                );
-              }
+              navigate(`/room/price?lp=0&rp=1000000&limit=12&page=1`);
             }}
           >
             Dưới 1 triệu
@@ -60,8 +34,7 @@ function DropDownBoostrap({ items }) {
           <ListGroup.Item
             className="DropdownItem "
             onClick={() => {
-              setLowerPrice(1000000);
-              setHigherPrice(1200000);
+              navigate(`/room/price?lp=1000000&rp=1200000&limit=12&page=1`);
             }}
           >
             1-1,2 triệu
@@ -69,8 +42,7 @@ function DropDownBoostrap({ items }) {
           <ListGroup.Item
             className="DropdownItem"
             onClick={() => {
-              setLowerPrice(1200000);
-              setHigherPrice(1500000);
+              navigate(`/room/price?lp=1200000&rp=1500000&limit=12&page=1`);
             }}
           >
             1,2-1,5 triệu
@@ -78,8 +50,7 @@ function DropDownBoostrap({ items }) {
           <ListGroup.Item
             className="DropdownItem"
             onClick={() => {
-              setLowerPrice(1500000);
-              setHigherPrice(8000000);
+              navigate(`/room/price?lp=1500000&rp=15000000&limit=12&page=1`);
             }}
           >
             Hơn 1,5 triệu
@@ -93,6 +64,7 @@ function DropDownBoostrap({ items }) {
           >
             Giá phòng
           </Dropdown.Item>
+          {/* 
           <Dropdown.Item
             onClick={() => {
               setButtonvalue("Diện tích");
@@ -107,6 +79,7 @@ function DropDownBoostrap({ items }) {
           >
             Số người ở
           </Dropdown.Item>
+          */}
         </Dropdown.Menu>
       </Dropdown>
     </div>
