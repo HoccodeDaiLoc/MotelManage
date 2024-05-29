@@ -28,7 +28,9 @@ import TableManageTro from "./Components/manageTro/TableManageTro";
 import TableManageThietbi from "./Components/manageThietbi/TableManageThietbi";
 import TableManageHoadon from "./Components/manageHoadon/TableManageHoadon";
 import UserInfo from "./Components/UserInfo";
-
+import ManagerTro from "./Pages/ManagerTro";
+import ManageTb from "./Pages/ManageTb";
+import ManageUser from "./Pages/ManagerUser";
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
   return auth ? children : "heeh";
@@ -93,9 +95,9 @@ function App() {
               </SuperPrivateRoute>
             }
           /> */}
-          <Route path="/Home" element={<TableUser />} />
-          <Route path="/pageQLPT" element={<TableManageTro />} />
-          <Route path="/pageQLTB" element={<TableManageThietbi />} />
+          <Route path="/Home" element={<ManageUser />} />
+          <Route path="/pageQLPT" element={<ManagerTro></ManagerTro>} />
+          <Route path="/pageQLTB" element={<ManageTb />} />
           <Route path="/pageQLHD" element={<TableManageHoadon />} />
           <Route index path="/" element={<Rooms />} />
           <Route path="/Notification" element={<Notification />}></Route>

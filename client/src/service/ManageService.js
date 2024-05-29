@@ -55,8 +55,8 @@ const postCreateTro = (
   );
 };
 
-const postCreateTb = (name, job) => {
-  return axios.post("/api/users", { name, job });
+const postCreateTb = (device_name, device_price) => {
+  return axios.post("/api/users", { device_name, device_price });
 };
 
 const postCreateHoadon = (name, job) => {

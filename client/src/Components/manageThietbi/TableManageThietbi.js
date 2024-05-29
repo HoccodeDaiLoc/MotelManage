@@ -31,19 +31,20 @@ const TableManageTb = (props) => {
     setIsShowModalEditTb(false);
     setIsShowModalDeleteTb(false);
     setIsShowModalDetailTb(false);
-  };
+  }
 
   const handUpdateTableTb = (tb) => {
     setListTb([tb, ...listTb]);
-  };
+  }
 
   const handleEditTbfrommodal = (tb) => {
     let cloneListTb = _.cloneDeep(listTb);
-    let index = listTb.findIndex((item) => item.id === tb.id);
+    let index = listTb.findIndex(item => item.id === tb.id);
     cloneListTb[index].first_name = tb.first_name;
     setListTb(cloneListTb);
-  };
+  }
 
+  
   useEffect(() => {
     // Call API
     getTb(1);
@@ -52,14 +53,15 @@ const TableManageTb = (props) => {
   const getTb = async (page) => {
     try {
       const res = await fetchAllTb(page);
-      if (res && res.allDevice) {
-        const { data, total_pages } = res.allDevice;
-        setTotalTb(res.allDevice.total);
-        setListTb(res.allDevice);
+
+      if (res  && res) {
+        const { data, total_pages } =res.data;
+        setTotalTb(res.total);
+        setListTb(res.data);
         setTotalPageTb(res.total_pages);
       }
     } catch (error) {
-      console.error("Error fetching tb data:", error);
+      console.error('Error fetching tb data:', error);
     }
   };
 
@@ -70,62 +72,55 @@ const TableManageTb = (props) => {
   const handleEditTb = (tb) => {
     setDataTbEdit(tb);
     setIsShowModalEditTb(true);
-  };
+  }
 
   const handDeleteTb = (tb) => {
     setIsShowModalDeleteTb(true);
     setDataTbDelete(tb);
-  };
+  }
 
   const handDeleteTbFromModal = (tb) => {
     let cloneListTb = _.cloneDeep(listTb);
-    cloneListTb = cloneListTb.filter((item) => item.id !== tb.id);
+    cloneListTb = cloneListTb.filter(item => item.id !== tb.id);
     setListTb(cloneListTb);
-  };
-
-  const handleDetailTbfrommodal = (tb) => {
+  }
+  
+  const handleDetailTbfrommodal= (tb) => {
     let cloneListtb = _.cloneDeep(listTb);
-    let index = listTb.findIndex((item) => item.id == tb.id);
+    let index = listTb.findIndex(item => item.id == tb.id);
     cloneListtb[index].first_name = tb.first_name;
     setListTb(cloneListtb);
-  };
+  }
 
   const handleSearchTb = debounce((event) => {
-    console.log(event.target.value);
+    console.log(event.target.value)
     let term = event.target.value;
     if (term) {
       let cloneListTb = _.cloneDeep(listTb);
-      cloneListTb = cloneListTb.filter((item) =>
-        item.first_name.includes(term)
-      );
+      cloneListTb = cloneListTb.filter(item => item.first_name.includes(term))
       setListTb(cloneListTb);
     } else {
       getTb(1);
     }
-  }, 100);
+  }, 100)
 
-  const handDetailTb = (tb) => {
+  const handDetailTb = (tb)=>{
     setIsShowModalDetailTb(true);
     setDataDetailTb(tb);
-  };
+  }
+
 
   return (
     <>
       <div className="my-3 add-new">
-        <span>
-          <b>Danh sách thiết bị:</b>
-        </span>
-        <button
-          className="btn btn-success"
-          onClick={() => setIsShowModalAddTb(true)}
-        >
-          <i class="fa-solid fa-plug-circle-plus"></i> Thêm Thiết Bị
+        <span><b>Danh sách thiết bị:</b></span>
+        <button className='btn btn-success' onClick={() => setIsShowModalAddTb(true)}>
+        <i class="fa-solid fa-plug-circle-plus"></i> Thêm Thiết Bị
         </button>
       </div>
-      <div className="col-4 my-3">
-        <input
-          className="form-control"
-          placeholder="Tìm kiếm thiết bị "
+      <div className='col-4 my-3'>
+        <input className='form-control'
+          placeholder='Tìm kiếm thiết bị '
           onChange={(event) => handleSearchTb(event)}
         />
       </div>
@@ -139,34 +134,18 @@ const TableManageTb = (props) => {
           </tr>
         </thead>
         <tbody>
-          {listTb &&
-            listTb.map((item, index) => (
-              <tr key={`tb-${index}`}>
-                <td>{item.deviceName}</td>
-                <td>{item.devicePrice}</td>
-                <td>{item.roomId}</td>
-                <td>
-                  <button
-                    className="btn btn-warning mx-3"
-                    onClick={() => handleEditTb(item)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handDeleteTb(item)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-success mx-3"
-                    onClick={() => handDetailTb(item)}
-                  >
-                    Chi tiet
-                  </button>
-                </td>
-              </tr>
-            ))}
+          {listTb && listTb.map((item, index) => (
+            <tr key={`tb-${index}`}>
+              <td>{item.deviceName}</td>
+              <td>{item.devicePrice}</td>
+              <td>{item.roomId}</td>
+              <td>
+                <button className='btn btn-warning mx-3' onClick={() => handleEditTb(item)}>Edit</button>
+                <button className='btn btn-danger' onClick={() => handDeleteTb(item)}>Delete</button>
+                <button className='btn btn-success mx-3' onClick={() => handDetailTb (item)}>Chi tiet</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
       <ReactPaginate
@@ -205,11 +184,11 @@ const TableManageTb = (props) => {
         dataTbDelete={dataTbDelete}
         handDeleteTbFromModal={handDeleteTbFromModal}
       />
-      <ModalDetailTb
-        show={isShowModalDetailTb}
-        dataDetailTb={dataDetailTb}
-        handleCloseTb={handleCloseTb}
-        handleDetailTbfrommodal={handleDetailTbfrommodal}
+       <ModalDetailTb
+      show={isShowModalDetailTb}
+      dataDetailTb={dataDetailTb}
+      handleCloseTb={handleCloseTb}
+      handleDetailTbfrommodal={handleDetailTbfrommodal}
       />
     </>
   );

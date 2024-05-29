@@ -84,12 +84,13 @@ const TableUser = (props) => {
     handleClose();
   };
   const handleSearch = debounce((event) => {
-    console.log(event.target.value);
-    let term = event.target.value;
+    const term = event.target.value;
     if (term) {
-      let cloneListuser = _.cloneDeep(listUser);
-      cloneListuser = cloneListuser.filter((item) => item.name.includes(term));
-      setListUser(cloneListuser);
+      const cloneListuser = _.cloneDeep(listUser);
+      const filteredUsers = cloneListuser.filter((item) => 
+        item.name && item.name.includes(term)
+      );
+      setListUser(filteredUsers);
     } else {
       getUser(1);
     }

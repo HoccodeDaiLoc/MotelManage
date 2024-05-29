@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 const instance = axios.create({
   baseURL: "http://localhost:8080/",
+  // baseURL: "http://localhost:8080/",
 });
 
 // const account = useSelector((state) => state.user.account);

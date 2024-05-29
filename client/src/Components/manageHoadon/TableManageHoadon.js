@@ -186,7 +186,7 @@ const TableManageHoadon = (props) => {
                 <td>{item.email}</td>
                 <td>{item.first_name}</td>
                 <td>{item.last_name}</td>
-                <td>{item.id}</td>
+               
                 <td>
                   <button
                     className="btn btn-warning mx-3"
