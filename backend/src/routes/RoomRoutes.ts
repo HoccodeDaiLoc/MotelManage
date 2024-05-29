@@ -25,6 +25,7 @@ class RoomRoutes extends BaseRoutes {
         validate,
         this.controller.updateRoomById
       );
+    this.router.route("/renter/:renterId").get(this.controller.getRoomByRenterId);
   }
 }
 

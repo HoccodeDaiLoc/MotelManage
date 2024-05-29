@@ -54,7 +54,9 @@ export class RoomController {
       }
       const devices = room.device;
       const uniqueCategoryIds = [
-        ...new Set(devices.map((device) => device.categoryId)),
+        ...new Set(devices
+          .filter((device) => device.categoryId !== null)
+          .map((device) => device.categoryId)),
       ];
       let category;
       if (uniqueCategoryIds.length !== 0) {
@@ -200,4 +202,20 @@ export class RoomController {
       next(err);
     }
   };
+
+  getRoomByRenterId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const renterId = +req.params.renterId as number;
+      const room = await this.roomService.getRoomByRenterId(renterId);
+      if (!room) {
+        return next(new AppError("Không tìm thấy phòng", 404));
+      }
+      return res.status(200).json({
+        message: "success",
+        room,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }

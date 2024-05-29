@@ -1,4 +1,4 @@
-import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { Column, DataType, Model, Table, ForeignKey, BelongsTo, HasMany } from "sequelize-typescript";
 import { Device } from "./Device";
 import { Image } from "./Image";
 
@@ -30,4 +30,7 @@ export class DeviceImage extends Model {
         field: "imageId"
     })
     imageId!: number;
+
+    @BelongsTo(() => Image)
+    image!: Image[];
 }

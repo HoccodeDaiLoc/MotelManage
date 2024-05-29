@@ -2,10 +2,9 @@ import { Contract } from "../../models/Contract";
 
 export interface IContractRepository {
   getOne(searchConditions: any): Promise<Contract | null>;
-  getById(id: string): Promise<Contract | null>;
-  getAll(): Promise<Contract[]>;
+  getById(id: number): Promise<Contract | null>;
+  getAll(limit: number, page: number): Promise<Contract[]>;
   create(
-    name: string,
     startDate: Date,
     endDate: Date | undefined,
     rentAmount: number,
@@ -13,6 +12,6 @@ export interface IContractRepository {
     roomId: number,
     renterId: number
   ): Promise<Contract>;
-  updateById(id: string, contract: Contract): Promise<Contract | null>;
-  deleteById(id: string): Promise<boolean>;
+  updateById(id: number, contract: Contract): Promise<Contract>;
+  deleteById(id: number): Promise<boolean>;
 }

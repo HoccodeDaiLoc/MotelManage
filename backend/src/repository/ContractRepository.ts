@@ -1,14 +1,15 @@
+import { Service } from "typedi";
 import { Contract } from "../models/Contract";
 import { BaseRepository } from "./BaseRepository";
 import { IContractRepository } from "./Interfaces/IContractRepository";
 
+@Service()
 export class ContractRepository
   extends BaseRepository<Contract>
   implements IContractRepository
 {
   async create(
-    name: string,
-    startDate: Date,
+    startDay: Date,
     endDate: Date | undefined,
     rentAmount: number,
     deposit_amount: number | undefined,
@@ -17,8 +18,7 @@ export class ContractRepository
   ): Promise<Contract> {
     try {
       return Contract.create({
-        name,
-        startDate,
+        startDay,
         endDate,
         rentAmount,
         deposit_amount,
@@ -30,7 +30,7 @@ export class ContractRepository
     }
   }
 
-  async deleteById(id: string): Promise<boolean> {
+  async deleteById(id: number): Promise<boolean> {
     try {
       const deletedContract = await Contract.destroy({
         where: {
@@ -43,15 +43,18 @@ export class ContractRepository
     }
   }
 
-  async getAll(): Promise<Contract[]> {
+  async getAll(limit: number, page: number): Promise<Contract[]> {
     try {
-      return await Contract.findAll();
+      return await Contract.findAll({
+        limit: limit,
+        offset: (page - 1) * limit,
+      });
     } catch (err) {
       throw err;
     }
   }
 
-  async getById(id: string): Promise<Contract | null> {
+  async getById(id: number): Promise<Contract | null> {
     try {
       return await Contract.findOne({
         where: {
@@ -73,14 +76,14 @@ export class ContractRepository
     }
   }
 
-  async updateById(id: string, contract: Contract): Promise<Contract | null> {
+  async updateById(id: number, contract: Contract): Promise<Contract> {
     try {
       await Contract.update(contract, {
         where: {
           id: id,
         },
       });
-      return await this.getById(id);
+      return (await this.getById(id))!;
     } catch (err) {
       throw err;
     }
