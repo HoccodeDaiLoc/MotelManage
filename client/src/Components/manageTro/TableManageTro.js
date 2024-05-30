@@ -57,7 +57,6 @@ const TableManageTro = (props) => {
   const getTro = async (page) => {
     try {
       const res = await fetchAllTro(page);
-      console.log("checktro", res);
       if (res && res.data) {
         const { data, total_pages } = res.data;
         setTotalTro(res.data.total);
