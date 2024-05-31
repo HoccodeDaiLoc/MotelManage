@@ -1,30 +1,24 @@
 import axios from "./customize-axios";
 
 const fetchAllUser = (page) => {
-  return axios.get(`/api/renter?page=${page}&limit=6`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+  return axios.get(`/api/renter?page=${page}&limit=6`);
 };
 
 const fetchAllTro = (page) => {
-  return axios.get(`/api/room?page=${page}&limit=6`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+  return axios.get(`/api/room?page=${page}&limit=6`);
 };
 
 const fetchAllTb = (page) => {
-  return axios.get(`/api/device?page=${page}&limit=6`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+  return axios.get(`/api/device?page=${page}&limit=6`);
 };
 
 const fetchAllHoadon = (page) => {
-  return axios.get(`/api/users?page=${page}`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+  return axios.get(`/api/users?page=${page}`);
 };
 
 const fetchAllHopdong = (page) => {
-  return axios.get(`/api/users?page=${page}`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+  return axios.get(`api/contract?page=${page}`);
 };
-
-
-
-// const postCreateUser = (name, job) => {
-//   return axios.post("/api/users", { name, job });
-// };
 
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
   const renterList = new FormData();
@@ -42,16 +36,10 @@ const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
   );
 };
 
-const postCreateTro = (
-  roomNumber,
-  description,
-  price,
-  roomStatus,
-  roomArea
-) => {
+const postCreateTro = (roomNumber, description, price, roomStatus, roomArea) => {
   const data = new FormData();
   data.append("roomNumber", roomNumber);
-  data.append("descriptionr", description);
+  data.append("description", description);
   data.append("price", price);
   data.append("roomStatus", roomStatus);
   data.append("roomArea", roomArea);
@@ -69,36 +57,64 @@ const postCreateTb = (deviceName, devicePrice) => {
 const postCreateHoadon = (name, job) => {
   return axios.post("/api/users", { name, job });
 };
-const updateUser = (renterId,name,dateOfBirth,address,phone,email,cccd) => {
-  console.log('reden',renterId);
-  return axios.put(`/api/renter/${renterId}`,name,dateOfBirth,address,phone,email,cccd);
-}
-const updateTro = (roomId) => {
 
-   console.log(roomId)
-   return axios.put(`/api/room/${roomId}`);
-  
-}
-const updateTb = (name, job) => {
-  return axios.put(`/api/users/`, { name, job });
+
+const postCreateHd = (name, job) => {
+  return axios.post("/api/users", { name, job });
+};
+const updateUser = (renterId, name, dateOfBirth, address, phone, email, cccd) => {
+  console.log('renterId',renterId)
+  return axios.put(`/api/renter/${renterId}`, {
+    name,
+    dateOfBirth,
+    address,
+    phone,
+    email,
+    cccd,
+  });
 };
 
-const updateHoadon = (name, job) => {
-  return axios.put(`/api/users/`, { name, job });
+const updateTro = (roomId, roomNumber, description, price, roomStatus, roomArea,maxOccupancy) => {
+  console.log('roomid',roomId)
+  return axios.put(`/api/room/${roomId}`, {
+    roomNumber,
+    description,
+    price,
+    roomStatus,
+    roomArea,
+    maxOccupancy
+  });
 };
+
+const updateTb = (id, deviceName, devicePrice) => {
+  return axios.put(`/api/device/${id}`, { deviceName, devicePrice });
+};
+
+const updateHoadon = (id, name, job) => {
+  return axios.put(`/api/users/${id}`, { name, job });
+};
+
+const updateHd = (id, name, job) => {
+  return axios.put(`/api/users/${id}`, { name, job });
+};
+
 
 const deleteUser = (renterId) => {
   return axios.delete(`/api/renter/${renterId}`);
 };
+
 const deleteTro = (roomId) => {
   return axios.delete(`/api/room/${roomId}`);
 };
 
-const deleteTb = (id) => {
-  return axios.delete(`/api/users/${id}`);
+const deleteTb = (deviceId) => {
+  return axios.delete(`/api/device/${deviceId}`);
 };
 
 const deleteHoadon = (id) => {
+  return axios.delete(`/api/users/${id}`);
+};
+const deleteHd = (id) => {
   return axios.delete(`/api/users/${id}`);
 };
 
@@ -119,4 +135,10 @@ export {
   updateHoadon,
   deleteHoadon,
   postCreateHoadon,
+  fetchAllHopdong,
+  postCreateHd,
+  updateHd,
+  deleteHd
+
+
 };

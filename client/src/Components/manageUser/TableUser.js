@@ -36,8 +36,13 @@ const TableUser = (props) => {
   };
   const handleEditUserfrommodal = (user) => {
     let cloneListuser = _.cloneDeep(listUser);
-    let index = listUser.findIndex((item) => item.id === user.id);
-    cloneListuser[index].first_name = user.first_name;
+    let index = listUser.findIndex((item) => item.renterId === user.renterId);
+    cloneListuser[index].name = user.name;
+    cloneListuser[index].dateOfBirth = user.dateOfBirth;
+    cloneListuser[index].address = user.address;
+    cloneListuser[index].phone = user.phone;
+    cloneListuser[index].email = user.email;
+    cloneListuser[index].cccd = user.cccd;
     setListUser(cloneListuser);
   };
   const handleDetailUserfrommodal = (user) => {
@@ -77,7 +82,7 @@ const TableUser = (props) => {
   };
   const handDeleteUserFromModal = (user) => {
     let cloneListuser = _.cloneDeep(listUser);
-    cloneListuser = cloneListuser.filter((item) => item.id !== user.id);
+    cloneListuser = cloneListuser.filter((item) => item.renterId !== user.renterId);
     setListUser(cloneListuser);
   };
   const confirmDelete = (user) => {
@@ -113,7 +118,7 @@ const TableUser = (props) => {
           <b>Danh sách khách hàng:</b>
         </span>
         <button
-          className="btn btn-success"
+          className=" them btn btn-success"
           onClick={() => setIsShowModalAdd(true)}
         >
           <i class="fa-solid fa-user-plus"></i> Thêm danh sách

@@ -127,10 +127,10 @@ const TableManageTro = (props) => {
           <b>Danh sách phòng trọ:</b>
         </span>
         <button
-          className="btn btn-success"
+          className=" them btn btn-success "
           onClick={() => setIsShowModalAddTro(true)}
         >
-          <i className="fa-solid fa-house-user"></i> Thêm Phòng
+          <i className="fa-solid fa-house-user "></i> Thêm Phòng
         </button>
       </div>
       <div className="col-4 my-3">
@@ -156,7 +156,6 @@ const TableManageTro = (props) => {
             listTro.map((item, index) => (
               <tr key={`tro-${index}`}>
                 <td>{item.roomNumber}</td>
-                {/* <td>{item.description}</td> */}
                 <td>{formatPrice(item.price)}</td>
                 <td>{item.roomStatus}</td>
                 <td>{item.roomArea}m²</td>

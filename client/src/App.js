@@ -27,6 +27,7 @@ import UserInfo from "./Components/UserInfo";
 import ManagerTro from "./Pages/ManagerTro";
 import ManageTb from "./Pages/ManageTb";
 import ManageUser from "./Pages/ManagerUser";
+import ManageHopDong from "./Pages/ManageHopdong";
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
   return auth ? children : "heeh";
@@ -95,6 +96,7 @@ function App() {
           <Route path="/Home" element={<ManageUser />} />
           <Route path="/pageQLPT" element={<ManagerTro></ManagerTro>} />
           <Route path="/pageQLTB" element={<ManageTb />} />
+          <Route path="/pageHD" element={<ManageHopDong />} />
           <Route path="/pageQLHD" element={<TableManageHoadon />} />
           <Route path="/Notification" element={<Notification />}></Route>
           <Route path="/SignIn" element={<Sign />}></Route>
