@@ -8,8 +8,8 @@ const ModalConfirmTb = (props) => {
   const { show, handleCloseTb, handDeleteTbFromModal, dataTbDelete } = props;
 
   const confirmDelete = async () => {
-    let res = await deleteTb(dataTbDelete.id);
-    if (res && +res.statusCode === 204) {
+    let res = await deleteTb(dataTbDelete.deviceId);
+    if (res ) {
       toast.success("Xóa thành công");
       handleCloseTb();
       handDeleteTbFromModal(dataTbDelete);

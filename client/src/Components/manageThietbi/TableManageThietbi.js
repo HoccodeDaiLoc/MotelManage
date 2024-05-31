@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
-import { fetchAllTro, fetchAllTb } from "../../service/ManageService";
+import { fetchAllTb } from "../../service/ManageService";
 
 import ModalEditTb from "./modalEditthietbi"; // Sửa tên thành component viết hoa
 import ModalAddTb from "./modalAddThietbi"; // Sửa tên thành component viết hoa
@@ -81,7 +81,7 @@ const TableManageTb = (props) => {
 
   const handDeleteTbFromModal = (tb) => {
     let cloneListTb = _.cloneDeep(listTb);
-    cloneListTb = cloneListTb.filter((item) => item.id !== tb.id);
+    cloneListTb = cloneListTb.filter((item) => item.deviceId !== tb.deviceId);
     setListTb(cloneListTb);
   };
 
@@ -126,7 +126,7 @@ const TableManageTb = (props) => {
           <b>Danh sách thiết bị:</b>
         </span>
         <button
-          className="btn btn-success"
+          className="them btn btn-success"
           onClick={() => setIsShowModalAddTb(true)}
         >
           <i class="fa-solid fa-plug-circle-plus"></i> Thêm Thiết Bị

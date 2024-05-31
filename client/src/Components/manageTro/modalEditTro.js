@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { updateTro } from "../../service/ManageService";
 import { toast } from "react-toastify";
-import style from "../../Components/ManagerApp.modules.scss";
+
 
 const ModalEditTro = (props) => {
   const { show, handleCloseTro, dataTroedit, handleEditTrofrommodal } = props; // Trích xuất giá trị từ props
@@ -39,6 +39,7 @@ const ModalEditTro = (props) => {
         roomArea,
       });
       let res = await updateTro(
+        dataTroedit.roomId,
         roomNumber,
         description,
         price,
@@ -72,6 +73,7 @@ const ModalEditTro = (props) => {
       setdescription(dataTroedit.description);
       setroomArea(dataTroedit.roomArea);
       setroomStatus(dataTroedit.roomStatus);
+      
     }
   }, [dataTroedit]);
 

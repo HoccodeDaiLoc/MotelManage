@@ -3,39 +3,48 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { updateUser } from "../../service/ManageService";
 import { toast } from "react-toastify";
+
 const ModalEdit = (props) => {
-  const { show, handleClose, dataUseredit, handleEditUserfrommodal } = props; // Trích xuất giá trị từ props
+  const { show, handleClose, dataUseredit, handleEditUserfrommodal } = props;
   const [name, setName] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(null); // Changed initial state to null
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [cccd, setCccd] = useState("");
 
-
   const handleEditUser = async () => {
     if (name) {
-      console.log("Starting updateTro with:", {  name,  dateOfBirth ,   address,   phone,  email,   cccd,
-      });
-      
-      let res = await updateUser(
+      console.log("Starting updateUser with:", {
+        // renterId: dataUseredit.renterId, 
         name,
         dateOfBirth,
         address,
         phone,
         email,
         cccd,
+      });
+
+      let res = await updateUser(
+        dataUseredit.renterId, // 
+        name,
+        dateOfBirth,
+        address,
+        phone,
+        email,
+        cccd
       );
       console.log("check res:", res);
 
-      if (res ) {
+      if (res) {
         handleEditUserfrommodal({
-          name:name,
-          dateOfBirth:dateOfBirth,
-          address:address,
-          phone :phone,
-          email:email,
-          cccd:cccd,
+          renterId: dataUseredit.renterId, 
+          name,
+          dateOfBirth,
+          address,
+          phone,
+          email,
+          cccd,
         });
         handleClose();
         toast.success("Update thành công");
@@ -46,6 +55,7 @@ const ModalEdit = (props) => {
       toast.error("Vui lòng nhập tên trước khi lưu");
     }
   };
+
   useEffect(() => {
     if (show) {
       setName(dataUseredit.name);
@@ -55,14 +65,12 @@ const ModalEdit = (props) => {
       setPhone(dataUseredit.phone);
       setCccd(dataUseredit.cccd);
     }
-  }, [dataUseredit]);
-  
+  }, [dataUseredit, show]);
 
-  //   console.log(">>>check props : ",dataUseredit)
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Chinh sua danh sách</Modal.Title>
+        <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
@@ -134,7 +142,6 @@ const ModalEdit = (props) => {
               onChange={(event) => setDateOfBirth(event.target.value)}
             />
           </div>
-         
         </form>
       </Modal.Body>
       <Modal.Footer>
