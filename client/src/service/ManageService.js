@@ -15,6 +15,13 @@ const fetchAllTb = (page) => {
 const fetchAllHoadon = (page) => {
   return axios.get(`/api/users?page=${page}`); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
+
+const fetchAllHopdong = (page) => {
+  return axios.get(`/api/users?page=${page}`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+};
+
+
+
 // const postCreateUser = (name, job) => {
 //   return axios.post("/api/users", { name, job });
 // };
@@ -55,26 +62,23 @@ const postCreateTro = (
   );
 };
 
-const postCreateTb = (device_name, device_price) => {
-  return axios.post("/api/users", { device_name, device_price });
+const postCreateTb = (deviceName, devicePrice) => {
+  return axios.post("/api/device", { deviceName, devicePrice });
 };
 
 const postCreateHoadon = (name, job) => {
   return axios.post("/api/users", { name, job });
 };
-const updateUser = (name, job) => {
-  return axios.put(`/api/users/`, { name, job });
-};
-// const updateTro = ( roomNumber,description,price,roomStatus,roomArea,roomId) => {
-
-//   console.log('check id',roomId)
-
-//   return axios.put(`/api/room/${roomId}`, { roomId, roomNumber,description,price,roomStatus,roomArea});
-
-// }
+const updateUser = (renterId,name,dateOfBirth,address,phone,email,cccd) => {
+  console.log('reden',renterId);
+  return axios.put(`/api/renter/${renterId}`,name,dateOfBirth,address,phone,email,cccd);
+}
 const updateTro = (roomId) => {
-  return axios.put(`/api/room/${roomId}`);
-};
+
+   console.log(roomId)
+   return axios.put(`/api/room/${roomId}`);
+  
+}
 const updateTb = (name, job) => {
   return axios.put(`/api/users/`, { name, job });
 };
@@ -83,8 +87,8 @@ const updateHoadon = (name, job) => {
   return axios.put(`/api/users/`, { name, job });
 };
 
-const deleteUser = (id) => {
-  return axios.delete(`/api/users/${id}`);
+const deleteUser = (renterId) => {
+  return axios.delete(`/api/renter/${renterId}`);
 };
 const deleteTro = (roomId) => {
   return axios.delete(`/api/room/${roomId}`);

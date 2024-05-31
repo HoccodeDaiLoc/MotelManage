@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 
 const ModalAddTb = (props) => {
     const { show, handleCloseTb, handUpdateTableTb } = props; // Trích xuất giá trị từ props
-    const [device_name ,  setDeviceName] = useState("");
-    const [device_price, setDevicePrice] = useState("");
+    const [deviceName ,  setDeviceName] = useState("");
+    const [devicePrice, setDevicePrice] = useState("");
 
     const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
@@ -31,15 +31,15 @@ const toggleReportBrokenVisibility = () => {
 
   
     const handUpdateTb = async () => {
-      let res = await postCreateTb(device_name,device_price);
+      let res = await postCreateTb(deviceName,devicePrice);
       if (res && res) {
         handleCloseTb();
         setDeviceName('');
         setDevicePrice('');
         toast.success("Đã lưu thành công");
         handUpdateTableTb({ 
-          deviceName: device_name,
-          devicePrice : device_price});
+          deviceName: deviceName,
+          devicePrice : devicePrice});
       } else {
         toast.error("Đã xảy ra lỗi");
       }
@@ -60,11 +60,11 @@ const toggleReportBrokenVisibility = () => {
             <div className="col-md-6">
               <label htmlFor="inputID" className="form-label">Loại Thiết Bị</label>
               <input
-                type="text" className="form-control" value={device_name} onChange={(event) => setDeviceName(event.target.value)} />
+                type="text" className="form-control" value={deviceName} onChange={(event) => setDeviceName(event.target.value)} />
             </div>
             <div className="col-md-6">
               <label htmlFor="inputEmail4" className="form-label">Giá thiết bị</label>
-              <input type="text" className="form-control" value={device_price} onChange={(event) => setDevicePrice(event.target.value)} />
+              <input type="text" className="form-control" value={devicePrice} onChange={(event) => setDevicePrice(event.target.value)} />
             </div>
     
             <div className="col-md-12">

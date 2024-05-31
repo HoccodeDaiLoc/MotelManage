@@ -52,6 +52,7 @@ const TableUser = (props) => {
   const getUser = async (page) => {
     try {
       const res = await fetchAllUser(page);
+      console.log(res.renterList);
 
       if (res && res.renterList) {
         const { data, total_pages } = res.renterList;

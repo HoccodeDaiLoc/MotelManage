@@ -10,12 +10,12 @@ export const validateDeviceId = [
 ];
 
 export const validateDevice = [
-  body("device_name")
+  body("deviceName")
     .notEmpty()
     .withMessage("device_name is required")
     .isString()
     .withMessage("device_name must be an string"),
-  body("device_price")
+  body("devicePrice")
     .notEmpty()
     .withMessage("device_price is required")
     .isNumeric()

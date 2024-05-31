@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import app from './app/App';
 
-const PORT = process.env.PORT || 3000;
+const PORT = (process.env.PORT || 3000) as number;
 
 process.on("uncaughtException", err => {
     console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');

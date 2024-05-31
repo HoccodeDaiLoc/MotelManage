@@ -6,8 +6,8 @@ import { Renter } from "./Renter";
     tableName: RentalRecord.RENTALRECORD_TABLE_NAME
 })
 export class RentalRecord extends Model {
-    private static RENTALRECORD_TABLE_NAME = "renterRecords" as string;
-    private static RENTALRECORD_ID = "renter_id" as string;
+    private static RENTALRECORD_TABLE_NAME = "rentalRecords" as string;
+    private static RENTALRECORD_ID = "rentalRecord_id" as string;
     private static RENTALRECORD_CHECK_IN_DATE = "checkInDate" as string;
     private static RENTALRECORD_CHECK_OUT_DATE = "checkOutDate" as string;
 
@@ -17,7 +17,7 @@ export class RentalRecord extends Model {
         field: RentalRecord.RENTALRECORD_ID,
         autoIncrement: true
     })
-    renterRecordId!: number;
+    rentalRecordId!: number;
 
     @Column({
         type: DataType.DATE,

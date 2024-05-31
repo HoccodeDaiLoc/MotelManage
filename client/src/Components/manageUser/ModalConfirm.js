@@ -8,8 +8,8 @@ const ModalConfirm = (props) => {
   const { show, handleClose, handDeleteUserFromModal, dataUserDelete } = props;
 
   const confirmDelete = async () => {
-    let res = await deleteUser(dataUserDelete.id);
-    if (res && +res.statusCode == 204) {
+    let res = await deleteUser(dataUserDelete.renterId);
+    if (res && res) {
       toast.success("Xoa thanh cong");
       handleClose();
       handDeleteUserFromModal(dataUserDelete);

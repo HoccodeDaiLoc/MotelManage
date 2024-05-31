@@ -8,6 +8,7 @@ import { ImageRepository } from "../repository/ImageRepository";
 import { IImageRepository } from "../repository/Interfaces/IImageRepository";
 import { RoomImageRepository } from "../repository/RoomImageRepository";
 import { IRoomImageRepository } from "../repository/Interfaces/IRoomImageRepository";
+import { AppError } from "../errors/AppError";
 
 @Service()
 export class RoomSevice implements IRoomService {
@@ -127,6 +128,15 @@ export class RoomSevice implements IRoomService {
         roomId,
         newData
       );
+      return room!;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getRoomByRenterId(renterId: number): Promise<Room> {
+    try {
+      const room = await this.roomRepository.getRoomByRenterId(renterId);
       return room!;
     } catch (err) {
       throw err;

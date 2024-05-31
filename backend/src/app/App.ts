@@ -11,6 +11,7 @@ import DeviceRoutes from "../routes/DeviceRoutes";
 import DeviceCategoryRoutes from "../routes/DeviceCategoryRoutes";
 import RenterRoutes from "../routes/RenterRoutes";
 import UserRoutes from "../routes/UserRoutes";
+import ContractRoutes from "../routes/ContractRoutes";
 dotenv.config();
 
 class App {
@@ -41,7 +42,8 @@ class App {
     this.app.use("/api/device", DeviceRoutes);
     this.app.use("/api/category", DeviceCategoryRoutes);
     this.app.use("/api/renter", RenterRoutes);
-    this.app.use("/api/user", UserRoutes)
+    this.app.use("/api/user", UserRoutes);
+    this.app.use("/api/contract", ContractRoutes);
   }
 
   private plugins(): void {

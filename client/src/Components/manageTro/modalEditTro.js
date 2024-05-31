@@ -50,11 +50,11 @@ const ModalEditTro = (props) => {
       if (res) {
         handleEditTrofrommodal({
           roomId: dataTroedit.roomId,
-          roomNumber,
-          description,
-          price,
-          roomStatus,
-          roomArea,
+          roomNumber:roomNumber,
+          description:description,
+          price:price,
+          roomStatus:roomStatus,
+          roomArea:roomArea,
         });
         handleCloseTro();
         toast.success("Update thành công");
@@ -126,16 +126,7 @@ const ModalEditTro = (props) => {
             />
           </div>
 
-          {/* <div className="col-md-6">
-     <label htmlFor="inputStatus" className="form-label">Tình trạng</label>
-     <input
-      type="text"
-      className="form-control"
-      value={roomStatus}
-      onChange={(event) => setroomStatus(event.target.value)}
-      />
-     </div> */}
-
+     
           <div className="col-md-6">
             <label htmlFor="inputType" className="form-label">
               {" "}

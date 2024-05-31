@@ -7,6 +7,9 @@ import { Image } from "../models/Image";
 import { Op } from "sequelize";
 import { Device } from "../models/Device";
 import { DeviceCategory } from "../models/DeviceCategory";
+import { Renter } from "../models/Renter";
+import { DeviceImage } from "../models/DeviceImage";
+import { RentalRecord } from "../models/RentalRecord";
 
 @Service()
 export class RoomRepository
@@ -61,6 +64,17 @@ export class RoomRepository
           {
             model: Device,
             attributes: ["categoryId", "deviceName"],
+            include: [
+              {
+                model: DeviceImage,
+                include: [
+                  {
+                    model: Image,
+                    attributes: ["imageUrl"],
+                  },
+                ],
+              }
+            ]
           },
         ],
       });
@@ -214,6 +228,46 @@ export class RoomRepository
       });
       return room!;
     } catch (err) {
+      throw err;
+    }
+  }
+
+  async getRoomByRenterId(renterId: number): Promise<Room | null> {
+    try {
+      const room = await this.model.findOne({
+        include: [
+          {
+            model: RentalRecord,
+            include: [
+              {
+                model: Renter,
+                attributes: [],
+              },
+            ],
+            where: {
+              renterId: renterId,
+            }
+          },
+          {
+            model: Device,
+            attributes: ["categoryId", "deviceName"],
+            include: [
+              {
+                model: DeviceImage,
+                include: [
+                  {
+                    model: Image,
+                    attributes: ["imageUrl"],
+                  },
+                ],
+              }
+            ]
+          }
+        ]
+      });
+      
+      return room;
+    }catch(err) {
       throw err;
     }
   }
