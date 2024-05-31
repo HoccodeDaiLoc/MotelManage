@@ -7,11 +7,7 @@ import { fetchRoomByPrice } from "../service/RoomService";
 import { useNavigate, useParams } from "react-router-dom";
 function DropDownBoostrap({ items }) {
   const [buttonvalue, setButtonvalue] = useState("Giá phòng");
-  const [lowerPrice, setLowerPrice] = useState(0);
-  const [higherPrice, setHigherPrice] = useState(0);
   const navigate = useNavigate();
-  const [isClicked, setIsClicked] = useState(false);
-  const [konoState, setKonoState] = useState("");
   return (
     <div className="Dropdown_container">
       <Dropdown className="Dropdown">

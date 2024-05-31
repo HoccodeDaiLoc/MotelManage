@@ -36,8 +36,13 @@ const TableUser = (props) => {
   };
   const handleEditUserfrommodal = (user) => {
     let cloneListuser = _.cloneDeep(listUser);
-    let index = listUser.findIndex((item) => item.id === user.id);
-    cloneListuser[index].first_name = user.first_name;
+    let index = listUser.findIndex((item) => item.renterId === user.renterId);
+    cloneListuser[index].name = user.name;
+    cloneListuser[index].dateOfBirth = user.dateOfBirth;
+    cloneListuser[index].address = user.address;
+    cloneListuser[index].phone = user.phone;
+    cloneListuser[index].email = user.email;
+    cloneListuser[index].cccd = user.cccd;
     setListUser(cloneListuser);
   };
   const handleDetailUserfrommodal = (user) => {
@@ -52,6 +57,7 @@ const TableUser = (props) => {
   const getUser = async (page) => {
     try {
       const res = await fetchAllUser(page);
+      console.log(res.renterList);
 
       if (res && res.renterList) {
         const { data, total_pages } = res.renterList;
@@ -76,7 +82,7 @@ const TableUser = (props) => {
   };
   const handDeleteUserFromModal = (user) => {
     let cloneListuser = _.cloneDeep(listUser);
-    cloneListuser = cloneListuser.filter((item) => item.id !== user.id);
+    cloneListuser = cloneListuser.filter((item) => item.renterId !== user.renterId);
     setListUser(cloneListuser);
   };
   const confirmDelete = (user) => {
@@ -87,8 +93,8 @@ const TableUser = (props) => {
     const term = event.target.value;
     if (term) {
       const cloneListuser = _.cloneDeep(listUser);
-      const filteredUsers = cloneListuser.filter((item) => 
-        item.name && item.name.includes(term)
+      const filteredUsers = cloneListuser.filter(
+        (item) => item.name && item.name.includes(term)
       );
       setListUser(filteredUsers);
     } else {
@@ -106,13 +112,13 @@ const TableUser = (props) => {
     return date.toLocaleDateString("en-US", options);
   };
   return (
-    <>
+    <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
         <span>
           <b>Danh sách khách hàng:</b>
         </span>
         <button
-          className="btn btn-success"
+          className=" them btn btn-success"
           onClick={() => setIsShowModalAdd(true)}
         >
           <i class="fa-solid fa-user-plus"></i> Thêm danh sách
@@ -129,13 +135,13 @@ const TableUser = (props) => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Tên khách hàng</th>
-              <th>Ngày sinh </th>
-              <th>Địa chỉ</th>
-              <th>Số điện thoại</th>
-              <th>Email</th>
-              <th>Số CCCD</th>
-              <th>Khác</th>
+              <th style={{ whiteSpace: "nowrap" }}>Tên khách hàng</th>
+              <th style={{ whiteSpace: "nowrap" }}>Ngày sinh </th>
+              <th style={{ whiteSpace: "nowrap" }}>Địa chỉ</th>
+              <th style={{ whiteSpace: "nowrap" }}>Số điện thoại</th>
+              <th style={{ whiteSpace: "nowrap" }}>Email</th>
+              <th style={{ whiteSpace: "nowrap" }}>Số CCCD</th>
+              <th style={{ whiteSpace: "nowrap" }}>Khác</th>
             </tr>
           </thead>
           <tbody>
@@ -215,7 +221,7 @@ const TableUser = (props) => {
         handleClose={handleClose}
         handleDetailUserfrommodal={handleDetailUserfrommodal}
       />
-    </>
+    </div>
   );
 };
 export default TableUser;

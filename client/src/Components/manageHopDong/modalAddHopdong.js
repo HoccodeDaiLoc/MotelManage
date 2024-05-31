@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { postCreateTb } from '../../service/ManageService';
+import { postCreateHd } from '../../service/ManageService';
 import { toast } from 'react-toastify';
 
 
-const ModalAddTb = (props) => {
-    const { show, handleCloseTb, handUpdateTableTb } = props; // Trích xuất giá trị từ props
+const ModalAddHd = (props) => {
+    const { show, handleCloseHd, handUpdateTableHd } = props; // Trích xuất giá trị từ props
     const [deviceName ,  setDeviceName] = useState("");
     const [devicePrice, setDevicePrice] = useState("");
 
@@ -15,7 +15,7 @@ const ModalAddTb = (props) => {
 
   const [isReportBrokenVisible, setIsReportBrokenVisible] = useState("");
 
-  const handUpdateImageTb = (event) => {
+  const handUpdateImageHd = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
         setPreviewImage(URL.createObjectURL(event.target.files[0]));
        setImage(event.target.files)
@@ -30,14 +30,14 @@ const toggleReportBrokenVisibility = () => {
 };
 
   
-    const handUpdateTb = async () => {
-      let res = await postCreateTb(deviceName,devicePrice);
+    const handUpdateHd = async () => {
+      let res = await postCreateHd(deviceName,devicePrice);
       if (res && res) {
-        handleCloseTb();
+        handleCloseHd();
         setDeviceName('');
         setDevicePrice('');
         toast.success("Đã lưu thành công");
-        handUpdateTableTb({ 
+        handUpdateTableHd({ 
           deviceName: deviceName,
           devicePrice : devicePrice});
       } else {
@@ -47,7 +47,7 @@ const toggleReportBrokenVisibility = () => {
   
     return (
       <Modal show={show} 
-        onHide={handleCloseTb}
+        onHide={handleCloseHd}
         size='xl'
         className='modal-add-tro'>
         <Modal.Header closeButton>
@@ -74,7 +74,7 @@ const toggleReportBrokenVisibility = () => {
               </label>
               <input type="file"
                 hidden id='labelUploadTro'
-                onChange={(event) => handUpdateImageTb(event) }
+                onChange={(event) => handUpdateImageHd(event) }
               />
             </div>
             <div className="img_tro">
@@ -87,10 +87,10 @@ const toggleReportBrokenVisibility = () => {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseTb}>
+          <Button variant="secondary" onClick={handleCloseHd}>
             Đóng
           </Button>
-          <Button variant="primary" onClick={handUpdateTb}>
+          <Button variant="primary" onClick={handUpdateHd}>
             Lưu
           </Button>
         </Modal.Footer>
@@ -99,4 +99,4 @@ const toggleReportBrokenVisibility = () => {
  
   };
   
-  export default ModalAddTb;
+  export default ModalAddHd;

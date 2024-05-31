@@ -7,6 +7,14 @@
 
 }
 
+%UserInfo_Manager {
+    margin:   20px auto 50px  auto;
+    border-radius: 10px;    
+    width: 80%;
+    height: 100%;
+    padding: 16px 40px 0px 40px;
+}
+
 %UserInfo {
     margin:   20px auto 50px  auto;
     border-radius: 10px;    
@@ -20,6 +28,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100vw;
     .main_container {
         background-color: #ffffff;
         @extend %fixat1360;
@@ -33,5 +42,6 @@
         .UserInfo {
             @extend %UserInfo;
         }
+
     }
 }

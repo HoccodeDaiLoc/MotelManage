@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import { UserContext } from "../context/UserContext";
 import style from "../styles/Header.modules.scss";
 import { Form, Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,13 +10,6 @@ function Header(props) {
   const user = useSelector((state) => state.user.account);
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false);
-  };
-  const handleOpen = () => {
-    setShow(true);
-  };
-
   const handleLogout = () => {
     // document.cookie = `userData=; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     dispatch(handleLogoutRedux());
@@ -64,26 +56,22 @@ function Header(props) {
 
         <div className="nav_right">
           <div className="nav_right_item">
-            <NavLink to={"Notification"}>
-              <span className="icon_container">
-                <img
-                  className="icon"
-                  src="https://www.svgrepo.com/show/513140/bell.svg"
-                  alt="help me nick"
-                ></img>
-              </span>
+            <NavLink className="icon_container" to={"Notification"}>
+              <img
+                className="icon"
+                src="https://www.svgrepo.com/show/513140/bell.svg"
+                alt="help me nick"
+              ></img>
             </NavLink>{" "}
           </div>
 
           <div className="nav_right_item">
-            <NavLink to="Support">
-              <span className="icon_container">
-                <img
-                  className="icon"
-                  src="https://www.svgrepo.com/show/325523/question-mark-circle.svg"
-                  alt="?"
-                ></img>
-              </span>
+            <NavLink className="icon_container" to="Support">
+              <img
+                className="icon"
+                src="https://www.svgrepo.com/show/325523/question-mark-circle.svg"
+                alt="?"
+              ></img>
             </NavLink>{" "}
           </div>
 
@@ -107,7 +95,14 @@ function Header(props) {
                   <div className="modal_user">
                     {user.auth === true ? (
                       <span className="modal_part">
-                        <NavLink to={"/user/Profile"}>Trang cá nhân</NavLink>
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/493875/personal-center.svg"
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
+                        <Link to={"/user/Profile"}>Trang cá nhân</Link>
                       </span>
                     ) : (
                       <Link
@@ -117,27 +112,50 @@ function Header(props) {
                           setShow(!show);
                         }}
                       >
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/477710/login-3.svg"
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
                         <span>Đăng nhập</span>
                       </Link>
                     )}
                     {user.auth === true ? (
-                      <span
+                      <Link
                         className="modal_part"
                         onClick={() => {
                           handleLogout();
                           navigate("/");
                         }}
                       >
-                        Đăng xuất
-                      </span>
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/454179/logout-multimedia-ui.svg"
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
+                        <span>Đăng xuất</span>
+                      </Link>
                     ) : (
                       <Link
-                        to={"/SignIn"}
+                        to={"/Loggin"}
                         className="modal_part"
                         onClick={() => {
                           setShow(!show);
                         }}
                       >
+                        {" "}
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/83758/add-people-interface-symbol-of-black-person-close-up-with-plus-sign-in-small-circle.svg
+                        "
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
                         <span>Đăng Ký</span>
                       </Link>
                     )}

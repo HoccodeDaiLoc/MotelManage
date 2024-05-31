@@ -6,6 +6,7 @@ import ModalEditTro from "./modalEditTro"; // Sửa tên thành component viết
 import ModalAddTro from "./modalAddTro"; // Sửa tên thành component viết hoa
 import ModalConfirmTro from "./ModalCofirmTro";
 import { debounce } from "lodash";
+import style from "../../styles/UserHomePage.modules.scss";
 import _ from "lodash";
 import ModalDetailTro from "../manageTro/modalDetailTro";
 
@@ -16,7 +17,7 @@ const TableManageTro = (props) => {
 
   const [isShowModalAddTro, setIsShowModalAddTro] = useState(false);
   const [isShowModalEditTro, setIsShowModalEditTro] = useState(false);
-  const [dataTroEdit, setDataTroEdit] = useState({});
+  const [dataTroEdit, setDataTroEdit] = useState();
 
   const [isShowModalDeleteTro, setIsShowModalDeleteTro] = useState(false);
   const [dataTroDelete, setDataTroDelete] = useState({});
@@ -57,7 +58,6 @@ const TableManageTro = (props) => {
   const getTro = async (page) => {
     try {
       const res = await fetchAllTro(page);
-      console.log("checktro", res);
       if (res && res.data) {
         const { data, total_pages } = res.data;
         setTotalTro(res.data.total);
@@ -75,6 +75,7 @@ const TableManageTro = (props) => {
 
   const handleEditTro = (tro) => {
     setDataTroEdit(tro);
+    console.log("room before passing", tro);
     setIsShowModalEditTro(true);
   };
 
@@ -121,16 +122,18 @@ const TableManageTro = (props) => {
   };
 
   return (
-    <>
+    <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
         <span>
+          {console.log(dataTroEdit)}
+
           <b>Danh sách phòng trọ:</b>
         </span>
         <button
-          className="btn btn-success"
+          className=" them btn btn-success "
           onClick={() => setIsShowModalAddTro(true)}
         >
-          <i className="fa-solid fa-house-user"></i> Thêm Phòng
+          <i className="fa-solid fa-house-user "></i> Thêm Phòng
         </button>
       </div>
       <div className="col-4 my-3">
@@ -143,12 +146,12 @@ const TableManageTro = (props) => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Số Phòng</th>
+            <th style={{ whiteSpace: "nowrap" }}>Số Phòng</th>
             {/* <th>Loại phòng</th> */}
-            <th>Giá phòng</th>
-            <th>Tình trạng</th>
-            <th>Diện tích</th>
-            <th>Khác</th>
+            <th style={{ whiteSpace: "nowrap" }}>Giá phòng</th>
+            <th style={{ whiteSpace: "nowrap" }}>Tình trạng</th>
+            <th style={{ whiteSpace: "nowrap" }}>Diện tích</th>
+            <th style={{ whiteSpace: "nowrap" }}>Khác</th>
           </tr>
         </thead>
         <tbody>
@@ -156,7 +159,6 @@ const TableManageTro = (props) => {
             listTro.map((item, index) => (
               <tr key={`tro-${index}`}>
                 <td>{item.roomNumber}</td>
-                {/* <td>{item.description}</td> */}
                 <td>{formatPrice(item.price)}</td>
                 <td>{item.roomStatus}</td>
                 <td>{item.roomArea}m²</td>
@@ -226,7 +228,7 @@ const TableManageTro = (props) => {
         handleCloseTro={handleCloseTro}
         handleDetailTrofrommodal={handleDetailTrofrommodal}
       />
-    </>
+    </div>
   );
 };
 

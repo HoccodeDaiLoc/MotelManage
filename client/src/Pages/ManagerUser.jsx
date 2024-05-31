@@ -1,14 +1,18 @@
 import Header from "../Components/ManagerHeader";
-import style from "../styles/UserHomePage.modules.scss";
 
 import TableUser from "../Components/manageUser/TableUser";
+import { useSelector } from "react-redux";
+
 function manageUser() {
+  // let isadmin = useSelector((state) => state.account.user.isAdmin);
+  // const isadmin = useSelector((state) => state.user.account.isAdmin);
+  // console.log("check admin", isadmin);
   return (
-        <div className="wrapper">
+    <div className="wrapper">
       <div className="main_container">
-    <Header className="UserSide Bar" ></Header>
-      <TableUser className="UserInfo"></TableUser>    
-        </div>
+        <Header></Header>
+        <TableUser></TableUser>
+      </div>
     </div>
   );
 }

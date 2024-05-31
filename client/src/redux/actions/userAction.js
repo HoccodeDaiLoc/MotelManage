@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import { loginApi, postCreateUser } from "../../service/UserService";
-import { useDispatch } from "react-redux";
 export const FETCH_USER_lOGIN = "FETCH_USER_lOGIN";
 export const FETCH_USER_ERROR = "FETCH_USER_ERROR";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
@@ -16,12 +15,14 @@ export const handleLoginRedux = (username, password) => {
     dispatch({ type: FETCH_USER_lOGIN });
     let res = await loginApi(username.trim(), password);
     if (res && res.accessToken && res.refeshToken) {
-      console.log("ress cheking:", res);
-      console.log("user: ", res.user);
-      console.log("user name: ", res.user.username.trim());
-      console.log("accesstokjen: ", res.accessToken);
-      console.log("refreshtoken: ", res.refeshToken);
-      console.log("id: ", res.user.id);
+      // console.log("ress cheking:", res);
+      // console.log("user: ", res.user);
+      // console.log("auth: ", auth);
+      // console.log("user name: ", res.user.username.trim());
+      // console.log("accesstokjen: ", res.accessToken);
+      // console.log("refreshtoken: ", res.refeshToken);
+      // console.log("id: ", res.user.id);
+      console.log("admin: ", res.user.isAdmin);
       localStorage.setItem("id", res.user.id);
       localStorage.setItem("user", res.user);
       localStorage.setItem("username", res.user.username.trim());
@@ -40,7 +41,9 @@ export const handleLoginRedux = (username, password) => {
           password: res.user.password,
         },
       });
-      toast.success(FETCH_USER_SUCCESS, {
+      console.log("check auth", res.user.auth);
+
+      toast.success("Đăng nhập thành công", {
         position: "top-center",
       });
     } else {
@@ -83,7 +86,7 @@ export const handleSignInRedux = (
           // dob: res.user.dob,
         },
       });
-      toast.success(POST_USER_SUCCESS, {
+      toast.success("Đăng nhập thành công", {
         position: "top-center",
       });
     } else {

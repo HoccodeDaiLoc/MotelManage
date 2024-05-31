@@ -3,10 +3,14 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { updateTro } from "../../service/ManageService";
 import { toast } from "react-toastify";
-import style from "../../Components/ManagerApp.modules.scss";
-
-const ModalEditTro = (props) => {
-  const { show, handleCloseTro, dataTroedit, handleEditTrofrommodal } = props; // Trích xuất giá trị từ props
+function ModalEditTro({
+  show,
+  dataTroEdit,
+  handleCloseTro,
+  handleEditTrofrommodal,
+}) {
+  const name = dataTroEdit;
+  console.log(name);
   const [roomNumber, setroomNumber] = useState("");
   const [description, setdescription] = useState("Đầy đủ");
   const [price, setprice] = useState("");
@@ -28,8 +32,9 @@ const ModalEditTro = (props) => {
     }
     // console.log('upload file', event.target.files[0]);
   };
-
   const handleEditTro = async () => {
+    console.log("Roomafter", dataTroEdit);
+    console.log("roomID", dataTroEdit.roomID);
     if (roomNumber) {
       console.log("Starting updateTro with:", {
         roomNumber,
@@ -39,6 +44,7 @@ const ModalEditTro = (props) => {
         roomArea,
       });
       let res = await updateTro(
+        dataTroEdit.roomId,
         roomNumber,
         description,
         price,
@@ -46,15 +52,14 @@ const ModalEditTro = (props) => {
         roomArea
       );
       console.log("check res:", res);
-
       if (res) {
         handleEditTrofrommodal({
-          roomId: dataTroedit.roomId,
-          roomNumber,
-          description,
-          price,
-          roomStatus,
-          roomArea,
+          roomId: dataTroEdit.roomId,
+          roomNumber: roomNumber,
+          description: description,
+          price: price,
+          roomStatus: roomStatus,
+          roomArea: roomArea,
         });
         handleCloseTro();
         toast.success("Update thành công");
@@ -67,13 +72,13 @@ const ModalEditTro = (props) => {
   };
   useEffect(() => {
     if (show) {
-      setroomNumber(dataTroedit.roomNumber);
-      setprice(dataTroedit.price);
-      setdescription(dataTroedit.description);
-      setroomArea(dataTroedit.roomArea);
-      setroomStatus(dataTroedit.roomStatus);
+      setroomNumber(dataTroEdit.roomNumber);
+      setprice(dataTroEdit.price);
+      setdescription(dataTroEdit.description);
+      setroomArea(dataTroEdit.roomArea);
+      setroomStatus(dataTroEdit.roomStatus);
     }
-  }, [dataTroedit]);
+  }, [dataTroEdit]);
 
   //   console.log(">>>check props : ",dataTroedit)
   return (
@@ -87,6 +92,7 @@ const ModalEditTro = (props) => {
         <Modal.Title>Chinh sua danh sách</Modal.Title>
       </Modal.Header>
       <Modal.Body className="body_add_new">
+        {console.log("data", dataTroEdit)}
         <form className="row g-3">
           <div className="col-md-6">
             <label htmlFor="inputID" className="form-label">
@@ -125,16 +131,6 @@ const ModalEditTro = (props) => {
               onChange={(event) => setprice(event.target.value)}
             />
           </div>
-
-          {/* <div className="col-md-6">
-     <label htmlFor="inputStatus" className="form-label">Tình trạng</label>
-     <input
-      type="text"
-      className="form-control"
-      value={roomStatus}
-      onChange={(event) => setroomStatus(event.target.value)}
-      />
-     </div> */}
 
           <div className="col-md-6">
             <label htmlFor="inputType" className="form-label">
@@ -187,12 +183,17 @@ const ModalEditTro = (props) => {
         <Button variant="secondary" onClick={handleCloseTro}>
           Đóng
         </Button>
-        <Button variant="primary" onClick={handleEditTro}>
+        <Button
+          variant="primary"
+          onClick={(dataTroEdit) => {
+            handleEditTro(dataTroEdit);
+          }}
+        >
           Lưu
         </Button>
       </Modal.Footer>
     </Modal>
   );
-};
+}
 
 export default ModalEditTro;
