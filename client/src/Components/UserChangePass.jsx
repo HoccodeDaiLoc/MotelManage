@@ -8,7 +8,8 @@ function UserChangePassComponent() {
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [checkPass, setCheckPass] = useState("");
-
+  const mk = useSelector((state) => state.user.account.password);
+  console.log(mk);
   return (
     <div className="UserInfo_Wrapper">
       <form className="UserInfo_Container">
@@ -49,7 +50,31 @@ function UserChangePassComponent() {
         <div
           className="UserInfo_Edit_Button"
           onClick={() => {
-            if (newPass === checkPass) {
+            console.log(newPass);
+            if (newPass === null || oldPass === null || checkPass === null) {
+              toast.error("Nhập đầy đủ thông tin", {
+                position: "top-center",
+              });
+            }
+            if (newPass === "" || oldPass === "" || checkPass === "") {
+              toast.error("Nhập đầy đủ thông tin", {
+                position: "top-center",
+              });
+            }
+            if (
+              newPass === undefined ||
+              oldPass === undefined ||
+              checkPass === undefined
+            ) {
+              toast.error("Nhập đầy đủ thông tin", {
+                position: "top-center",
+              });
+            } else if (
+              newPass === checkPass &&
+              newPass != null &&
+              newPass != "" &&
+              newPass != undefined
+            ) {
               try {
                 putChangePass(newPass, oldPass).then(() =>
                   toast.success("Đã đổi mật khẩu thành công", {

@@ -3,6 +3,7 @@ import style from "../styles/UserHomePage.modules.scss";
 import UserInfo from "../Components/UserInfo";
 
 import { useState } from "react";
+
 function UserHomePage() {
   return (
     <div className="wrapper">

@@ -41,7 +41,6 @@ function App() {
     <>
       <BrowserRouter>
         <Header></Header>
-
         <Routes>
           <Route
             path="/user/Room"
@@ -92,10 +91,39 @@ function App() {
             }
           /> */}
           <Route index path="/" element={<Rooms />} />
-          <Route path="/Home" element={<ManageUser />} />
-          <Route path="/pageQLPT" element={<ManagerTro></ManagerTro>} />
-          <Route path="/pageQLTB" element={<ManageTb />} />
-          <Route path="/pageQLHD" element={<TableManageHoadon />} />
+          <Route
+            index
+            path="/Home"
+            element={
+              <SuperPrivateRoute>
+                <ManageUser />
+              </SuperPrivateRoute>
+            }
+          />
+          <Route
+            path="/pageQLPT"
+            element={
+              <SuperPrivateRoute>
+                <ManagerTro />
+              </SuperPrivateRoute>
+            }
+          />
+          <Route
+            path="/pageQLTB"
+            element={
+              <SuperPrivateRoute>
+                <ManageTb />
+              </SuperPrivateRoute>
+            }
+          />
+          <Route
+            path="/pageQLHD"
+            element={
+              <SuperPrivateRoute>
+                <TableManageHoadon />
+              </SuperPrivateRoute>
+            }
+          />
           <Route path="/Notification" element={<Notification />}></Route>
           <Route path="/SignIn" element={<Sign />}></Route>
           <Route path="/Loggin" element={<Loggin />}></Route>

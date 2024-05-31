@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 function UserRoom() {
   const user = useSelector((state) => state.user.account);
   const token = useSelector((state) => state.user.account.token);
+  console.log(user);
   useEffect(() => {});
   const [active, setActive] = useState();
   return (

@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import axios from "./customize-axios";
 const accessToken = localStorage.getItem("accesstoken");
 
@@ -80,13 +81,13 @@ const postchecktoken = (email, tokenpass) => {
   );
 };
 
-const putChangePass = (passwordCurrent, password) => {
-  console.log(accessToken);
+const putChangePass = (password, passwordCurrent) => {
+  console.log(passwordCurrent, password);
   return axios.put(
     `/api/user/updatePassword`,
     {
-      passwordCurrent,
-      password,
+      passwordCurrent: passwordCurrent,
+      password: password,
     },
     {
       headers: {
@@ -121,7 +122,6 @@ const deleteUser = (id) => {
   });
 };
 const loginApi = (username, password) => {
-  // return axios.post(`/api/login`,{email,password});
   return axios.post(
     `/api/user/login`,
     { username, password },

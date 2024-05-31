@@ -42,6 +42,21 @@
             }
             .UserInfo_Edit_Button:hover{
             }
+
+        }
+        .UserInfo_Item_Complain{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            .UserInfo_Item_Input_Complain{
+                width: 500px;
+                border-radius: 10px;
+                border: 0.2px solid rgba(0, 0, 0, .05);
+                padding:16px 10px;
+                outline: none;
+                // ko có viền khi click vào
+            }
         }
     }
 }

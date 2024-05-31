@@ -36,7 +36,6 @@ const Header = () => {
         <Row>
           <Col
             xs={2}
-            style={{ width: "100%" }}
             className={`bg-light p-3 sidebar ${showSidebar ? "show" : "hide"} `}
           >
             <Nav

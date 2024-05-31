@@ -22,6 +22,7 @@ export const handleLoginRedux = (username, password) => {
       // console.log("accesstokjen: ", res.accessToken);
       // console.log("refreshtoken: ", res.refeshToken);
       // console.log("id: ", res.user.id);
+      console.log("admin: ", res.user.isAdmin);
       localStorage.setItem("id", res.user.id);
       localStorage.setItem("user", res.user);
       localStorage.setItem("username", res.user.username.trim());

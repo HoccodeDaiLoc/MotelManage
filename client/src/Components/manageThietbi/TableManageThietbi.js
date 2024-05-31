@@ -117,7 +117,10 @@ const TableManageTb = (props) => {
     return name.slice(0, 50) + "...";
   };
   return (
-    <div className="UserInfo_Manager" style={{ width: "80%" }}>
+    <div
+      className="UserInfo_Manager"
+      style={{ width: "80%", margin: "0px 0px 0px auto" }}
+    >
       <div className="my-3 add-new">
         <span>
           <b>Danh sách thiết bị:</b>

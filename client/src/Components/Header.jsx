@@ -95,7 +95,14 @@ function Header(props) {
                   <div className="modal_user">
                     {user.auth === true ? (
                       <span className="modal_part">
-                        <NavLink to={"/user/Profile"}>Trang cá nhân</NavLink>
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/493875/personal-center.svg"
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
+                        <Link to={"/user/Profile"}>Trang cá nhân</Link>
                       </span>
                     ) : (
                       <Link
@@ -105,19 +112,33 @@ function Header(props) {
                           setShow(!show);
                         }}
                       >
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/477710/login-3.svg"
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
                         <span>Đăng nhập</span>
                       </Link>
                     )}
                     {user.auth === true ? (
-                      <span
+                      <Link
                         className="modal_part"
                         onClick={() => {
                           handleLogout();
                           navigate("/");
                         }}
                       >
-                        Đăng xuất
-                      </span>
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/454179/logout-multimedia-ui.svg"
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
+                        <span>Đăng xuất</span>
+                      </Link>
                     ) : (
                       <Link
                         to={"/Loggin"}
@@ -126,6 +147,15 @@ function Header(props) {
                           setShow(!show);
                         }}
                       >
+                        {" "}
+                        <div className="modal_icon_container">
+                          <img
+                            src="https://www.svgrepo.com/show/83758/add-people-interface-symbol-of-black-person-close-up-with-plus-sign-in-small-circle.svg
+                        "
+                            alt=""
+                            className="modal_icon"
+                          />
+                        </div>
                         <span>Đăng Ký</span>
                       </Link>
                     )}
