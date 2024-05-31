@@ -1,7 +1,9 @@
 import { ContractController } from "../controllers/ContractController";
+import { RentalRecord } from "../models/RentalRecord";
 import {
   validateContract,
   validateContractId,
+  validateUpdateContract,
 } from "../validators/ContractValidator";
 import { validateRenterId } from "../validators/RenterValidator";
 import { validateRoomId } from "../validators/RoomValidator";
@@ -30,7 +32,7 @@ class ContractRoutes extends BaseRoutes {
     this.router
       .route("/:contractId")
       .get(validateContractId, validate, this.controller.getContractById)
-      .put(validateContractId, validate, this.controller.updateContract);
+      .put(validateContractId, validateUpdateContract ,validate, this.controller.updateContract);
   }
 }
 

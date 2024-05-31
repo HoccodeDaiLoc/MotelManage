@@ -11,6 +11,15 @@ export class RentalRecordRepository
   extends BaseRepository<RentalRecord>
   implements IRentalRecordRepository
 {
+  async getRental(searchCondition: any): Promise<RentalRecord | null> {
+    try {
+      const rental = await RentalRecord.findOne(searchCondition);
+      return rental;
+    }catch(err) {
+      throw err;
+    }
+  }
+
   async createRentalRecord(
     checkInDate: Date | undefined,
     checkOutDate: Date | undefined,
@@ -25,6 +34,41 @@ export class RentalRecordRepository
         roomId,
       });
       return newRental;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async deleteRentalById(id: number): Promise<boolean> {
+    try {
+      const deletedRental = await RentalRecord.destroy({
+        where: { id },
+      });
+      return deletedRental ? true : false;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateRentalRecordByRoomId(roomId: number, newData: any): Promise<RentalRecord> {
+    try {
+      const updatedRental = await RentalRecord.update(newData, {
+        where: { roomId },
+        returning: true,
+      });
+      return updatedRental[1][0];
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateRentalRecordByRenterId(renterId: number, newData: any): Promise<RentalRecord> {
+    try {
+      const updatedRental = await RentalRecord.update(newData, {
+        where: { renterId },
+        returning: true,
+      });
+      return updatedRental[1][0];
     } catch (err) {
       throw err;
     }

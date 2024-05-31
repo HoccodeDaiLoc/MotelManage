@@ -22,12 +22,16 @@ export class ContractController {
         limit = 12;
       }
       const contracts = await this.contractService.getAllContracts(limit, page);
-      if (contracts.length === 0) {
+      if (contracts.count === 0) {
         return next(new AppError("No contracts found", 404));
       }
       return res.status(200).json({
         message: "success",
-        contracts,
+        page,
+        limit,
+        total: contracts.count,
+        total_pages: Math.ceil(contracts.count / limit),
+        data: contracts.rows,
       });
     } catch (err) {
       next(err);

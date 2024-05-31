@@ -17,19 +17,19 @@ export class WaterMeterReading extends Model {
         autoIncrement: true,
         primaryKey: true
     })
-    electricId!: number;
+    waterId!: number;
 
     @Column({
         type: DataType.DOUBLE,
         field: WaterMeterReading.WATER_NUMBER
     })
-    electricNumber!: number;
+    waterNumber!: number;
 
     @Column({
         type: DataType.DATE,
         field: WaterMeterReading.WATER_RECORD_DATE
     })
-    electricRecordDate!: number;
+    waterRecordDate!: number;
 
     @ForeignKey(() => Room)
     @Column({

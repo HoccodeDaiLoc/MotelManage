@@ -1,5 +1,5 @@
 import { RoomController } from "../controllers/RoomController";
-import { validateRoom, validateRoomId } from "../validators/RoomValidator";
+import { validateRoom, validateRoomId, validateUpdateRoom } from "../validators/RoomValidator";
 import { validate } from "../validators/Validator";
 import BaseRoutes from "./base/BaseRoutes";
 
@@ -21,7 +21,7 @@ class RoomRoutes extends BaseRoutes {
       .delete(validateRoomId, validate, this.controller.deleteRoomById)
       .put(
         validateRoomId,
-        validateRoom,
+        validateUpdateRoom,
         validate,
         this.controller.updateRoomById
       );

@@ -22,12 +22,16 @@ export class RenterController {
         limit = 12;
       }
       const renterList = await this.renterService.getAllRenter(page, limit);
-      if (renterList.length === 0) {
+      if (renterList.count === 0) {
         return next(new AppError("Không thể tìm thấy người thuê", 404));
       }
       return res.status(200).json({
         message: "success",
-        renterList,
+        page,
+        limit,
+        total: renterList.count,
+        total_pages: Math.ceil(renterList.count / limit),
+        renterList: renterList.rows,
       });
     } catch (err) {
       next(err);
@@ -123,10 +127,4 @@ export class RenterController {
       next(err);
     }
   };
-
-  getRenterById1 = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {};
 }

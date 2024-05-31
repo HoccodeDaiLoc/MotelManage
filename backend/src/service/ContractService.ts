@@ -10,7 +10,7 @@ export class ContractService implements IContractService {
   @Inject(() => ContractRepository)
   contractRepository!: IContractRepository;
 
-  async getAllContracts(limit: number, page: number): Promise<Contract[]> {
+  async getAllContracts(limit: number, page: number): Promise<{rows:Contract[], count: number}> {
     try {
       return this.contractRepository.getAll(limit, page);
     } catch (err) {

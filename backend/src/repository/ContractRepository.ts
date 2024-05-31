@@ -43,9 +43,9 @@ export class ContractRepository
     }
   }
 
-  async getAll(limit: number, page: number): Promise<Contract[]> {
+  async getAll(limit: number, page: number): Promise<{rows:Contract[], count: number}> {
     try {
-      return await Contract.findAll({
+      return await Contract.findAndCountAll({
         limit: limit,
         offset: (page - 1) * limit,
       });

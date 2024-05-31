@@ -8,10 +8,10 @@ export class RenterRepository
   extends BaseRepository<Renter>
   implements IRenterRepository
 {
-  async getAllRenter(page: number, limit: number): Promise<Renter[]> {
+  async getAllRenter(page: number, limit: number): Promise<{rows: Renter[], count: number}> {
     try {
       const offsetvalue = (page - 1) * limit;
-      const renterList = await Renter.findAll({
+      const renterList = await Renter.findAndCountAll({
         limit: limit,
         offset: offsetvalue,
       });

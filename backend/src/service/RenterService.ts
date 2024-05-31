@@ -14,7 +14,7 @@ export class RenterService implements IRenterService {
   @Inject(() => RentalRecordRepository)
   rentalRecordRepository!: IRentalRecordRepository;
 
-  async getAllRenter(page: number, limit: number): Promise<Renter[]> {
+  async getAllRenter(page: number, limit: number): Promise<{rows: Renter[], count: number}> {
     try {
       return await this.renterRepository.getAllRenter(page, limit);
     } catch (err) {

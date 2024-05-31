@@ -12,6 +12,9 @@ import DeviceCategoryRoutes from "../routes/DeviceCategoryRoutes";
 import RenterRoutes from "../routes/RenterRoutes";
 import UserRoutes from "../routes/UserRoutes";
 import ContractRoutes from "../routes/ContractRoutes";
+import RentalRecordRoutes from "../routes/RentalRecordRoutes";
+import WaterReadingRoutes from "../routes/WaterReadingRoutes";
+import ElectricReadingRoutes from "../routes/ElectricReadingRoutes";
 dotenv.config();
 
 class App {
@@ -44,6 +47,9 @@ class App {
     this.app.use("/api/renter", RenterRoutes);
     this.app.use("/api/user", UserRoutes);
     this.app.use("/api/contract", ContractRoutes);
+    this.app.use("/api/waterReading", WaterReadingRoutes);
+    this.app.use("/api/rentalrecord", RentalRecordRoutes);
+    this.app.use("/api/electricReading", ElectricReadingRoutes);
   }
 
   private plugins(): void {

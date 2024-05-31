@@ -2,7 +2,7 @@ import { Renter } from "../../models/Renter";
 import { BaseInterface } from "./BaseInterface";
 
 export interface IRenterRepository extends BaseInterface {
-  getAllRenter(page: number, limit: number): Promise<Renter[]>;
+  getAllRenter(page: number, limit: number): Promise<{rows: Renter[], count: number}>;
   getRenterById(id: number): Promise<Renter | null>;
   deleteRenterById(id: number): Promise<void>;
   createRenter(

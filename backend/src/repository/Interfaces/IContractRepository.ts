@@ -3,7 +3,7 @@ import { Contract } from "../../models/Contract";
 export interface IContractRepository {
   getOne(searchConditions: any): Promise<Contract | null>;
   getById(id: number): Promise<Contract | null>;
-  getAll(limit: number, page: number): Promise<Contract[]>;
+  getAll(limit: number, page: number): Promise<{rows:Contract[], count: number}>;
   create(
     startDate: Date,
     endDate: Date | undefined,
