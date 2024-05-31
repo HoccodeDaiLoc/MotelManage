@@ -111,7 +111,7 @@ function App() {
           <Route path="/Recover/Password" element={<RecoverPassword />}></Route>
           <Route path="/category/:categories" element={<Category />} />
           <Route
-            path="/room/price"
+            path="/room/price/"
             element={<RoomPriceFilterPage></RoomPriceFilterPage>}
           ></Route>
         </Routes>

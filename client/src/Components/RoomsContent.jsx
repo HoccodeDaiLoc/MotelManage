@@ -4,14 +4,10 @@ import ReactPaginate from "react-paginate";
 import { fetchRoomByPrice, fetchRoomByPage } from "../service/RoomService";
 import { useNavigate } from "react-router-dom";
 import DropDownBoostrap from "./DropDownBoostrap";
-
 function RoomsContent() {
   const [items, setItems] = useState([]); // Use a more descriptive name
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [lowerPrice, setLowerPrice] = useState("");
-  const [higherPrice, setHigherPrice] = useState("");
-
   useEffect(() => {
     const fetchItems = async () => {
       try {
@@ -24,17 +20,6 @@ function RoomsContent() {
     };
     fetchItems();
   }, [currentPage]);
-  const fetchItemsByPrice = async (lowerPrice, higherPrice) => {
-    try {
-      const res = await fetchRoomByPrice(lowerPrice, higherPrice);
-      console.log(res);
-      return res;
-      //
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
-  // fetchItemsByPrice(lowerPrice, higherPrice); //test
 
   const navigate = useNavigate();
   const RoomItem = ({ item, index }) => (
@@ -66,7 +51,6 @@ function RoomsContent() {
     const newCurrentPage = event.selected + 1;
     setCurrentPage(newCurrentPage);
   };
-  const [buttonvalue, setButtonvalue] = useState("Giá phòng");
 
   return (
     <>
