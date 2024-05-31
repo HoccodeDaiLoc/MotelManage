@@ -15,7 +15,6 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Category from "./Pages/Category";
 import UserRoom from "./Pages/UserRoom";
-import RequireAuth from "./feature/auth/RequireAuth";
 import Deposit from "./Components/Deposit";
 import Identify from "./Pages/Identify";
 import RecoverInitiate from "./Pages/RecoverInitiatePage";
@@ -23,9 +22,6 @@ import RecoverCode from "./Pages/RecoverCodePage";
 import RecoverPassword from "./Pages/RecoverPasswordPage";
 import UserChangePass from "./Pages/UserChangePass";
 import RoomPriceFilterPage from "./Pages/RoomPriceFilterPage";
-import TableUser from "./Components/manageUser/TableUser";
-import TableManageTro from "./Components/manageTro/TableManageTro";
-import TableManageThietbi from "./Components/manageThietbi/TableManageThietbi";
 import TableManageHoadon from "./Components/manageHoadon/TableManageHoadon";
 import UserInfo from "./Components/UserInfo";
 import ManagerTro from "./Pages/ManagerTro";
@@ -95,11 +91,11 @@ function App() {
               </SuperPrivateRoute>
             }
           /> */}
+          <Route index path="/" element={<Rooms />} />
           <Route path="/Home" element={<ManageUser />} />
           <Route path="/pageQLPT" element={<ManagerTro></ManagerTro>} />
           <Route path="/pageQLTB" element={<ManageTb />} />
           <Route path="/pageQLHD" element={<TableManageHoadon />} />
-          <Route index path="/" element={<Rooms />} />
           <Route path="/Notification" element={<Notification />}></Route>
           <Route path="/SignIn" element={<Sign />}></Route>
           <Route path="/Loggin" element={<Loggin />}></Route>

@@ -87,8 +87,8 @@ const TableUser = (props) => {
     const term = event.target.value;
     if (term) {
       const cloneListuser = _.cloneDeep(listUser);
-      const filteredUsers = cloneListuser.filter((item) => 
-        item.name && item.name.includes(term)
+      const filteredUsers = cloneListuser.filter(
+        (item) => item.name && item.name.includes(term)
       );
       setListUser(filteredUsers);
     } else {
@@ -106,7 +106,7 @@ const TableUser = (props) => {
     return date.toLocaleDateString("en-US", options);
   };
   return (
-    <>
+    <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
         <span>
           <b>Danh sách khách hàng:</b>
@@ -129,13 +129,13 @@ const TableUser = (props) => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Tên khách hàng</th>
-              <th>Ngày sinh </th>
-              <th>Địa chỉ</th>
-              <th>Số điện thoại</th>
-              <th>Email</th>
-              <th>Số CCCD</th>
-              <th>Khác</th>
+              <th style={{ whiteSpace: "nowrap" }}>Tên khách hàng</th>
+              <th style={{ whiteSpace: "nowrap" }}>Ngày sinh </th>
+              <th style={{ whiteSpace: "nowrap" }}>Địa chỉ</th>
+              <th style={{ whiteSpace: "nowrap" }}>Số điện thoại</th>
+              <th style={{ whiteSpace: "nowrap" }}>Email</th>
+              <th style={{ whiteSpace: "nowrap" }}>Số CCCD</th>
+              <th style={{ whiteSpace: "nowrap" }}>Khác</th>
             </tr>
           </thead>
           <tbody>
@@ -215,7 +215,7 @@ const TableUser = (props) => {
         handleClose={handleClose}
         handleDetailUserfrommodal={handleDetailUserfrommodal}
       />
-    </>
+    </div>
   );
 };
 export default TableUser;

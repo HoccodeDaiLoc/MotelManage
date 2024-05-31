@@ -8,7 +8,7 @@ function Categories() {
   const [items, setItems] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [currentActive,SetCurrentActive]=useState();
   const location = useLocation();
 
   useEffect(
@@ -20,6 +20,7 @@ function Categories() {
         if (res) {
           console.log("check response", res);
           const data = res;
+          SetCurrentActive(data.data[0].device[0].categoryId);
           setItems(data.data);
           setTotalPages(data.total_pages);
           setCurrentPage(data.page);
@@ -32,7 +33,7 @@ function Categories() {
     },
     [location],
     [currentPage]
-  ); // Thêm dataReceive vào mảng dependencies
+  );
   const navigate = useNavigate();
   const RoomItem = ({ item, index }) => (
     <div

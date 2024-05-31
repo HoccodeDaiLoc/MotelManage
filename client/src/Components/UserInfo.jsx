@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { fetchCurrentUser, putUpdateUser } from "../service/UserService";
 import { toast } from "react-toastify";
+import UploadImage from "./UploadImage";
+import ModalInput from "./ModalInput";
+import RoomDetailModal from "./RoomDetailModal";
 
 function UserInfo() {
   const id = useSelector((state) => state.user.account.id);
@@ -43,6 +46,7 @@ function UserInfo() {
     <div className="UserInfo_Wrapper">
       <form className="UserInfo_Container">
         <h4 className="UserInfo_Item_Heading">Thông tin cá nhân</h4>
+        <ModalInput></ModalInput>
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Tên đăng nhập</h6>
           <input
@@ -121,11 +125,6 @@ function UserInfo() {
         </div>{" "}
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Ảnh hồ sơ</h6>
-          <input
-            type="file"
-            name="user_ava"
-            accept="image/png, image/gif, image/jpeg"
-          />
         </div>
         <div
           onClick={() => {

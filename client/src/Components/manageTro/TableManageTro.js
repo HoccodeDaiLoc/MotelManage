@@ -6,6 +6,7 @@ import ModalEditTro from "./modalEditTro"; // Sửa tên thành component viết
 import ModalAddTro from "./modalAddTro"; // Sửa tên thành component viết hoa
 import ModalConfirmTro from "./ModalCofirmTro";
 import { debounce } from "lodash";
+import style from "../../styles/UserHomePage.modules.scss";
 import _ from "lodash";
 import ModalDetailTro from "../manageTro/modalDetailTro";
 
@@ -121,7 +122,7 @@ const TableManageTro = (props) => {
   };
 
   return (
-    <>
+    <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
         <span>
           <b>Danh sách phòng trọ:</b>
@@ -143,12 +144,12 @@ const TableManageTro = (props) => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Số Phòng</th>
+            <th style={{ whiteSpace: "nowrap" }}>Số Phòng</th>
             {/* <th>Loại phòng</th> */}
-            <th>Giá phòng</th>
-            <th>Tình trạng</th>
-            <th>Diện tích</th>
-            <th>Khác</th>
+            <th style={{ whiteSpace: "nowrap" }}>Giá phòng</th>
+            <th style={{ whiteSpace: "nowrap" }}>Tình trạng</th>
+            <th style={{ whiteSpace: "nowrap" }}>Diện tích</th>
+            <th style={{ whiteSpace: "nowrap" }}>Khác</th>
           </tr>
         </thead>
         <tbody>
@@ -226,7 +227,7 @@ const TableManageTro = (props) => {
         handleCloseTro={handleCloseTro}
         handleDetailTrofrommodal={handleDetailTrofrommodal}
       />
-    </>
+    </div>
   );
 };
 

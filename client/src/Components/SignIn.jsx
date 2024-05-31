@@ -1,15 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import style from "../styles/SignIn.modules.scss";
 import { handleSignInRedux } from "../redux/actions/userAction";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-regular-svg-icons/faEye";
-import { faEyeSlash } from "@fortawesome/free-regular-svg-icons/faEyeSlash";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons"; // Import the spinner icon
+
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../feature/auth/authApiSlice";
-import { setCredentials } from "../feature/auth/authSlice";
+
 import "react-datepicker/dist/react-datepicker.css";
 
 <script
@@ -18,12 +14,6 @@ import "react-datepicker/dist/react-datepicker.css";
 ></script>;
 
 function SignIn() {
-  // const userRef = useRef();
-  // const errRef = useRef();
-
-  //   const [firstname, setFirstname] = useState("");
-  //   const [lastname, setLastname] = useState("");
-  // const [name, setName] = useState("");
   const [username, setUserName] = useState("");
 
   const [dateofbirth, setDateOfBirth] = useState(new Date());

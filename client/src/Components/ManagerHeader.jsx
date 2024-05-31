@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Nav from 'react-bootstrap/Nav';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import logoApp from '../asset/image/imagethuetro.png';
-import "./ManagerHeader.modules.scss"; 
-const Header=()=> {
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Nav from "react-bootstrap/Nav";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import logoApp from "../asset/image/imagethuetro.png";
+import "./ManagerHeader.modules.scss";
+// import style from "../styles/UserHomePage.modules.scss";
+
+const Header = () => {
   const location = useLocation();
-  const getLinkClass = (path) => (location.pathname === path ? 'active-link' : '');
+  const getLinkClass = (path) =>
+    location.pathname === path ? "active-link" : "";
 
   const [showSidebar, setShowSidebar] = useState(false); // Set initial value to false
-  const [currentPage, setCurrentPage] = useState('Danh Sách Mục Quản lý'); // Initialize with default label
+  const [currentPage, setCurrentPage] = useState("Danh Sách Mục Quản lý"); // Initialize with default label
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -25,25 +28,28 @@ const Header=()=> {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container className="d-flex justify-content-between align-items-center">
-
-          {/* <button  className="toggle-sidebar-btn my-3"  onClick={toggleSidebar}>
-            {currentPage}
-          </button> */}
-
-        </Container>
-      </Navbar>
-      <Container fluid>
+      <Container
+        fluid
+        className="UserSideBar"
+        style={{ padding: "0px", margin: "0px" }}
+      >
         <Row>
-          <Col xs={2} className={`bg-light p-3 sidebar ${showSidebar ? 'show' : 'hide'}`}>
-            <Nav className={`flex-column ${showSidebar ? 'show' : 'hide'}`}>
+          <Col
+            xs={2}
+            style={{ width: "100%" }}
+            className={`bg-light p-3 sidebar ${showSidebar ? "show" : "hide"} `}
+          >
+            <Nav
+              className={`flex-column ${showSidebar ? "show" : "hide"} `}
+              style={{ width: "100%" }}
+            >
               <Nav.Link
                 as={Link}
                 to="/Home"
-                className={`my-2 ${getLinkClass('/Home')}`}
+                style={{ whiteSpace: "nowrap" }}
+                className={`my-2 ${getLinkClass("/Home")} `}
                 onClick={() => {
-                  updateCurrentPage('Quản lý khách hàng');
+                  updateCurrentPage("Quản lý khách hàng");
                   toggleSidebar();
                 }}
               >
@@ -52,9 +58,10 @@ const Header=()=> {
               <Nav.Link
                 as={Link}
                 to="/pageQLPT"
-                className={`my-2  ${getLinkClass('/pageQLPT')}`}
+                style={{ whiteSpace: "nowrap" }}
+                className={`my-2  ${getLinkClass("/pageQLPT")}`}
                 onClick={() => {
-                  updateCurrentPage('Quản lý phòng trọ');
+                  updateCurrentPage("Quản lý phòng trọ");
                   toggleSidebar();
                 }}
               >
@@ -63,9 +70,10 @@ const Header=()=> {
               <Nav.Link
                 as={Link}
                 to="/pageQLTB"
-                className={`update my-2 ${getLinkClass('/pageQLTB')}`}
+                style={{ whiteSpace: "nowrap" }}
+                className={`update my-2 ${getLinkClass("/pageQLTB")}`}
                 onClick={() => {
-                  updateCurrentPage('Quản lý thiết bị');
+                  updateCurrentPage("Quản lý thiết bị");
                   toggleSidebar();
                 }}
               >
@@ -74,9 +82,10 @@ const Header=()=> {
               <Nav.Link
                 as={Link}
                 to="/pageQLHD"
-                className={`my-2 ${getLinkClass('/pageQLHD')}`}
+                style={{ whiteSpace: "nowrap" }}
+                className={`my-2 ${getLinkClass("/pageQLHD")}`}
                 onClick={() => {
-                  updateCurrentPage('Quản lý hóa đơn');
+                  updateCurrentPage("Quản lý hóa đơn");
                   toggleSidebar();
                 }}
               >
@@ -85,9 +94,10 @@ const Header=()=> {
               <Nav.Link
                 as={Link}
                 to="/pageQLDN"
-                className={`update my-2 ${getLinkClass('/pageQLDN')}`}
+                style={{ whiteSpace: "nowrap" }}
+                className={`update my-2 ${getLinkClass("/pageQLDN")}`}
                 onClick={() => {
-                  updateCurrentPage('Quản lý điện nước');
+                  updateCurrentPage("Quản lý điện nước");
                   toggleSidebar();
                 }}
               >
@@ -96,9 +106,10 @@ const Header=()=> {
               <Nav.Link
                 as={Link}
                 to="/pageHD"
-                className={`update my-2 ${getLinkClass('/pageHD')}`}
+                style={{ whiteSpace: "nowrap" }}
+                className={`update my-2 ${getLinkClass("/pageHD")}`}
                 onClick={() => {
-                  updateCurrentPage('Quản lý hợp đồng');
+                  updateCurrentPage("Quản lý hợp đồng");
                   toggleSidebar();
                 }}
               >
@@ -106,13 +117,10 @@ const Header=()=> {
               </Nav.Link>
             </Nav>
           </Col>
-          <Col xs={showSidebar ? 10 : 12} className="p-3">
-            {/* Main content goes here */}
-          </Col>
         </Row>
       </Container>
     </>
   );
-}
+};
 
 export default Header;

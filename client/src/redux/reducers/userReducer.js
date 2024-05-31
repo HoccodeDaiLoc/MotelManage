@@ -13,7 +13,7 @@ const INITIAL_STATE = {
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
     isAdmin: localStorage.getItem("isAdmin"),
-    auth: null,
+    auth: localStorage.getItem("accesstoken") === null ? null : true,
     accessToken: localStorage.getItem("accesstoken"),
     refreshToken: localStorage.getItem("refreshtoken"),
   },

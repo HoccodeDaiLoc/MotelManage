@@ -16,8 +16,6 @@ function RoomsContent() {
     const fetchItems = async () => {
       try {
         const res = await fetchRoomByPage(currentPage);
-        console.log("check res", res);
-        console.log("check res data", res.data);
         setItems(res.data);
         setTotalPages(res.total_pages);
       } catch (error) {

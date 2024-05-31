@@ -20,8 +20,10 @@ function Login() {
   const isLoading = useSelector((state) => state.user.isLoading);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.user.account.auth);
+
   const account = useSelector((state) => state.user.account);
   console.log("check acount", account);
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -32,15 +34,20 @@ function Login() {
       return;
     }
     dispatch(handleLoginRedux(username, password));
-    if (auth === true) {
-      navigate("/");
-    }
+    console.log("check auth", auth);
   };
 
   useEffect(() => {
+    if (localStorage.getItem("accessToken") != null) {
+      account.auth = true;
+    }
+
     if (account && account.auth === true) {
-      console.log("token checking", account.token);
-      console.log("account checking", account);
+      console.log("access checking", account.accessToken);
+      console.log("account checking", account.auth);
+    }
+    if (auth === true) {
+      navigate("/");
     }
   }, [account]);
 
@@ -99,7 +106,7 @@ function Login() {
                 handleLogin();
               }}
             >
-              <FontAwesomeIcon className="spinner" />
+              {/* <FontAwesomeIcon className="spinner" /> */}
               Đăng nhập
             </button>
             {/* </form> */}
