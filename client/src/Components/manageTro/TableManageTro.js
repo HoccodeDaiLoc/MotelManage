@@ -17,7 +17,7 @@ const TableManageTro = (props) => {
 
   const [isShowModalAddTro, setIsShowModalAddTro] = useState(false);
   const [isShowModalEditTro, setIsShowModalEditTro] = useState(false);
-  const [dataTroEdit, setDataTroEdit] = useState({});
+  const [dataTroEdit, setDataTroEdit] = useState();
 
   const [isShowModalDeleteTro, setIsShowModalDeleteTro] = useState(false);
   const [dataTroDelete, setDataTroDelete] = useState({});
@@ -75,6 +75,7 @@ const TableManageTro = (props) => {
 
   const handleEditTro = (tro) => {
     setDataTroEdit(tro);
+    console.log("room before passing", tro);
     setIsShowModalEditTro(true);
   };
 
@@ -124,6 +125,8 @@ const TableManageTro = (props) => {
     <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
         <span>
+          {console.log(dataTroEdit)}
+
           <b>Danh sách phòng trọ:</b>
         </span>
         <button
