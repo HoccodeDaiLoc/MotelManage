@@ -50,8 +50,8 @@ const postCreateTro = (roomNumber, description, price, roomStatus, roomArea) => 
   );
 };
 
-const postCreateTb = (deviceName, devicePrice) => {
-  return axios.post("/api/device", { deviceName, devicePrice });
+const postCreateTb = (deviceName, devicePrice,roomId) => {
+  return axios.post("/api/device", { deviceName, devicePrice ,roomId});
 };
 
 const postCreateHoadon = (name, job) => {
@@ -86,8 +86,8 @@ const updateTro = (roomId, roomNumber, description, price, roomStatus, roomArea,
   });
 };
 
-const updateTb = (id, deviceName, devicePrice) => {
-  return axios.put(`/api/device/${id}`, { deviceName, devicePrice });
+const updateTb = (deviceId,deviceName,devicePrice,roomId,categoryId) => {
+  return axios.put(`/api/device/${deviceId}`, { deviceId,deviceName,devicePrice,roomId,categoryId});
 };
 
 const updateHoadon = (id, name, job) => {

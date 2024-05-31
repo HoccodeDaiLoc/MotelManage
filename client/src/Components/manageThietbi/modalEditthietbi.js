@@ -7,8 +7,9 @@ import { toast } from "react-toastify";
 
 const ModalEditTb = (props) => {
   const { show, handleCloseTb, dataTbedit, handleEditTbfrommodal } = props; // Trích xuất giá trị từ props
-  const [name, setNameTb] = useState("");
-  const [job, setJobTb] = useState("");
+  const [deviceName, setDeviceName] = useState("");
+  const [devicePrice, setDevicePrice] = useState("");
+  const [roomId,setRoomId] =useState("");
 
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
@@ -29,12 +30,26 @@ const ModalEditTb = (props) => {
     // console.log('upload file', event.target.files[0]);
   };
   const handleEditTb = async () => {
-    if (name) {
-      let res = await updateTb(name, job);
-      if (res && res.updatedAt) {
+    if (deviceName) {
+      console.log("Starting updateTro with:", {
+
+        deviceName,
+        devicePrice,
+        roomId
+      });
+      let res = await updateTb(
+        dataTbedit.deviceId,
+        deviceName,
+        devicePrice,
+        roomId
+      );
+      console.log("check res:", res);
+      if (res) {
         handleEditTbfrommodal({
-          first_name: name,
-          id: dataTbedit.id,
+          deviceId: dataTbedit.deviceId,
+          deviceName: deviceName,
+          devicePrice: devicePrice,
+          roomId:roomId,
         });
         handleCloseTb();
         toast.success("Update thành công");
@@ -45,11 +60,13 @@ const ModalEditTb = (props) => {
       toast.error("Vui lòng nhập tên trước khi lưu");
     }
   };
-
   useEffect(() => {
     if (show) {
-      setNameTb(dataTbedit.first_name);
-      setJobTb(dataTbedit.job);
+      setDeviceName(dataTbedit.deviceName);
+      setDevicePrice(dataTbedit.devicePrice); 
+      setRoomId(dataTbedit.roomId); 
+
+  
     }
   }, [dataTbedit]);
 
@@ -72,8 +89,8 @@ const ModalEditTb = (props) => {
             <input
               type="text"
               className="form-control"
-              value={name}
-              onChange={(event) => setNameTb(event.target.value)}
+              value={deviceName}
+              onChange={(event) => setDeviceName(event.target.value)}
             />
           </div>
           <div className="col-md-6">
@@ -83,51 +100,11 @@ const ModalEditTb = (props) => {
             <input
               type="text"
               className="form-control"
-              value={job}
-              onChange={(event) => setJobTb(event.target.value)}
+              value={devicePrice}
+              onChange={(event) => setDevicePrice(event.target.value)}
             />
           </div>
-          <div className="col-md-6">
-            <label htmlFor="inputPrice" className="form-label">
-              Giá Thuê
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(event) => setNameTb(event.target.value)}
-            />
-          </div>
-          {/* //List chon */}
-          <div className="col-md-6">
-            <label
-              htmlFor="inputPrice"
-              className="form-label"
-              onClick={toggleReportBrokenVisibility}
-            >
-              Báo Hỏng
-            </label>
-            {isReportBrokenVisible && (
-              <select
-                className="form-select"
-                onChange={(event) => setNameTb(event.target.value)}
-              >
-                <option value="">Có</option>
-                <option value="">Không</option>
-              </select>
-            )}
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="inputEquipment" className="form-label">
-              Thiết bị
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(event) => setNameTb(event.target.value)}
-            />
-          </div>
+          
           <div className="col-md-12">
             <label className="label-upload-anhtro" htmlFor="labelUploadTro">
               Thêm Ảnh
@@ -150,7 +127,8 @@ const ModalEditTb = (props) => {
         </form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseTb}>
+        <Button variant="secondary" onClick={(dataTbedit)=> {
+          handleCloseTb(dataTbedit)}}>
           Đóng
         </Button>
         <Button variant="primary" onClick={handleEditTb}>
