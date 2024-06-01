@@ -16,7 +16,7 @@ class BillRoutes extends BaseRoutes {
   routes() {
     this.router
       .route("/")
-      .post(BillValidator, validate, this.controller.createBill);
+      .post(BillValidator, validate, this.controller.createBill).get(this.controller.getAllBill);
     this.router
       .route("/renter/:renterId")
       .get(validateRenterId, validate, this.controller.getBillByRenter);

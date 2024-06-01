@@ -11,6 +11,9 @@ import { AppError } from "../errors/AppError";
 import Authentication from "../utils/Authentication";
 import EmailService from "../utils/Email";
 
+import fs from "fs";
+import path from "path";
+
 @Service()
 export class AccountService implements IAccountService {
   @Inject(() => AccountRepository)
@@ -18,6 +21,14 @@ export class AccountService implements IAccountService {
 
   @Inject(() => RenterRepository)
   renterRepository!: IRenterRepository;
+
+  private isTokenValidAfterPasswordChange(iat: any, passwordChangeAt: any) {
+    // Chuyển đổi passwordChangeAt về Unix timestamp tính bằng giây
+    const passwordChangeAtTimestamp = Math.floor(passwordChangeAt.getTime() / 1000);
+  
+    // So sánh iat và passwordChangeAt
+    return iat >= passwordChangeAtTimestamp;
+  }
 
   async addAccount(
     username: string,
@@ -67,15 +78,16 @@ export class AccountService implements IAccountService {
       if (!user) {
         throw new AppError("username or password invalid", 404);
       }
-      if(!(await Authentication.passwordCompare(password, user.password))) {
+      if (!(await Authentication.passwordCompare(password, user.password))) {
         throw new AppError("username or password invalid", 404);
       }
       const accessToken = Authentication.generateAccessToken(
         user.id,
         +user.isAdmin,
-        user.username
+        user.username,
+        user.passwordChangeAt
       );
-      const refeshToken = Authentication.generateRefreshToken(user.username);
+      const refeshToken = Authentication.generateRefreshToken(user.username, user.passwordChangeAt);
       return { user, accessToken, refeshToken };
     } catch (err) {
       throw err;
@@ -102,16 +114,18 @@ export class AccountService implements IAccountService {
       }
       const hash_password = await Authentication.passwordHash(password);
       await this.accountRepository.updateAccountById(userId, {
-        hash_password,
-        password_change_at: Date.now,
+        password: hash_password,
+        passwordChangeAt: new Date(),
       });
       const refeshToken = await Authentication.generateRefreshToken(
-        user.username
+        user.username,
+        user.passwordChangeAt
       );
       const accessToken = await Authentication.generateAccessToken(
         user.id,
         +user.isAdmin,
-        user.username
+        user.username,
+        user.passwordChangeAt
       );
       return { refeshToken, accessToken };
     } catch (err) {
@@ -121,9 +135,9 @@ export class AccountService implements IAccountService {
 
   getAccessTokenByRefreshToken = async (refreshToken: string) => {
     try {
-      const payload = Authentication.validateToken(refreshToken);
-      if (!payload) {
-        return "";
+      const payload: any = Authentication.validateToken(refreshToken);
+      if (!payload || !this.isTokenValidAfterPasswordChange(payload.iat, new Date(payload?.passwordChangeAt))) {
+        throw new AppError("Invalid refresh token", 401);
       }
       const searchConditions = {
         username: payload.username,
@@ -134,11 +148,12 @@ export class AccountService implements IAccountService {
           accessToken: Authentication.generateAccessToken(
             user.id,
             +user.isAdmin,
-            user.username
+            user.username,
+            user.passwordChangeAt
           ),
         };
       } else {
-        return "";
+        throw new AppError("Invalid refresh token", 401);
       }
     } catch (error: any) {
       throw error;
@@ -164,9 +179,20 @@ export class AccountService implements IAccountService {
         passwordResetToken: resetToken,
         passwordResetExpires: passwordResetExpires,
       });
+      console.log(__dirname);
+      const templatePath = path.join(
+        __dirname,
+        "../utils/ForgotPasswordMail.html"
+      );
+      let htmlContent = fs.readFileSync(templatePath, "utf8");
+      htmlContent = htmlContent.replace("{{token}}", resetToken);
       const subject = "Mã khôi phục tài khoản của bạn";
-      const text = `Đây là mã khôi phục mật khẩu tài khoản của bạn: ${resetToken}. Có hiệu lực trong vòng 10 phút`;
-      await EmailService.getInstance().sendMail(email, subject, text);
+      await EmailService.getInstance().sendMail(
+        email,
+        subject,
+        undefined,
+        htmlContent
+      );
     } catch (err) {
       throw err;
     }

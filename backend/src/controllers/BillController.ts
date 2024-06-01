@@ -51,6 +51,30 @@ export class BillController {
     }
   };
 
+  getAllBill = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let limit = Number(req.query["limit"]) as number;
+      let page = Number(req.query["page"]) as number;
+      if (!page) {
+        page = 1;
+      }
+      if (!limit) {
+        limit = 12;
+      }
+      const searchCondidate = req.query;
+      const bill = await this.billService.getListBill(searchCondidate, limit, page);
+      return res.status(200).json({
+        limit: limit,
+        page: page,
+        total: bill.count,
+        total_page: Math.ceil(bill.count / limit),
+        data: bill.rows,
+      });
+    }catch(err) {
+      next(err);
+    }
+  }
+
   getBillByRenter = async (req: Request, res: Response, next: NextFunction) => {
     try {
       let limit = Number(req.query["limit"]) as number;

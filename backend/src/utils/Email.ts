@@ -22,7 +22,7 @@ class EmailService {
         });
     }
 
-    public async sendMail(to: string, subject: string, text: string, html?: string): Promise<void> {
+    public async sendMail(to: string, subject: string, text?: string, html?: string): Promise<void> {
         const mailOptions: nodemailer.SendMailOptions = {
             from: process.env.GMAIL_NAME,
             to: to,
