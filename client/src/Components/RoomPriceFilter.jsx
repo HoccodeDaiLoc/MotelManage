@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "../styles/Rooms.modules.scss";
 import { fetchRoomByPrice } from "../service/RoomService";
 import ReactPaginate from "react-paginate";
+
 import {
   useNavigate,
   useLocation,
@@ -11,40 +12,46 @@ import {
 import DropDownBoostrap from "./DropDownBoostrap";
 
 function RoomPriceFilter() {
-  const [items, setItems] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-  const location = useLocation(); // biến location chứa pathname
-  console.log(location.pathname + location.search);
-  console.log(location.search);
-  // let url = new URL(
-  //   "localhost:3000/room/price?lp=1200000&rp=1500000&limit=12&page=1"
-  // );
-  let url = new URL("localhost:3000" + location.pathname + location.search);
-  let params = new URLSearchParams(url.search);
-  let lowerPrice = params.getAll("lp");
-  let higherPrice = params.getAll("rp");
-  useEffect(
-    () => {
-      const fetchDataBasedOnLocation = async () => {
-        const res = await fetchRoomByPrice(
-          lowerPrice,
-          higherPrice,
-          currentPage
-        );
-        console.log("check response", res);
-        setItems(res.room);
-        console.log(items);
-        setTotalPages(res.total_pages);
-        setCurrentPage(res.page);
-        console.log(res.room);
-      };
-      fetchDataBasedOnLocation();
-    },
-    [location],
-    [currentPage]
-  );
+  const params = useSearchParams();
 
+  const [items, setItems] = useState([]);
+  const [totalPages, setTotalPages] = useState("");
+  const [currentPage, setCurrentPage] = useState(params[0].get("page"));
+  const location = useLocation(); // biến location chứa pathnam e
+  console.log(params[0]);
+  const lowerPrice = params[0].get("lp");
+  console.log(lowerPrice);
+  const higherPrice = params[0].get("rp");
+  useEffect(() => {
+    const fetchDataBasedOnLocation = async () => {
+      const res = await fetchRoomByPrice(lowerPrice, higherPrice, currentPage);
+      console.log("check response", res);
+      setItems(res.room);
+      console.log(items);
+      setTotalPages(res.total_pages);
+      console.log(res.room);
+    };
+    fetchDataBasedOnLocation();
+  }, [currentPage]);
+
+  useEffect(() => {
+    const fetchDataBasedOnLocation = async () => {
+      const res = await fetchRoomByPrice(lowerPrice, higherPrice, currentPage);
+      console.log("check response", res);
+      setCurrentPage(1);
+      setItems(res.room);
+      console.log(items);
+      setTotalPages(res.total_pages);
+      console.log(res.room);
+    };
+    fetchDataBasedOnLocation();
+  }, [location]);
+
+  const handlePageClick = (event) => {
+    const newCurrentPage = event.selected + 1;
+    setCurrentPage(newCurrentPage);
+    console.log("currentpage", currentPage);
+  };
   const navigate = useNavigate();
   const RoomItem = ({ item, index }) => (
     <div
@@ -70,10 +77,6 @@ function RoomPriceFilter() {
       </div>
     </div>
   );
-  const handlePageClick = (event) => {
-    const newCurrentPage = event.selected + 1;
-    setCurrentPage(newCurrentPage);
-  };
 
   return (
     <>

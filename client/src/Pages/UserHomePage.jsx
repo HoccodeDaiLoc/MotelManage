@@ -6,12 +6,15 @@ import { useState } from "react";
 
 function UserHomePage() {
   return (
-    <div className="wrapper">
-      <div className="main_container">
-        <UserSideBar className="UserSideBar" />
-        <UserInfo className="UserInfo"></UserInfo>
+    <>
+      <div className="background"></div>
+      <div className="wrapper">
+        <div className="main_container">
+          <UserSideBar className="UserSideBar" />
+          <UserInfo className="UserInfo"></UserInfo>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

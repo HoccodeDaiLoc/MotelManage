@@ -3,12 +3,14 @@ import styles from "../styles/Rooms.modules.scss";
 import { fetchRoomByDevice } from "../service/RoomService";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useLocation } from "react-router-dom";
+import RoomPriceFilter from "./RoomPriceFilter";
+import DropDownBoostrap from "./DropDownBoostrap";
 
 function Categories() {
   const [items, setItems] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentActive,SetCurrentActive]=useState();
+  const [currentActive, SetCurrentActive] = useState();
   const location = useLocation();
 
   useEffect(
@@ -35,6 +37,7 @@ function Categories() {
     [currentPage]
   );
   const navigate = useNavigate();
+
   const RoomItem = ({ item, index }) => (
     <div
       className="Room_container"
@@ -67,6 +70,7 @@ function Categories() {
   return (
     <>
       <div id="Content_wrapper">
+        <DropDownBoostrap></DropDownBoostrap>
         <div className="Content">
           {items.map((item, index) => (
             <RoomItem key={index} item={item} />

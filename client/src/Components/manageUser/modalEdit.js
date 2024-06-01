@@ -16,7 +16,7 @@ const ModalEdit = (props) => {
   const handleEditUser = async () => {
     if (name) {
       console.log("Starting updateUser with:", {
-        // renterId: dataUseredit.renterId, 
+        renterId: dataUseredit.renterId, 
         name,
         dateOfBirth,
         address,

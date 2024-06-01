@@ -17,7 +17,7 @@ const TableManageTb = (props) => {
   const [totalPageTb, setTotalPageTb] = useState(0);
   const [isShowModalAddTb, setIsShowModalAddTb] = useState(false);
   const [isShowModalEditTb, setIsShowModalEditTb] = useState(false);
-  const [dataTbedit, setDataTbEdit] = useState({});
+  const [dataTbedit, setDataTbEdit] = useState();
 
   const [isShowModalDeleteTb, setIsShowModalDeleteTb] = useState(false);
   const [dataTbDelete, setDataTbDelete] = useState({});
@@ -40,8 +40,9 @@ const TableManageTb = (props) => {
 
   const handleEditTbfrommodal = (tb) => {
     let cloneListTb = _.cloneDeep(listTb);
-    let index = listTb.findIndex((item) => item.id === tb.id);
-    cloneListTb[index].first_name = tb.first_name;
+    let index = listTb.findIndex((item) => item.deviceId === tb.deviceId);
+    cloneListTb[index].deviceName = tb.deviceName;
+    cloneListTb[index].devicePrice = tb.devicePrice;
     setListTb(cloneListTb);
   };
 
@@ -110,12 +111,6 @@ const TableManageTb = (props) => {
     setIsShowModalDetailTb(true);
     setDataDetailTb(tb);
   };
-  const truncateName = (name) => {
-    if (name.length <= 50) {
-      return name;
-    }
-    return name.slice(0, 50) + "...";
-  };
   return (
     <div
       className="UserInfo_Manager"
@@ -152,7 +147,13 @@ const TableManageTb = (props) => {
           {listTb &&
             listTb.map((item, index) => (
               <tr key={`tb-${index}`}>
-                <td>{truncateName(item.deviceName)}</td>
+                <td
+                  style={{
+                    maxWidth: "450px",
+                  }}
+                >
+                  <p id="text_table">{item.deviceName}</p>
+                </td>
                 <td>{item.devicePrice}</td>
                 <td>{item.roomId}</td>
                 <td>

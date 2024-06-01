@@ -5,7 +5,8 @@ import Sign from "./Pages/Sign";
 import Loggin from "./Pages/Loggin";
 import Notification from "./Pages/Notification";
 import UserHomePage from "./Pages/UserHomePage";
-import UserComplain from "./Pages/UserComplain";
+import UserComplainPage from "./Pages/UserComplainPage";
+
 import UserContract from "./Pages/UserContract";
 
 import { useSelector } from "react-redux";
@@ -71,7 +72,7 @@ function App() {
             path="/user/Complain"
             element={
               <PrivateRoute>
-                <UserComplain />
+                <UserComplainPage />
               </PrivateRoute>
             }
           ></Route>{" "}
@@ -111,7 +112,7 @@ function App() {
           <Route path="/Recover/Password" element={<RecoverPassword />}></Route>
           <Route path="/category/:categories" element={<Category />} />
           <Route
-            path="/room/price"
+            path="/room/price/"
             element={<RoomPriceFilterPage></RoomPriceFilterPage>}
           ></Route>
         </Routes>
