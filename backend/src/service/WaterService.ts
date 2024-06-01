@@ -48,7 +48,7 @@ export class WaterService implements IWaterService {
 
   async getLastestWaterReading(roomId: number): Promise<WaterMeterReading> {
     try {
-      const waterReading = await this.waterRepository.getLatestElectricReading(roomId);
+      const waterReading = await this.waterRepository.getLastestWaterReading(roomId);
       if(!waterReading) {
         throw new AppError("Water reading not found", 404);
       }

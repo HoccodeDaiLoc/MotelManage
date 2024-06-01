@@ -10,6 +10,7 @@ export interface IBillService {
     roomId: number
   ): Promise<Bill>;
   getBill(searchCondidate: any): Promise<Bill>;
+  getListBill(searchCondidate: any, limit: number, page: number): Promise<{rows: Bill[], count: number}>;
   getBillByRenter(renterId: number, status: string, limit: number, page: number): Promise<{rows: Bill[], count: number}>;
   getBillByRoom(roomId: number, status: string, limit: number, page: number): Promise<{rows: Bill[], count: number}>;
   updateBillById(billId: number, data: any): Promise<Bill>;

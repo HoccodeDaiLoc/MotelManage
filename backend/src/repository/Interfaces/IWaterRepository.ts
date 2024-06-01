@@ -9,6 +9,6 @@ export interface IWaterRepository extends BaseInterface {
   ): Promise<WaterMeterReading>;
   getWaterReadingById(id: number): Promise<WaterMeterReading | null>;
   getWaterReadingByRoomIdAndDate(roomId: number, date: Date): Promise<WaterMeterReading | null>;
-  getLatestWaterReading(roomId: number): Promise<WaterMeterReading | null>;
+  getLastestWaterReading(roomId: number): Promise<WaterMeterReading | null>;
   getLastWaterReading(roomId: number): Promise<WaterMeterReading | null>;
 }

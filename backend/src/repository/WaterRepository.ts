@@ -52,7 +52,7 @@ export class WaterRepository
     }
   }
 
-  async getLatestWaterReading(roomId: number): Promise<WaterMeterReading | null> {
+  async getLastestWaterReading(roomId: number): Promise<WaterMeterReading | null> {
     try {
       const waterReading = await this.model.findOne({
         where: {
