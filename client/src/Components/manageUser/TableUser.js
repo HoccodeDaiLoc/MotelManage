@@ -9,6 +9,8 @@ import ModalConfirm from "./ModalConfirm"; // Kiểm tra lại tên component Mo
 import _ from "lodash";
 import { debounce } from "lodash";
 import ModalDetailUser from "./modalDetailUser";
+import style1 from "../../styles/UserHomePage.modules.scss";
+
 const TableUser = (props) => {
   const [listUser, setListUser] = useState([]);
   const [totalUser, setTotalUser] = useState(0);
@@ -82,7 +84,9 @@ const TableUser = (props) => {
   };
   const handDeleteUserFromModal = (user) => {
     let cloneListuser = _.cloneDeep(listUser);
-    cloneListuser = cloneListuser.filter((item) => item.renterId !== user.renterId);
+    cloneListuser = cloneListuser.filter(
+      (item) => item.renterId !== user.renterId
+    );
     setListUser(cloneListuser);
   };
   const confirmDelete = (user) => {
@@ -150,9 +154,21 @@ const TableUser = (props) => {
                 <tr key={`user-${index}`}>
                   <td>{item.name}</td>
                   <td>{formatDate(item.dateOfBirth)}</td>
-                  <td>{item.address}</td>
+                  <td
+                    style={{
+                      maxWidth: "130px",
+                    }}
+                  >
+                    <p id="text_table">{item.address}</p>
+                  </td>
                   <td>{item.phone}</td>
-                  <td>{item.email}</td>
+                  <td
+                    style={{
+                      maxWidth: "130px",
+                    }}
+                  >
+                    <p id="text_table">{item.email}</p>
+                  </td>
                   <td>{item.cccd}</td>
                   <td>
                     <button

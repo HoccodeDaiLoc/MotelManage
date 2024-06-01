@@ -111,12 +111,6 @@ const TableManageTb = (props) => {
     setIsShowModalDetailTb(true);
     setDataDetailTb(tb);
   };
-  const truncateName = (name) => {
-    if (name.length <= 50) {
-      return name;
-    }
-    return name.slice(0, 50) + "...";
-  };
   return (
     <div
       className="UserInfo_Manager"
@@ -153,7 +147,13 @@ const TableManageTb = (props) => {
           {listTb &&
             listTb.map((item, index) => (
               <tr key={`tb-${index}`}>
-                <td>{truncateName(item.deviceName)}</td>
+                <td
+                  style={{
+                    maxWidth: "450px",
+                  }}
+                >
+                  <p id="text_table">{item.deviceName}</p>
+                </td>
                 <td>{item.devicePrice}</td>
                 <td>{item.roomId}</td>
                 <td>

@@ -3,8 +3,7 @@
 
 .UserInfo_Wrapper{
     @extend %UserInfo;
-    background-color:#ffffff ;  
-    border-left: 1px solid #dee3e9;  
+    // background-color:#ffffff ;  
     .UserInfo_Container{
         .UserInfo_Item_Heading{
             padding-bottom: 10px;
@@ -27,7 +26,7 @@
                 width: 500px;
                 border-radius: 10px;
                 border: 0.2px solid rgba(0, 0, 0, .05);
-                padding:16px 10px;
+                padding:8px 10px;
                 outline: none;
                 // ko có viền khi click vào
             }

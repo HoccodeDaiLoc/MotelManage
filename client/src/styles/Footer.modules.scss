@@ -5,7 +5,7 @@ $footer_background: #f7f7f7;
 $footer_bordercolor:#e5e5e5;
 .footer_container {
     @extend %base;
-    background-color: #f7f7f7;
+    // background-color: #f7f7f7;
 
     display: flex;
     flex-direction: row;

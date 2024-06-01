@@ -2,12 +2,19 @@ import style from "../styles/UserInfo.modules.scss";
 import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
+import { fetchRoomByRenter } from "../service/RoomService";
 
 function UserRoom() {
-  const user = useSelector((state) => state.user.account);
-  const token = useSelector((state) => state.user.account.token);
-  console.log(user);
-  useEffect(() => {});
+  const [roomData, setRoomData] = useState("");
+  const id = useSelector((state) => state.user.account.id);
+  console.log(id);
+  useEffect(() => {
+    const fetchRoomByID = async (id) => {
+      let res = await fetchRoomByRenter(id);
+      setRoomData(res.room);
+    };
+    fetchRoomByID(id);
+  }, []);
   const [active, setActive] = useState();
   return (
     <div className="UserInfo_Wrapper">
@@ -18,42 +25,51 @@ function UserRoom() {
           <input
             type="text"
             maxLength={50}
-            placeholder="Số phòng"
-            // value={"Username"}
+            placeholder={
+              roomData.roomNumber != null
+                ? roomData.roomNumber
+                : "Phòng bạn đang thuê"
+            }
             className={"UserInfo_Item_Input"}
             disabled
           />
           {/* chưa có value, đang hard code */}
         </div>
         <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Họ tên</h6>
+          <h6 className="UserInfo_Item_Text">Giá phòng</h6>
           <input
             type="text"
             maxLength={50}
-            placeholder="Tên của bạn"
-            // value={"Username"}
+            placeholder={roomData.price != null ? roomData.price : "Giá phòng"}
+            disabled
             className={"UserInfo_Item_Input"}
           />
           {/* chưa có value, đang hard code */}
         </div>{" "}
         <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Email</h6>
+          <h6 className="UserInfo_Item_Text">Diện tích</h6>
           <input
             type="text"
             maxLength={50}
-            placeholder="Tên của bạn"
-            // value={"Username"}
+            placeholder={
+              roomData.roomArea != null ? roomData.roomArea : "Diện tích phòng"
+            }
+            disabled
             className={"UserInfo_Item_Input"}
           />
           {/* chưa có value, đang hard code */}
         </div>{" "}
         <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">CCCD</h6>
+          <h6 className="UserInfo_Item_Text">Số người tối đa cho phép</h6>
           <input
             type="text"
             maxLength={50}
-            placeholder="Tên của bạn"
-            // value={"Username"}
+            placeholder={
+              roomData.maxOccupancy != null
+                ? roomData.maxOccupancy
+                : "Số người ở tối đa mà phòng của bạn cho phép"
+            }
+            disabled
             className={"UserInfo_Item_Input"}
           />
           {/* chưa có value, đang hard code */}
@@ -63,26 +79,16 @@ function UserRoom() {
           <input
             type="text"
             maxLength={50}
-            placeholder="Tên của bạn"
-            // value={"Username"}
+            placeholder={
+              roomData.maxOccupancy != null
+                ? roomData.maxOccupancy
+                : "Số người ở tối đa mà phòng của bạn cho phép"
+            }
+            disabled
             className={"UserInfo_Item_Input"}
           />
           {/* chưa có value, đang hard code */}
         </div>{" "}
-        <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Ảnh hồ sơ</h6>
-          <input
-            type="text"
-            maxLength={50}
-            placeholder="Giúp tạo nét rất là ác"
-            // value={"Username"}
-            className={"UserInfo_Item_Input"}
-          />
-          {/* chưa có value, đang hard code */}
-        </div>
-        <button type="submit" className="UserInfo_Edit_Button">
-          Lưu
-        </button>
       </form>
     </div>
   );

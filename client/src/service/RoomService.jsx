@@ -21,6 +21,9 @@ const fetchRoomByPrice = (lowerPrice, higherPrice, currentPage) => {
     `/api/room/price?lp=${lowerPrice}&rp=${higherPrice}&limit=12&page=${currentPage}`
   );
 };
+const fetchRoomByRenter = (index) => {
+  return axios.get(`/api/room/renter/${index}`);
+};
 export {
   fetchAllRoom,
   fetchRoom,
@@ -28,4 +31,5 @@ export {
   fetchRoomByFeature,
   fetchRoomByPrice,
   fetchRoomByPage,
+  fetchRoomByRenter,
 };
