@@ -40,12 +40,13 @@ function RecoverCode() {
 
             <button
               className="submit_btn"
-              onClick={() => {
-                {
-                  console.log("check code", authData);
+              onClick={async () => {
+                let res = await postchecktoken(data, code);
+                console.log(res);
+                if (res.result === true) {
+                  navigate("/Recover/Password", { state: authData });
+                } else {
                 }
-                postchecktoken(data, code);
-                navigate("/Recover/Password", { state: authData });
               }}
             >
               Tìm kiếm

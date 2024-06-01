@@ -6,16 +6,14 @@ import Loggin from "./Pages/Loggin";
 import Notification from "./Pages/Notification";
 import UserHomePage from "./Pages/UserHomePage";
 import UserComplainPage from "./Pages/UserComplainPage";
-
 import UserContract from "./Pages/UserContract";
-
 import { useSelector } from "react-redux";
 import ManagerHeader from "./Components/ManagerHeader";
-
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Category from "./Pages/Category";
 import UserRoom from "./Pages/UserRoom";
+import UserBillPage from "./Pages/UserBillPage";
 import Deposit from "./Components/Deposit";
 import Identify from "./Pages/Identify";
 import RecoverInitiate from "./Pages/RecoverInitiatePage";
@@ -82,6 +80,14 @@ function App() {
             element={
               <PrivateRoute>
                 <UserHomePage />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route
+            path="/user/Bill"
+            element={
+              <PrivateRoute>
+                <UserBillPage></UserBillPage>
               </PrivateRoute>
             }
           ></Route>
