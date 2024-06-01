@@ -95,6 +95,26 @@ const UserSideBar = () => {
             </div>
           </NavLink>
         </div>
+        <div className="UserSideBar_Item">
+          <NavLink
+            to={"/user/Bill"}
+            onClick={() => {
+              handleClick("Bill");
+            }}
+            className={`UserSideBar_Detail ${activeItem === "Bill" ? "active" : ""}`}
+          >
+            <img
+              src="https://www.svgrepo.com/show/486134/contract-view-line.svg"
+              className="icon"
+              alt=""
+            />
+            <div
+              className={`UserSideBar_text ${activeItem === "Bill" ? "active" : ""}`}
+            >
+              Xem hóa đơn
+            </div>
+          </NavLink>
+        </div>
       </div>
     </div>
   );
