@@ -141,7 +141,7 @@ const TableManageTro = (props) => {
       <div className="col-4 my-3">
         <input
           className="form-control"
-          placeholder="Tìm kiếm số phòng"
+          placeholder="Tìm kiếm số phòng..."
           onChange={(event) => handleSearchTro(event)}
         />
       </div>
