@@ -12,16 +12,16 @@ import {
 import DropDownBoostrap from "./DropDownBoostrap";
 
 function RoomPriceFilter() {
+  const params = useSearchParams();
+
   const [items, setItems] = useState([]);
   const [totalPages, setTotalPages] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(params[0].get("page"));
   const location = useLocation(); // biến location chứa pathnam e
-  const state = location.state;
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log(state);
-  console.log(location);
-  const lowerPrice = state.lp;
-  const higherPrice = state.hp;
+  console.log(params[0]);
+  const lowerPrice = params[0].get("lp");
+  console.log(lowerPrice);
+  const higherPrice = params[0].get("rp");
   useEffect(() => {
     const fetchDataBasedOnLocation = async () => {
       const res = await fetchRoomByPrice(lowerPrice, higherPrice, currentPage);
