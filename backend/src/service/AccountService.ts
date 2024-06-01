@@ -67,6 +67,9 @@ export class AccountService implements IAccountService {
       if (!user) {
         throw new AppError("username or password invalid", 404);
       }
+      if(!(await Authentication.passwordCompare(password, user.password))) {
+        throw new AppError("username or password invalid", 404);
+      }
       const accessToken = Authentication.generateAccessToken(
         user.id,
         +user.isAdmin,

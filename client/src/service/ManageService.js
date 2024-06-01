@@ -15,11 +15,9 @@ const fetchAllTb = (page) => {
 const fetchAllHoadon = (page) => {
   return axios.get(`/api/users?page=${page}`);
 };
-
-const fetchAllHopdong = (page) => {
-  return axios.get(`api/contract?page=${page}`);
-};
-
+const fetchAllHd =(page) => {
+  return axios.get(`/api/contract?page=${page}`);
+}
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
   const renterList = new FormData();
   renterList.append("name", name);
@@ -59,9 +57,9 @@ const postCreateHoadon = (name, job) => {
 };
 
 
-const postCreateHd = (name, job) => {
-  return axios.post("/api/users", { name, job });
-};
+const postCreateHd = (startDay , rentAmount,roomId,renterId)=>{
+  return axios.post("/api/contract", { startDay , rentAmount,roomId,renterId });
+}
 const updateUser = (renterId, name, dateOfBirth, address, phone, email, cccd) => {
   console.log('renterId',renterId)
   return axios.put(`/api/renter/${renterId}`, {
@@ -94,10 +92,9 @@ const updateHoadon = (id, name, job) => {
   return axios.put(`/api/users/${id}`, { name, job });
 };
 
-const updateHd = (id, name, job) => {
-  return axios.put(`/api/users/${id}`, { name, job });
+const updateHd = (contractId, startDay,endDate,rentAmount,depositAmount,roomId,renterId) => {
+  return axios.put(`api/contract/${contractId}`, { startDay,endDate,rentAmount,depositAmount,roomId,renterId });
 };
-
 
 const deleteUser = (renterId) => {
   return axios.delete(`/api/renter/${renterId}`);
@@ -114,9 +111,10 @@ const deleteTb = (deviceId) => {
 const deleteHoadon = (id) => {
   return axios.delete(`/api/users/${id}`);
 };
-const deleteHd = (id) => {
-  return axios.delete(`/api/users/${id}`);
+const deleteHd = (contractId) =>{
+  return axios.delete(`/api/contract/${contractId}`)
 };
+
 
 export {
   fetchAllUser,
@@ -135,7 +133,7 @@ export {
   updateHoadon,
   deleteHoadon,
   postCreateHoadon,
-  fetchAllHopdong,
+  fetchAllHd,
   postCreateHd,
   updateHd,
   deleteHd

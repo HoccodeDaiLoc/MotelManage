@@ -25,7 +25,7 @@ export class BillItem extends Model {
         type: DataType.TEXT,
         field: BillItem.BILLITEM_NAME
     })
-    status!: number;
+    itemName!: number;
 
     @Column({
         type: DataType.DOUBLE,

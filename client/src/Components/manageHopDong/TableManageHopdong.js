@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import ReactPaginate from "react-paginate";
-import { fetchAllHopdong } from "../../service/ManageService";
-
-import ModalEditHd from "./modalEditHopdong"; // Sửa tên thành component viết hoa
-import ModalAddHd from "./modalAddHopdong"; // Sửa tên thành component viết hoa
-import ModalConfirmHd from "./modalConfirmHopdong";
-import { debounce } from "lodash";
+import React, { useEffect, useState } from 'react';
+import Table from 'react-bootstrap/Table';
+import ReactPaginate from 'react-paginate';
+import { fetchAllHd } from "../../service/ManageService";
+import ModalEditHd from './modalEditHd'
+import ModalAddHd from './modalAddHd';
+import ModalConfirmHd from'./modalConfirmHd'
+import {debounce} from "lodash";
 import _ from "lodash";
-import ModalDetailHd from "./modalDetailHopdong";
-import style from "../../styles/UserHomePage.modules.scss";
+import ModalDetailHd from './modalDetailHd';
+import { BiSolidBookAdd } from "react-icons/bi";
 
-const TableManageHopdong = (props) => {
+const TableManageHd = (props) => {
   const [listHd, setListHd] = useState([]);
   const [totalHd, setTotalHd] = useState(0);
   const [totalPageHd, setTotalPageHd] = useState(0);
+
   const [isShowModalAddHd, setIsShowModalAddHd] = useState(false);
   const [isShowModalEditHd, setIsShowModalEditHd] = useState(false);
   const [dataHdedit, setDataHdEdit] = useState({});
@@ -26,6 +26,15 @@ const TableManageHopdong = (props) => {
 
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
   const [dataDetailHd, setDataDetailHd] = useState({});
+  const formatDate = (date) => {
+
+    if (!date) return '';
+
+    const formattedDate = new Date(date).toLocaleDateString('vi-VN');
+
+    return formattedDate;
+
+  };
 
   const handleCloseHd = () => {
     setIsShowModalAddHd(false);
@@ -40,8 +49,14 @@ const TableManageHopdong = (props) => {
 
   const handleEditHdfrommodal = (hd) => {
     let cloneListHd = _.cloneDeep(listHd);
-    let index = listHd.findIndex((item) => item.id === hd.id);
-    cloneListHd[index].first_name = hd.first_name;
+    let index = listHd.findIndex(item => item.contractId === hd.contractId);
+    cloneListHd[index].startDay = hd.startDay;
+    cloneListHd[index].endDate = hd.endDate;
+    cloneListHd[index].rentAmount = hd.rentAmount;
+    cloneListHd[index].depositAmount = hd.depositAmount;
+    cloneListHd[index].roomId = hd.roomId;
+    cloneListHd[index].renterId = hd.roomId;
+
     setListHd(cloneListHd);
   };
 
@@ -52,16 +67,16 @@ const TableManageHopdong = (props) => {
 
   const getHd = async (page) => {
     try {
-      const res = await fetchAllHopdong(page);
-
+      const res = await fetchAllHd(page);
+      console.log("checkhd", res);
       if (res && res) {
         const { data, total_pages } = res.data;
-        setTotalHd(res.total);
+        setTotalHd(res.data.total);
         setListHd(res.data);
         setTotalPageHd(res.total_pages);
       }
     } catch (error) {
-      console.error("Error fetching hd data:", error);
+      console.error('Error fetching hd data:', error);
     }
   };
 
@@ -81,15 +96,15 @@ const TableManageHopdong = (props) => {
 
   const handDeleteHdFromModal = (hd) => {
     let cloneListHd = _.cloneDeep(listHd);
-    cloneListHd = cloneListHd.filter((item) => item.id !== hd.id);
+    cloneListHd = cloneListHd.filter(item => item.contractId !== hd.contractId);
     setListHd(cloneListHd);
   };
 
   const handleDetailHdfrommodal = (hd) => {
-    let cloneListhd = _.cloneDeep(listHd);
-    let index = listHd.findIndex((item) => item.id == hd.id);
-    cloneListhd[index].first_name = hd.first_name;
-    setListHd(cloneListhd);
+    let cloneListHd = _.cloneDeep(listHd);
+    let index = listHd.findIndex(item => item.id == hd.id);
+    cloneListHd[index].first_name = hd.first_name;
+    setListHd(cloneListHd);
   };
 
   const handleSearchHd = debounce((event) => {
@@ -97,9 +112,7 @@ const TableManageHopdong = (props) => {
     let term = event.target.value;
     if (term) {
       let cloneListHd = _.cloneDeep(listHd);
-      cloneListHd = cloneListHd.filter((item) =>
-        item.first_name.includes(term)
-      );
+      cloneListHd = cloneListHd.filter(item => item.roomNumber.toString().includes(term));
       setListHd(cloneListHd);
     } else {
       getHd(1);
@@ -110,71 +123,55 @@ const TableManageHopdong = (props) => {
     setIsShowModalDetailHd(true);
     setDataDetailHd(hd);
   };
-  const truncateName = (name) => {
-    if (name.length <= 50) {
-      return name;
-    }
-    return name.slice(0, 50) + "...";
+
+  const formatPrice = (price) => {
+    if (!price) return '';
+    return new Intl.NumberFormat('vi-VN').format(price) + ' VND';
   };
+
   return (
-    <div className="UserInfo_Manager" style={{ width: "80%" }}>
+    <>
       <div className="my-3 add-new">
-        <span>
-          <b>Danh sách thiết bị:</b>
-        </span>
-        <button
-          className="btn btn-success"
-          onClick={() => setIsShowModalAddHd(true)}
-        >
-          <i class="fa-solid fa-plug-circle-plus"></i> Thêm Thiết Bị
+        <span><b>Danh sách phòng trọ:</b></span>
+        <button className='btn btn-success' onClick={() => setIsShowModalAddHd(true)}>
+        <BiSolidBookAdd  className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-5px" }} />
+          Thêm Hợp Đồng
         </button>
       </div>
-      <div className="col-4 my-3">
-        <input
-          className="form-control"
-          placeholder="Tìm kiếm thiết bị "
+      <div className='col-4 my-3'>
+        <input className='form-control'
+          placeholder='Tìm kiếm hợp đồng'
           onChange={(event) => handleSearchHd(event)}
         />
       </div>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{ whiteSpace: "nowrap" }}>Tên thiết bị</th>
-            <th style={{ whiteSpace: "nowrap" }}>Giá thiết bị</th>
-            <th style={{ whiteSpace: "nowrap" }}>Phòng sử dụng</th>
-            <th style={{ whiteSpace: "nowrap" }}>Khác</th>
+       
+    
+            <th>Phòng thuê</th>
+            <th>Người thuê</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày hết hạn</th>
+            <th>Khác</th>
           </tr>
         </thead>
-        <hdody>
-          {listHd &&
-            listHd.map((item, index) => (
-              <tr key={`hd-${index}`}>
-                <td>{truncateName(item.deviceName)}</td>
-                <td>{item.devicePrice}</td>
-                <td>{item.roomId}</td>
-                <td>
-                  <button
-                    className="btn btn-warning mx-3"
-                    onClick={() => handleEditHd(item)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handDeleteHd(item)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-success mx-3"
-                    onClick={() => handDetailHd(item)}
-                  >
-                    Chi tiet
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </hdody>
+        <tbody>
+          {listHd && listHd.map((item, index) => (
+            <tr key={`hd-${index}`}>
+              <td>{item.roomId}</td>
+              <td>{item.renterId}</td>
+              <td>{formatDate(item.startDay)}</td> 
+              <td>{formatDate(item.endDate)}</td>
+              
+              <td>
+                <button className='btn btn-warning mx-3' onClick={() => handleEditHd(item)}>Edit</button>
+                <button className='btn btn-danger' onClick={() => handDeleteHd(item)}>Delete</button>
+                <button className='btn btn-success mx-3' onClick={() => handDetailHd(item)}>Chi tiết</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </Table>
       <ReactPaginate
         breakLabel="..."
@@ -218,8 +215,8 @@ const TableManageHopdong = (props) => {
         handleCloseHd={handleCloseHd}
         handleDetailHdfrommodal={handleDetailHdfrommodal}
       />
-    </div>
+    </>
   );
 };
 
-export default TableManageHopdong;
+export default TableManageHd;

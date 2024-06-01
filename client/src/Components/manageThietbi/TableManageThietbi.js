@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
 import { fetchAllTb } from "../../service/ManageService";
-
 import ModalEditTb from "./modalEditthietbi"; // Sửa tên thành component viết hoa
 import ModalAddTb from "./modalAddThietbi"; // Sửa tên thành component viết hoa
 import ModalConfirmTb from "./modalConfirmThietbi";
 import { debounce } from "lodash";
 import _ from "lodash";
 import ModalDetailTb from "./modalDetailThietBi";
-import style from "../../styles/UserHomePage.modules.scss";
+import { TbDeviceIpadDollar } from "react-icons/tb";
+
 
 const TableManageTb = (props) => {
   const [listTb, setListTb] = useState([]);
@@ -124,7 +124,8 @@ const TableManageTb = (props) => {
           className="them btn btn-success"
           onClick={() => setIsShowModalAddTb(true)}
         >
-          <i class="fa-solid fa-plug-circle-plus"></i> Thêm Thiết Bị
+          <TbDeviceIpadDollar    className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
+           Thêm Thiết Bị
         </button>
       </div>
       <div className="col-4 my-3">

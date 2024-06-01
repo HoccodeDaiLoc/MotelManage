@@ -10,6 +10,9 @@ import _ from "lodash";
 import { debounce } from "lodash";
 import ModalDetailUser from "./modalDetailUser";
 import style1 from "../../styles/UserHomePage.modules.scss";
+import { FaUserPlus } from "react-icons/fa";
+import { IoSettings } from "react-icons/io5";
+
 
 const TableUser = (props) => {
   const [listUser, setListUser] = useState([]);
@@ -125,7 +128,8 @@ const TableUser = (props) => {
           className=" them btn btn-success"
           onClick={() => setIsShowModalAdd(true)}
         >
-          <i class="fa-solid fa-user-plus"></i> Thêm danh sách
+          <FaUserPlus  className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
+        Thêm danh sách
         </button>
       </div>
       <div className="col-4 my-3">
@@ -176,6 +180,7 @@ const TableUser = (props) => {
                       onClick={() => handleEditUser(item)}
                     >
                       Edit
+                   
                     </button>
                     <button
                       className="btn btn-danger"

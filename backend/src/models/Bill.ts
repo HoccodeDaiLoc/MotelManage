@@ -9,7 +9,8 @@ import { BillItem } from "./BillItem";
 export class Bill extends Model {
     private static BILL_TABLE_NAME = "bill" as string;
     private static BILL_ID = "bill_id" as string;
-    private static BILL_DATE = "bill_date" as string;
+    private static BILL_START_DATE = "bill_start_date" as string;
+    private static BILL_END_DATE = "bill_end_date" as string;
     private static BILL_TOTAL = "total" as string;
     private static BILL_PAYMENT_METHOD = "payment_method" as string;
     private static BILL_STATUS = "status" as string;
@@ -24,9 +25,15 @@ export class Bill extends Model {
 
     @Column({
         type: DataType.DATE,
-        field: Bill.BILL_DATE
+        field: Bill.BILL_START_DATE
     })
-    billDate!: Date;
+    billStartDate!: Date;
+
+    @Column({
+        type: DataType.DATE,
+        field: Bill.BILL_END_DATE
+    })
+    billEndDate!: Date;
 
     @Column({
         type: DataType.DOUBLE,
