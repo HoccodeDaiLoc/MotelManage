@@ -52,15 +52,30 @@ export class WaterRepository
     }
   }
 
-  async getLatestElectricReading(roomId: number): Promise<WaterMeterReading | null> {
+  async getLatestWaterReading(roomId: number): Promise<WaterMeterReading | null> {
     try {
       const waterReading = await this.model.findOne({
         where: {
           roomId: roomId
         },
-        order: [["electricRecordDate", "DESC"]]
+        order: [["waterRecordDate", "DESC"]]
       });
       return waterReading;
+    }catch(err) {
+      throw err;
+    }
+  }
+
+  async getLastWaterReading(roomId: number): Promise<WaterMeterReading | null> {
+    try {
+      const waterReading = await this.model.findAll({
+        limit: 2,
+        where: {
+          roomId: roomId
+        },
+        order: [["waterRecordDate", "DESC"]]
+      });
+      return waterReading[1];
     }catch(err) {
       throw err;
     }

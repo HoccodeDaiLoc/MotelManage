@@ -15,6 +15,7 @@ import ContractRoutes from "../routes/ContractRoutes";
 import RentalRecordRoutes from "../routes/RentalRecordRoutes";
 import WaterReadingRoutes from "../routes/WaterReadingRoutes";
 import ElectricReadingRoutes from "../routes/ElectricReadingRoutes";
+import BillRoutes from "../routes/BillRoutes";
 dotenv.config();
 
 class App {
@@ -50,6 +51,7 @@ class App {
     this.app.use("/api/waterReading", WaterReadingRoutes);
     this.app.use("/api/rentalrecord", RentalRecordRoutes);
     this.app.use("/api/electricReading", ElectricReadingRoutes);
+    this.app.use("/api/bill", BillRoutes);
   }
 
   private plugins(): void {

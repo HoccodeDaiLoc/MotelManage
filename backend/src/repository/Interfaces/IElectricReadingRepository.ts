@@ -15,4 +15,5 @@ export interface IElectricReadingRepository extends BaseInterface {
   getLatestElectricReading(
     roomId: number
   ): Promise<ElectricityMeterReading | null>;
+  getLastElectricReading(roomId: number): Promise<ElectricityMeterReading | null>;
 }

@@ -13,7 +13,9 @@ export class RentalRecordRepository
 {
   async getRental(searchCondition: any): Promise<RentalRecord | null> {
     try {
-      const rental = await RentalRecord.findOne(searchCondition);
+      const rental = await RentalRecord.findOne({
+        where: searchCondition,
+      });
       return rental;
     }catch(err) {
       throw err;

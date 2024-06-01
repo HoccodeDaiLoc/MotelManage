@@ -61,4 +61,19 @@ export class ElectricReadingRepository
       throw err;
     }
   }
+
+  async getLastElectricReading(roomId: number): Promise<ElectricityMeterReading | null> {
+    try {
+      const electricReading = await ElectricityMeterReading.findAll({
+        limit: 2,
+        where: {
+          roomId: roomId,
+        },
+        order: [["electricRecordDate", "DESC"]],
+      });
+      return electricReading[1];
+    } catch (err) {
+      throw err;
+    }
+  }
 }
