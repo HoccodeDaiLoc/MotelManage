@@ -1,11 +1,13 @@
 import Header from "../Components/ManagerHeader";
-import TableManageHopdong from "../Components/manageHopDong/TableManageHopdong";
+import style from "../styles/UserHomePage.modules.scss";
+
+import TableManageHd from "../Components/manageHopDong/TableManageHopdong";
 function manageHopDong() {
   return (
         <div className="wrapper">
       <div className="main_container">
     <Header className="UserSide Bar" ></Header>
-      <TableManageHopdong className="UserInfo"></TableManageHopdong>    
+      <TableManageHd className="UserInfo"></TableManageHd>    
         </div>
     </div>
   );

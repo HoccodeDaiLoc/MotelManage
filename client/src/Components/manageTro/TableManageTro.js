@@ -9,6 +9,7 @@ import { debounce } from "lodash";
 import style from "../../styles/UserHomePage.modules.scss";
 import _ from "lodash";
 import ModalDetailTro from "../manageTro/modalDetailTro";
+import { MdAddHomeWork } from "react-icons/md";
 
 const TableManageTro = (props) => {
   const [listTro, setListTro] = useState([]);
@@ -133,13 +134,14 @@ const TableManageTro = (props) => {
           className=" them btn btn-success "
           onClick={() => setIsShowModalAddTro(true)}
         >
-          <i className="fa-solid fa-house-user "></i> Thêm Phòng
+          <MdAddHomeWork   className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
+           Thêm Phòng
         </button>
       </div>
       <div className="col-4 my-3">
         <input
           className="form-control"
-          placeholder="Tìm kiếm số phòng"
+          placeholder="Tìm kiếm số phòng..."
           onChange={(event) => handleSearchTro(event)}
         />
       </div>

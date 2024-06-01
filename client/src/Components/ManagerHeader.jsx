@@ -8,6 +8,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import logoApp from "../asset/image/imagethuetro.png";
 import "./ManagerHeader.modules.scss";
+import { FaUserFriends } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
+import { PiDevicesFill } from "react-icons/pi";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { FaBook } from "react-icons/fa";
 // import style from "../styles/UserHomePage.modules.scss";
 
 const Header = () => {
@@ -52,6 +57,7 @@ const Header = () => {
                   toggleSidebar();
                 }}
               >
+                 <FaUserFriends className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-8px" }} />
                 Quản lý khách hàng
               </Nav.Link>
               <Nav.Link
@@ -60,10 +66,12 @@ const Header = () => {
                 style={{ whiteSpace: "nowrap" }}
                 className={`my-2  ${getLinkClass("/pageQLPT")}`}
                 onClick={() => {
+                  
                   updateCurrentPage("Quản lý phòng trọ");
                   toggleSidebar();
                 }}
               >
+                <FaHome className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-8px" }} />
                 Quản lý phòng trọ
               </Nav.Link>
               <Nav.Link
@@ -76,6 +84,7 @@ const Header = () => {
                   toggleSidebar();
                 }}
               >
+                <PiDevicesFill  className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-8px" }} />
                 Quản lý thiết bị
               </Nav.Link>
               <Nav.Link
@@ -88,19 +97,8 @@ const Header = () => {
                   toggleSidebar();
                 }}
               >
+                <FaMoneyCheckDollar  className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-8px" }} />
                 Quản lý hóa đơn
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/pageQLDN"
-                style={{ whiteSpace: "nowrap" }}
-                className={`update my-2 ${getLinkClass("/pageQLDN")}`}
-                onClick={() => {
-                  updateCurrentPage("Quản lý điện nước");
-                  toggleSidebar();
-                }}
-              >
-                Quản lý điện nước
               </Nav.Link>
               <Nav.Link
                 as={Link}
@@ -112,6 +110,7 @@ const Header = () => {
                   toggleSidebar();
                 }}
               >
+                <FaBook   className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-8px" }} />
                 Quản lý hợp đồng
               </Nav.Link>
             </Nav>
