@@ -96,6 +96,15 @@ const putChangePass = (passwordCurrent, newPassword) => {
     }
   );
 };
+
+const fetchBillByRenter = (id) => {
+  return axios.get(`/api/bill/renter/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
 const putUpdateUser = (id, name, dateOfBirth, address, phone, email, cccd) => {
   return axios.put(
     `api/renter/${id}`,
@@ -143,4 +152,5 @@ export {
   postResetPassWord,
   putChangePass,
   postchecktoken,
+  fetchBillByRenter,
 };

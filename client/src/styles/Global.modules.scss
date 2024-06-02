@@ -13,6 +13,7 @@ $buttonbackground:#E2E4EB;
 $primaryRed:#DC3D35;
 $secondaryRed:#ff385c;
 
+
 *{
     list-style: none !important;
     text-decoration: none !important;
@@ -20,7 +21,8 @@ $secondaryRed:#ff385c;
     font-family:'Roboto', sans-serif !important;
     color: $primaryText;
 }
-
+td{text-align: center;}
+tr >th{text-align: center;}
 .bold{
     font-family: "Roboto",sans-serif;
     font-size: medium;
