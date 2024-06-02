@@ -111,7 +111,7 @@ export class BillService implements IBillService {
             totalAmont = quantity * unitPrice;
           } else if (itemName === "Nước") {
             const lastestWaterReading =
-              await this.waterRepository.getLatestWaterReading(roomId);
+              await this.waterRepository.getLastestWaterReading(roomId);
             if (
               lastestWaterReading &&
               new Date(lastestWaterReading.waterRecordDate).getTime() !==
@@ -157,6 +157,18 @@ export class BillService implements IBillService {
     } catch (err) {
       throw err;
     }
+  }
+
+  async getListBill(searchCondidate: any, limit: number, page: number): Promise<{ rows: Bill[]; count: number; }> {
+    try {
+      const bills = await this.billRepository.getListBill(searchCondidate, limit, page);
+      if (bills?.count === 0) {
+        throw new AppError("Bill not found", 404);
+      }
+      return bills!;
+    } catch(err) {
+      throw err;
+    } 
   }
 
   async getBillByRenter(

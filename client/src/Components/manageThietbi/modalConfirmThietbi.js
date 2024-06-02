@@ -32,7 +32,7 @@ const ModalConfirmTb = (props) => {
         <div className="body_add_new">
           Xác nhận xóa!
           <br />
-          <b>Tên thiết bị: {dataTbDelete.first_name}</b>
+          <b>Tên thiết bị: {dataTbDelete.deviceName}</b>
         </div>
       </Modal.Body>
       <Modal.Footer>

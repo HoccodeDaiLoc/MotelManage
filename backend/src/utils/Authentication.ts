@@ -6,6 +6,7 @@ interface Payload {
 	userId?: number;
 	role?: number;
 	username: string;
+	passwordChangeAt?: Date;
 }
 
 class Authentication {
@@ -28,6 +29,7 @@ class Authentication {
 		id: number,
 		role: number,
 		username: string,
+		passwordChangeAt: Date | undefined
 	) {
 		const secretKey: string = process.env.JWT_SECRET_KEY || 'my-secret-key';
 		const payload: Payload = {
@@ -35,14 +37,18 @@ class Authentication {
 			role: role,
 			username: username,
 		};
+		if(passwordChangeAt) {
+			payload.passwordChangeAt = passwordChangeAt;
+		}
 		const optionAccess = { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN };
 		return jwt.sign(payload, secretKey, optionAccess);
 	}
 
-	public static generateRefreshToken(username: string) {
+	public static generateRefreshToken(username: string, passwordChangeAt: Date | undefined) {
 		const secretKey: string = process.env.JWT_SECRET_KEY || 'my-secret-key';
 		const payload: Payload = {
 			username: username,
+			passwordChangeAt
 		};
 		const optionRefresh = { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN};
 		return jwt.sign(payload, secretKey, optionRefresh);
@@ -53,7 +59,7 @@ class Authentication {
 			const secretKey: string = process.env.JWT_SECRET_KEY || 'my-secret-key';
 			return jwt.verify(token, secretKey) as Payload;
 		} catch (err) {
-			return null;
+			throw err;
 		}
 	}
 }

@@ -3,6 +3,22 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { updateUser } from "../../service/ManageService";
 import { toast } from "react-toastify";
+import './ModalEdit.scss'
+
+// Utility function to format the date
+const formatDate = (date) => {
+  if (!date) return "";
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+const parseDate = (dateStr) => {
+  const [day, month, year] = dateStr.split('-');
+  return new Date(`${year}-${month}-${day}`);
+};
 
 const ModalEdit = (props) => {
   const { show, handleClose, dataUseredit, handleEditUserfrommodal } = props;
@@ -16,7 +32,7 @@ const ModalEdit = (props) => {
   const handleEditUser = async () => {
     if (name) {
       console.log("Starting updateUser with:", {
-        renterId: dataUseredit.renterId, 
+        renterId: dataUseredit.renterId,
         name,
         dateOfBirth,
         address,
@@ -26,7 +42,7 @@ const ModalEdit = (props) => {
       });
 
       let res = await updateUser(
-        dataUseredit.renterId, // 
+        dataUseredit.renterId,
         name,
         dateOfBirth,
         address,
@@ -38,7 +54,7 @@ const ModalEdit = (props) => {
 
       if (res) {
         handleEditUserfrommodal({
-          renterId: dataUseredit.renterId, 
+          renterId: dataUseredit.renterId,
           name,
           dateOfBirth,
           address,
@@ -61,14 +77,14 @@ const ModalEdit = (props) => {
       setName(dataUseredit.name);
       setAddress(dataUseredit.address);
       setEmail(dataUseredit.email);
-      setDateOfBirth(dataUseredit.dateOfBirth);
+      setDateOfBirth(formatDate(dataUseredit.dateOfBirth));
       setPhone(dataUseredit.phone);
       setCccd(dataUseredit.cccd);
     }
   }, [dataUseredit, show]);
 
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size='xl'>
       <Modal.Header closeButton>
         <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
       </Modal.Header>

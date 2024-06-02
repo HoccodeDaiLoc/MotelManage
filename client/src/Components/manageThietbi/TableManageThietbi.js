@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
-import { fetchAllTb } from "../../service/ManageService";
+import { fetchAllTb ,fetchAllTro } from "../../service/ManageService";
 import ModalEditTb from "./modalEditthietbi"; // Sửa tên thành component viết hoa
 import ModalAddTb from "./modalAddThietbi"; // Sửa tên thành component viết hoa
 import ModalConfirmTb from "./modalConfirmThietbi";
@@ -50,6 +50,7 @@ const TableManageTb = (props) => {
     // Call API
     getTb(1);
   }, []);
+  
 
   const getTb = async (page) => {
     try {
@@ -69,7 +70,6 @@ const TableManageTb = (props) => {
   const handlePageClick = (event) => {
     getTb(+event.selected + 1);
   };
-
   const handleEditTb = (tb) => {
     setDataTbEdit(tb);
     setIsShowModalEditTb(true);
@@ -99,7 +99,7 @@ const TableManageTb = (props) => {
     if (term) {
       let cloneListTb = _.cloneDeep(listTb);
       cloneListTb = cloneListTb.filter((item) =>
-        item.first_name.includes(term)
+        item.deviceName.includes(term)
       );
       setListTb(cloneListTb);
     } else {

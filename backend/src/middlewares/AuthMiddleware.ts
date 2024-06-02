@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import Container from "typedi";
 import { AccountService } from "../service/AccountService";
 import { AppError } from "../errors/AppError";
+import Authentication from "../utils/Authentication";
 
 const userService = Container.get(AccountService);
 
@@ -24,16 +25,25 @@ export const authAdmin = async (
       const searchConditions = {
         id: req.payload.userId,
       };
-      const role = (await userService.findOneAccount(searchConditions))?.isAdmin;
+      const role = (await userService.findOneAccount(searchConditions))
+        ?.isAdmin;
       if (role == req.payload.role) {
         return next();
       }
     }
-    return res.status(403).send("No permission!");
+    next(new AppError("No permission!", 403));
   } catch (err) {
-    return res.send(err);
+    next(err);
   }
 };
+
+function isTokenValidAfterPasswordChange(iat: any, passwordChangeAt: any) {
+  // Chuyển đổi passwordChangeAt về Unix timestamp tính bằng giây
+  const passwordChangeAtTimestamp = Math.floor(passwordChangeAt.getTime() / 1000);
+
+  // So sánh iat và passwordChangeAt
+  return iat >= passwordChangeAtTimestamp;
+}
 
 export const auth = (req: Request, res: Response, next: NextFunction): any => {
   let token: string | undefined;
@@ -54,14 +64,17 @@ export const auth = (req: Request, res: Response, next: NextFunction): any => {
   let secretKey = process.env.JWT_SECRET_KEY as string;
 
   try {
-    const credential: string | object = jwt.verify(token as string, secretKey);
-    if (credential) {
+    const credential: any = Authentication.validateToken(token);
+    if (
+      credential &&
+      credential.passwordChangeAt &&
+      isTokenValidAfterPasswordChange(credential.iat, new Date(credential.passwordChangeAt))
+    ) {
       req.payload = credential;
       return next();
     }
     return next(new AppError("Token invalid", 401));
   } catch (err: any) {
-    console.log("lỗi");
     next(err);
   }
 };
