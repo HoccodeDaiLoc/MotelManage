@@ -78,7 +78,7 @@ const ModalEditTb = (props) => {
       className="modal-add-tro"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
+        <Modal.Title>Chỉnh sửa danh sách thiết bị</Modal.Title>
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">

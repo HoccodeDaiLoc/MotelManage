@@ -27,7 +27,7 @@ const ModalConfirm = (props) => {
         <div className="body_add_new">
           Xác nhận xóa!
           <br />
-          <b>Ten = {dataUserDelete.first_name}</b>
+          <b>Ten = {dataUserDelete.name}</b>
         </div>
       </Modal.Body>
       <Modal.Footer>

@@ -90,7 +90,7 @@ function ModalEditTro({
       className="modal-add-tro"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Chinh sua danh sách</Modal.Title>
+        <Modal.Title>Chỉnh sửa danh sách trọ</Modal.Title>
       </Modal.Header>
       <Modal.Body className="body_add_new">
         {console.log("data", dataTroEdit)}

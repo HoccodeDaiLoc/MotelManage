@@ -81,13 +81,13 @@ const postchecktoken = (email, tokenpass) => {
   );
 };
 
-const putChangePass = (password, passwordCurrent) => {
-  console.log(passwordCurrent, password);
+const putChangePass = (passwordCurrent, newPassword) => {
+  console.log(passwordCurrent, newPassword);
   return axios.put(
     `/api/user/updatePassword`,
     {
       passwordCurrent: passwordCurrent,
-      password: password,
+      password: newPassword,
     },
     {
       headers: {

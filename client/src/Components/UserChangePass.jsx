@@ -49,7 +49,7 @@ function UserChangePassComponent() {
         </div>
         <div
           className="UserInfo_Edit_Button"
-          onClick={() => {
+          onClick={async () => {
             console.log(newPass);
             if (newPass === null || oldPass === null || checkPass === null) {
               toast.error("Nhập đầy đủ thông tin", {
@@ -76,7 +76,7 @@ function UserChangePassComponent() {
               newPass != undefined
             ) {
               try {
-                putChangePass(newPass, oldPass).then(() =>
+                putChangePass(oldPass, newPass).then(() =>
                   toast.success("Đã đổi mật khẩu thành công", {
                     position: "top-center",
                   })
