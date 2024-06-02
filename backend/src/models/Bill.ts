@@ -51,7 +51,7 @@ export class Bill extends Model {
         type: DataType.ENUM("đã thanh toán", "chưa thanh toán"),
         field: Bill.BILL_STATUS
     })
-    status!: number;
+    status!: string;
 
     @ForeignKey(() => Room)
     @Column({
