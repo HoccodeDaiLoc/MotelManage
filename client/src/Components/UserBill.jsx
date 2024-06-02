@@ -44,17 +44,14 @@ function UserBill() {
               </thead>
               <tbody>
                 {billData.map((bill) => (
-                  <>
-                    <tr key={bill.billId}>
-                      <td>{bill.billId}</td>
-                      <td>{bill.billStartDate.slice(0, 10)}</td>
-                      <td>{bill.billEndDate.slice(0, 10)}</td>
-                      <td>{bill.status}</td>
-
-                      <td>{bill.status}</td>
-                      <td>{bill.total}</td>
-                    </tr>
-                  </>
+                  <tr key={bill.billId}>
+                    <td>{bill.billId}</td>
+                    <td>{bill.billStartDate.slice(0, 10)}</td>
+                    <td>{bill.billEndDate.slice(0, 10)}</td>
+                    <td>{bill.status}</td>
+                    <td>{bill.status}</td>
+                    <td>{bill.total}</td>
+                  </tr>
                 ))}
               </tbody>
             </table>
