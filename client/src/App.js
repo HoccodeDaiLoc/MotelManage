@@ -26,16 +26,24 @@ import UserInfo from "./Components/UserInfo";
 import ManagerTro from "./Pages/ManagerTro";
 import ManageTb from "./Pages/ManageTb";
 import ManageUser from "./Pages/ManagerUser";
-
+import style from "./index.css";
 import ManageHopDong from "./Pages/ManageHopdong";
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
-  return auth ? children : "heeh";
+  return auth ? children : "error page html";
 }
 
 function SuperPrivateRoute({ children }) {
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
-  return isAdmin ? children : "???";
+  console.log("here", isAdmin);
+  if (isAdmin === "true" || isAdmin === true) {
+    console.log("there", isAdmin);
+    return children;
+  }
+  if (isAdmin === false) {
+    console.log(isAdmin);
+    return <div>error page html</div>;
+  }
 }
 function App() {
   return (
@@ -44,6 +52,7 @@ function App() {
         <Header></Header>
         <Routes>
           <Route
+            index
             path="/user/Room"
             element={
               <PrivateRoute>
@@ -91,19 +100,40 @@ function App() {
               </PrivateRoute>
             }
           ></Route>
-          {/* <Route
+          <Route
+            index
             path="/Home"
             element={
               <SuperPrivateRoute>
-                <TableUser />
+                <ManageUser></ManageUser>
               </SuperPrivateRoute>
             }
-          /> */}
-          <Route index path="/" element={<Rooms />} />
-          <Route path="/Home" element={<ManageUser />} />
-          <Route path="/pageQLPT" element={<ManagerTro></ManagerTro>} />
-          <Route path="/pageQLTB" element={<ManageTb />} />
-          <Route path="/pageHD" element={<ManageHopDong/>} />
+          />
+          <Route
+            path="/pageQLPT"
+            element={
+              <SuperPrivateRoute>
+                <ManagerTro></ManagerTro>
+              </SuperPrivateRoute>
+            }
+          />
+          <Route
+            path="/pageQLTB"
+            element={
+              <SuperPrivateRoute>
+                <ManageTb></ManageTb>
+              </SuperPrivateRoute>
+            }
+          />
+          <Route
+            path="/pageHD"
+            element={
+              <SuperPrivateRoute>
+                <ManageHopDong></ManageHopDong>
+              </SuperPrivateRoute>
+            }
+          />
+          <Route path="/" element={<Rooms />} />
           <Route path="/Notification" element={<Notification />}></Route>
           <Route path="/SignIn" element={<Sign />}></Route>
           <Route path="/Loggin" element={<Loggin />}></Route>

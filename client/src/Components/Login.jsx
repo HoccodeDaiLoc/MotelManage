@@ -17,7 +17,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const isLoading = useSelector((state) => state.user.isLoading);
+  const isAdmin = useSelector((state) => state.user.account.isAdmin);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.user.account.auth);
 
@@ -46,7 +46,10 @@ function Login() {
       console.log("access checking", account.accessToken);
       console.log("account checking", account.auth);
     }
-    if (auth === true) {
+    if (isAdmin === true) {
+      navigate("/Home");
+    }
+    if (auth === true && isAdmin === false) {
       navigate("/");
     }
   }, [account]);

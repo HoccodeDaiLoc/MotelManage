@@ -134,3 +134,24 @@
 .payment_window:hover{
     cursor: pointer;
 }
+.hover-text {
+    position: relative; /* Enable positioning for child elements */
+  }
+  
+  .hover-text:hover .hover-text-content {
+    z-index: 1000;
+    display: block; /* Show content on hover */
+    position: absolute; /* Position content relative to the parent */
+    transform: translateX(-50%); /* Fine-tune centering */
+    background-color: #fff; /* Set background color */
+    padding: 10px; /* Add padding */
+    left:70px;
+    top: 20px;
+    border-radius: 5px; /* Add rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+  }
+  
+  .hover-text-content {
+    display: none; /* Hide content initially */
+    /* Add additional styles for the tooltip content here */
+  }

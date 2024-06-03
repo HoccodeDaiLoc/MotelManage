@@ -1,13 +1,14 @@
 /* eslint-disable default-case */
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { storage } from "../utils/firebase";
+import style from "../styles/Upload.modules.scss";
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
   listAll,
 } from "firebase/storage";
-
 const metadata = {
   contentType: "image/jpeg",
 };
@@ -59,95 +60,89 @@ const UploadImage = () => {
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setUploadedImages([downloadURL, ...uploadedImages]);
-          alert("Upload image successfully, download URL: " + downloadURL);
+          toast.success(downloadURL, {
+            position: "top-center",
+          });
           setImage(null);
           setProgress(0);
-          console.log("File available at", downloadURL);
         });
       }
     );
   };
 
-  const getListAllImages = () => {
-    const listRef = ref(storage, "images");
+  const getLatestImage = async () => {
+    try {
+      const listRef = ref(storage, "images");
 
-    // Find all the prefixes and items.
-    listAll(listRef)
-      .then(async (res) => {
-        res.prefixes.forEach((folderRef) => {
-          console.log("folderRef", folderRef);
-          // All the prefixes under listRef.
-          // You may call listAll() recursively on them.
-        });
-
-        const images = await Promise.all(
-          res.items.map(async (itemRef) => {
-            const url = await getDownloadURL(itemRef);
-
-            return url;
-          })
-        );
-        setUploadedImages(images);
-      })
-      .catch((error) => {
-        console.error("Error getting download URL:", error);
-
-        // Uh-oh, an error occurred!
+      // List all items (up to 1 result) ordered by creation time (descending)
+      const result = await listAll(listRef, {
+        orderBy: storage.refField("metadata.creationTime"),
+        limit: 1,
+        startAfter: null, // Include all items
+        endBefore: null, // Include all items
       });
+
+      if (result.items.length > 0) {
+        const latestItemRef = result.items[0];
+        const latestImageUrl = await getDownloadURL(latestItemRef);
+        setUploadedImages([latestImageUrl]); // Update state with single URL
+      } else {
+        console.log("No images found in Firebase Storage");
+        // Optionally handle the case where no images are found
+      }
+    } catch (error) {
+      console.error("Error getting download URL:", error);
+    }
   };
 
   // useEffect(() => {
-  //   getListAllImages();
+  //   getLatestImage();
   // }, []);
   return (
-    <div className="py-10">
-      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <div className="mb-4">
+    <div className="Upload_container">
+      <div className="Upload_sub ">
+        <div className="image-input-container">
           <input
             type="file"
             onChange={handleChange}
             className="hidden"
             id="imageInput"
           />
-          <label
-            htmlFor="imageInput"
-            className="block bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer"
-          >
+          <label htmlFor="imageInput" className="InputText">
             Select Image
           </label>
-          {image && <p className="mt-2">Selected: {image.name}</p>}
+          {image && (
+            <p className="image_preview_title">Selected: {image.name}</p>
+          )}
           {image && (
             <img
               src={URL.createObjectURL(image)}
               alt="Preview"
-              className="mt-2 rounded-lg shadow-md"
+              className="image_preview_item"
               style={{ maxWidth: "100%", maxHeight: "200px" }}
             />
           )}
         </div>
         {progress > 0 && (
-          <progress value={progress} max="100" className="w-full" />
+          <progress
+            value={progress}
+            max="progress-bar"
+            className="progress-bar"
+          />
         )}
         {image && (
-          <button
-            onClick={handleUpload}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg"
-          >
+          <button onClick={handleUpload} className="btn_upload">
             Upload
           </button>
         )}
       </div>
       {uploadedImages.length > 0 && (
-        <div className="mt-4 container mx-auto">
-          <h2 className="text-lg font-semibold">Uploaded Images</h2>
-          <div className="mt-2 masonry sm:masonry-sm md:masonry-md">
+        <div className="uploaded_images_container">
+          <h2 className="uploaded_images_title">Uploaded Images</h2>
+          <div className="uploaded-images">
             {uploadedImages.map((url, index) => (
-              <div key={index} className="rounded-lg mb-6 break-inside">
-                <img
-                  src={url}
-                  alt={`Uploaded ${index}`}
-                  className="h-auto max-w-full rounded-lg"
-                />
+              <div key={index} className="">
+                <img src={url} alt={`Uploaded ${index}`} className="" />
               </div>
             ))}
           </div>

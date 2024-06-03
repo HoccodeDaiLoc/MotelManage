@@ -7,6 +7,7 @@ import { fetchBillByRenter } from "../service/UserService";
 import ReactPaginate from "react-paginate";
 import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { PaymentByMomo } from "../service/PaymentService";
+import momo from "../asset/image/momo.png";
 function UserBill() {
   const [billData, setBillData] = useState([]);
   const id = useSelector((state) => state.user.account.id);
@@ -69,16 +70,19 @@ function UserBill() {
                       {bill.status === "chưa thanh toán" &&
                       bill.paymentMethod === "chuyển khoản" ? (
                         <div className="icon_payment_container">
-                          <div className="icon_payment_sub">
+                          <div className="icon_payment_sub hover-text">
                             <img
                               onClick={() => {
                                 handlePayment(bill.billId, curentUrl);
                               }}
                               className="icon_payment"
-                              src="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
+                              src={momo}
                               alt=""
-                              srcset=""
+                              srcset="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
                             />
+                            <span class="hover-text-content">
+                              Thanh toán online với momo
+                            </span>
                           </div>
                         </div>
                       ) : (
