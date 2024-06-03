@@ -6,6 +6,7 @@ import { fetchCurrentUser, putUpdateUser } from "../service/UserService";
 import { toast } from "react-toastify";
 import { getDownloadURL, uploadBytesResumable, ref } from "firebase/storage";
 import { storage } from "../utils/firebase";
+import UploadImage from "./UploadImage";
 
 function UserInfo() {
   const id = useSelector((state) => state.user.account.id);
@@ -88,41 +89,6 @@ function UserInfo() {
       console.error("Error updating user:", error);
     }
   };
-  const [data, setData] = useState("");
-  // call setfile on file input onChange
-  const [file, setFile] = useState(null);
-  const UploadImage = () => {
-    //By creating a reference to a file, your app gains access to it.
-    const storageRef = ref(storage, file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("upload is" + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload paused");
-            break;
-          case "running":
-            console.log("Upload running");
-            break;
-          default:
-            break;
-        }
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadedURL) => {
-          // you keep uploaded img url
-          setData((prev) => ({ ...prev, img: downloadedURL }));
-        });
-      }
-    );
-  };
   return (
     <div className="UserInfo_Wrapper">
       <form className="UserInfo_Container" onSubmit={handleSubmit}>
@@ -204,7 +170,7 @@ function UserInfo() {
         </div>{" "}
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Ảnh hồ sơ</h6>
-          <input type="file" onChange={(e) => setFile(e.target.value)} />
+          <UploadImage></UploadImage>
         </div>
         <div
           className="UserInfo_Edit_Button"

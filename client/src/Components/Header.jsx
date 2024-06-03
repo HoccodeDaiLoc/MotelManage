@@ -8,6 +8,8 @@ import { handleLogoutRedux } from "../redux/actions/userAction";
 function Header(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.account);
+  const isAdmin = useSelector((state) => state.user.account.isAdmin);
+
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleLogout = () => {
@@ -18,7 +20,7 @@ function Header(props) {
 
   useEffect(() => {
     if (user && user.auth === false) {
-      navigate("/SignIn");
+      navigate("/Loggin");
       toast.success("Đăng xuất thành công", {
         position: "top-center",
       });
@@ -28,32 +30,24 @@ function Header(props) {
     <div className="header_container">
       <div className="header">
         <div className="nav_left">
-          <Link to="/">
-            <img
-              className="logo"
-              src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
-              alt="logo"
-            ></img>
-          </Link>
+          {isAdmin ? (
+            <Link to="/Home">
+              <img
+                className="logo"
+                src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
+                alt="logo"
+              ></img>
+            </Link>
+          ) : (
+            <Link to="/">
+              <img
+                className="logo"
+                src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
+                alt="logo"
+              ></img>
+            </Link>
+          )}
         </div>
-        {/* 
-        <nav
-          id="white_background"
-          class="search_form navbar navbar-light  justify-content-between"
-        >
-          <form class="search_container form-inline ">
-            <input
-              class="search_input form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-              Search
-            </button>
-          </form>
-        </nav> */}
-
         <div className="nav_right">
           <div className="nav_right_item">
             <NavLink className="icon_container" to={"Notification"}>
@@ -64,7 +58,6 @@ function Header(props) {
               ></img>
             </NavLink>{" "}
           </div>
-
           <div className="nav_right_item">
             <NavLink className="icon_container" to="Support">
               <img
@@ -127,7 +120,7 @@ function Header(props) {
                         className="modal_part"
                         onClick={() => {
                           handleLogout();
-                          navigate("/");
+                          navigate("/Loggin");
                         }}
                       >
                         <div className="modal_icon_container">
@@ -141,7 +134,7 @@ function Header(props) {
                       </Link>
                     ) : (
                       <Link
-                        to={"/Loggin"}
+                        to={"/SignIn"}
                         className="modal_part"
                         onClick={() => {
                           setShow(!show);

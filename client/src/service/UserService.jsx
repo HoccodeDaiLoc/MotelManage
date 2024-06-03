@@ -96,6 +96,18 @@ const putChangePass = (passwordCurrent, newPassword) => {
     }
   );
 };
+
+const fetchBillByRenter = (id, currentPage) => {
+  return axios.get(
+    `/api/bill/renter/${id}?limit=12&page=${currentPage}&status=Chưa thanh toán`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
+
 const putUpdateUser = (id, name, dateOfBirth, address, phone, email, cccd) => {
   return axios.put(
     `api/renter/${id}`,
@@ -143,4 +155,5 @@ export {
   postResetPassWord,
   putChangePass,
   postchecktoken,
+  fetchBillByRenter,
 };

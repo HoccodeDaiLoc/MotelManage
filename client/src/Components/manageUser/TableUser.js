@@ -12,12 +12,16 @@ import ModalDetailUser from "./modalDetailUser";
 import style1 from "../../styles/UserHomePage.modules.scss";
 import { FaUserPlus } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
-
+import { useSelector } from "react-redux";
 
 const TableUser = (props) => {
   const [listUser, setListUser] = useState([]);
   const [totalUser, setTotalUser] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
+  const isAdmin = useSelector((state) => state.user.account.isAdmin);
+  console.log("check admin", isAdmin);
+  const auth = useSelector((state) => state.user.account.auth);
+  console.log(auth);
 
   const [isShowModalAdd, setIsShowModalAdd] = useState(false);
   const [isShowModalEdit, setIsShowModalEdit] = useState(false);
@@ -128,8 +132,11 @@ const TableUser = (props) => {
           className=" them btn btn-success"
           onClick={() => setIsShowModalAdd(true)}
         >
-          <FaUserPlus  className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
-        Thêm danh sách
+          <FaUserPlus
+            className="mr-2 mx-1"
+            style={{ fontSize: "1.3em", marginTop: "-5px" }}
+          />
+          Thêm danh sách
         </button>
       </div>
       <div className="col-4 my-3">
@@ -180,7 +187,6 @@ const TableUser = (props) => {
                       onClick={() => handleEditUser(item)}
                     >
                       Edit
-                   
                     </button>
                     <button
                       className="btn btn-danger"

@@ -2,96 +2,126 @@ import Dropdown from "react-bootstrap/Dropdown";
 import style from "../styles/UserInfo.modules.scss";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchRoomByRenter } from "../service/RoomService";
+import { fetchBillByRenter } from "../service/UserService";
 
+import ReactPaginate from "react-paginate";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { PaymentByMomo } from "../service/PaymentService";
+import momo from "../asset/image/momo.png";
 function UserBill() {
-  const [roomData, setRoomData] = useState("");
+  const [billData, setBillData] = useState([]);
   const id = useSelector((state) => state.user.account.id);
-  console.log(id);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [unpaidBill, setUnpaidBill] = useState([]);
+  let curentUrl = useLocation().pathname;
   useEffect(() => {
-    const fetchRoomByID = async (id) => {
-      let res = await fetchRoomByRenter(id);
-      setRoomData(res.room);
+    const fetchBill = async (id, currentPage) => {
+      try {
+        const res = await fetchBillByRenter(id, currentPage);
+        setBillData(res.data);
+        console.log(res);
+        console.log(res.data[0].status);
+        setTotalPages(res.total_page);
+      } catch (error) {
+        console.error("Error fetching bills:", error);
+      }
     };
-    fetchRoomByID(id);
-  }, []);
-  const [active, setActive] = useState();
+    fetchBill(id, currentPage);
+  }, [currentPage]);
+
+  const handlePayment = async (billId, rederedirectUrl) => {
+    const res = await PaymentByMomo(billId, rederedirectUrl);
+    window.open(res.result.payUrl, "_blank");
+  };
+
+  const handlePageClick = (event) => {
+    const newCurrentPage = event.selected + 1;
+    setCurrentPage(newCurrentPage);
+  };
+
   return (
     <div className="UserInfo_Wrapper">
-      <form className="UserInfo_Container">
-        <h4 className="UserInfo_Item_Heading">Phòng của tôi</h4>
-        <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Số phòng</h6>
-          <input
-            type="text"
-            maxLength={50}
-            placeholder={
-              roomData.roomNumber != null
-                ? roomData.roomNumber
-                : "Phòng bạn đang thuê"
-            }
-            className={"UserInfo_Item_Input"}
-            disabled
-          />
-          {/* chưa có value, đang hard code */}
-        </div>
-        <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Giá phòng</h6>
-          <input
-            type="text"
-            maxLength={50}
-            placeholder={roomData.price != null ? roomData.price : "Giá phòng"}
-            disabled
-            className={"UserInfo_Item_Input"}
-          />
-          {/* chưa có value, đang hard code */}
-        </div>{" "}
-        <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Diện tích</h6>
-          <input
-            type="text"
-            maxLength={50}
-            placeholder={
-              roomData.roomArea != null ? roomData.roomArea : "Diện tích phòng"
-            }
-            disabled
-            className={"UserInfo_Item_Input"}
-          />
-          {/* chưa có value, đang hard code */}
-        </div>{" "}
-        <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Số người tối đa cho phép</h6>
-          <input
-            type="text"
-            maxLength={50}
-            placeholder={
-              roomData.maxOccupancy != null
-                ? roomData.maxOccupancy
-                : "Số người ở tối đa mà phòng của bạn cho phép"
-            }
-            disabled
-            className={"UserInfo_Item_Input"}
-          />
-          {/* chưa có value, đang hard code */}
-        </div>{" "}
-        <div className="UserInfo_Item">
-          <h6 className="UserInfo_Item_Text">Số điện thoại</h6>
-          <input
-            type="text"
-            maxLength={50}
-            placeholder={
-              roomData.maxOccupancy != null
-                ? roomData.maxOccupancy
-                : "Số người ở tối đa mà phòng của bạn cho phép"
-            }
-            disabled
-            className={"UserInfo_Item_Input"}
-          />
-          {/* chưa có value, đang hard code */}
-        </div>{" "}
-      </form>
+      <div className="UserInfo_Container">
+        {billData.length > 0 ? (
+          <>
+            <h4 className="UserInfo_Item_Heading">Hóa đơn của bạn</h4>
+            <table className="UserInfo_Table">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Ngày tạo hóa đơn</th>
+                  <th>Hạn thanh toán</th>
+                  <th>Phương thức thanh toán</th>
+                  <th>Trạng thái thanh toán</th>
+                  <th>Số tiền thanh toán</th>
+                </tr>
+              </thead>
+              <tbody>
+                {billData.map((bill) => (
+                  <tr key={bill.billId}>
+                    <td>{bill.billId}</td>
+                    <td>{bill.billStartDate.slice(0, 10)}</td>
+                    <td>{bill.billEndDate.slice(0, 10)}</td>
+                    <td>{bill.paymentMethod}</td>
+                    <td>
+                      {bill.status}
+
+                      {bill.status === "chưa thanh toán" &&
+                      bill.paymentMethod === "chuyển khoản" ? (
+                        <div className="icon_payment_container">
+                          <div className="icon_payment_sub hover-text">
+                            <img
+                              onClick={() => {
+                                handlePayment(bill.billId, curentUrl);
+                              }}
+                              className="icon_payment"
+                              src={momo}
+                              alt=""
+                              srcset="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
+                            />
+                            <span class="hover-text-content">
+                              Thanh toán online với momo
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                    <td>{bill.total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="paginate_container">
+              <ReactPaginate
+                previousLabel="Previous"
+                nextLabel="Next"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                pageCount={totalPages} //tổng
+                marginPagesDisplayed={2} //số page đầu cuối
+                pageRangeDisplayed={5} //số page ở giữa
+                onPageChange={handlePageClick}
+                containerClassName="pagination"
+                activeClassName="active"
+                // forcePage={pageOffset}
+              />
+            </div>
+          </>
+        ) : (
+          "Bạn chưa có hóa đơn nào"
+        )}
+      </div>
     </div>
   );
 }
-
 export default UserBill;

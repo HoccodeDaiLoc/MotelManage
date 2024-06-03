@@ -1,16 +1,15 @@
 import Header from "../Components/ManagerHeader";
 import style from "../styles/UserHomePage.modules.scss";
-
-import TableManageHd from "../Components/manageHopDong/TableManageHopdong";
-function manageHopDong() {
+import TableManageHoadon from "../Components/manageHoadon/TableManageHoadon";
+function manageHoadon() {
   return (
     <div className="wrapper">
       <div className="main_container">
         <Header className="UserSideBar"></Header>
-        <TableManageHd className="UserInfo"></TableManageHd>
+        <TableManageHoadon className="UserInfo"></TableManageHoadon>
       </div>
     </div>
   );
 }
 
-export default manageHopDong;
+export default manageHoadon;
