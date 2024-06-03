@@ -12,8 +12,12 @@ const fetchAllTb = (page) => {
   return axios.get(`/api/device?page=${page}&limit=6`);
 };
 
-const fetchAllHoadon = (page) => {
-  return axios.get(`/api/users?page=${page}`);
+const fetchAllHoadon = (status) => {
+  return axios.get(`/api/bill`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+};
+
+const fetchAllstatusHd = (status) => {
+  return axios.get(`/api/bill?status=${status}`); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
 const fetchAllHd =(page) => {
   return axios.get(`/api/contract?page=${page}`);
@@ -52,10 +56,9 @@ const postCreateTb = (deviceName, devicePrice,roomId) => {
   return axios.post("/api/device", { deviceName, devicePrice ,roomId});
 };
 
-const postCreateHoadon = (name, job) => {
-  return axios.post("/api/users", { name, job });
-};
-
+const postCreateHoadon = (billStartDate , billEndDate,payMethod,billStatus,waterPrice,electricPrice,roomId)=>{
+  return axios.post("/api/bill/", { billStartDate , billEndDate,payMethod,billStatus,waterPrice,electricPrice,roomId});
+}
 
 const postCreateHd = (startDay , rentAmount,roomId,renterId)=>{
   return axios.post("/api/contract", { startDay , rentAmount,roomId,renterId });
@@ -108,8 +111,8 @@ const deleteTb = (deviceId) => {
   return axios.delete(`/api/device/${deviceId}`);
 };
 
-const deleteHoadon = (id) => {
-  return axios.delete(`/api/users/${id}`);
+const deleteHoadon = (billId) => {
+  return axios.delete(`/api/users/${billId}`);
 };
 const deleteHd = (contractId) =>{
   return axios.delete(`/api/contract/${contractId}`)
@@ -133,10 +136,12 @@ export {
   updateHoadon,
   deleteHoadon,
   postCreateHoadon,
+  fetchAllstatusHd,
   fetchAllHd,
   postCreateHd,
   updateHd,
-  deleteHd
+  deleteHd,
+
 
 
 };

@@ -21,12 +21,12 @@ import RecoverCode from "./Pages/RecoverCodePage";
 import RecoverPassword from "./Pages/RecoverPasswordPage";
 import UserChangePass from "./Pages/UserChangePass";
 import RoomPriceFilterPage from "./Pages/RoomPriceFilterPage";
-import TableManageHoadon from "./Components/manageHoadon/TableManageHoadon";
 import UserInfo from "./Components/UserInfo";
 import ManagerTro from "./Pages/ManagerTro";
 import ManageTb from "./Pages/ManageTb";
 import ManageUser from "./Pages/ManagerUser";
-import style from "./index.css";
+import ManageHoadon from "./Pages/ManageHoadon";
+
 import ManageHopDong from "./Pages/ManageHopdong";
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);

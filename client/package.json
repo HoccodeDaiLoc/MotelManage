@@ -18,6 +18,8 @@
     "firebase": "^10.12.2",
     "formik": "^2.4.6",
     "install": "^0.13.0",
+    "mdb-react-ui-kit": "^8.0.0",
+    "moment": "^2.30.1",
     "npm": "^10.7.0",
     "react": "^18.2.0",
     "react-autosize-input": "^0.0.1",
