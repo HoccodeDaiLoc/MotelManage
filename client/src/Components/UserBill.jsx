@@ -4,26 +4,40 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { fetchBillByRenter } from "../service/UserService";
 
+import ReactPaginate from "react-paginate";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { PaymentByMomo } from "../service/PaymentService";
 function UserBill() {
-  const [billData, setBillData] = useState([]); // Use an array for multiple bills
-  const [currentPage, setCurrentPage] = useState(1);
+  const [billData, setBillData] = useState([]);
   const id = useSelector((state) => state.user.account.id);
-
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [unpaidBill, setUnpaidBill] = useState([]);
+  let curentUrl = useLocation().pathname;
   useEffect(() => {
-    const fetchBill = async (id) => {
+    const fetchBill = async (id, currentPage) => {
       try {
-        const res = await fetchBillByRenter(id);
-        setBillData(res.data); // Assuming the API response is an array of bills
+        const res = await fetchBillByRenter(id, currentPage);
+        setBillData(res.data);
+        console.log(res);
+        console.log(res.data[0].status);
+        setTotalPages(res.total_page);
       } catch (error) {
         console.error("Error fetching bills:", error);
-        // Handle error gracefully, e.g., display an error message to the user
       }
     };
-
-    fetchBill(id);
+    fetchBill(id, currentPage);
   }, [currentPage]);
 
-  const [active, setActive] = useState(false); // Assume dropdown starts closed
+  const handlePayment = async (billId, rederedirectUrl) => {
+    const res = await PaymentByMomo(billId, rederedirectUrl);
+    window.open(res.result.payUrl, "_blank");
+  };
+
+  const handlePageClick = (event) => {
+    const newCurrentPage = event.selected + 1;
+    setCurrentPage(newCurrentPage);
+  };
 
   return (
     <div className="UserInfo_Wrapper">
@@ -34,12 +48,12 @@ function UserBill() {
             <table className="UserInfo_Table">
               <thead>
                 <tr>
-                  <th>Mã số hóa đơn</th>
+                  <th>Mã</th>
                   <th>Ngày tạo hóa đơn</th>
                   <th>Hạn thanh toán</th>
                   <th>Phương thức thanh toán</th>
                   <th>Trạng thái thanh toán</th>
-                  <th>Số tiền phải thanh toán</th>
+                  <th>Số tiền thanh toán</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,16 +62,59 @@ function UserBill() {
                     <td>{bill.billId}</td>
                     <td>{bill.billStartDate.slice(0, 10)}</td>
                     <td>{bill.billEndDate.slice(0, 10)}</td>
-                    <td>{bill.status}</td>
-                    <td>{bill.status}</td>
+                    <td>{bill.paymentMethod}</td>
+                    <td>
+                      {bill.status}
+
+                      {bill.status === "chưa thanh toán" &&
+                      bill.paymentMethod === "chuyển khoản" ? (
+                        <div className="icon_payment_container">
+                          <div className="icon_payment_sub">
+                            <img
+                              onClick={() => {
+                                handlePayment(bill.billId, curentUrl);
+                              }}
+                              className="icon_payment"
+                              src="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
+                              alt=""
+                              srcset=""
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </td>
                     <td>{bill.total}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <div className="paginate_container">
+              <ReactPaginate
+                previousLabel="Previous"
+                nextLabel="Next"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                pageCount={totalPages} //tổng
+                marginPagesDisplayed={2} //số page đầu cuối
+                pageRangeDisplayed={5} //số page ở giữa
+                onPageChange={handlePageClick}
+                containerClassName="pagination"
+                activeClassName="active"
+                // forcePage={pageOffset}
+              />
+            </div>
           </>
         ) : (
-          "Bạn chưa tạo hóa đơn nào"
+          "Bạn chưa có hóa đơn nào"
         )}
       </div>
     </div>

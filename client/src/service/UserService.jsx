@@ -97,12 +97,15 @@ const putChangePass = (passwordCurrent, newPassword) => {
   );
 };
 
-const fetchBillByRenter = (id) => {
-  return axios.get(`/api/bill/renter/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+const fetchBillByRenter = (id, currentPage) => {
+  return axios.get(
+    `/api/bill/renter/${id}?limit=12&page=${currentPage}&status=Chưa thanh toán`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
 };
 
 const putUpdateUser = (id, name, dateOfBirth, address, phone, email, cccd) => {

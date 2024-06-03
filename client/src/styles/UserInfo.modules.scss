@@ -28,7 +28,11 @@
             white-space: nowrap;
             padding: 12px 15px;
         }
-        
+        .UserInfo_Table tbody tr td:nth-child(5){
+            display: flex;
+            flex-direction: row;
+
+        }
         .UserInfo_Table tbody tr {
             border-bottom: 1px solid #dddddd;
         }
@@ -45,7 +49,23 @@
             font-weight: bold;
             color: #009879;
         }
-        
+        .UserInfo_Table tbody tr td{
+            .icon_payment_container{
+                width: 100%;
+                height: 100%;
+                padding-left: 12px;
+                .icon_payment_sub{
+                    width: fit-content;
+                    height: fit-content;
+                    display: flex;
+                   .icon_payment{
+                    width: 21.6px;
+                    height: 21.6px;
+                    cursor: pointer;
+                   } 
+                }
+            }
+        }
         .UserInfo_Item{
             display: flex;
             flex-direction: row;
@@ -106,4 +126,11 @@
     .dob{
         margin-left: 30px;
     }
+}
+.payment_window{
+   width:100%;
+   height:100%;
+}
+.payment_window:hover{
+    cursor: pointer;
 }
