@@ -133,6 +133,14 @@ function App() {
               </SuperPrivateRoute>
             }
           />
+          <Route
+            path="/PageBill"
+            element={
+              <SuperPrivateRoute>
+                <ManageHoadon></ManageHoadon>
+              </SuperPrivateRoute>
+            }
+          />
           <Route path="/" element={<Rooms />} />
           <Route path="/Notification" element={<Notification />}></Route>
           <Route path="/SignIn" element={<Sign />}></Route>
