@@ -144,13 +144,15 @@ export class BillRepository
     endDate: Date,
     status: string | undefined,
     limit: number,
-    page: number
+    page: number,
+    searchCondidate: any
   ): Promise<{rows: Bill[], count: number} | null> {
     try {
       let whereClause: {
         status?: string;
         billStartDate?: any;
         billEndDate?: any;
+        roomId?: number;
       } = {
         billStartDate: {
           [Op.gte]: startDate,
@@ -163,6 +165,11 @@ export class BillRepository
       }
       if (status) {
         whereClause["status"] = status;
+      }
+      for(let key in searchCondidate) {
+        if(key === "roomId") {
+          whereClause[key] = searchCondidate[key];
+        }
       }
       const bills = await Bill.findAndCountAll({
         limit: limit,

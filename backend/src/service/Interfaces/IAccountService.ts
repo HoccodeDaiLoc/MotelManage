@@ -7,7 +7,8 @@ export interface IAccountService {
     password: string,
     email: string
   ): Promise<Account>;
-  findOneAccount(searchConditions: any): Promise<Account | null>; 
+  findOneAccount(searchConditions: any): Promise<Account | null>;
+  updateAvatar(userId: number, avatar: string): Promise<Account>;
   login(username: string, password: string): Promise<any>;
   updatePassword(numberId: number, passwordCurrent: string, password: string): Promise<any>;
   getAccessTokenByRefreshToken: (refreshToken: string) => Promise<any>;

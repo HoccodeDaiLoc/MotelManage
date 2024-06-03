@@ -3,12 +3,23 @@ import { BillRepository } from "../repository/BillRepository";
 import { IBillRepository } from "../repository/Interfaces/IBillRepository";
 import axios from "axios";
 import dotenv from "dotenv";
+import { NotificationService } from "./NotificationService";
+import { INotificationService } from "./Interfaces/INotificationService";
+import { RenterService } from "./RenterService";
+import { RenterRepository } from "../repository/RenterRepository";
+import { IRenterRepository } from "../repository/Interfaces/IRenterRepository";
 dotenv.config();
 
 @Service()
 export class PaymentService implements PaymentService {
   @Inject(() => BillRepository)
   private billRepository!: IBillRepository;
+
+  @Inject(() => NotificationService)
+  private notificationService!: INotificationService;
+
+  @Inject(() => RenterService)
+  private renterService!: IRenterRepository;
 
   paymentWithMoMo = async (
     billId: number,
@@ -108,7 +119,24 @@ export class PaymentService implements PaymentService {
 
   async updatePaymentStatus(billId: number) {
     try {
-      await this.billRepository.updateBillByID(billId, {status: "Đã thanh toán", paymentMethod: "Chuyển khoản"});
+      await this.billRepository.updateBillByID(billId, {
+        status: "Đã thanh toán",
+        paymentMethod: "Chuyển khoản",
+      });
+      const bill = await this.billRepository.getBill({ billId });
+      const admins = await this.renterService.getAllAdmin();
+      const adminIds = admins!.map((admin) => {
+        const adminJson = admin.toJSON();
+        return adminJson.renterId;
+      });
+      const notifications = await this.notificationService.createNotification(
+        "Hóa đơn đã được thanh toán",
+        `Hóa đơn phòng ${bill?.billId} đã được thanh toán`,
+        new Date(),
+        adminIds,
+        undefined
+      );
+      return notifications;
     } catch (err) {
       throw err;
     }

@@ -14,6 +14,8 @@ import { Bill } from "../models/Bill";
 import { BillItem } from "../models/BillItem";
 import { Account } from "../models/Account";
 import { DeviceCategory } from "../models/DeviceCategory";
+import { Notification } from "../models/Notification";
+import { NotificationSubject } from "../models/NotificationSubject";
 
 dotenv.config();
 
@@ -66,7 +68,9 @@ class Database {
       Bill,
       BillItem,
       Account,
-      DeviceCategory
+      DeviceCategory,
+      Notification,
+      NotificationSubject
     ]);
     await this.sequelize
       .authenticate()

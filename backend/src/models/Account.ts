@@ -8,6 +8,7 @@ import { Renter } from "./Renter";
 export class Account extends Model {
     private static ACCOUNT_TABLE_NAME = "Accounts" as string;
     private static ACCOUNT_ID = "id" as string;
+    private static ACCOUNT_AVATAR = "avatar" as string;
     private static ACCOUNT_USERNAME = "username" as string;
     private static ACCOUNT_PASSWORD = "password" as string;
     private static ACCOUNT_PASSWORD_CHANGE_AT = "password_change_at" as string;
@@ -26,8 +27,14 @@ export class Account extends Model {
 
     @Column({
         type: DataType.TEXT,
+        field: Account.ACCOUNT_AVATAR,
+    })
+    avatar!: string;
+
+    @Column({
+        type: DataType.TEXT,
         field: Account.ACCOUNT_USERNAME,
-        unique: true
+        unique: true,
     })
     username!: string;
 

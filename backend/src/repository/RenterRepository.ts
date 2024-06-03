@@ -2,18 +2,59 @@ import { Service } from "typedi";
 import { Renter } from "../models/Renter";
 import { BaseRepository } from "./BaseRepository";
 import { IRenterRepository } from "./Interfaces/IRenterRepository";
+import { RentalRecord } from "../models/RentalRecord";
 
 @Service()
 export class RenterRepository
   extends BaseRepository<Renter>
   implements IRenterRepository
 {
-  async getAllRenter(page: number, limit: number): Promise<{rows: Renter[], count: number}> {
+  async getAllAdmin(): Promise<Renter[] | null> {
+    try {
+      const admins = await Renter.findAll({
+        where: {
+          isAdmin: true,
+        },
+      });
+      return admins;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getAllRenter(
+    page: number,
+    limit: number
+  ): Promise<{ rows: Renter[]; count: number }> {
     try {
       const offsetvalue = (page - 1) * limit;
       const renterList = await Renter.findAndCountAll({
         limit: limit,
         offset: offsetvalue,
+      });
+      return renterList;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getAllRenterOfRoom(
+    roomId: number,
+    limit: number,
+    page: number
+  ): Promise<{ rows: Renter[]; count: number }> {
+    try {
+      const offsetvalue = (page - 1) * limit;
+      const renterList = await Renter.findAndCountAll({
+        limit: limit,
+        offset: offsetvalue,
+        include: {
+          model: RentalRecord,
+          attributes: ["room_id"],
+          where: {
+            room_id: roomId,
+          },
+        },
       });
       return renterList;
     } catch (err) {

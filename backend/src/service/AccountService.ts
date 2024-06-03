@@ -94,6 +94,14 @@ export class AccountService implements IAccountService {
     }
   }
 
+  async updateAvatar(userId: number, avatar: string): Promise<Account> {
+    try {
+      return (await this.accountRepository.updateAccountById(userId, {avatar}))!;
+    }catch(err) {
+      throw err;
+    }
+  }
+
   async updatePassword(
     userId: number,
     passwordCurrent: string,
@@ -108,7 +116,7 @@ export class AccountService implements IAccountService {
         throw new AppError("Bad request!", 401);
       }
       if (
-        await !Authentication.passwordCompare(passwordCurrent, user.password)
+        !(await Authentication.passwordCompare(passwordCurrent, user.password))
       ) {
         throw new AppError("wrong old password", 401);
       }

@@ -17,14 +17,33 @@ import WaterReadingRoutes from "../routes/WaterReadingRoutes";
 import ElectricReadingRoutes from "../routes/ElectricReadingRoutes";
 import BillRoutes from "../routes/BillRoutes";
 import PaymentRoutes from "../routes/PaymentRoutes";
+import http from "http";
+import socketIo from "socket.io";
+import session, { Session } from "express-session";
+import { Redis } from "../config/Redis";
+import RedisStore from "connect-redis";
+import { LargeNumberLike } from "crypto";
 dotenv.config();
+
+interface SessionData {
+  userId?: string;
+  socketId?: string | null;
+}
 
 class App {
   public app: Application;
+  public server: http.Server;
+  public io: socketIo.Server;
+  private socketClients: Map<number, string>;
 
   constructor() {
     this.app = express();
+    this.server = http.createServer(this.app);
+    this.io = new socketIo.Server(this.server, { cors: { origin: "*" } });
+    this.socketClients = new Map();
     this.databaseSync();
+    this.useSession();
+    this.initSocketIo();
     this.plugins();
     this.routes();
     this.catchError();
@@ -58,18 +77,45 @@ class App {
 
   private plugins(): void {
     this.app.use(express.json());
-    this.app.use(cors({methods: ['GET', 'POST', 'PUT', 'DELETE']}));
+    this.app.use(cors());
     if (process.env.NODE_ENV === "development") {
       this.app.use(morgan("dev"));
     }
-	}
+  }
 
   private catchError(): void {
-    this.app.all('*', (req: Request, res: Response, next: NextFunction) => {
+    this.app.all("*", (req: Request, res: Response, next: NextFunction) => {
       next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
     });
     this.app.use(globalHandler);
   }
+
+  private initSocketIo(): void {
+    this.app.set("socket", this.io);
+    this.app.set("socketClients", this.socketClients);
+    this.io.on("connection", (socket: socketIo.Socket) => {
+      let userId:number;
+      if (socket.handshake.query.userId) {
+        userId = +socket.handshake.query.userId;
+      }
+      this.socketClients.set(userId!, socket.id);
+      socket.on("disconnect", () => {
+        this.socketClients.delete(userId);
+      });
+    });
+  }
+
+  private useSession(): void {
+    const redis = Redis.getInstance();
+    const redisStore = new RedisStore({ client: redis.client });
+    this.app.use(
+      session({
+        store: redisStore,
+        secret: process.env.SESSION_SECRET_KEY || "secret-key",
+        cookie: { maxAge: 60 * 60 * 24 * 180 },
+      })
+    );
+  }
 }
 
-export default new App().app;
+export default new App().server;

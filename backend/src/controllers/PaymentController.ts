@@ -42,7 +42,17 @@ export class PaymentController {
                 return next(new Error("Payment failed"));
             }
             const billId = req.body.requestId.replace(req.body.orderId, "");
-            await this.paymentService.updatePaymentStatus(+billId);
+            const notification = await this.paymentService.updatePaymentStatus(+billId);
+            const userIds = notification.notificationSubjects;
+            const socketClients = req.app.get("socketClients") as Map<number, string>;
+            for (let userId of userIds) {
+                if (socketClients.has(userId.userId)) {
+                  req.app
+                    .get("socket")
+                    .to(socketClients.get(userId.userId) as string)
+                    .emit("notification", notification);
+                }
+              }
             return res.status(200).json({
                 message: "payment success",
             });

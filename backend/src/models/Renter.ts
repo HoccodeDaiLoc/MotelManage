@@ -62,7 +62,7 @@ export class Renter extends Model {
     cccd!: string;
 
     @HasOne(() => RentalRecord)
-    rentalRecord!: RentalRecord[];
+    rentalRecord!: RentalRecord;
 
     @HasOne(() => Contract)
     contract!: Contract;

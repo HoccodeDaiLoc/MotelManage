@@ -42,9 +42,20 @@ export class BillController {
         billItem,
         roomId
       );
+      const notification = bill.notification;
+      const userIds = notification.notificationSubjects;
+      const socketClients = req.app.get("socketClients") as Map<number, string>;
+      for (let userId of userIds) {
+        if (socketClients.has(userId.userId)) {
+          req.app
+            .get("socket")
+            .to(socketClients.get(userId.userId) as string)
+            .emit("notification", notification);
+        }
+      }
       return res.status(201).json({
         message: "success",
-        bill,
+        data: bill.bill,
       });
     } catch (err) {
       next(err);
@@ -62,7 +73,11 @@ export class BillController {
         limit = 12;
       }
       const searchCondidate = req.query;
-      const bill = await this.billService.getListBill(searchCondidate, limit, page);
+      const bill = await this.billService.getListBill(
+        searchCondidate,
+        limit,
+        page
+      );
       return res.status(200).json({
         limit: limit,
         page: page,
@@ -70,10 +85,10 @@ export class BillController {
         total_page: Math.ceil(bill.count / limit),
         data: bill.rows,
       });
-    }catch(err) {
+    } catch (err) {
       next(err);
     }
-  }
+  };
 
   getBillByRenter = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -87,7 +102,12 @@ export class BillController {
       }
       const renterId = +req.params.renterId as number;
       const status = req.query.status as string;
-      const bill = await this.billService.getBillByRenter(renterId, status, limit, page);
+      const bill = await this.billService.getBillByRenter(
+        renterId,
+        status,
+        limit,
+        page
+      );
       return res.status(200).json({
         message: "success",
         limit: limit,
@@ -113,7 +133,12 @@ export class BillController {
       }
       const roomId = +req.params.roomId as number;
       const status = req.query.status as string;
-      const bill = await this.billService.getBillByRoom(roomId, status, limit, page);
+      const bill = await this.billService.getBillByRoom(
+        roomId,
+        status,
+        limit,
+        page
+      );
       return res.status(200).json({
         limit: limit,
         page: page,

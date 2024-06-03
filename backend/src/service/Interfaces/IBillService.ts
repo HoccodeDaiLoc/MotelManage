@@ -1,4 +1,5 @@
 import { Bill } from "../../models/Bill";
+import { Notification } from "../../models/Notification";
 
 export interface IBillService {
   createBill(
@@ -8,7 +9,7 @@ export interface IBillService {
     billStatus: string,
     billItem: any[],
     roomId: number
-  ): Promise<Bill>;
+  ): Promise<{bill: Bill, notification: Notification}>;
   getBill(searchCondidate: any): Promise<Bill>;
   getListBill(searchCondidate: any, limit: number, page: number): Promise<{rows: Bill[], count: number}>;
   getBillByRenter(renterId: number, status: string, limit: number, page: number): Promise<{rows: Bill[], count: number}>;

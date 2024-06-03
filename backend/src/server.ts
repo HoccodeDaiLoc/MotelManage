@@ -1,8 +1,10 @@
 import 'reflect-metadata';
 
-import app from './app/App';
+import httpServer from './app/App';
+import { configDotenv } from 'dotenv';
 
 const PORT = (process.env.PORT || 3000) as number;
+configDotenv();
 
 process.on("uncaughtException", err => {
     console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -10,7 +12,7 @@ process.on("uncaughtException", err => {
     process.exit(1);
 })
 
-const server = app.listen(PORT, () => {
+const server = httpServer.listen(PORT, () => {
     console.log(`App running on port ${PORT}...`);
 })
 

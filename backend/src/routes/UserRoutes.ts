@@ -15,6 +15,7 @@ class UserRoutes extends BaseRoutes {
     this.router.route("/forgotpassword").post(this.controller.forgotPassword);
     this.router.route("/checkresetpasswordtoken").post(this.controller.checkResetToken);
     this.router.route("/resetpassword").post(this.controller.resetPassword);
+    this.router.route("/updateAvatar/:userId").put(this.controller.updateAvatar);
     this.router.use(auth);
     this.router.route("/updatePassword").put(this.controller.changePassword);
   }

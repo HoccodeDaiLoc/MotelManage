@@ -16,6 +16,12 @@ import { WaterRepository } from "../repository/WaterRepository";
 import { IWaterRepository } from "../repository/Interfaces/IWaterRepository";
 import { RentalRecordRepository } from "../repository/RentalRecordRepository";
 import { IRentalRecordRepository } from "../repository/Interfaces/IRentalRecordRepository";
+import { NotificationService } from "./NotificationService";
+import { INotificationService } from "./Interfaces/INotificationService";
+import { Notification } from "../models/Notification";
+import { Renter } from "../models/Renter";
+import { RenterRepository } from "../repository/RenterRepository";
+import { IRenterRepository } from "../repository/Interfaces/IRenterRepository";
 
 @Service()
 export class BillService implements IBillService {
@@ -36,6 +42,12 @@ export class BillService implements IBillService {
 
   @Inject(() => RentalRecordRepository)
   private rentalRecordRepository!: IRentalRecordRepository;
+
+  @Inject(() => RenterRepository)
+  private renterRepository!: IRenterRepository;
+
+  @Inject(() => NotificationService)
+  private notificationService!: INotificationService;
 
   private async checkBillExist(
     roomId: number,
@@ -61,10 +73,10 @@ export class BillService implements IBillService {
     billStatus: string,
     billItem: any[],
     roomId: number
-  ): Promise<Bill> {
+  ): Promise<{ bill: Bill; notification: Notification }> {
     let bill: Bill | undefined;
     try {
-      if(await this.checkBillExist(roomId, billStartDate, billEndDate)) {
+      if (await this.checkBillExist(roomId, billStartDate, billEndDate)) {
         throw new AppError("Bill already exist", 400);
       }
       bill = await this.billRepository.createBill(
@@ -138,7 +150,26 @@ export class BillService implements IBillService {
       const newBill = await this.billRepository.updateBillByID(bill.billId, {
         total,
       });
-      return newBill!;
+      const renters = await this.renterRepository.getAllRenterOfRoom(
+        roomId,
+        100,
+        1
+      );
+      const renterIds = renters.rows.map((renter) => {
+        const renterObject = renter.toJSON() as Renter;
+        return renterObject.renterId;
+      });
+      const newNotification = await this.notificationService.createNotification(
+        "Hóa đơn mới",
+        `Hóa đơn mới cho phòng ${roomId} từ ngày ${billStartDate} đến ${billEndDate} đã được tạo`,
+        new Date(),
+        renterIds,
+        undefined
+      );
+      const notification = await this.notificationService.getNotification({
+        notificationId: newNotification!.notificationId,
+      });
+      return { bill: newBill, notification: notification };
     } catch (err) {
       if (bill) {
         await this.billRepository.deleteBillById(bill.billId);
@@ -159,16 +190,24 @@ export class BillService implements IBillService {
     }
   }
 
-  async getListBill(searchCondidate: any, limit: number, page: number): Promise<{ rows: Bill[]; count: number; }> {
+  async getListBill(
+    searchCondidate: any,
+    limit: number,
+    page: number
+  ): Promise<{ rows: Bill[]; count: number }> {
     try {
-      const bills = await this.billRepository.getListBill(searchCondidate, limit, page);
+      const bills = await this.billRepository.getListBill(
+        searchCondidate,
+        limit,
+        page
+      );
       if (bills?.count === 0) {
         throw new AppError("Bill not found", 404);
       }
       return bills!;
-    } catch(err) {
+    } catch (err) {
       throw err;
-    } 
+    }
   }
 
   async getBillByRenter(
@@ -189,7 +228,8 @@ export class BillService implements IBillService {
         rentalRecord.checkOutDate,
         status,
         limit,
-        page
+        page,
+        {roomId: rentalRecord.roomId}
       );
       if (bills?.count === 0) {
         throw new AppError("Bill not found", 404);

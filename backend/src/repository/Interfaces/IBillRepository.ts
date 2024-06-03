@@ -33,7 +33,8 @@ export interface IBillRepository extends BaseInterface {
     endDate: Date,
     status: string | undefined,
     limit: number,
-    page: number
+    page: number,
+    searchCondidate: any
   ): Promise<{rows: Bill[], count: number} | null>;
   deleteBillById(id: number): Promise<boolean>;
 }

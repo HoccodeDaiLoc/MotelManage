@@ -34,6 +34,20 @@ export class AuthController {
     }
   };
 
+  updateAvatar = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const {avatar} = req.body;
+      const userId = +req.params.userId as number;
+      const updateAccount = await this.accountService.updateAvatar(userId, avatar);
+      return res.status(200).json({
+        message: "update avatar successfuly",
+        updateAccount,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { username, password } = req.body;
