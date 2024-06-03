@@ -21,11 +21,11 @@ import RecoverCode from "./Pages/RecoverCodePage";
 import RecoverPassword from "./Pages/RecoverPasswordPage";
 import UserChangePass from "./Pages/UserChangePass";
 import RoomPriceFilterPage from "./Pages/RoomPriceFilterPage";
-import TableManageHoadon from "./Components/manageHoadon/TableManageHoadon";
 import UserInfo from "./Components/UserInfo";
 import ManagerTro from "./Pages/ManagerTro";
 import ManageTb from "./Pages/ManageTb";
 import ManageUser from "./Pages/ManagerUser";
+import ManageHoadon from "./Pages/ManageHoadon";
 
 import ManageHopDong from "./Pages/ManageHopdong";
 function PrivateRoute({ children }) {
@@ -104,6 +104,7 @@ function App() {
           <Route path="/pageQLPT" element={<ManagerTro></ManagerTro>} />
           <Route path="/pageQLTB" element={<ManageTb />} />
           <Route path="/pageHD" element={<ManageHopDong/>} />
+          <Route path="/pageQLHD" element={<ManageHoadon/>} />
           <Route path="/Notification" element={<Notification />}></Route>
           <Route path="/SignIn" element={<Sign />}></Route>
           <Route path="/Loggin" element={<Loggin />}></Route>
