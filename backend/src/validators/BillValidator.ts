@@ -48,9 +48,9 @@ export const BillValidator = checkSchema({
   },
 });
 
-const filterFields = (req: Request, res: Response, next: NextFunction) => {
+const filterFields = (req: Request, res: Response,next: NextFunction) => {
   for (const field in req.body) {
-    if (req.body[field] !== "paymentMethod" && req.body[field] !== "status") {
+    if (field !== "paymentMethod" && field !== "status") {
       delete req.body[field];
     }
   }
