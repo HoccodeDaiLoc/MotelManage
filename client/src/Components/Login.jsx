@@ -38,6 +38,7 @@ function Login() {
   };
 
   useEffect(() => {
+    console.log(account);
     if (localStorage.getItem("accessToken") != null) {
       account.auth = true;
     }

@@ -32,7 +32,6 @@ function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
   return auth ? children : "error page html";
 }
-
 function SuperPrivateRoute({ children }) {
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
   console.log("here", isAdmin);
@@ -125,14 +124,14 @@ function App() {
               </SuperPrivateRoute>
             }
           />
-          <Route
-            path="/pageHD"
+          {/* <Route
+            path="/pageQLHD"
             element={
               <SuperPrivateRoute>
                 <ManageHopDong></ManageHopDong>
               </SuperPrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="/PageQLHD"
             element={

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
@@ -6,8 +7,18 @@ import ModalEditHd from './modalEditHd'
 import ModalAddHd from './modalAddHd';
 import ModalConfirmHd from'./modalConfirmHd'
 import {debounce} from "lodash";
+=======
+import React, { useEffect, useState } from "react";
+import Table from "react-bootstrap/Table";
+import ReactPaginate from "react-paginate";
+import { fetchAllHd } from "../../service/ManageService";
+import ModalEditHd from "./modalEditHd";
+import ModalAddHd from "./modalAddHd";
+import ModalConfirmHd from "./modalConfirmHd";
+import { debounce } from "lodash";
+>>>>>>> 0f2a363c8acadf1b818392838bad10543b92bd5c
 import _ from "lodash";
-import ModalDetailHd from './modalDetailHd';
+import ModalDetailHd from "./modalDetailHd";
 import { BiSolidBookAdd } from "react-icons/bi";
 
 const TableManageHd = (props) => {
@@ -27,13 +38,11 @@ const TableManageHd = (props) => {
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
   const [dataDetailHd, setDataDetailHd] = useState({});
   const formatDate = (date) => {
+    if (!date) return "";
 
-    if (!date) return '';
-
-    const formattedDate = new Date(date).toLocaleDateString('vi-VN');
+    const formattedDate = new Date(date).toLocaleDateString("vi-VN");
 
     return formattedDate;
-
   };
 
   const handleCloseHd = () => {
@@ -49,7 +58,7 @@ const TableManageHd = (props) => {
 
   const handleEditHdfrommodal = (hd) => {
     let cloneListHd = _.cloneDeep(listHd);
-    let index = listHd.findIndex(item => item.contractId === hd.contractId);
+    let index = listHd.findIndex((item) => item.contractId === hd.contractId);
     cloneListHd[index].startDay = hd.startDay;
     cloneListHd[index].endDate = hd.endDate;
     cloneListHd[index].rentAmount = hd.rentAmount;
@@ -110,7 +119,11 @@ const TableManageHd = (props) => {
         });
       }
     } catch (error) {
+<<<<<<< HEAD
       console.error("Error fetching hóa đơn data:", error);
+=======
+      console.error("Error fetching hd data:", error);
+>>>>>>> 0f2a363c8acadf1b818392838bad10543b92bd5c
     }
   };
   
@@ -130,13 +143,15 @@ const TableManageHd = (props) => {
 
   const handDeleteHdFromModal = (hd) => {
     let cloneListHd = _.cloneDeep(listHd);
-    cloneListHd = cloneListHd.filter(item => item.contractId !== hd.contractId);
+    cloneListHd = cloneListHd.filter(
+      (item) => item.contractId !== hd.contractId
+    );
     setListHd(cloneListHd);
   };
 
   const handleDetailHdfrommodal = (hd) => {
     let cloneListHd = _.cloneDeep(listHd);
-    let index = listHd.findIndex(item => item.id == hd.id);
+    let index = listHd.findIndex((item) => item.id == hd.id);
     cloneListHd[index].first_name = hd.first_name;
     setListHd(cloneListHd);
   };
@@ -144,20 +159,20 @@ const TableManageHd = (props) => {
   const handleSearchHd = debounce((event) => {
     let term = event.target.value;
     if (term) {
-        fetch(`http://127.0.0.1:8080/api/contract/room/${term}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.contract) {
-                    setListHd([data.contract]); // Cập nhật danh sách hợp đồng với dữ liệu mới từ API
-                } else {
-                    // Xử lý trường hợp 'contract' không được trả về từ API
-                }
-            })
-            .catch(error => console.error('Error:', error));
+      fetch(`http://127.0.0.1:8080/api/contract/room/${term}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.contract) {
+            setListHd([data.contract]); // Cập nhật danh sách hợp đồng với dữ liệu mới từ API
+          } else {
+            // Xử lý trường hợp 'contract' không được trả về từ API
+          }
+        })
+        .catch((error) => console.error("Error:", error));
     } else {
-        getHd(1); // Nếu không có term thì reset danh sách hợp đồng
+      getHd(1); // Nếu không có term thì reset danh sách hợp đồng
     }
-}, 300);
+  }, 300);
 
   const handDetailHd = (hd) => {
     setIsShowModalDetailHd(true);
@@ -165,30 +180,37 @@ const TableManageHd = (props) => {
   };
 
   const formatPrice = (price) => {
-    if (!price) return '';
-    return new Intl.NumberFormat('vi-VN').format(price) + ' VND';
+    if (!price) return "";
+    return new Intl.NumberFormat("vi-VN").format(price) + " VND";
   };
 
   return (
     <>
       <div className="my-3 add-new">
-        <span><b>Danh sách phòng trọ:</b></span>
-        <button className='btn btn-success' onClick={() => setIsShowModalAddHd(true)}>
-        <BiSolidBookAdd  className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-5px" }} />
+        <span>
+          <b>Danh sách phòng trọ:</b>
+        </span>
+        <button
+          className="btn btn-success"
+          onClick={() => setIsShowModalAddHd(true)}
+        >
+          <BiSolidBookAdd
+            className="mr-2 mx-1"
+            style={{ fontSize: "1.5em", marginTop: "-5px" }}
+          />
           Thêm Hợp Đồng
         </button>
       </div>
-      <div className='col-4 my-3'>
-        <input className='form-control'
-          placeholder='Tìm kiếm hợp đồng'
+      <div className="col-4 my-3">
+        <input
+          className="form-control"
+          placeholder="Tìm kiếm hợp đồng"
           onChange={(event) => handleSearchHd(event)}
         />
       </div>
       <Table striped bordered hover>
         <thead>
           <tr>
-       
-    
             <th>Phòng thuê</th>
             <th>Người thuê</th>
             <th>Ngày bắt đầu</th>
@@ -197,6 +219,7 @@ const TableManageHd = (props) => {
           </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
           {listHd && listHd.map((item, index) => (
             <tr key={`hd-${index}`}>
               <td>{item.roomNumber}</td>
@@ -211,6 +234,38 @@ const TableManageHd = (props) => {
               </td>
             </tr>
           ))}
+=======
+          {listHd &&
+            listHd.map((item, index) => (
+              <tr key={`hd-${index}`}>
+                <td>{item.roomId}</td>
+                <td>{item.renterId}</td>
+                <td>{formatDate(item.startDay)}</td>
+                <td>{formatDate(item.endDate)}</td>
+
+                <td>
+                  <button
+                    className="btn btn-warning mx-3"
+                    onClick={() => handleEditHd(item)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handDeleteHd(item)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-success mx-3"
+                    onClick={() => handDetailHd(item)}
+                  >
+                    Chi tiết
+                  </button>
+                </td>
+              </tr>
+            ))}
+>>>>>>> 0f2a363c8acadf1b818392838bad10543b92bd5c
         </tbody>
       </Table>
       <ReactPaginate
