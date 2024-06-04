@@ -86,7 +86,7 @@ const ModalDetailHoadon = (props) => {
                 <MDBCol xl="8">
                   <MDBTypography listUnStyled>
                     <li className="text-muted">
-                      To: <span style={{ color: "#5d9fc5" }}>Phòng số {dataDetailHoadon?.roomId || ''}</span>
+                      To: <span style={{ color: "#5d9fc5" }}>Phòng số {dataDetailHoadon?.roomNumber || ''}</span>
                     </li>
                     <li className="text-muted">Thành phố Đà Nẵng</li>
                     <li className="text-muted">

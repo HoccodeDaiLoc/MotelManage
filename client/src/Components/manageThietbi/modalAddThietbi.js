@@ -3,50 +3,44 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { postCreateTb } from '../../service/ManageService';
 import { toast } from 'react-toastify';
-
 const ModalAddTb = (props) => {
   const { show, handleCloseTb, handUpdateTableTb } = props;
   const [deviceName, setDeviceName] = useState("");
   const [devicePrice, setDevicePrice] = useState("");
-  const [roomId, setRoomId] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const [isReportBrokenVisible, setIsReportBrokenVisible] = useState("");
-
-  const handUpdateImageTb = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files);
-    }
+  const mapRoomNumberToRoomId = (roomNumber) => {
+    // Thực hiện ánh xạ số phòng thành roomId theo quy ước của bạn
+    return parseInt(roomNumber); // Ví dụ: Trả về số phòng chính là roomId
   };
-
-  const toggleReportBrokenVisibility = () => {
-    setIsReportBrokenVisible(!isReportBrokenVisible);
-  };
-
   const handUpdateTb = async () => {
-    let res = await postCreateTb(deviceName, devicePrice, roomId); // Thêm roomId vào đây
+    const roomId = mapRoomNumberToRoomId(roomNumber); // Chuyển đổi số phòng thành roomId
+    let res = await postCreateTb(deviceName, devicePrice, roomId); // Gửi roomId vào postCreateTb
+    console.log("Đã gửi lên server thông tin: ", { deviceName, devicePrice, roomId });
     if (res) {
       handleCloseTb();
       setDeviceName('');
       setDevicePrice('');
-      setRoomId('');
+      setRoomNumber('');
       toast.success("Đã lưu thành công");
-      handUpdateTableTb({
-        deviceName: deviceName,
+      handUpdateTableTb({ 
+        deviceName: deviceName, 
         devicePrice: devicePrice,
-        roomId: roomId,
-      });
+        roomNumber: roomId }); // Gửi roomNumber chứ không phải roomId
     } else {
       toast.error("Đã xảy ra lỗi");
     }
-  }
-
+  };
+  
   return (
-    <Modal show={show}
+    <Modal
+      show={show}
       onHide={handleCloseTb}
       size='xl'
-      className='modal-add-tro'>
+      className='modal-add-tro'
+    >
       <Modal.Header closeButton>
         <Modal.Title>Thêm vào danh sách</Modal.Title>
       </Modal.Header>
@@ -55,32 +49,29 @@ const ModalAddTb = (props) => {
           <div className="col-md-6">
             <label htmlFor="inputID" className="form-label">Loại Thiết Bị</label>
             <input
-              type="text" className="form-control" value={deviceName} onChange={(event) => setDeviceName(event.target.value)} />
+              type="text"
+              className="form-control"
+              value={deviceName}
+              onChange={(event) => setDeviceName(event.target.value)}
+            />
           </div>
           <div className="col-md-6">
             <label htmlFor="inputEmail4" className="form-label">Giá thiết bị</label>
-            <input type="text" className="form-control" value={devicePrice} onChange={(event) => setDevicePrice(event.target.value)} />
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="inputEmail4" className="form-label">Phòng đang sử dụng</label>
-            <input type="text" className="form-control" value={roomId} onChange={(event) => setRoomId(event.target.value)} />
-          </div>
-          <div className="col-md-12">
-            <label className="label-upload-anhtro" htmlFor='labelUploadTro'>
-              Thêm Ảnh
-              <i className="fa-solid fa-circle-plus"></i>
-            </label>
-            <input type="file"
-              hidden id='labelUploadTro'
-              onChange={(event) => handUpdateImageTb(event)}
+            <input
+              type="text"
+              className="form-control"
+              value={devicePrice}
+              onChange={(event) => setDevicePrice(event.target.value)}
             />
           </div>
-          <div className="img_tro">
-            {previewImage ?
-              <img src={previewImage} alt="Preview" />
-              :
-              <span>Ảnh chi tiết </span>
-            }
+          <div className="col-md-6">
+            <label htmlFor="inputEmail4" className="form-label">Số Phòng</label>
+            <input
+              type="text"
+              className="form-control"
+              value={roomNumber}
+              onChange={(event) => setRoomNumber(event.target.value)}
+            />
           </div>
         </form>
       </Modal.Body>
@@ -95,5 +86,4 @@ const ModalAddTb = (props) => {
     </Modal>
   );
 };
-
 export default ModalAddTb;
