@@ -14,8 +14,10 @@ function UserBill() {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [unpaidBill, setUnpaidBill] = useState([]);
-  let curentUrl = useLocation().pathname;
+  let curentUrl = "localhost:3000" + useLocation().pathname;
+  console.log(curentUrl);
   useEffect(() => {
+    console.log(id);
     const fetchBill = async (id, currentPage) => {
       try {
         const res = await fetchBillByRenter(id, currentPage);

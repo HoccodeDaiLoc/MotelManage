@@ -26,9 +26,8 @@ import ManagerTro from "./Pages/ManagerTro";
 import ManageTb from "./Pages/ManageTb";
 import ManageUser from "./Pages/ManagerUser";
 import ManageHoadon from "./Pages/ManageHoadon";
-import { Socket, io } from "socket.io-client";
 import ManageHopDong from "./Pages/ManageHopdong";
-import { useEffect } from "react";
+
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
   return auth ? children : "error page html";
@@ -46,20 +45,6 @@ function SuperPrivateRoute({ children }) {
   }
 }
 function App() {
-  const id = useSelector((state) => state.user.account.id);
-  useEffect(() => {
-    const socket = io("http://localhost:8080", { query: { id } });
-    // Kết nối thành công
-    socket.on("connect", () => {
-      socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
-      console.log("Connected to server");
-      console.log();
-    });
-
-    socket.on("notification", (data) => {
-      console.log("Welcome message from server:", data);
-    });
-  }, []);
   return (
     <>
       <BrowserRouter>

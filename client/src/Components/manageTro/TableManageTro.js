@@ -134,8 +134,11 @@ const TableManageTro = (props) => {
           className=" them btn btn-success "
           onClick={() => setIsShowModalAddTro(true)}
         >
-          <MdAddHomeWork   className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
-           Thêm Phòng
+          <MdAddHomeWork
+            className="mr-2 mx-1"
+            style={{ fontSize: "1.3em", marginTop: "-5px" }}
+          />
+          Thêm Phòng
         </button>
       </div>
       <div className="col-4 my-3">
@@ -148,12 +151,12 @@ const TableManageTro = (props) => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{ whiteSpace: "nowrap" }}>Số Phòng</th>
+            <th>Số Phòng</th>
             {/* <th>Loại phòng</th> */}
-            <th style={{ whiteSpace: "nowrap" }}>Giá phòng</th>
-            <th style={{ whiteSpace: "nowrap" }}>Tình trạng</th>
-            <th style={{ whiteSpace: "nowrap" }}>Diện tích</th>
-            <th style={{ whiteSpace: "nowrap" }}>Khác</th>
+            <th>Giá phòng</th>
+            <th>Tình trạng</th>
+            <th>Diện tích</th>
+            <th>Khác</th>
           </tr>
         </thead>
         <tbody>
