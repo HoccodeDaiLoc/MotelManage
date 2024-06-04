@@ -17,6 +17,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 import axios from "axios";
 import { io, Socket } from "socket.io-client";
 import { useSelector } from "react-redux";
+import style from "../../styles/Managerment.modules.scss";
 const TableManageHoadon = (props) => {
   const [listHoadon, setListHoadon] = useState([]);
   const [totalHoadon, setTotalHoadon] = useState(0);
@@ -245,12 +246,16 @@ const TableManageHoadon = (props) => {
   };
 
   return (
-    <>
+    <div
+      className="UserInfo_Manager"
+      style={{ width: "80%", margin: "0px 0px 0px auto" }}
+    >
+      {" "}
       <div
         className="my-3 add-new"
         style={{ display: "flex", alignItems: "center" }}
       >
-        <span>
+        <span style={{ whiteSpace: "nowrap", padding: "0px 10px" }}>
           <b>Danh sách Hoá đơn: </b>
         </span>
         <select
@@ -316,7 +321,6 @@ const TableManageHoadon = (props) => {
           </button>
         </div>
       </div>
-
       <div className="col-4 my-3">
         <input
           className="form-control"
@@ -324,7 +328,6 @@ const TableManageHoadon = (props) => {
           onChange={(event) => handleSearchHoadon(event.target.value)}
         />
       </div>
-
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -371,7 +374,6 @@ const TableManageHoadon = (props) => {
             ))}
         </tbody>
       </Table>
-
       <ReactPaginate
         breakLabel="..."
         nextLabel="Next"
@@ -391,7 +393,6 @@ const TableManageHoadon = (props) => {
         containerClassName="pagination"
         activeClassName="active"
       />
-
       <ModalAddHoadon
         show={isShowModalAddHoadon}
         handleCloseHoadon={handleCloseHoadon}
@@ -419,7 +420,7 @@ const TableManageHoadon = (props) => {
         handleCloseHoadon={handleCloseHoadon}
         handleDetailHoadonfrommodal={handleDetailHoadonfrommodal}
       />
-    </>
+    </div>
   );
 };
 

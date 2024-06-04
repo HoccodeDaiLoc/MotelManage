@@ -1,1 +1,15 @@
-@use "Global.modules.scss"
+@use "Global.modules.scss";
+.group-btns{
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+}
+// .my-3{
+//     margin-right: 250px;
+// }
+// .UserInfo_Manager{
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+// }

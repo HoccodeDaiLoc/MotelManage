@@ -19,12 +19,13 @@ function UserInfo() {
   const [email, setEmail] = useState("");
   const [CCCD, setCCCD] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const dobRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/; // yyyy-mm-dd format
 
   useEffect(() => {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
       let data = res.renter;
+      console.log("check data", data);
+      console.log("check res", res);
       setEmail(data.email);
       setName(data.name);
       setDateOfBirth(data.dateOfBirth);
