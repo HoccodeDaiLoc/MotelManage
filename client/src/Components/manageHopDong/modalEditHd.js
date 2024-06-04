@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 
 
+
 const ModalEditHd = (props) => {
   const { show, handleCloseHd ,dataHdedit ,handleEditHdfrommodal } = props; // Trích xuất giá trị từ props
   const [startDay, setStartDay] = useState("");
@@ -19,6 +20,8 @@ const ModalEditHd = (props) => {
     if (renterId) {
       console.log('Starting updateHd with:', {
         startDay, endDate, rentAmount, depositAmount, roomId ,renterId});
+        const formattedstartDay = startDay.toISOString().split("T")[0];
+        const formattedendDate = endDate.toISOString().split("T")[0];
       let res = await updateHd( dataHdedit.contractId,
         startDay, endDate, rentAmount, depositAmount, roomId ,renterId);
       console.log('check res:', res);
@@ -26,8 +29,8 @@ const ModalEditHd = (props) => {
       if (res) {
         handleEditHdfrommodal({
           contractId: dataHdedit.contractId,
-          startDay,
-          endDate,
+          formattedstartDay,
+          formattedendDate,
           rentAmount,
           depositAmount,
           roomId,

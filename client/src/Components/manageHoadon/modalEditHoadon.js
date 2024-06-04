@@ -9,6 +9,8 @@ const ModalEditHoadon = (props) => {
     const { show, handleCloseHoadon, dataHoadonedit, handleEditHoadonfrommodal } = props; // Trích xuất giá trị từ props
     const [status, setStatus] = useState("");
     const handleEditHoadon = async () => {
+
+      
       if (status) {
         let res = await updateHoadon( dataHoadonedit.billId,status);
         if (res && res) {

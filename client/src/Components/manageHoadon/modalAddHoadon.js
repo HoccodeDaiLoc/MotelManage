@@ -10,7 +10,7 @@ const ModalAddHoadon = (props) => {
     const { show, handleCloseHoadon, handUpdateTableHoadon } = props;
     const [billStartDate, setBillStartDate] = useState("");
     const [billEndDate, setBillEndDate] = useState("");
-    const [payMethod, setPayMethod] = useState("");
+    const [payMethod, setPayMethod] = useState("Tiền mặt");
     const [billStatus, setBillStatus] = useState("Chưa thanh toán");
     const [waterPrice, setWaterPrice] = useState("7000");
     const [electricPrice, setElectricPrice] = useState("3000");
@@ -78,8 +78,9 @@ const ModalAddHoadon = (props) => {
       value={payMethod}
       onChange={(event) => setPayMethod(event.target.value)}
       >
+        <option value="Chuyển khoản">Chuyển khoản</option>
       <option value="Tiền mặt">Tiền mặt</option>
-      <option value="Chuyển khoản">Chuyển khoản</option>
+
        </select>
             </div>
                     <div className="col-md-6">

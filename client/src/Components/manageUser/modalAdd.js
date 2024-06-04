@@ -12,12 +12,25 @@ const ModalAdd = (props) => {
   const [dateOfBirth, setDateOfBirth] = useState(null); // Changed initial state to null
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("@gmail.com");
   const [cccd, setCccd] = useState("");
 
   const handleSaveUser = async () => {
     if (!dateOfBirth) {
       toast.error("Please select a date of birth");
+      return;
+    }
+    if (isNaN(phone)) {
+      toast.error("Phải là số");
+      return;
+    }
+    if (isNaN(cccd)) {
+      toast.error("Phải là số");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Sai định dạng");
       return;
     }
     const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0]; // Format date as yyyy-MM-dd
@@ -51,6 +64,24 @@ const ModalAdd = (props) => {
     } else {
       // Xử lý khi thất bại, nếu cần
       toast.error("An error occurred");
+    }
+  };
+
+  const handlePhoneChange = (event) => {
+    const value = event.target.value;
+    if (!isNaN(value)) {
+      setPhone(value);
+    } else {
+      toast.error("Phải là số");
+    }
+  };
+
+  const handleCccdChange = (event) => {
+    const value = event.target.value;
+    if (!isNaN(value)) {
+      setCccd(value);
+    } else {
+      toast.error("Citizen ID must be numeric");
     }
   };
 
@@ -99,7 +130,7 @@ const ModalAdd = (props) => {
               type="text"
               className="form-control"
               value={phone}
-              onChange={(event) => setPhone(event.target.value)}
+              onChange={handlePhoneChange}
             />
           </div>
           <div className="col-md-6">
@@ -121,7 +152,7 @@ const ModalAdd = (props) => {
               type="text"
               className="form-control"
               value={cccd}
-              onChange={(event) => setCccd(event.target.value)}
+              onChange={handleCccdChange}
             />
           </div>
           <div className="col-md-12">

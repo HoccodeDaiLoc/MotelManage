@@ -88,7 +88,7 @@ const updateTro = (roomId, roomNumber, description, price, roomStatus, roomArea,
 };
 
 const updateTb = (deviceId,deviceName,devicePrice,roomId,categoryId) => {
-  return axios.put(`/api/device/${deviceId}`, { deviceId,deviceName,devicePrice,roomId,categoryId});
+  return axios.put(`/api/device/${deviceId}`, { deviceName,devicePrice,roomId,categoryId});
 };
 
 const updateHoadon = (billId, status,paymentMethod) => {

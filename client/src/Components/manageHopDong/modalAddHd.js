@@ -55,9 +55,17 @@ const ModalAddHd = (props) => {
       <Modal.Body className="body_add_new">
         <form className="row g-3">
          
-
+        <div className="col-md-12">
+            <label htmlFor="inputRoomId" className="form-label">Số phòng</label>
+            <input
+              type="text"
+              className="form-control"
+              value={roomId}
+              onChange={(event) => setRoomId(event.target.value)}
+            />
+          </div>
           <div className="col-md-12">
-            <label htmlFor="inputRentAmount" className="form-label">Rent Amount</label>
+            <label htmlFor="inputRentAmount" className="form-label">Số lượng người thuê</label>
             <input
               type="text"
               className="form-control"
@@ -66,18 +74,10 @@ const ModalAddHd = (props) => {
             />
           </div>
 
-          <div className="col-md-12">
-            <label htmlFor="inputRoomId" className="form-label">Room ID</label>
-            <input
-              type="text"
-              className="form-control"
-              value={roomId}
-              onChange={(event) => setRoomId(event.target.value)}
-            />
-          </div>
+          
 
           <div className="col-md-12">
-            <label htmlFor="inputRenterId" className="form-label">Renter ID</label>
+            <label htmlFor="inputRenterId" className="form-label">Tên khách hàng</label>
             <input
               type="text"
               className="form-control"
