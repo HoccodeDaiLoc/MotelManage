@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
-import { fetchAllHoadon, fetchAllstatusHd } from "../../service/ManageService";
+import { fetchAllHoadon, fetchAllstatusHd ,fetchAllTro} from "../../service/ManageService";
 import ModalAddHoadon from "./modalAddHoadon"; // Sửa tên thành component viết hoa
 import ModalAddDiennuoc from "./modalAddDiennuoc";
 import ModalConfirmHoadon from "./modalConfirmHoadon";
@@ -68,8 +68,8 @@ const TableManageHoadon = (props) => {
 
   const handleEditHoadonfrommodal = (hoadon) => {
     let cloneListHoadon = _.cloneDeep(listHoadon);
-    let index = listHoadon.findIndex((item) => item.id === hoadon.id);
-    cloneListHoadon[index].first_name = hoadon.first_name;
+    let index = listHoadon.findIndex((item) => item.billId === hoadon.billId);
+    cloneListHoadon[index].status = hoadon.status;
     setListHoadon(cloneListHoadon);
   };
 
@@ -77,21 +77,36 @@ const TableManageHoadon = (props) => {
     // Call API
     getHoadon(1);
   }, []);
+  console.log('list',listHoadon)
 
   const getHoadon = async (page) => {
     try {
-      const res = await fetchAllHoadon(page);
-      console.log("checkhoadon", res);
-      if (res) {
-        const { data, total_pages } = res.data;
-        setTotalHoadon(res.data.total);
-        setListHoadon(res.data && res.data);
-        setTotalPageHoadon(res.total_pages);
+      const resTb = await fetchAllHoadon(page); // Lấy thông tin các hóa đơn
+      if (resTb && resTb.data) {
+        const { data, total_pages } = resTb.data;
+        setTotalHoadon(resTb.total);
+        setTotalPageHoadon(resTb.total_pages);
+        // Lấy thông tin về phòng sử dụng từ API fetchAllTro dựa trên roomId của hóa đơn
+        const roomNumberPromises = resTb.data.map(async (hoadon) => {
+          try {
+            const resTro = await fetchAllTro(hoadon.roomId); // Lấy thông tin phòng sử dụng từ roomId
+            const roomNumber = resTro.data[0].roomNumber; // Lấy roomNumber từ kết quả trả về
+            // Cập nhật thông tin roomNumber vào danh sách hóa đơn
+            return { ...hoadon, roomNumber }; // Thêm roomNumber vào thông tin hóa đơn
+          } catch (error) {
+            console.error("Error fetching Tro data:", error);
+            return hoadon; // Trả về hóa đơn ban đầu nếu có lỗi
+          }
+        });
+        Promise.all(roomNumberPromises).then(updatedHoadonList => {
+          setListHoadon(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin roomNumber
+        });
       }
     } catch (error) {
-      console.error("Error fetching hoadon data:", error);
+      console.error("Error fetching hóa đơn data:", error);
     }
   };
+  
 
   const handlePageClick = (event) => {
     getHoadon(+event.selected + 1);
@@ -148,16 +163,39 @@ const TableManageHoadon = (props) => {
     }
   };
 
+  // const handleGetHoadonByStatus = async (status) => {
+  //   try {
+  //     let res;
+  //     if (status === "all") {
+  //       res = await fetchAllHoadon(1);
+  //     } else {
+  //       res = await getHoadonByStatus(status);
+  //     }
+  //     setListHoadon(res.data);
+  //   } catch (error) {
+  //     console.error("Error handling bill data by status:", error);
+  //   }
+  // };
   const handleGetHoadonByStatus = async (status) => {
-    console.log("status", status);
     try {
       let res;
+      let updatedHoadonList;
       if (status === "all") {
         res = await fetchAllHoadon(1);
       } else {
         res = await getHoadonByStatus(status);
       }
-      setListHoadon(res.data);
+      updatedHoadonList = await Promise.all(res.data.map(async (hoadon) => {
+        try {
+          const resTro = await fetchAllTro(hoadon.roomId);
+          const roomNumber = resTro.data[0].roomNumber;
+          return { ...hoadon, roomNumber };
+        } catch (error) {
+          console.error("Error updating hoadon with roomNumber:", error);
+          return hoadon;
+        }
+      }));
+      setListHoadon(updatedHoadonList);
     } catch (error) {
       console.error("Error handling bill data by status:", error);
     }
@@ -183,6 +221,8 @@ const TableManageHoadon = (props) => {
     setDataDetailHoadon(hoadon);
   };
 
+
+  
   return (
     <>
       <div
@@ -280,7 +320,7 @@ const TableManageHoadon = (props) => {
           {listHoadon &&
             listHoadon.map((item, index) => (
               <tr key={`hoadon-${index}`}>
-                <td>{item.roomId}</td>
+                <td>{item.roomNumber}</td>
                 <td>{formatDate(item.billStartDate)}</td>
                 <td>{formatDate(item.billEndDate)}</td>
                 <td>{formatCurrency(item.total)}</td>

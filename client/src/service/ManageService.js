@@ -91,8 +91,8 @@ const updateTb = (deviceId,deviceName,devicePrice,roomId,categoryId) => {
   return axios.put(`/api/device/${deviceId}`, { deviceId,deviceName,devicePrice,roomId,categoryId});
 };
 
-const updateHoadon = (id, name, job) => {
-  return axios.put(`/api/users/${id}`, { name, job });
+const updateHoadon = (billId, status,paymentMethod) => {
+  return axios.put(`/api/bill/${billId}`, { status,paymentMethod});
 };
 
 const updateHd = (contractId, startDay,endDate,rentAmount,depositAmount,roomId,renterId) => {
@@ -112,7 +112,7 @@ const deleteTb = (deviceId) => {
 };
 
 const deleteHoadon = (billId) => {
-  return axios.delete(`/api/users/${billId}`);
+  return axios.delete(`/api/bill/${billId}`);
 };
 const deleteHd = (contractId) =>{
   return axios.delete(`/api/contract/${contractId}`)

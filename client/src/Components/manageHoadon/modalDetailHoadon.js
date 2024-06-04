@@ -5,12 +5,11 @@ import {
   MDBCard,
   MDBCardBody,
   MDBCardFooter,
-  MDBCardHeader,
-  MDBCol,
   MDBContainer,
   MDBBtn,
   MDBIcon,
   MDBRow,
+  MDBCol,
   MDBTable,
   MDBTableBody,
   MDBTableHead,
@@ -19,8 +18,17 @@ import {
 
 const ModalDetailHoadon = (props) => {
   const { show, handleCloseHoadon, dataDetailHoadon } = props;
-  
-  
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+  };
 
   return (
     <Modal show={show} onHide={handleCloseHoadon} backdrop="static" keyboard={false} size="xl">
@@ -33,12 +41,11 @@ const ModalDetailHoadon = (props) => {
             <MDBCardBody>
               <MDBContainer className="mb-2 mt-3">
                 <MDBRow className="d-flex align-items-baseline">
-                  <MDBCol xl="9">
-                    <p style={{ color: "#7e8d9f", fontSize: "20px" }}>
-                    <strong>Ngày lập hóa đơn:{dataDetailHoadon?.billEndDate || ''}</strong>
-        
-                    </p>
-                  </MDBCol>
+                <MDBCol xl="9">
+   <p style={{ color: "#7e8d9f", fontSize: "20px" }}>
+    <strong>Ngày lập hóa đơn: {formatDate(dataDetailHoadon?.billEndDate) || ''}</strong>
+   </p>
+  </MDBCol>
                   <MDBCol xl="3" className="float-end">
                     <MDBBtn
                       color="light"
@@ -46,7 +53,7 @@ const ModalDetailHoadon = (props) => {
                       className="text-capitalize border-0"
                     >
                       <MDBIcon fas icon="print" color="primary" className="me-1" />
-                      Print
+                      In
                     </MDBBtn>
                     <MDBBtn
                       color="light"
@@ -59,7 +66,7 @@ const ModalDetailHoadon = (props) => {
                         color="danger"
                         className="me-1"
                       />
-                      Export
+                      PDF
                     </MDBBtn>
                     <hr />
                   </MDBCol>
@@ -72,7 +79,6 @@ const ModalDetailHoadon = (props) => {
                  HÓA ĐƠN 
                   </span>
                   <p className="pt-0">Thuê trọ xin chào !</p>
-
                   <p className="pt-0"></p>
                 </MDBCol>
               </MDBContainer>
@@ -80,9 +86,8 @@ const ModalDetailHoadon = (props) => {
                 <MDBCol xl="8">
                   <MDBTypography listUnStyled>
                     <li className="text-muted">
-                      To: <span style={{ color: "#5d9fc5" }}>Phòng số {dataDetailHoadon?.roomId || ''}</span>
+                      To: <span style={{ color: "#5d9fc5" }}>Phòng số {dataDetailHoadon?.roomNumber || ''}</span>
                     </li>
-                
                     <li className="text-muted">Thành phố Đà Nẵng</li>
                     <li className="text-muted">
                       <MDBIcon fas icon="phone-alt" /> 0348944811
@@ -98,8 +103,8 @@ const ModalDetailHoadon = (props) => {
                     </li>
                     <li className="text-muted">
                       <MDBIcon fas icon="circle" style={{ color: "#84B0CA" }} />
-                      <span className="fw-bold ms-1">Ngày lập : Ngày </span> {dataDetailHoadon?.billEndDate || ''}
-                      -2021
+                      <span className="fw-bold ms-1">Ngày lập: </span>
+  Ngày {formatDate(dataDetailHoadon?.billEndDate) || ''}
                     </li>
                     <li className="text-muted">
                       <MDBIcon fas icon="circle" style={{ color: "#84B0CA" }} />
@@ -126,27 +131,15 @@ const ModalDetailHoadon = (props) => {
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td> {dataDetailHoadon?.itemName || ''}</td>
-                      <td> {dataDetailHoadon?.quantity || ''}</td>
-                      <td> {dataDetailHoadon?.unitPrice || ''}</td>
-                      <td>{dataDetailHoadon?.totalAmont || ''}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Tiền điện</td>
-                      <td>50 kwh</td>
-                      <td>3.000 đ</td>
-                      <td>150.000 đ</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Tiền nước</td>
-                      <td>10 khối</td>
-                      <td>7.000 đ</td>
-                      <td>70.000 đ</td>
-                    </tr>
+                    {dataDetailHoadon?.billItem && dataDetailHoadon.billItem.map((item, index) => (
+                      <tr key={index}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{item.itemName || ''}</td>
+                        <td>{item.quantity || ''}</td>
+                        <td>{formatCurrency(item.unitPrice) || ''}</td>
+                 <td>{formatCurrency(item.totalAmont) || ''}</td>
+                      </tr>
+                    ))}
                   </MDBTableBody>
                 </MDBTable>
               </MDBRow>
@@ -181,8 +174,7 @@ const ModalDetailHoadon = (props) => {
                     className="text-capitalize"
                     style={{ backgroundColor: "#60bdf3" }}
                   >
-                    Thanh toán
-                  </MDBBtn>
+                    Gửi hóa đơn                  </MDBBtn>
                 </MDBCol>
               </MDBRow>
             </MDBCardBody>
@@ -191,9 +183,10 @@ const ModalDetailHoadon = (props) => {
             </MDBCardFooter>
           </MDBCard>
         </MDBContainer>
-        </Modal.Body>
+      </Modal.Body>
     </Modal>
   );
 };
 
 export default ModalDetailHoadon;
+

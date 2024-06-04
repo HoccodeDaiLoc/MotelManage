@@ -33,6 +33,8 @@ const TableManageTb = (props) => {
     setIsShowModalDeleteTb(false);
     setIsShowModalDetailTb(false);
   };
+  console.log('list',listTb)
+
 
   const handUpdateTableTb = (tb) => {
     setListTb([tb, ...listTb]);
@@ -54,18 +56,35 @@ const TableManageTb = (props) => {
 
   const getTb = async (page) => {
     try {
-      const res = await fetchAllTb(page);
-
-      if (res && res) {
-        const { data, total_pages } = res.data;
-        setTotalTb(res.total);
-        setListTb(res.data);
-        setTotalPageTb(res.total_pages);
+      const resTb = await fetchAllTb(page); // Lấy thông tin các thiết bị
+      if (resTb && resTb.data) {
+        const { data, total_pages } = resTb.data;
+        setTotalTb(resTb.total);
+        setListTb(resTb.data);
+        setTotalPageTb(resTb.total_pages);
+        // Lấy thông tin về phòng sử dụng từ API fetchAllTro dựa trên roomid của thiết bị
+        const roomNumberPromises = resTb.data.map(async (tb) => {
+          try {
+            const resTro = await fetchAllTro(tb.roomId); // Lấy thông tin phòng sử dụng từ roomId
+            const roomNumber = resTro.data[0].roomNumber; // Lấy roomNumber từ kết quả trả về
+            return { ...tb, roomNumber }; // Thêm roomNumber vào thông tin thiết bị
+          } catch (error) {
+            console.error("Error fetching Tro data:", error);
+            return tb; // Trả về tb ban đầu nếu có lỗi
+          }
+        });
+        Promise.all(roomNumberPromises).then(updatedTbList => {
+          setListTb(updatedTbList); // Cập nhật danh sách thiết bị với thông tin roomNumber
+        });
       }
     } catch (error) {
       console.error("Error fetching tb data:", error);
     }
   };
+  
+  
+  
+  
 
   const handlePageClick = (event) => {
     getTb(+event.selected + 1);
@@ -156,7 +175,7 @@ const TableManageTb = (props) => {
                   <p id="text_table">{item.deviceName}</p>
                 </td>
                 <td>{item.devicePrice}</td>
-                <td>{item.roomId}</td>
+                <td>{item.roomNumber}</td>
                 <td>
                   <button
                     className="btn btn-warning mx-3"
