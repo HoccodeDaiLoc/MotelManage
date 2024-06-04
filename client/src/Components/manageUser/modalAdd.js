@@ -5,35 +5,35 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { postCreateUser } from "../../service/ManageService";
 import { toast } from "react-toastify";
+
 const ModalAdd = (props) => {
-  const { show, handleClose, handUpdateTable } = props;
+  const { show, handleClose, handUpdateTable } = props; // Trích xuất giá trị từ props
   const [name, setName] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState(null); // Changed initial state to null
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("@gmail.com");
   const [cccd, setCccd] = useState("");
+
   const handleSaveUser = async () => {
-    // Kiểm tra phone và cccd có phải là số và cccd có đúng 12 số không
-    if (isNaN(phone) || isNaN(cccd) || cccd.length !== 12) {
-      toast.error("Số điện thoại phải là số và Số căn cước công dân phải đúng 12 số");
-      return;
-    }
-    // Kiểm tra name không chứa ký tự số
-    if (/\d/.test(name)) {
-      toast.error("Tên khách hàng không được chứa ký tự số");
-      return;
-    }
-    // Kiểm tra email có định dạng @gmail.com
-    if (!email.includes("@gmail.com")) {
-      toast.error("Email phải có định dạng @gmail.com");
-      return;
-    }
     if (!dateOfBirth) {
-      toast.error("Vui lòng chọn ngày sinh");
+      toast.error("Please select a date of birth");
       return;
     }
-    const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0];
+    if (isNaN(phone)) {
+      toast.error("Phải là số");
+      return;
+    }
+    if (isNaN(cccd)) {
+      toast.error("Phải là số");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Sai định dạng");
+      return;
+    }
+    const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0]; // Format date as yyyy-MM-dd
     let res = await postCreateUser(
       name,
       formattedDateOfBirth,
@@ -42,10 +42,12 @@ const ModalAdd = (props) => {
       email,
       cccd
     );
-    if (res) {
+    console.log("check user", res);
+    if (res && res) {
+      // Thành công, đóng modal
       handleClose();
       setName("");
-      setDateOfBirth(null);
+      setDateOfBirth(null); // Reset dateOfBirth to null
       setAddress("");
       setPhone("");
       setEmail("");
@@ -60,9 +62,29 @@ const ModalAdd = (props) => {
         cccd: cccd,
       });
     } else {
-      toast.error("Đã xảy ra lỗi");
+      // Xử lý khi thất bại, nếu cần
+      toast.error("An error occurred");
     }
   };
+
+  const handlePhoneChange = (event) => {
+    const value = event.target.value;
+    if (!isNaN(value)) {
+      setPhone(value);
+    } else {
+      toast.error("Phải là số");
+    }
+  };
+
+  const handleCccdChange = (event) => {
+    const value = event.target.value;
+    if (!isNaN(value)) {
+      setCccd(value);
+    } else {
+      toast.error("Citizen ID must be numeric");
+    }
+  };
+
   return (
     <Modal
       show={show}
@@ -87,6 +109,7 @@ const ModalAdd = (props) => {
               onChange={(event) => setName(event.target.value)}
             />
           </div>
+
           <div className="col-md-6">
             <label htmlFor="inputArea" className="form-label">
               Địa chỉ
@@ -98,6 +121,7 @@ const ModalAdd = (props) => {
               onChange={(event) => setAddress(event.target.value)}
             />
           </div>
+
           <div className="col-md-6">
             <label htmlFor="inputStatus" className="form-label">
               Số điện thoại
@@ -106,7 +130,7 @@ const ModalAdd = (props) => {
               type="text"
               className="form-control"
               value={phone}
-              onChange={(event) => setPhone(event.target.value)}
+              onChange={handlePhoneChange}
             />
           </div>
           <div className="col-md-6">
@@ -128,7 +152,7 @@ const ModalAdd = (props) => {
               type="text"
               className="form-control"
               value={cccd}
-              onChange={(event) => setCccd(event.target.value)}
+              onChange={handleCccdChange}
             />
           </div>
           <div className="col-md-12">
@@ -158,4 +182,5 @@ const ModalAdd = (props) => {
     </Modal>
   );
 };
+
 export default ModalAdd;

@@ -35,11 +35,11 @@ function ModalEditTro({
   };
   const handleEditTro = async () => {
     // Kiểm tra nếu roomNumber, price, roomArea là số
-    const isRoomNumberNumber = !Number.isNaN(parseInt(roomNumber));
-    const isPriceNumber = !Number.isNaN(parseInt(price));
-    const isRoomAreaNumber = !Number.isNaN(parseInt(roomArea));
+    const isRoomNumberNumber = /^\d+$/.test(roomNumber);
+    const isPriceNumber = /^\d+$/.test(price);
+    const isRoomAreaNumber = /^\d+$/.test(roomArea);
     if (!isRoomNumberNumber || !isPriceNumber || !isRoomAreaNumber) {
-      toast.error("Số phòng, giá phòng và diện tích phải là số nguyên");
+      toast.error("Số phòng, giá phòng và diện tích phải là số nguyên dương");
       return;
     }
     // Tiếp tục xử lý khi các trường là số nguyên
@@ -75,9 +75,11 @@ function ModalEditTro({
         toast.error("Update thất bại");
       }
     } else {
-      toast.error("Vui lòng nhập tên trước khi lưu");
+      toast.error("Vui lòng nhập số phòng trước khi lưu");
     }
   };
+  
+  
   
   useEffect(() => {
     if (show) {

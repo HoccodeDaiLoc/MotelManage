@@ -16,7 +16,7 @@ const ModalConfirmTro = ({
       if (res && res) {
         toast.success("Xóa thành công");
         handleCloseTro();
-        handDeleteTroFromModal(res);
+        handDeleteTroFromModal(dataTroDelete);
       } else {
         toast.error("Xóa không thành công");
       }

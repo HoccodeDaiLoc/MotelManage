@@ -124,14 +124,14 @@ function App() {
               </SuperPrivateRoute>
             }
           />
-          {/* <Route
-            path="/pageQLHD"
+          <Route
+            path="/pageHD"
             element={
               <SuperPrivateRoute>
                 <ManageHopDong></ManageHopDong>
               </SuperPrivateRoute>
             }
-          /> */}
+          />
           <Route
             path="/PageQLHD"
             element={

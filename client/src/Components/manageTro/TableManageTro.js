@@ -87,13 +87,13 @@ const TableManageTro = (props) => {
 
   const handDeleteTroFromModal = (tro) => {
     let cloneListTro = _.cloneDeep(listTro);
-    cloneListTro = cloneListTro.filter((item) => item.id !== tro.id);
+    cloneListTro = cloneListTro.filter((item) => item.roomId !== tro.roomId);
     setListTro(cloneListTro);
   };
 
   const handleDetailTrofrommodal = (tro) => {
     let cloneListTro = _.cloneDeep(listTro);
-    let index = listTro.findIndex((item) => item.id == tro.id);
+    let index = listTro.findIndex((item) => item.roomId == tro.roomId);
     cloneListTro[index].first_name = tro.first_name;
     setListTro(cloneListTro);
   };
@@ -126,7 +126,6 @@ const TableManageTro = (props) => {
     <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
         <span>
-          {console.log(dataTroEdit)}
 
           <b>Danh sách phòng trọ:</b>
         </span>

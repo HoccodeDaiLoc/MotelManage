@@ -10,18 +10,13 @@ const ModalAddHoadon = (props) => {
     const { show, handleCloseHoadon, handUpdateTableHoadon } = props;
     const [billStartDate, setBillStartDate] = useState("");
     const [billEndDate, setBillEndDate] = useState("");
-    const [payMethod, setPayMethod] = useState("");
+    const [payMethod, setPayMethod] = useState("Tiền mặt");
     const [billStatus, setBillStatus] = useState("Chưa thanh toán");
     const [waterPrice, setWaterPrice] = useState("7000");
     const [electricPrice, setElectricPrice] = useState("3000");
     const [roomId, setRoomId] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const handUpdateHoadon = async () => {
-        // Kiểm tra xem roomId có phải là số hay không
-        if (isNaN(roomId)) {
-            toast.error("Số phòng phải là số");
-            return;
-        }
         // Định dạng ngày tháng trước khi gửi lên server
         const formattedStartDate = moment(billStartDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
         const formattedEndDate = moment(billEndDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
@@ -48,7 +43,6 @@ const ModalAddHoadon = (props) => {
             toast.error("Đã xảy ra lỗi");
         }
     }
-    
     return (
         <Modal show={show} onHide={handleCloseHoadon} size='lg' className='modal-add-tro'>
             <Modal.Header closeButton>
@@ -84,8 +78,9 @@ const ModalAddHoadon = (props) => {
       value={payMethod}
       onChange={(event) => setPayMethod(event.target.value)}
       >
+        <option value="Chuyển khoản">Chuyển khoản</option>
       <option value="Tiền mặt">Tiền mặt</option>
-      <option value="Chuyển khoản">Chuyển khoản</option>
+
        </select>
             </div>
                     <div className="col-md-6">
