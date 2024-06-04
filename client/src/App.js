@@ -26,8 +26,8 @@ import ManagerTro from "./Pages/ManagerTro";
 import ManageTb from "./Pages/ManageTb";
 import ManageUser from "./Pages/ManagerUser";
 import ManageHoadon from "./Pages/ManageHoadon";
-
 import ManageHopDong from "./Pages/ManageHopdong";
+import TableManageHoadon from "./Components/manageHoadon/TableManageHoadon";
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
   return auth ? children : "error page html";
@@ -134,7 +134,7 @@ function App() {
             }
           />
           <Route
-            path="/PageBill"
+            path="/PageQLHD"
             element={
               <SuperPrivateRoute>
                 <ManageHoadon></ManageHoadon>
