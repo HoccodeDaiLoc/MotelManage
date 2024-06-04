@@ -34,35 +34,42 @@ const ModalAddTro = (props) => {
   };
 
   const handUpdateTro = async () => {
-    let res = await postCreateTro(
-      roomNumber,
-      description,
-      price,
-      roomStatus,
-      roomArea
-    );
-    console.log("check", res);
-    if (res && res) {
-      setroomNumber("");
-      setdescription("");
-      setprice("");
-      setroomStatus("");
-      setroomArea("");
-      handleCloseTro();
-      toast.success("Đã lưu thành công");
-
-      handUpdateTableTro({
-        roomNumber: roomNumber,
-        description: description,
-        price: price,
-        roomStatus: roomStatus,
-        roomArea: roomArea,
-      });
-      console.log(res.data);
+    // Kiểm tra xem giá phòng, số phòng và diện tích có phải là số không
+    if (isNaN(price) || isNaN(roomNumber) || isNaN(roomArea)) {
+      // Nếu không phải số, báo lỗi và không thực hiện lưu
+      toast.error("Giá phòng, số phòng và diện tích phải là số");
     } else {
-      toast.error("Đã xảy ra lỗi");
+      // Nếu là số, tiếp tục thực hiện lưu
+      let res = await postCreateTro(
+        roomNumber,
+        description,
+        price,
+        roomStatus,
+        roomArea
+      );
+      console.log("check", res);
+      if (res) {
+        setroomNumber("");
+        setdescription("");
+        setprice("");
+        setroomStatus("");
+        setroomArea("");
+        handleCloseTro();
+        toast.success("Đã lưu thành công");
+        handUpdateTableTro({
+          roomNumber: roomNumber,
+          description: description,
+          price: price,
+          roomStatus: roomStatus,
+          roomArea: roomArea,
+        });
+        console.log(res.data);
+      } else {
+        toast.error("Đã xảy ra lỗi");
+      }
     }
   };
+  
 
   return (
     <Modal
@@ -142,16 +149,6 @@ const ModalAddTro = (props) => {
               <option value="Chưa đầy đủ">Chưa đầy đủ</option>
             </select>
           </div>
-
-          {/* <div className="col-md-4">
-      <label className="form-label">Tinh trang</label>
-      <select className="form-select" value={status} onChange={(event) => setstatus(event.target.value)}>
-   <option value="Đang cho thuê">Đang cho thuê</option>
-    < option value="Phòng trống">Phòng trống</option>
-   </select>  
-
-     </div> */}
-
           <div className="col-md-12">
             <label className="label-upload-anhtro" htmlFor="labelUploadTro">
               Thêm Ảnh

@@ -17,6 +17,11 @@ const ModalAddHoadon = (props) => {
     const [roomId, setRoomId] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const handUpdateHoadon = async () => {
+        // Kiểm tra xem roomId có phải là số hay không
+        if (isNaN(roomId)) {
+            toast.error("Số phòng phải là số");
+            return;
+        }
         // Định dạng ngày tháng trước khi gửi lên server
         const formattedStartDate = moment(billStartDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
         const formattedEndDate = moment(billEndDate, 'DD-MM-YYYY').format('YYYY-MM-DD');
@@ -43,6 +48,7 @@ const ModalAddHoadon = (props) => {
             toast.error("Đã xảy ra lỗi");
         }
     }
+    
     return (
         <Modal show={show} onHide={handleCloseHoadon} size='lg' className='modal-add-tro'>
             <Modal.Header closeButton>

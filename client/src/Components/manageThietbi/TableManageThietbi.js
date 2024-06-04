@@ -33,7 +33,6 @@ const TableManageTb = (props) => {
     setIsShowModalDeleteTb(false);
     setIsShowModalDetailTb(false);
   };
-  console.log('list',listTb)
 
 
   const handUpdateTableTb = (tb) => {

@@ -10,29 +10,14 @@ const ModalEditTb = (props) => {
   const [deviceName, setDeviceName] = useState("");
   const [devicePrice, setDevicePrice] = useState("");
   const [roomId,setRoomId] =useState("");
-
-  const [image, setImage] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
-
-  const [isReportBrokenVisible, setIsReportBrokenVisible] = useState("");
-
-  const toggleReportBrokenVisibility = () => {
-    setIsReportBrokenVisible(!isReportBrokenVisible);
-  };
-
-  const handUpdateImageTro = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files);
-    } else {
-      // setPreviewImage('');
-    }
-    // console.log('upload file', event.target.files[0]);
-  };
   const handleEditTb = async () => {
+    // Kiểm tra xem roomId và devicePrice có phải là số không
+    if (isNaN(roomId) || isNaN(devicePrice)) {
+      toast.error("Số phòng và giá phải là số!");
+      return;
+    }
     if (deviceName) {
-      console.log("Starting updateTro with:", {
-
+      console.log("Starting updateTb with:", {
         deviceName,
         devicePrice,
         roomId
@@ -49,7 +34,7 @@ const ModalEditTb = (props) => {
           deviceId: dataTbedit.deviceId,
           deviceName: deviceName,
           devicePrice: devicePrice,
-          roomId:roomId,
+          roomId: roomId,
         });
         handleCloseTb();
         toast.success("Update thành công");
@@ -60,10 +45,12 @@ const ModalEditTb = (props) => {
       toast.error("Vui lòng nhập tên trước khi lưu");
     }
   };
+  
   useEffect(() => {
     if (show) {
-      setDeviceName(dataTbedit.deviceName);
       setDevicePrice(dataTbedit.devicePrice); 
+      setDeviceName(dataTbedit.deviceName);
+    
       setRoomId(dataTbedit.roomId); 
 
   
@@ -89,13 +76,24 @@ const ModalEditTb = (props) => {
             <input
               type="text"
               className="form-control"
+              value={roomId}
+              onChange={(event) => setRoomId(event.target.value)}
+            />
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="inputEmail4" className="form-label">
+              Thiết bị
+            </label>
+            <input
+              type="text"
+              className="form-control"
               value={deviceName}
               onChange={(event) => setDeviceName(event.target.value)}
             />
           </div>
           <div className="col-md-6">
             <label htmlFor="inputEmail4" className="form-label">
-              Loại Phòng
+              Giá
             </label>
             <input
               type="text"
@@ -105,25 +103,7 @@ const ModalEditTb = (props) => {
             />
           </div>
           
-          <div className="col-md-12">
-            <label className="label-upload-anhtro" htmlFor="labelUploadTro">
-              Thêm Ảnh
-              <i className="fa-solid fa-circle-plus"></i>
-            </label>
-            <input
-              type="file"
-              hidden
-              id="labelUploadTro"
-              onChange={(event) => handUpdateImageTro(event)}
-            />
-          </div>
-          <div className="img_tro">
-            {previewImage ? (
-              <img src={previewImage} alt="Preview" />
-            ) : (
-              <span>Ảnh chi tiết phòng</span>
-            )}
-          </div>
+         
         </form>
       </Modal.Body>
       <Modal.Footer>

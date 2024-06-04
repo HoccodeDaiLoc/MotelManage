@@ -5,22 +5,35 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { postCreateUser } from "../../service/ManageService";
 import { toast } from "react-toastify";
-
 const ModalAdd = (props) => {
-  const { show, handleClose, handUpdateTable } = props; // Trích xuất giá trị từ props
+  const { show, handleClose, handUpdateTable } = props;
   const [name, setName] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(null); // Changed initial state to null
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [cccd, setCccd] = useState("");
-
   const handleSaveUser = async () => {
-    if (!dateOfBirth) {
-      toast.error("Please select a date of birth");
+    // Kiểm tra phone và cccd có phải là số và cccd có đúng 12 số không
+    if (isNaN(phone) || isNaN(cccd) || cccd.length !== 12) {
+      toast.error("Số điện thoại phải là số và Số căn cước công dân phải đúng 12 số");
       return;
     }
-    const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0]; // Format date as yyyy-MM-dd
+    // Kiểm tra name không chứa ký tự số
+    if (/\d/.test(name)) {
+      toast.error("Tên khách hàng không được chứa ký tự số");
+      return;
+    }
+    // Kiểm tra email có định dạng @gmail.com
+    if (!email.includes("@gmail.com")) {
+      toast.error("Email phải có định dạng @gmail.com");
+      return;
+    }
+    if (!dateOfBirth) {
+      toast.error("Vui lòng chọn ngày sinh");
+      return;
+    }
+    const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0];
     let res = await postCreateUser(
       name,
       formattedDateOfBirth,
@@ -29,12 +42,10 @@ const ModalAdd = (props) => {
       email,
       cccd
     );
-    console.log("check user", res);
-    if (res && res) {
-      // Thành công, đóng modal
+    if (res) {
       handleClose();
       setName("");
-      setDateOfBirth(null); // Reset dateOfBirth to null
+      setDateOfBirth(null);
       setAddress("");
       setPhone("");
       setEmail("");
@@ -49,11 +60,9 @@ const ModalAdd = (props) => {
         cccd: cccd,
       });
     } else {
-      // Xử lý khi thất bại, nếu cần
-      toast.error("An error occurred");
+      toast.error("Đã xảy ra lỗi");
     }
   };
-
   return (
     <Modal
       show={show}
@@ -78,7 +87,6 @@ const ModalAdd = (props) => {
               onChange={(event) => setName(event.target.value)}
             />
           </div>
-
           <div className="col-md-6">
             <label htmlFor="inputArea" className="form-label">
               Địa chỉ
@@ -90,7 +98,6 @@ const ModalAdd = (props) => {
               onChange={(event) => setAddress(event.target.value)}
             />
           </div>
-
           <div className="col-md-6">
             <label htmlFor="inputStatus" className="form-label">
               Số điện thoại
@@ -151,5 +158,4 @@ const ModalAdd = (props) => {
     </Modal>
   );
 };
-
 export default ModalAdd;

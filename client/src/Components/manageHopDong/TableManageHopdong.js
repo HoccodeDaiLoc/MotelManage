@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
-import { fetchAllHd } from "../../service/ManageService";
+import { fetchAllHd,fetchAllTro,fetchAllUser } from "../../service/ManageService";
 import ModalEditHd from './modalEditHd'
 import ModalAddHd from './modalAddHd';
 import ModalConfirmHd from'./modalConfirmHd'
@@ -59,27 +59,61 @@ const TableManageHd = (props) => {
 
     setListHd(cloneListHd);
   };
-
+ console.log('checkuserroom',listHd)
   useEffect(() => {
     // Call API
     getHd(1);
   }, []);
 
+  // const getHd = async (page) => {
+  //   try {
+  //     const res = await fetchAllHd(page);
+  //     console.log("checkhd", res);
+  //     if (res && res) {
+  //       const { data, total_pages } = res.data;
+  //       setTotalHd(res.data.total);
+  //       setListHd(res.data);
+  //       setTotalPageHd(res.total_pages);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching hd data:', error);
+  //   }
+  // };
   const getHd = async (page) => {
     try {
-      const res = await fetchAllHd(page);
-      console.log("checkhd", res);
-      if (res && res) {
+      const res = await fetchAllHd(page); // Lấy thông tin các hóa đơn
+      if (res && res.data) {
         const { data, total_pages } = res.data;
         setTotalHd(res.data.total);
         setListHd(res.data);
         setTotalPageHd(res.total_pages);
+        const hdPromises = res.data.map(async (hd) => {
+          try {
+            const resTro = await fetchAllTro(hd.roomId);
+            const roomNumber = resTro.data[0].roomNumber; // Lấy roomNumber từ kết quả trả về
+            const resUser = await fetchAllUser(hd.renterId); // Lấy thông tin người thuê từ renterId
+            const name = resUser.renterList[0].name; 
+            // Gộp thông tin phòng sử dụng và người thuê vào một đối tượng mới
+            const updatedHd = { 
+              ...hd,
+              roomNumber,
+              name
+            };
+            return updatedHd; // Trả về thông tin hóa đơn sau khi gộp
+          } catch (error) {
+            console.error("Error fetching Tro or User data:", error);
+            return hd; // Trả về hóa đơn ban đầu nếu có lỗi
+          }
+        });
+        Promise.all(hdPromises).then(updatedHoadonList => {
+          setListHd(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin phòng sử dụng và người thuê
+        });
       }
     } catch (error) {
-      console.error('Error fetching hd data:', error);
+      console.error("Error fetching hóa đơn data:", error);
     }
   };
-
+  
   const handlePageClick = (event) => {
     getHd(+event.selected + 1);
   };
@@ -165,8 +199,8 @@ const TableManageHd = (props) => {
         <tbody>
           {listHd && listHd.map((item, index) => (
             <tr key={`hd-${index}`}>
-              <td>{item.roomId}</td>
-              <td>{item.renterId}</td>
+              <td>{item.roomNumber}</td>
+              <td>{item.name}</td>
               <td>{formatDate(item.startDay)}</td> 
               <td>{formatDate(item.endDate)}</td>
               

@@ -77,8 +77,6 @@ const TableManageHoadon = (props) => {
     // Call API
     getHoadon(1);
   }, []);
-  console.log('list',listHoadon)
-
   const getHoadon = async (page) => {
     try {
       const resTb = await fetchAllHoadon(page); // Lấy thông tin các hóa đơn

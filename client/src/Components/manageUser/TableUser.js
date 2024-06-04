@@ -101,17 +101,18 @@ const TableUser = (props) => {
     handleClose();
   };
   const handleSearch = debounce((event) => {
-    const term = event.target.value;
+    const term = event.target.value.toLowerCase(); // Chuyển chuỗi tìm kiếm sang chữ thường
     if (term) {
-      const cloneListuser = _.cloneDeep(listUser);
-      const filteredUsers = cloneListuser.filter(
-        (item) => item.name && item.name.includes(term)
-      );
-      setListUser(filteredUsers);
+        const cloneListUser = _.cloneDeep(listUser);
+        const filteredUsers = cloneListUser.filter(item => 
+            item.name && item.name.toLocaleLowerCase().includes(term)
+        );
+        setListUser(filteredUsers);
     } else {
-      getUser(1);
+        getUser(1);
     }
-  }, 100);
+}, 300);
+
   const handDetailUser = (user) => {
     setIsShowModalDetail(true);
     setDataDetailUser(user);
@@ -152,9 +153,7 @@ const TableUser = (props) => {
             <tr>
               <th style={{ whiteSpace: "nowrap" }}>Tên khách hàng</th>
               <th style={{ whiteSpace: "nowrap" }}>Ngày sinh </th>
-              <th style={{ whiteSpace: "nowrap" }}>Địa chỉ</th>
               <th style={{ whiteSpace: "nowrap" }}>Số điện thoại</th>
-              <th style={{ whiteSpace: "nowrap" }}>Email</th>
               <th style={{ whiteSpace: "nowrap" }}>Số CCCD</th>
               <th style={{ whiteSpace: "nowrap" }}>Khác</th>
             </tr>
@@ -165,21 +164,9 @@ const TableUser = (props) => {
                 <tr key={`user-${index}`}>
                   <td>{item.name}</td>
                   <td>{formatDate(item.dateOfBirth)}</td>
-                  <td
-                    style={{
-                      maxWidth: "130px",
-                    }}
-                  >
-                    <p id="text_table">{item.address}</p>
-                  </td>
+                
                   <td>{item.phone}</td>
-                  <td
-                    style={{
-                      maxWidth: "130px",
-                    }}
-                  >
-                    <p id="text_table">{item.email}</p>
-                  </td>
+                 
                   <td>{item.cccd}</td>
                   <td>
                     <button
