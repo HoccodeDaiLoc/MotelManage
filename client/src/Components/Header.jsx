@@ -17,14 +17,26 @@ function Header(props) {
       socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
       console.log("Connected to server");
       console.log(socket);
+      socket.on("notification", (data) => {
+        console.log("Welcome message from server:", data);
+      });
     });
   }, [user]);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   socket.on("notification", (data) => {
+  //     console.log("Welcome message from server:", data);
+  //   });
+  // });
+
+  const handleclick = () => {
+    console.log("anbc");
+    console.log("check socket", socket);
     socket.on("notification", (data) => {
+      console.log("abc");
       console.log("Welcome message from server:", data);
     });
-  });
+  };
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
@@ -43,10 +55,15 @@ function Header(props) {
   }, [user]);
   return (
     <div className="header_container">
-      <div className="header">
+      <div
+        className="header"
+        onClick={() => {
+          handleclick();
+        }}
+      >
         <div className="nav_left">
-          {isAdmin ? (
-            <Link to="/Home">
+          {isAdmin === false || isAdmin === null || isAdmin === "" ? (
+            <Link to="/">
               <img
                 className="logo"
                 src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
@@ -54,7 +71,7 @@ function Header(props) {
               ></img>
             </Link>
           ) : (
-            <Link to="/">
+            <Link to="/Home">
               <img
                 className="logo"
                 src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"

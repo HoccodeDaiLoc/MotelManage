@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
-import { fetchAllHoadon, fetchAllstatusHd ,fetchAllTro} from "../../service/ManageService";
+import {
+  fetchAllHoadon,
+  fetchAllstatusHd,
+  fetchAllTro,
+} from "../../service/ManageService";
 import ModalAddHoadon from "./modalAddHoadon"; // Sửa tên thành component viết hoa
 import ModalAddDiennuoc from "./modalAddDiennuoc";
 import ModalConfirmHoadon from "./modalConfirmHoadon";
@@ -11,7 +15,8 @@ import ModalDetailHoadon from "./modalDetailHoadon";
 import ModalEditHoadon from "./modalEditHoadon";
 import { CSVLink, CSVDownload } from "react-csv";
 import axios from "axios";
-
+import { io, Socket } from "socket.io-client";
+import { useSelector } from "react-redux";
 const TableManageHoadon = (props) => {
   const [listHoadon, setListHoadon] = useState([]);
   const [totalHoadon, setTotalHoadon] = useState(0);
@@ -27,6 +32,25 @@ const TableManageHoadon = (props) => {
   const [dataDetailHoadon, setDataDetailHoadon] = useState({});
   const [dataExport, serDataExport] = useState([]);
   const [status, setStatus] = useState("all");
+  const user = useSelector((state) => state.user.account);
+  const isAdmin = useSelector((state) => state.user.account.isAdmin);
+  const id = useSelector((state) => state.user.account.id);
+
+  let socket = io("http://localhost:8080", { query: { id } });
+  const [noti, setNoti] = useState();
+  // useEffect(() => {
+  //   socket.on("connect", () => {
+  //     socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
+  //     console.log("Connected to server");
+  //     console.log(socket);
+  //   });
+  // }, [user]);
+
+  // useEffect(() => {
+  //   socket.on("notification", (data) => {
+  //     console.log("Welcome message from server:", data);
+  //   });
+  // });
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -77,7 +101,7 @@ const TableManageHoadon = (props) => {
     // Call API
     getHoadon(1);
   }, []);
-  console.log('list',listHoadon)
+  console.log("list", listHoadon);
 
   const getHoadon = async (page) => {
     try {
@@ -98,7 +122,7 @@ const TableManageHoadon = (props) => {
             return hoadon; // Trả về hóa đơn ban đầu nếu có lỗi
           }
         });
-        Promise.all(roomNumberPromises).then(updatedHoadonList => {
+        Promise.all(roomNumberPromises).then((updatedHoadonList) => {
           setListHoadon(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin roomNumber
         });
       }
@@ -106,7 +130,6 @@ const TableManageHoadon = (props) => {
       console.error("Error fetching hóa đơn data:", error);
     }
   };
-  
 
   const handlePageClick = (event) => {
     getHoadon(+event.selected + 1);
@@ -185,16 +208,18 @@ const TableManageHoadon = (props) => {
       } else {
         res = await getHoadonByStatus(status);
       }
-      updatedHoadonList = await Promise.all(res.data.map(async (hoadon) => {
-        try {
-          const resTro = await fetchAllTro(hoadon.roomId);
-          const roomNumber = resTro.data[0].roomNumber;
-          return { ...hoadon, roomNumber };
-        } catch (error) {
-          console.error("Error updating hoadon with roomNumber:", error);
-          return hoadon;
-        }
-      }));
+      updatedHoadonList = await Promise.all(
+        res.data.map(async (hoadon) => {
+          try {
+            const resTro = await fetchAllTro(hoadon.roomId);
+            const roomNumber = resTro.data[0].roomNumber;
+            return { ...hoadon, roomNumber };
+          } catch (error) {
+            console.error("Error updating hoadon with roomNumber:", error);
+            return hoadon;
+          }
+        })
+      );
       setListHoadon(updatedHoadonList);
     } catch (error) {
       console.error("Error handling bill data by status:", error);
@@ -221,8 +246,6 @@ const TableManageHoadon = (props) => {
     setDataDetailHoadon(hoadon);
   };
 
-
-  
   return (
     <>
       <div

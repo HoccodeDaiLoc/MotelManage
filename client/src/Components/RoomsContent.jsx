@@ -4,22 +4,28 @@ import ReactPaginate from "react-paginate";
 import { fetchRoomByPrice, fetchRoomByPage } from "../service/RoomService";
 import { useNavigate } from "react-router-dom";
 import DropDownBoostrap from "./DropDownBoostrap";
+import { useSelector } from "react-redux";
 function RoomsContent() {
   const [items, setItems] = useState([]); // Use a more descriptive name
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const res = await fetchRoomByPage(currentPage);
-        setItems(res.data);
-        setTotalPages(res.total_pages);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    };
-    fetchItems();
-  }, [currentPage]);
+  const user = useSelector((state) => state.user.account);
+  useEffect(
+    () => {
+      const fetchItems = async () => {
+        try {
+          const res = await fetchRoomByPage(currentPage);
+          setItems(res.data);
+          setTotalPages(res.total_pages);
+        } catch (error) {
+          console.error("Error fetching items:", error);
+        }
+      };
+      fetchItems();
+    },
+    [currentPage],
+    [user]
+  );
 
   const navigate = useNavigate();
   const RoomItem = ({ item, index }) => (
