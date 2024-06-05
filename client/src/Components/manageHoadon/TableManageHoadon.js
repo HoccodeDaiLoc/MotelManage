@@ -35,7 +35,7 @@ const TableManageHoadon = (props) => {
   const [isShowModalDetailHoadon, setIsShowModalDetailHoadon] = useState(false);
   const [dataDetailHoadon, setDataDetailHoadon] = useState({});
   const [dataExport, serDataExport] = useState([]);
-  const [status, setStatus] = useState("all");
+  const [status, setStatus] = useState("");
   const user = useSelector((state) => state.user.account);
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
   const id = useSelector((state) => state.user.account.id);

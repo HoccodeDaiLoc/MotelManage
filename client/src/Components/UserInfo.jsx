@@ -2,7 +2,11 @@ import style from "../styles/UserInfo.modules.scss";
 import DatePicker from "react-datepicker";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchCurrentUser, putUpdateUser } from "../service/UserService";
+import {
+  fetchCurrentUser,
+  putUpdateAvatar,
+  putUpdateUser,
+} from "../service/UserService";
 import { toast } from "react-toastify";
 import { getDownloadURL, uploadBytesResumable, ref } from "firebase/storage";
 // import UploadImage from "./UploadImage";
@@ -75,12 +79,14 @@ function UserInfo() {
       () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           setUploadedImages([downloadURL, ...uploadedImages]);
+          console.log(downloadURL);
+          let update = await putUpdateAvatar(downloadURL);
           setAvatarLink(downloadURL);
-          toast.success(downloadURL, {
-            position: "top-center",
-          });
+          // toast.success(downloadURL, {
+          //   position: "top-center",
+          // });
           setImage(null);
           setProgress(0);
         });
@@ -88,42 +94,12 @@ function UserInfo() {
     );
   };
 
-  const getLatestImage = async () => {
-    try {
-      const listRef = ref(storage, "images");
-
-      // List all items (up to 1 result) ordered by creation time (descending)
-      const result = await listAll(listRef, {
-        orderBy: storage.refField("metadata.creationTime"),
-        limit: 1,
-        startAfter: null, // Include all items
-        endBefore: null, // Include all items
-      });
-
-      if (result.items.length > 0) {
-        const latestItemRef = result.items[0];
-        const latestImageUrl = await getDownloadURL(latestItemRef);
-        setUploadedImages([latestImageUrl]); // Update state with single URL
-      } else {
-        console.log("No images found in Firebase Storage");
-        // Optionally handle the case where no images are found
-      }
-    } catch (error) {
-      console.error("Error getting download URL:", error);
-    }
-  };
-  useEffect(() => {
-    getLatestImage();
-  }, []);
-  //hết trôn
-
   useEffect(() => {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
       // let ava =await
+      console.log(res);
       let data = res.renter;
-      console.log("check data", data);
-      console.log("check res", res);
       setEmail(data.email);
       setName(data.name);
       setDateOfBirth(data.dateOfBirth);
@@ -168,7 +144,6 @@ function UserInfo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) {
-      console.log(validate());
       toast.error(errorMessage, { position: "top-center" });
       return;
     }
@@ -279,20 +254,26 @@ function UserInfo() {
                   className="hidden"
                   id="imageInput"
                 />
-                <label htmlFor="imageInput" className="InputText">
-                  Select Image
-                </label>
-                {image && (
-                  <p className="image_preview_title">Selected: {image.name}</p>
-                )}
+
                 {image && (
                   <img
                     src={URL.createObjectURL(image)}
                     alt="Preview"
                     className="image_preview_item"
-                    style={{ maxWidth: "100%", maxHeight: "200px" }}
+                    style={{
+                      maxWidth: "150px",
+                      maxHeight: "150px",
+                      margin: "0px 20px 0px 20px",
+                    }}
                   />
                 )}
+                <label
+                  htmlFor="imageInput"
+                  className="InputText"
+                  style={{ whiteSpace: "nowrap" }}
+                >
+                  Select Image
+                </label>
               </div>
               {progress > 0 && (
                 <progress
@@ -302,24 +283,34 @@ function UserInfo() {
                 />
               )}
               {image && (
-                <button onClick={handleUpload} className="btn_upload">
+                <div
+                  onClick={() => {
+                    handleUpload();
+                  }}
+                  className="btn_upload"
+                >
                   Upload
-                </button>
+                </div>
               )}
             </div>
             <div className="uploaded_images_container">
-              <h2 className="uploaded_images_title">Ảnh đại diện của bạn</h2>
-              <img src={avatarLink} className="uploaded-images"></img>
+              <img
+                src={avatarLink}
+                className="uploaded-images"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              ></img>
             </div>
           </div>
         </div>
-        <div
-          className="UserInfo_Edit_Button"
-          onClick={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          Lưu
+        <div className="UserInfo_Edit_Button_Container">
+          <button
+            className="UserInfo_Edit_Button"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            Lưu
+          </button>
         </div>
       </form>
     </div>

@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 function RecoverInitiate() {
   const location = useLocation();
   const data = location.state;
-  console.log(data);
   const navigate = useNavigate();
   return (
     <>
@@ -31,7 +30,6 @@ function RecoverInitiate() {
             <button
               className="submit_btn"
               onClick={() => {
-                console.log("email ini:", data);
                 postForgetPassWord(data);
                 navigate("/Recover/Code", { state: data });
               }}

@@ -1,489 +1,245 @@
+import { useEffect, useState } from "react";
+import {
+  fetchAllUser,
+  deleteUser,
+  updateUser,
+} from "../../service/ManageService";
+import { fetchCurrentUser } from "../../service/UserService";
+import style from "../../styles/Managerment.modules.scss";
 import ReactPaginate from "react-paginate";
-
-/* <script>
-$(document).ready(function(){
-	// Activate tooltip
-	$('[data-toggle="tooltip"]').tooltip();
-	
-	// Select/Deselect checkboxes
-	var checkbox = $('table tbody input[type="checkbox"]');
-	$("#selectAll").click(function(){
-		if(this.checked){
-			checkbox.each(function(){
-				this.checked = true;                        
-			});
-		} else{
-			checkbox.each(function(){
-				this.checked = false;                        
-			});
-		} 
-	});
-	checkbox.click(function(){
-		if(!this.checked){
-			$("#selectAll").prop("checked", false);
-		}
-	});
-});
-</script> */
-
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { fetchAllUser } from "../../service/ManageService";
-
-function ManagerUser() {
-  const [items, setItems] = useState([]); // Use a more descriptive name
+import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap"; // Import Bootstrap Modal component
+function ManagermentUser() {
+  const [userData, setUserData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [show, setShow] = useState(false); // Modal state
+  const [user, setUser] = useState("");
   useEffect(() => {
-    const fetchItems = async () => {
+    const fetchBill = async (id, currentPage) => {
       try {
-        const res = await fetchAllUser(currentPage);
-        setItems(res.data);
+        const res = await fetchAllUser(id, currentPage);
+        // setBillData(res.data);
+        console.log(res);
+        setUserData(res.renterList);
         setTotalPages(res.total_pages);
       } catch (error) {
-        console.error("Error fetching items:", error);
+        console.error("Error fetching users:", error);
       }
     };
-    fetchItems();
+    fetchBill(currentPage);
   }, [currentPage]);
 
   const handlePageClick = (event) => {
     const newCurrentPage = event.selected + 1;
     setCurrentPage(newCurrentPage);
   };
+  const handleViewDetails = (id) => {
+    setUser(id);
+    setShow(!show);
+  };
+
+  useEffect(() => {
+    console.log(user);
+    const fetchUserById = async (user) => {
+      if (user != null && user != undefined) {
+        let res = await fetchCurrentUser(user);
+
+        if (res.renter != null) {
+          setUserData(Object.keys(res.renter));
+          console.log("curentuser", userData);
+        }
+      }
+    };
+    fetchUserById(user);
+  }, [show]);
+
+  const handleEditUser = (id) => {
+    setUser(id);
+    setShow(!show);
+  };
+  const handleDeleteUser = (id) => {
+    setUser(id);
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    setUser("");
+  }; // Close modal
+  const handleConfirm = () => {
+    // Call API with user data
+    // onConfirm(user); // Pass user data to onConfirm function
+    handleClose(); // Close modal after API call
+  };
 
   return (
-    <>
-      <div class="container-xl">
-        <div class="table-responsive">
-          <div class="table-wrapper">
-            <div class="table-title">
-              <div class="row">
-                <div class="col-sm-6">
-                  <h2>
-                    Manage <b>Employees</b>
-                  </h2>
-                </div>
-                <div class="col-sm-6">
-                  <a
-                    href="#addEmployeeModal"
-                    class="btn btn-success"
-                    data-toggle="modal"
+    <div className="UserInfo_Wrapper">
+      <div className="UserInfo_Container">
+        <>
+          <h4 className="UserInfo_Item_Heading">Danh sách khách hàng</h4>
+          <table className="UserInfo_Table">
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Tên khách hàng</th>
+                <th>Email</th>
+                <th>Ngày sinh</th>
+                <th>Điện thoại</th>
+                <th>CCCD</th>
+                <th>Địa chỉ</th>
+                <th>Khác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userData.map((user) => (
+                <tr key={user.renterId}>
+                  <td>{user.renterId}</td>
+                  <td>{user.name === null ? "chưa nhập" : user.name}</td>
+                  <td>{user.email === null ? "chưa nhập" : user.email}</td>
+                  <td>
+                    {user.dateOfBirth === null || user.dateOfBirth === undefined
+                      ? "chưa nhập"
+                      : user.dateOfBirth.slice(0, 10)}
+                  </td>
+                  <td>{user.phone === null ? "chưa nhập" : user.phone}</td>
+                  <td>{user.cccd === null ? "chưa nhập" : user.cccd}</td>
+                  <td>{user.address === null ? "chưa nhập" : user.address}</td>
+                  <td>
+                    <button
+                      className=".view-details-btn"
+                      onClick={() => handleViewDetails(user.renterId)}
+                    >
+                      Xem chi tiết
+                    </button>
+                    <button
+                      className=".edit-btn"
+                      onClick={() => handleEditUser(user.renterId)}
+                    >
+                      Chỉnh sửa
+                    </button>
+                    <button
+                      className=".delete-btn"
+                      onClick={() => handleDeleteUser(user.renterId)}
+                    >
+                      Xóa
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="paginate_container">
+            <ReactPaginate
+              previousLabel="Previous"
+              nextLabel="Next"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakLabel="..."
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              pageCount={totalPages} //tổng
+              marginPagesDisplayed={2} //số page đầu cuối
+              pageRangeDisplayed={5} //số page ở giữa
+              onPageChange={handlePageClick}
+              containerClassName="pagination"
+              activeClassName="active"
+              // forcePage={pageOffset}
+            />
+          </div>
+          {show === true ? (
+            <div>
+              <Modal
+                show="true"
+                size="lg"
+                aria-labelledby="userDetailsModalLabel"
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title id="userDetailsModalLabel">
+                    Chi tiết khách hàng
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <table>
+                    <tbody>
+                      {userData.map((user) => (
+                        <tr key={user.renterId}>
+                          <td>{user.renterId}</td>
+                          <td>
+                            {user.name === null ? "chưa nhập" : user.name}
+                          </td>
+                          <td>
+                            {user.email === null ? "chưa nhập" : user.email}
+                          </td>
+                          <td>
+                            {user.dateOfBirth === null ||
+                            user.dateOfBirth === undefined
+                              ? "chưa nhập"
+                              : user.dateOfBirth.slice(0, 10)}
+                          </td>
+                          <td>
+                            {user.phone === null ? "chưa nhập" : user.phone}
+                          </td>
+                          <td>
+                            {user.cccd === null ? "chưa nhập" : user.cccd}
+                          </td>
+                          <td>
+                            {user.address === null ? "chưa nhập" : user.address}
+                          </td>
+                          <td>
+                            <button
+                              className=".view-details-btn"
+                              onClick={() => handleViewDetails(user.renterId)}
+                            >
+                              Xem chi tiết
+                            </button>
+                            <button
+                              className=".edit-btn"
+                              onClick={() => handleEditUser(user.renterId)}
+                            >
+                              Chỉnh sửa
+                            </button>
+                            <button
+                              className=".delete-btn"
+                              onClick={() => handleDeleteUser(user.renterId)}
+                            >
+                              Xóa
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      handleClose();
+                    }}
                   >
-                    <i class="material-icons">&#xE147;</i>{" "}
-                    <span>Add New Employee</span>
-                  </a>
-                  <a
-                    href="#deleteEmployeeModal"
-                    class="btn btn-danger"
-                    data-toggle="modal"
+                    Hủy
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      handleConfirm();
+                    }}
                   >
-                    <i class="material-icons">&#xE15C;</i> <span>Delete</span>
-                  </a>
-                </div>
-              </div>
+                    Xác nhận
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </div>
-            <table class="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>
-                    <span class="custom-checkbox">
-                      <input type="checkbox" id="selectAll" />
-                      <label for="selectAll"></label>
-                    </span>
-                  </th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Address</th>
-                  <th>Phone</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <span class="custom-checkbox">
-                      <input
-                        type="checkbox"
-                        id="checkbox1"
-                        name="options[]"
-                        value="1"
-                      />
-                      <label for="checkbox1"></label>
-                    </span>
-                  </td>
-                  <td>Thomas Hardy</td>
-                  <td>thomashardy@mail.com</td>
-                  <td>89 Chiaroscuro Rd, Portland, USA</td>
-                  <td>(171) 555-2222</td>
-                  <td>
-                    <a
-                      href="#editEmployeeModal"
-                      class="edit"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Edit"
-                      >
-                        &#xE254;
-                      </i>
-                    </a>
-                    <a
-                      href="#deleteEmployeeModal"
-                      class="delete"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Delete"
-                      >
-                        &#xE872;
-                      </i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span class="custom-checkbox">
-                      <input
-                        type="checkbox"
-                        id="checkbox2"
-                        name="options[]"
-                        value="1"
-                      />
-                      <label for="checkbox2"></label>
-                    </span>
-                  </td>
-                  <td>Dominique Perrier</td>
-                  <td>dominiqueperrier@mail.com</td>
-                  <td>Obere Str. 57, Berlin, Germany</td>
-                  <td>(313) 555-5735</td>
-                  <td>
-                    <a
-                      href="#editEmployeeModal"
-                      class="edit"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Edit"
-                      >
-                        &#xE254;
-                      </i>
-                    </a>
-                    <a
-                      href="#deleteEmployeeModal"
-                      class="delete"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Delete"
-                      >
-                        &#xE872;
-                      </i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span class="custom-checkbox">
-                      <input
-                        type="checkbox"
-                        id="checkbox3"
-                        name="options[]"
-                        value="1"
-                      />
-                      <label for="checkbox3"></label>
-                    </span>
-                  </td>
-                  <td>Maria Anders</td>
-                  <td>mariaanders@mail.com</td>
-                  <td>25, rue Lauriston, Paris, France</td>
-                  <td>(503) 555-9931</td>
-                  <td>
-                    <a
-                      href="#editEmployeeModal"
-                      class="edit"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Edit"
-                      >
-                        &#xE254;
-                      </i>
-                    </a>
-                    <a
-                      href="#deleteEmployeeModal"
-                      class="delete"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Delete"
-                      >
-                        &#xE872;
-                      </i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span class="custom-checkbox">
-                      <input
-                        type="checkbox"
-                        id="checkbox4"
-                        name="options[]"
-                        value="1"
-                      />
-                      <label for="checkbox4"></label>
-                    </span>
-                  </td>
-                  <td>Fran Wilson</td>
-                  <td>franwilson@mail.com</td>
-                  <td>C/ Araquil, 67, Madrid, Spain</td>
-                  <td>(204) 619-5731</td>
-                  <td>
-                    <a
-                      href="#editEmployeeModal"
-                      class="edit"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Edit"
-                      >
-                        &#xE254;
-                      </i>
-                    </a>
-                    <a
-                      href="#deleteEmployeeModal"
-                      class="delete"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Delete"
-                      >
-                        &#xE872;
-                      </i>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span class="custom-checkbox">
-                      <input
-                        type="checkbox"
-                        id="checkbox5"
-                        name="options[]"
-                        value="1"
-                      />
-                      <label for="checkbox5"></label>
-                    </span>
-                  </td>
-                  <td>Martin Blank</td>
-                  <td>martinblank@mail.com</td>
-                  <td>Via Monte Bianco 34, Turin, Italy</td>
-                  <td>(480) 631-2097</td>
-                  <td>
-                    <a
-                      href="#editEmployeeModal"
-                      class="edit"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Edit"
-                      >
-                        &#xE254;
-                      </i>
-                    </a>
-                    <a
-                      href="#deleteEmployeeModal"
-                      class="delete"
-                      data-toggle="modal"
-                    >
-                      <i
-                        class="material-icons"
-                        data-toggle="tooltip"
-                        title="Delete"
-                      >
-                        &#xE872;
-                      </i>
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="clearfix">
-              <ReactPaginate
-                previousLabel="Previous"
-                nextLabel="Next"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                pageCount={totalPages} //tổng
-                marginPagesDisplayed={2} //số page đầu cuối
-                pageRangeDisplayed={5} //số page ở giữa
-                onPageChange={handlePageClick}
-                containerClassName="pagination"
-                activeClassName="active"
-                // forcePage={pageOffset}
-              />{" "}
-              <ReactPaginate></ReactPaginate>
-            </div>
-          </div>
-        </div>
+          ) : (
+            ""
+          )}
+        </>
       </div>
-      {/* <!-- Edit Modal HTML --> */}
-      <div id="addEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form>
-              <div class="modal-header">
-                <h4 class="modal-title">Add Employee</h4>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-hidden="true"
-                >
-                  &times;
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label>Name</label>
-                  <input type="text" class="form-control" required />
-                </div>
-                <div class="form-group">
-                  <label>Email</label>
-                  <input type="email" class="form-control" required />
-                </div>
-                <div class="form-group">
-                  <label>Address</label>
-                  <textarea class="form-control" required></textarea>
-                </div>
-                <div class="form-group">
-                  <label>Phone</label>
-                  <input type="text" class="form-control" required />
-                </div>
-              </div>
-              <div class="modal-footer">
-                <input
-                  type="button"
-                  class="btn btn-default"
-                  data-dismiss="modal"
-                  value="Cancel"
-                />
-                <input type="submit" class="btn btn-success" value="Add" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      {/* <!-- Edit Modal HTML --> */}
-      <div id="editEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form>
-              <div class="modal-header">
-                <h4 class="modal-title">Edit Employee</h4>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-hidden="true"
-                >
-                  &times;
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label>Name</label>
-                  <input type="text" class="form-control" required />
-                </div>
-                <div class="form-group">
-                  <label>Email</label>
-                  <input type="email" class="form-control" required />
-                </div>
-                <div class="form-group">
-                  <label>Address</label>
-                  <textarea class="form-control" required></textarea>
-                </div>
-                <div class="form-group">
-                  <label>Phone</label>
-                  <input type="text" class="form-control" required />
-                </div>
-              </div>
-              <div class="modal-footer">
-                <input
-                  type="button"
-                  class="btn btn-default"
-                  data-dismiss="modal"
-                  value="Cancel"
-                />
-                <input type="submit" class="btn btn-info" value="Save" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      {/* <!-- Delete Modal HTML --> */}
-      <div id="deleteEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <form>
-              <div class="modal-header">
-                <h4 class="modal-title">Delete Employee</h4>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-hidden="true"
-                >
-                  &times;
-                </button>
-              </div>
-              <div class="modal-body">
-                <p>Are you sure you want to delete these Records?</p>
-                <p class="text-warning">
-                  <small>This action cannot be undone.</small>
-                </p>
-              </div>
-              <div class="modal-footer">
-                <input
-                  type="button"
-                  class="btn btn-default"
-                  data-dismiss="modal"
-                  value="Cancel"
-                />
-                <input type="submit" class="btn btn-danger" value="Delete" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
-
-export default ManagerUser;
+export default ManagermentUser;

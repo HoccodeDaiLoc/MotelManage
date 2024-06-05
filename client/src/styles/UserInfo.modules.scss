@@ -32,7 +32,7 @@
             display: flex;
             flex-direction: row;
 
-        }
+         }
         .UserInfo_Table tbody tr {
             border-bottom: 1px solid #dddddd;
         }
@@ -66,6 +66,7 @@
                 }
             }
         }
+        
         .UserInfo_Item{
             display: flex;
             flex-direction: row;
@@ -87,15 +88,8 @@
                 outline: none;
                 // ko có viền khi click vào
             }
-            .UserInfo_Edit_Button{
-                border: none;
-                width: fit-content;
-                padding: 5px 10px;
-                border-radius: 10px;
-                color: Global.$background;
-                width: 100%;
-                height: 100%;
-            }
+
+
             .UserInfo_Edit_Button:hover{
             }
 
@@ -155,3 +149,19 @@
     display: none; /* Hide content initially */
     /* Add additional styles for the tooltip content here */
   }
+  .UserInfo_Edit_Button_Container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .UserInfo_Edit_Button{
+        border: none;
+        padding: 5px 0px;
+        border-radius: 20px;
+        margin-top: 30px;
+        background-color: #ff385c;
+        color: #ffffff;
+        cursor: pointer;
+        width: 30%;
+    }
+}

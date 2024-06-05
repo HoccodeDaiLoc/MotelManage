@@ -20,7 +20,6 @@ function Categories() {
         const categoryId = dataReceive; //
         const res = await fetchRoomByDevice(categoryId);
         if (res) {
-          console.log("check response", res);
           const data = res;
           SetCurrentActive(data.data[0].device[0].categoryId);
           setItems(data.data);

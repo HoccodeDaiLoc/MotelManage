@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import ReactPaginate from "react-paginate";
-import {
-  fetchAllHd,
-  fetchAllTro,
-  fetchAllUser,
-} from "../../service/ManageService";
-import ModalEditHd from "./modalEditHd";
-import ModalAddHd from "./modalAddHd";
-import ModalConfirmHd from "./modalConfirmHd";
-import { debounce } from "lodash";
+import React, { useEffect, useState } from 'react';
+import Table from 'react-bootstrap/Table';
+import ReactPaginate from 'react-paginate';
+import { fetchAllHd,fetchAllTro,fetchAllUser } from "../../service/ManageService";
+import ModalEditHd from './modalEditHd'
+import ModalAddHd from './modalAddHd';
+import ModalConfirmHd from'./modalConfirmHd'
+import {debounce} from "lodash";
 import _ from "lodash";
 import ModalDetailHd from "./modalDetailHd";
 import { BiSolidBookAdd } from "react-icons/bi";
@@ -207,36 +203,20 @@ const TableManageHd = (props) => {
           </tr>
         </thead>
         <tbody>
-          {listHd &&
-            listHd.map((item, index) => (
-              <tr key={`hd-${index}`}>
-                <td>{item.roomNumber}</td>
-                <td>{item.rentAmount} người</td>
-                <td>{formatDate(item.startDay)}</td>
-                <td>{formatDate(item.endDate)}</td>
-
-                <td>
-                  <button
-                    className="btn btn-warning mx-3"
-                    onClick={() => handleEditHd(item)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handDeleteHd(item)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-success mx-3"
-                    onClick={() => handDetailHd(item)}
-                  >
-                    Chi tiết
-                  </button>
-                </td>
-              </tr>
-            ))}
+          {listHd && listHd.map((item, index) => (
+            <tr key={`hd-${index}`}>
+              <td>{item.roomNumber}</td>
+              <td>{item.name}</td>
+              <td>{formatDate(item.startDay)}</td> 
+              <td>{formatDate(item.endDate)}</td>
+              
+              <td>
+                <button className='btn btn-warning mx-3' onClick={() => handleEditHd(item)}>Edit</button>
+                <button className='btn btn-danger' onClick={() => handDeleteHd(item)}>Delete</button>
+                <button className='btn btn-success mx-3' onClick={() => handDetailHd(item)}>Chi tiết</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
       <ReactPaginate

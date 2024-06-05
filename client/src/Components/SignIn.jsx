@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { basicSchema } from "../schemas/index";
+import logo from "../asset/image/imagethuetro.png";
+
 <script
   src="https://kit.fontawesome.com/657d725d03.js"
   crossorigin="anonymous"
@@ -15,8 +17,6 @@ import { basicSchema } from "../schemas/index";
 
 function SignIn() {
   const onSubmit = async (values, actions) => {
-    console.log("check value", values);
-    console.log("check actions", actions);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(handleSignInRedux(values.username, values.email, values.password));
     navigate("/Loggin");
@@ -39,12 +39,7 @@ function SignIn() {
   return (
     <form onSubmit={handleSubmit} className="SignWrapper" autoComplete="off">
       <Link to={"/"} className="logo_container">
-        <img
-          className="logo"
-          src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
-          alt=""
-          srcSet=""
-        />
+        <img className="logo" src={logo} alt="" srcSet="" />
       </Link>
       <div className="SignContainer">
         <div className="SubSignContainer">

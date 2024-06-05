@@ -3,6 +3,7 @@ import { Renter } from "../models/Renter";
 import { BaseRepository } from "./BaseRepository";
 import { IRenterRepository } from "./Interfaces/IRenterRepository";
 import { RentalRecord } from "../models/RentalRecord";
+import { Account } from "../models/Account";
 
 @Service()
 export class RenterRepository
@@ -68,6 +69,10 @@ export class RenterRepository
         where: {
           renter_id: id,
         },
+        include: {
+          model: Account,
+          attributes: ["avatar"],
+        }
       });
       return renter;
     } catch (err) {

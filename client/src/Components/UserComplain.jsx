@@ -71,9 +71,16 @@ function UserComplain() {
           />
           {/* chưa có value, đang hard code */}
         </div>{" "}
-        <button type="submit" className="UserInfo_Edit_Button">
-          Lưu
-        </button>
+        <div className="UserInfo_Edit_Button_Container">
+          <button
+            className="UserInfo_Edit_Button"
+            onClick={(e) => {
+              // handleSubmit(e);
+            }}
+          >
+            Lưu
+          </button>
+        </div>
       </form>
     </div>
   );

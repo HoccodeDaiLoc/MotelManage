@@ -85,7 +85,6 @@ function RoomDetailContent() {
                             alt=""
                           />
                         </div>
-                        {console.log("device", device)}
                         <div className="text">{device.deviceName}</div>
                       </div>
                     ))}
@@ -94,7 +93,6 @@ function RoomDetailContent() {
               </div>
               <div className="Side_info">
                 <div className="Modal_container">
-                  {console.log("data image : ", Images)}
                   <RoomModal
                     roomNumber={data.roomNumber}
                     data={Images}

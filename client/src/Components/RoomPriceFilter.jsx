@@ -18,18 +18,13 @@ function RoomPriceFilter() {
   const [totalPages, setTotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(params[0].get("page"));
   const location = useLocation(); // biến location chứa pathnam e
-  console.log(params[0]);
   const lowerPrice = params[0].get("lp");
-  console.log(lowerPrice);
   const higherPrice = params[0].get("rp");
   useEffect(() => {
     const fetchDataBasedOnLocation = async () => {
       const res = await fetchRoomByPrice(lowerPrice, higherPrice, currentPage);
-      console.log("check response", res);
       setItems(res.room);
-      console.log(items);
       setTotalPages(res.total_pages);
-      console.log(res.room);
     };
     fetchDataBasedOnLocation();
   }, [currentPage]);
@@ -37,12 +32,9 @@ function RoomPriceFilter() {
   useEffect(() => {
     const fetchDataBasedOnLocation = async () => {
       const res = await fetchRoomByPrice(lowerPrice, higherPrice, currentPage);
-      console.log("check response", res);
       setCurrentPage(1);
       setItems(res.room);
-      console.log(items);
       setTotalPages(res.total_pages);
-      console.log(res.room);
     };
     fetchDataBasedOnLocation();
   }, [location]);
@@ -50,7 +42,6 @@ function RoomPriceFilter() {
   const handlePageClick = (event) => {
     const newCurrentPage = event.selected + 1;
     setCurrentPage(newCurrentPage);
-    console.log("currentpage", currentPage);
   };
   const navigate = useNavigate();
   const RoomItem = ({ item, index }) => (

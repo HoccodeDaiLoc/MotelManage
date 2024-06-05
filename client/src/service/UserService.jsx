@@ -109,8 +109,10 @@ const putUpdateAvatar = (avatar) => {
     }
   );
 };
-const fetchBillByRenter = (id, currentPage) => {
-  return axios.get(`/api/bill/room/${id}?limit=12&page=${currentPage}`, {
+// , currentPage
+// return axios.get(`/api/bill/room/${id}?limit=12&page=${currentPage}`, {
+const fetchBillByRenter = (id) => {
+  return axios.get(`/api/bill/renter/${id}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
