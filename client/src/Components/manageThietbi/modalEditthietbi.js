@@ -28,7 +28,7 @@ const ModalEditTb = (props) => {
       );
       console.log("check res:", res);
 
-      if (res & res.device) {
+      if (res) {
         handleEditTbfrommodal({
           deviceId: dataTbedit.deviceId,
           deviceName :deviceName,

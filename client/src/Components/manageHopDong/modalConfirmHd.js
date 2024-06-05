@@ -11,7 +11,7 @@ const ModalConfirmHd = ({ show, handleCloseHd, handDeleteHdFromModal, dataHdDele
       if (res && res) {
         toast.success("Xóa thành công");
         handleCloseHd();
-        handDeleteHdFromModal(res);
+        handDeleteHdFromModal(dataHdDelete);
       } else {
         toast.error("Xóa không thành công");
       }
