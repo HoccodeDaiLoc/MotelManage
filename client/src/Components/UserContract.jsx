@@ -7,7 +7,6 @@ function UserContract() {
   const [contractData, setContractData] = useState("");
   const [respone, setRespone] = useState();
   const id = useSelector((state) => state.user.account.id);
-  console.log(id);
   useEffect(() => {
     const fetchContract = async (id) => {
       let res = await fetchContractByRenter(id);
@@ -20,9 +19,11 @@ function UserContract() {
   return (
     <div className="UserInfo_Wrapper">
       <div className="UserInfo_Container">
-        {respone === 404 ? (
-          "Bạn chưa có hợp đồng nào"
-        ) : (
+        {respone !== 404 ||
+        respone !== undefined ||
+        respone !== null ||
+        contractData !== undefined ||
+        contractData !== null ? (
           <>
             <h4 className="UserInfo_Item_Heading">Hợp đồng hiện tại</h4>
             <div className="UserInfo_Item">
@@ -30,9 +31,7 @@ function UserContract() {
               <input
                 type="text"
                 placeholder={
-                  contractData.contractId != null
-                    ? contractData.contractId
-                    : "Mã hợp đồng"
+                  contractData.contractId != null ? contractData.contractId : ""
                 }
                 className={"UserInfo_Item_Input"}
                 disabled
@@ -46,7 +45,7 @@ function UserContract() {
                 placeholder={
                   contractData.startDay != null
                     ? contractData.startDay.slice(0, 10)
-                    : "Giá phòng"
+                    : ""
                 }
                 disabled
                 className={"UserInfo_Item_Input"}
@@ -60,7 +59,7 @@ function UserContract() {
                 placeholder={
                   contractData.endDate != null
                     ? contractData.endDate.slice(0, 10)
-                    : "Ngày kết thúc"
+                    : ""
                 }
                 disabled
                 className={"UserInfo_Item_Input"}
@@ -72,9 +71,7 @@ function UserContract() {
                 type="text"
                 maxLength={50}
                 placeholder={
-                  contractData.rentAmount != null
-                    ? contractData.rentAmount
-                    : "Số người ở tối đa mà phòng của bạn cho phép"
+                  contractData.rentAmount != null ? contractData.rentAmount : ""
                 }
                 disabled
                 className={"UserInfo_Item_Input"}
@@ -88,13 +85,15 @@ function UserContract() {
                 placeholder={
                   contractData.depositAmount != null
                     ? contractData.depositAmount
-                    : "Giá tiền phòng mỗi tháng"
+                    : ""
                 }
                 disabled
                 className={"UserInfo_Item_Input"}
               />
             </div>{" "}
           </>
+        ) : (
+          "Bạn chưa có hợp đồng nào"
         )}
       </div>
     </div>

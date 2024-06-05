@@ -8,12 +8,11 @@ function UserRoom() {
   const [roomData, setRoomData] = useState("");
   const [respone, setRespone] = useState();
   const id = useSelector((state) => state.user.account.id);
-  console.log(id);
   useEffect(() => {
     const fetchRoomByID = async (id) => {
       let res = await fetchRoomByRenter(id);
+      console.log(res);
       setRespone(res.status);
-      console.log("respone", respone);
       setRoomData(res.room);
     };
     fetchRoomByID(id);
@@ -22,9 +21,11 @@ function UserRoom() {
   return (
     <div className="UserInfo_Wrapper">
       <div className="UserInfo_Container">
-        {respone === 404 ? (
-          "Bạn chưa thuê phòng"
-        ) : (
+        {respone !== 404 ||
+        respone !== undefined ||
+        respone !== null ||
+        roomData !== undefined ||
+        roomData !== null ? (
           <>
             <h4 className="UserInfo_Item_Heading">Phòng của tôi</h4>
             <div className="UserInfo_Item">
@@ -33,9 +34,7 @@ function UserRoom() {
                 type="text"
                 maxLength={50}
                 placeholder={
-                  roomData.roomNumber != null
-                    ? roomData.roomNumber
-                    : "Phòng bạn đang thuê"
+                  roomData.roomNumber != null ? roomData.roomNumber : ""
                 }
                 className={"UserInfo_Item_Input"}
                 disabled
@@ -47,9 +46,7 @@ function UserRoom() {
               <input
                 type="text"
                 maxLength={50}
-                placeholder={
-                  roomData.price != null ? roomData.price : "Giá phòng"
-                }
+                placeholder={roomData.price != null ? roomData.price : ""}
                 disabled
                 className={"UserInfo_Item_Input"}
               />
@@ -60,11 +57,7 @@ function UserRoom() {
               <input
                 type="text"
                 maxLength={50}
-                placeholder={
-                  roomData.roomArea != null
-                    ? roomData.roomArea
-                    : "Diện tích phòng"
-                }
+                placeholder={roomData.roomArea != null ? roomData.roomArea : ""}
                 disabled
                 className={"UserInfo_Item_Input"}
               />
@@ -76,9 +69,7 @@ function UserRoom() {
                 type="text"
                 maxLength={50}
                 placeholder={
-                  roomData.maxOccupancy != null
-                    ? roomData.maxOccupancy
-                    : "Số người ở tối đa mà phòng của bạn cho phép"
+                  roomData.maxOccupancy != null ? roomData.maxOccupancy : ""
                 }
                 disabled
                 className={"UserInfo_Item_Input"}
@@ -91,9 +82,7 @@ function UserRoom() {
                 type="text"
                 maxLength={50}
                 placeholder={
-                  roomData.maxOccupancy != null
-                    ? roomData.maxOccupancy
-                    : "Số người ở tối đa mà phòng của bạn cho phép"
+                  roomData.maxOccupancy != null ? roomData.maxOccupancy : ""
                 }
                 disabled
                 className={"UserInfo_Item_Input"}
@@ -101,6 +90,8 @@ function UserRoom() {
               {/* chưa có value, đang hard code */}
             </div>{" "}
           </>
+        ) : (
+          "Bạn chưa thuê phòng"
         )}
       </div>
     </div>

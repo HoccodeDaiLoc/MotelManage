@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 function RecoverCode() {
   const location = useLocation();
   const data = location.state;
-  console.log(data);
   const [code, setCode] = useState();
   const authData = { email: data, token: code };
 
@@ -42,7 +41,6 @@ function RecoverCode() {
               className="submit_btn"
               onClick={async () => {
                 let res = await postchecktoken(data, code);
-                console.log(res);
                 if (res.result === true) {
                   navigate("/Recover/Password", { state: authData });
                 } else {

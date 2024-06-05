@@ -19,9 +19,9 @@ const fetchAllHoadon = (status) => {
 const fetchAllstatusHd = (status) => {
   return axios.get(`/api/bill?status=${status}`); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
-const fetchAllHd =(page) => {
+const fetchAllHd = (page) => {
   return axios.get(`/api/contract?page=${page}`);
-}
+};
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
   const renterList = new FormData();
   renterList.append("name", name);
@@ -38,7 +38,13 @@ const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
   );
 };
 
-const postCreateTro = (roomNumber, description, price, roomStatus, roomArea) => {
+const postCreateTro = (
+  roomNumber,
+  description,
+  price,
+  roomStatus,
+  roomArea
+) => {
   const data = new FormData();
   data.append("roomNumber", roomNumber);
   data.append("description", description);
@@ -52,19 +58,48 @@ const postCreateTro = (roomNumber, description, price, roomStatus, roomArea) => 
   );
 };
 
-const postCreateTb = (deviceName, devicePrice,roomId) => {
-  return axios.post("/api/device", { deviceName, devicePrice ,roomId});
+const postCreateTb = (deviceName, devicePrice, roomId) => {
+  return axios.post("/api/device", { deviceName, devicePrice, roomId });
 };
 
-const postCreateHoadon = (billStartDate , billEndDate,payMethod,billStatus,waterPrice,electricPrice,roomId)=>{
-  return axios.post("/api/bill/", { billStartDate , billEndDate,payMethod,billStatus,waterPrice,electricPrice,roomId});
-}
+const postCreateHoadon = (
+  billStartDate,
+  billEndDate,
+  payMethod,
+  billStatus,
+  waterPrice,
+  electricPrice,
+  roomId
+) => {
+  return axios.post("/api/bill/", {
+    billStartDate,
+    billEndDate,
+    payMethod,
+    billStatus,
+    waterPrice,
+    electricPrice,
+    roomId,
+  });
+};
 
-const postCreateHd = (startDay , rentAmount,roomId,renterId)=>{
-  return axios.post("/api/contract", { startDay , rentAmount,roomId,renterId });
-}
-const updateUser = (renterId, name, dateOfBirth, address, phone, email, cccd) => {
-  console.log('renterId',renterId)
+const postCreateHd = (startDay, rentAmount, roomId, renterId) => {
+  return axios.post("/api/contract", {
+    startDay,
+    rentAmount,
+    roomId,
+    renterId,
+  });
+};
+const updateUser = (
+  renterId,
+  name,
+  dateOfBirth,
+  address,
+  phone,
+  email,
+  cccd
+) => {
+  console.log("renterId", renterId);
   return axios.put(`/api/renter/${renterId}`, {
     name,
     dateOfBirth,
@@ -75,28 +110,56 @@ const updateUser = (renterId, name, dateOfBirth, address, phone, email, cccd) =>
   });
 };
 
-const updateTro = (roomId, roomNumber, description, price, roomStatus, roomArea,maxOccupancy) => {
-  console.log('roomid',roomId)
+const updateTro = (
+  roomId,
+  roomNumber,
+  description,
+  price,
+  roomStatus,
+  roomArea,
+  maxOccupancy
+) => {
+  console.log("roomid", roomId);
   return axios.put(`/api/room/${roomId}`, {
     roomNumber,
     description,
     price,
     roomStatus,
     roomArea,
-    maxOccupancy
+    maxOccupancy,
   });
 };
 
-const updateTb = (deviceId,deviceName,devicePrice,roomId,categoryId) => {
-  return axios.put(`/api/device/${deviceId}`, { deviceName,devicePrice,roomId,categoryId});
+const updateTb = (deviceId, deviceName, devicePrice, roomId, categoryId) => {
+  return axios.put(`/api/device/${deviceId}`, {
+    deviceName,
+    devicePrice,
+    roomId,
+    categoryId,
+  });
 };
 
-const updateHoadon = (billId, status,paymentMethod) => {
-  return axios.put(`/api/bill/${billId}`, { status,paymentMethod});
+const updateHoadon = (billId, status, paymentMethod) => {
+  return axios.put(`/api/bill/${billId}`, { status, paymentMethod });
 };
 
-const updateHd = (contractId, startDay,endDate,rentAmount,depositAmount,roomId,renterId) => {
-  return axios.put(`api/contract/${contractId}`, { startDay,endDate,rentAmount,depositAmount,roomId,renterId });
+const updateHd = (
+  contractId,
+  startDay,
+  endDate,
+  rentAmount,
+  depositAmount,
+  roomId,
+  renterId
+) => {
+  return axios.put(`api/contract/${contractId}`, {
+    startDay,
+    endDate,
+    rentAmount,
+    depositAmount,
+    roomId,
+    renterId,
+  });
 };
 
 const deleteUser = (renterId) => {
@@ -114,10 +177,9 @@ const deleteTb = (deviceId) => {
 const deleteHoadon = (billId) => {
   return axios.delete(`/api/bill/${billId}`);
 };
-const deleteHd = (contractId) =>{
-  return axios.delete(`/api/contract/${contractId}`)
+const deleteHd = (contractId) => {
+  return axios.delete(`/api/contract/${contractId}`);
 };
-
 
 export {
   fetchAllUser,
@@ -141,7 +203,4 @@ export {
   postCreateHd,
   updateHd,
   deleteHd,
-
-
-
 };

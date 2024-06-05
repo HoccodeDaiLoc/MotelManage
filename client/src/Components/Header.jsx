@@ -5,6 +5,14 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogoutRedux } from "../redux/actions/userAction";
 import { io, Socket } from "socket.io-client";
+import ava from "../asset/image/ava.svg";
+import bell from "../asset/image/bell.svg";
+import imagethuetro from "../asset/image/imagethuetro.png";
+import login from "../asset/image/login.svg";
+import logout from "../asset/image/logout.svg";
+import person from "../asset/image/person.svg";
+import SignIn from "../asset/image/SignIn.svg";
+
 function Header(props) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.account);
@@ -64,19 +72,11 @@ function Header(props) {
         <div className="nav_left">
           {isAdmin === false || isAdmin === null || isAdmin === "" ? (
             <Link to="/">
-              <img
-                className="logo"
-                src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
-                alt="logo"
-              ></img>
+              <img className="logo" src={imagethuetro} alt="logo"></img>
             </Link>
           ) : (
             <Link to="/Home">
-              <img
-                className="logo"
-                src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
-                alt="logo"
-              ></img>
+              <img className="logo" src={imagethuetro} alt="logo"></img>
             </Link>
           )}
         </div>
@@ -86,13 +86,10 @@ function Header(props) {
               className="icon_container"
               onClick={() => {
                 setShow1(!show1);
+                setShow(false);
               }}
             >
-              <img
-                className="icon"
-                src="https://www.svgrepo.com/show/513140/bell.svg"
-                alt="help me nick"
-              ></img>
+              <img className="icon" src={bell} alt="help me nick"></img>
               {show1 ? (
                 <div
                   className="modal_user_container"
@@ -122,14 +119,10 @@ function Header(props) {
               className="icon_container"
               onClick={() => {
                 setShow(!show);
+                setShow1(false);
               }}
             >
-              <img
-                className="icon user"
-                src=""
-                srcSet="https://www.svgrepo.com/show/325523/question-mark-circle.svg"
-                alt="?"
-              ></img>
+              <img className="icon user" src={ava} alt="?"></img>
               {show ? (
                 <div
                   className="modal_user_container"
@@ -140,11 +133,7 @@ function Header(props) {
                     {user.auth === true ? (
                       <span className="modal_part">
                         <div className="modal_icon_container">
-                          <img
-                            src="https://www.svgrepo.com/show/493875/personal-center.svg"
-                            alt=""
-                            className="modal_icon"
-                          />
+                          <img src={person} alt="" className="modal_icon" />
                         </div>
                         <Link to={"/user/Profile"}>Trang cá nhân</Link>
                       </span>
@@ -153,15 +142,13 @@ function Header(props) {
                         to={"/Loggin"}
                         className="modal_part"
                         onClick={() => {
+                          setShow1(false);
+
                           setShow(!show);
                         }}
                       >
                         <div className="modal_icon_container">
-                          <img
-                            src="https://www.svgrepo.com/show/477710/login-3.svg"
-                            alt=""
-                            className="modal_icon"
-                          />
+                          <img src={login} alt="" className="modal_icon" />
                         </div>
                         <span>Đăng nhập</span>
                       </Link>
@@ -175,11 +162,7 @@ function Header(props) {
                         }}
                       >
                         <div className="modal_icon_container">
-                          <img
-                            src="https://www.svgrepo.com/show/454179/logout-multimedia-ui.svg"
-                            alt=""
-                            className="modal_icon"
-                          />
+                          <img src={logout} alt="" className="modal_icon" />
                         </div>
                         <span>Đăng xuất</span>
                       </Link>
@@ -188,17 +171,13 @@ function Header(props) {
                         to={"/SignIn"}
                         className="modal_part"
                         onClick={() => {
+                          setShow1(false);
                           setShow(!show);
                         }}
                       >
                         {" "}
                         <div className="modal_icon_container">
-                          <img
-                            src="https://www.svgrepo.com/show/83758/add-people-interface-symbol-of-black-person-close-up-with-plus-sign-in-small-circle.svg
-                        "
-                            alt=""
-                            className="modal_icon"
-                          />
+                          <img src={person} alt="" className="modal_icon" />
                         </div>
                         <span>Đăng Ký</span>
                       </Link>
@@ -206,7 +185,7 @@ function Header(props) {
                   </div>
                 </div>
               ) : (
-                console.log("didshow")
+                ""
               )}
             </span>
           </div>

@@ -2,7 +2,11 @@ import style from "../styles/UserInfo.modules.scss";
 import DatePicker from "react-datepicker";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchCurrentUser, putUpdateUser } from "../service/UserService";
+import {
+  fetchCurrentUser,
+  putUpdateAvatar,
+  putUpdateUser,
+} from "../service/UserService";
 import { toast } from "react-toastify";
 import { getDownloadURL, uploadBytesResumable, ref } from "firebase/storage";
 // import UploadImage from "./UploadImage";
@@ -75,8 +79,10 @@ function UserInfo() {
       () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           setUploadedImages([downloadURL, ...uploadedImages]);
+          console.log(downloadURL);
+          let update = await putUpdateAvatar(downloadURL);
           setAvatarLink(downloadURL);
           toast.success(downloadURL, {
             position: "top-center",
@@ -88,42 +94,11 @@ function UserInfo() {
     );
   };
 
-  const getLatestImage = async () => {
-    try {
-      const listRef = ref(storage, "images");
-
-      // List all items (up to 1 result) ordered by creation time (descending)
-      const result = await listAll(listRef, {
-        orderBy: storage.refField("metadata.creationTime"),
-        limit: 1,
-        startAfter: null, // Include all items
-        endBefore: null, // Include all items
-      });
-
-      if (result.items.length > 0) {
-        const latestItemRef = result.items[0];
-        const latestImageUrl = await getDownloadURL(latestItemRef);
-        setUploadedImages([latestImageUrl]); // Update state with single URL
-      } else {
-        console.log("No images found in Firebase Storage");
-        // Optionally handle the case where no images are found
-      }
-    } catch (error) {
-      console.error("Error getting download URL:", error);
-    }
-  };
-  useEffect(() => {
-    getLatestImage();
-  }, []);
-  //hết trôn
-
   useEffect(() => {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
       // let ava =await
       let data = res.renter;
-      console.log("check data", data);
-      console.log("check res", res);
       setEmail(data.email);
       setName(data.name);
       setDateOfBirth(data.dateOfBirth);
@@ -168,7 +143,6 @@ function UserInfo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) {
-      console.log(validate());
       toast.error(errorMessage, { position: "top-center" });
       return;
     }
@@ -313,13 +287,15 @@ function UserInfo() {
             </div>
           </div>
         </div>
-        <div
-          className="UserInfo_Edit_Button"
-          onClick={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          Lưu
+        <div className="UserInfo_Edit_Button_Container">
+          <button
+            className="UserInfo_Edit_Button"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            Lưu
+          </button>
         </div>
       </form>
     </div>

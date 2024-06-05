@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { Loggin } from "../schemas/index";
 import { useFormik } from "formik";
-
+import imagethuetro from "../asset/image/imagethuetro.png";
 <script
   src="https://kit.fontawesome.com/657d725d03.js"
   crossorigin="anonymous"
@@ -24,8 +24,6 @@ function Login() {
   const account = useSelector((state) => state.user.account);
   const navigate = useNavigate();
   const onSubmit = async (values, actions) => {
-    console.log("check value", values);
-    console.log("check actions", actions);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(handleLoginRedux(values.username, values.password));
     actions.resetForm();
@@ -40,7 +38,6 @@ function Login() {
       validationSchema: Loggin,
       onSubmit,
     });
-  console.log(errors);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") != null) {
@@ -57,12 +54,7 @@ function Login() {
   return (
     <section className="LogginWrapper">
       <Link to={"/"} className="logo_container">
-        <img
-          className="logo"
-          src="https://upload.wikimedia.org/wikipedia/commons/1/17/Logitech_logo.svg"
-          alt=""
-          srcSet=""
-        />
+        <img className="logo" src={imagethuetro} alt="" srcSet="" />
       </Link>
 
       <form

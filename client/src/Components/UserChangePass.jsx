@@ -7,8 +7,6 @@ import { UpdatePass } from "../schemas/index";
 import { useFormik } from "formik";
 function UserChangePassComponent() {
   const mk = useSelector((state) => state.user.account.password);
-  console.log(mk);
-
   const onSubmit = async (values, actions) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     putChangePass(values.password, values.newPassword).then(() =>
@@ -29,7 +27,6 @@ function UserChangePassComponent() {
       validationSchema: UpdatePass,
       onSubmit,
     });
-  console.log(errors);
 
   return (
     <div className="UserInfo_Wrapper">
@@ -87,9 +84,16 @@ function UserChangePassComponent() {
         {errors.confirmPassword && touched.confirmPassword && (
           <p className="error">{errors.confirmPassword}</p>
         )}
-        <button className="UserInfo_Edit_Button" onClick={async () => {}}>
-          Lưu
-        </button>
+        <div className="UserInfo_Edit_Button_Container">
+          <button
+            className="UserInfo_Edit_Button"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            Lưu
+          </button>
+        </div>
       </form>
     </div>
   );
