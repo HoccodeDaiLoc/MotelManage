@@ -49,7 +49,6 @@ function SuperPrivateRoute({ children }) {
 
 function App() {
   const id = useSelector((state) => state.user.account.id);
-  console.log(id);
   const [socket, setSocket] = useState("");
   useEffect(() => {
     if (id !== null || id !== undefined) {

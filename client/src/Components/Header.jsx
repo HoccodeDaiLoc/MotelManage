@@ -16,10 +16,14 @@ import SignIn from "../asset/image/SignIn.svg";
 function Header({ socket }) {
   const [notifications, setNotification] = useState([]);
   console.log("here:", socket);
+
   useEffect(() => {
-    socket.on("notification", (data) => {
-      setNotification((prev) => [...prev, data]);
-    });
+    console.log(socket);
+    if (socket) {
+      socket.on("notification", (data) => {
+        setNotification((prev) => [...prev, data]);
+      });
+    }
     console.log(notifications);
   }, [socket]);
 
