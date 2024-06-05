@@ -19,11 +19,13 @@ function UserContract() {
   return (
     <div className="UserInfo_Wrapper">
       <div className="UserInfo_Container">
-        {respone !== 404 ||
-        respone !== undefined ||
-        respone !== null ||
-        contractData !== undefined ||
-        contractData !== null ? (
+        {respone === 404 ||
+        respone === undefined ||
+        respone === null ||
+        contractData === undefined ||
+        contractData === null ? (
+          "Bạn chưa có hợp đồng nào"
+        ) : (
           <>
             <h4 className="UserInfo_Item_Heading">Hợp đồng hiện tại</h4>
             <div className="UserInfo_Item">
@@ -92,8 +94,6 @@ function UserContract() {
               />
             </div>{" "}
           </>
-        ) : (
-          "Bạn chưa có hợp đồng nào"
         )}
       </div>
     </div>

@@ -13,14 +13,17 @@ function UserBill() {
   const id = useSelector((state) => state.user.account.id);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [respone, setRespone] = useState();
   const [unpaidBill, setUnpaidBill] = useState([]);
   let curentUrl = window.location.href;
+  console.log(curentUrl);
   useEffect(() => {
+    console.log(id);
     const fetchBill = async (id, currentPage) => {
       try {
         const res = await fetchBillByRenter(id, currentPage);
         setBillData(res.data);
+        console.log(res);
+        console.log(res.data[0].status);
         setTotalPages(res.total_page);
       } catch (error) {
         console.error("Error fetching bills:", error);
@@ -42,11 +45,7 @@ function UserBill() {
   return (
     <div className="UserInfo_Wrapper">
       <div className="UserInfo_Container">
-        {respone !== 404 ||
-        respone !== undefined ||
-        respone !== null ||
-        billData !== undefined ||
-        billData !== null ? (
+        {billData.length > 0 ? (
           <>
             <h4 className="UserInfo_Item_Heading">Hóa đơn của bạn</h4>
             <table className="UserInfo_Table">
@@ -81,6 +80,7 @@ function UserBill() {
                               className="icon_payment"
                               src={momo}
                               alt=""
+                              srcset="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
                             />
                             <span class="hover-text-content">
                               Thanh toán online với momo

@@ -70,12 +70,12 @@ function Header(props) {
         }}
       >
         <div className="nav_left">
-          {isAdmin === false || isAdmin === null || isAdmin === "" ? (
-            <Link to="/">
+          {isAdmin === true ? (
+            <Link to="/Home">
               <img className="logo" src={imagethuetro} alt="logo"></img>
             </Link>
           ) : (
-            <Link to="/Home">
+            <Link to="/">
               <img className="logo" src={imagethuetro} alt="logo"></img>
             </Link>
           )}
