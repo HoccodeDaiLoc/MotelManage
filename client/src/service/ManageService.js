@@ -1,11 +1,11 @@
 import axios from "./customize-axios";
 
 const fetchAllUser = (page) => {
-  return axios.get(`/api/renter?page=${page}&limit=6`);
+  return axios.get(`/api/renter?page=${page}&limit=8`);
 };
 
 const fetchAllTro = (page) => {
-  return axios.get(`/api/room?page=${page}&limit=6`);
+  return axios.get(`/api/room?page=${page}&limit=8`);
 };
 
 const fetchAllIdroom = (roomId, roomNumber) => {
@@ -13,7 +13,7 @@ const fetchAllIdroom = (roomId, roomNumber) => {
 };
 
 const fetchAllTb = (page) => {
-  return axios.get(`/api/device?page=${page}&limit=6`);
+  return axios.get(`/api/device?page=${page}&limit=8`);
 };
 
 const fetchAllHoadon = (status) => {
@@ -24,7 +24,7 @@ const fetchAllstatusHd = (status) => {
   return axios.get(`/api/bill?status=${status}`); // Sử dụng dấu nháy kép để bao quanh chuỗi/api/room/${roomId}`
 };
 const fetchAllHd = (page) => {
-  return axios.get(`/api/contract?page=${page}&limit=6`);
+  return axios.get(`/api/contract?page=${page}&limit=8`);
 };
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
   const renterList = new FormData();

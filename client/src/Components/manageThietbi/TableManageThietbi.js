@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
-import { fetchAllTb ,fetchAllTro } from "../../service/ManageService";
+import { fetchAllTb, fetchAllTro } from "../../service/ManageService";
 import ModalEditTb from "./modalEditthietbi"; // Sửa tên thành component viết hoa
 import ModalAddTb from "./modalAddThietbi"; // Sửa tên thành component viết hoa
 import ModalConfirmTb from "./modalConfirmThietbi";
@@ -10,6 +10,35 @@ import _ from "lodash";
 import ModalDetailTb from "./modalDetailThietBi";
 import { TbDeviceIpadDollar } from "react-icons/tb";
 import unidecode from "unidecode";  
+
+const roomMapping = {
+  1: 100,
+  2: 101,
+  3: 102,
+  4: 103,
+  5: 104,
+  6: 105,
+  7: 106,
+  8: 107,
+  9: 108,
+  10: 109,
+  11: 110,
+  12: 111,
+  13: 112,
+  14: 113,
+  15: 118,
+  16: 119,
+  17: 130,
+  18: 131,
+  20: 132,
+  21: 133,
+  22: 134,
+  23: 135,
+  24: 136,
+  25: 137,
+  26: 138,
+  27: 139,
+};
 
 const TableManageTb = (props) => {
   const [listTb, setListTb] = useState([]);
@@ -34,7 +63,6 @@ const TableManageTb = (props) => {
     setIsShowModalDetailTb(false);
   };
 
-
   const handUpdateTableTb = (tb) => {
     setListTb([tb, ...listTb]);
   };
@@ -52,7 +80,6 @@ const TableManageTb = (props) => {
     // Call API
     getTb(1);
   }, []);
-  
 
   const getTb = async (page) => {
     try {
@@ -60,28 +87,18 @@ const TableManageTb = (props) => {
       if (resTb && resTb.data) {
         const { data, total_pages } = resTb.data;
         setTotalTb(resTb.total);
-        setListTb(resTb.data);
+        const updatedTbList = resTb.data.map(tb => ({
+          ...tb,
+          roomNumber: roomMapping[tb.roomId] || tb.roomId // Map roomId to roomNumber
+        }));
+        setListTb(updatedTbList);
         setTotalPageTb(resTb.total_pages);
-        // Lấy thông tin về phòng sử dụng từ API fetchAllTro dựa trên roomid của thiết bị
-        const roomNumberPromises = resTb.data.map(async (tb) => {
-          try {
-            const resTro = await fetchAllTro(tb.roomId); // Lấy thông tin phòng sử dụng từ roomId
-            const roomNumber = resTro.data[0].roomNumber; // Lấy roomNumber từ kết quả trả về
-            return { ...tb, roomNumber }; // Thêm roomNumber vào thông tin thiết bị
-          } catch (error) {
-            console.error("Error fetching Tro data:", error);
-            return tb; // Trả về tb ban đầu nếu có lỗi
-          }
-        });
-        Promise.all(roomNumberPromises).then(updatedTbList => {
-          setListTb(updatedTbList); // Cập nhật danh sách thiết bị với thông tin roomNumber
-        });
       }
     } catch (error) {
       console.error("Error fetching tb data:", error);
     }
   };
-  
+
   const getDeviceName = (categoryId) => {
     switch (categoryId) {
       case 1:
@@ -96,13 +113,11 @@ const TableManageTb = (props) => {
         return "";
     }
   };
-  
-  
-  
 
   const handlePageClick = (event) => {
     getTb(+event.selected + 1);
   };
+
   const handleEditTb = (tb) => {
     setDataTbEdit(tb);
     setIsShowModalEditTb(true);
@@ -144,6 +159,7 @@ const TableManageTb = (props) => {
     setIsShowModalDetailTb(true);
     setDataDetailTb(tb);
   };
+
   return (
     <div
       className="UserInfo_Manager"
@@ -190,7 +206,8 @@ const TableManageTb = (props) => {
                 >
                   <p id="text_table">{item.deviceName}</p>
                 </td>
-                <td>{item.devicePrice}</td>
+                <td>{item.devicePrice.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
+
                 <td>{item.roomNumber}</td>
                 <td>
                   <button

@@ -12,13 +12,23 @@ const ModalAddHd = (props) => {
   const [startDay, setStartDay] = useState(null); // Changed initial state to null
   const [endDate, setEndDate] = useState(null); 
   const [rentAmount, setRentAmount] = useState("");
-  const [roomId, setRoomId] = useState("");
   const [renterId, setRenterId] = useState("");
   const [depositAmount, setDepositAmount] = useState("");
-
+  const [roomNumber, setRoomNumber] = useState("");
+  const roomMapping = {
+    100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
+    110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
+    132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
+  };
+ 
   const handUpdateHd = async () => {
     if (!startDay) {
       toast.error("Please select a start date");
+      return;
+    }
+    const roomId = roomMapping[parseInt(roomNumber)];
+    if (!roomId) {
+      toast.error("Số phòng không hợp lệ");
       return;
     }
     const formattedStartDay = startDay.toISOString().split('T')[0]; // Format date as yyyy-MM-dd
@@ -34,7 +44,7 @@ const ModalAddHd = (props) => {
     if (res) {
       setStartDay(null); // Reset startDay to null
       setRentAmount('');
-      setRoomId('');
+      setRoomNumber ('');
       setRenterId('');
       setDepositAmount('')
       setEndDate(null)
@@ -44,10 +54,11 @@ const ModalAddHd = (props) => {
       handUpdateTableHd({ 
         startDay: formattedStartDay,
         rentAmount: rentAmount,
-        roomId: roomId,
         renterId: renterId,
         depositAmount:depositAmount,
-        endDate:formattedEndDay
+        endDate:formattedEndDay,
+        roomId: roomId,
+        roomNumber: parseInt(roomNumber),
       });
       console.log(res.data);
     } else {
@@ -77,16 +88,18 @@ const ModalAddHd = (props) => {
               className="form-control"
               value={rentAmount}
               onChange={(event) => setRentAmount(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
           <div className="col-md-12">
-            <label htmlFor="inputRoomId" className="form-label">Room ID</label>
+            <label htmlFor="inputRoomId" className="form-label">Thuê phòng số</label>
             <input
               type="text"
               className="form-control"
-              value={roomId}
-              onChange={(event) => setRoomId(event.target.value)}
+              value={roomNumber}
+              onChange={(event) => setRoomNumber(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
           <div className="col-md-12">
@@ -96,45 +109,48 @@ const ModalAddHd = (props) => {
               className="form-control"
               value={depositAmount}
               onChange={(event) => setDepositAmount(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
           <div className="col-md-12">
-            <label htmlFor="inputRenterId" className="form-label">Renter ID</label>
+            <label htmlFor="inputRenterId" className="form-label"> ID khách </label>
             <input
               type="text"
               className="form-control"
               value={renterId}
               onChange={(event) => setRenterId(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
-          
-           <div className="col-md-6">
-            <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu </label>
-            <div className="date-picker-container">
-              <DatePicker
+          <div className="row">
+    <div className="col-md-6 my-3">
+        <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu </label>
+        <div className="date-picker-container">
+            <DatePicker
                 selected={startDay}
                 onChange={(date) => setStartDay(date)}
                 dateFormat="yyyy-MM-dd"
                 className="form-control"
                 placeholderText="Chọn ngày bắt đầu"
-              />
-              
-            </div>
+            />
+        </div>
+    </div>
 
-            <div className="col-md-6">
-            <label htmlFor="inputStartDay" className="form-label">Ngày hết hạn </label>
-            <div className="date-picker-container">
-              <DatePicker
+    <div className="col-md-6 my-3">
+        <label htmlFor="inputStartDay" className="form-label">Ngày hết hạn </label>
+        <div className="date-picker-container">
+            <DatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
                 dateFormat="yyyy-MM-dd"
                 className="form-control"
-                placeholderText="Chọn kết thúc"
-              />
-            </div> 
-            </div>
-          </div>
+                placeholderText="Chọn ngày kết thúc"
+            />
+        </div>
+    </div>
+</div>
+
         </form>
       </Modal.Body>
       <Modal.Footer>

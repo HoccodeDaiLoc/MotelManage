@@ -1,38 +1,50 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { postCreateTb,fetchAllTroWithRoomNumber  } from '../../service/ManageService';
+import { postCreateTb } from '../../service/ManageService';
 import { toast } from 'react-toastify';
+
+const roomMapping = {
+  100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
+  110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
+  132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
+};
 
 const ModalAddTb = (props) => {
   const { show, handleCloseTb, handUpdateTableTb } = props;
   const [deviceName, setDeviceName] = useState("");
   const [devicePrice, setDevicePrice] = useState("");
-  const [roomId, setRoomId] = useState("");
-  
+  const [roomNumber, setRoomNumber] = useState("");
+
   const handUpdateTb = async () => {
-    // Kiểm tra nếu giá thiết bị và số phòng không phải là số
-    if (isNaN(parseFloat(devicePrice)) || isNaN(parseInt(roomId))) {
+    if (isNaN(parseFloat(devicePrice)) || isNaN(parseInt(roomNumber))) {
       toast.error("Giá thiết bị và phòng phải là số");
       return;
     }
-    let res = await postCreateTb(deviceName, devicePrice, roomId); 
+
+    const roomId = roomMapping[parseInt(roomNumber)];
+    if (!roomId) {
+      toast.error("Số phòng không hợp lệ");
+      return;
+    }
+
+    let res = await postCreateTb(deviceName, devicePrice, roomId);
     if (res) {
       handleCloseTb();
       setDeviceName('');
       setDevicePrice('');
-      setRoomId('');
+      setRoomNumber('');
       toast.success("Đã lưu thành công");
       handUpdateTableTb({
         deviceName: deviceName,
         devicePrice: devicePrice,
         roomId: roomId,
+        roomNumber: parseInt(roomNumber),
       });
     } else {
       toast.error("Đã xảy ra lỗi");
     }
   }
-  
 
   return (
     <Modal show={show}
@@ -47,17 +59,16 @@ const ModalAddTb = (props) => {
           <div className="col-md-12">
             <label htmlFor="inputID" className="form-label">Loại Thiết Bị</label>
             <input
-              type="text" className="form-control"      placeholder="Mời bạn nhập thông tin..." value={deviceName} onChange={(event)  => setDeviceName(event.target.value)} />
+              type="text" className="form-control" placeholder="Mời bạn nhập thông tin..." value={deviceName} onChange={(event) => setDeviceName(event.target.value)} />
           </div>
           <div className="col-md-12">
             <label htmlFor="inputEmail4" className="form-label">Giá thiết bị</label>
-            <input type="text" className="form-control"      placeholder="Mời bạn nhập thông tin..." value={devicePrice} onChange={(event) => setDevicePrice(event.target.value)} />
+            <input type="text" className="form-control" placeholder="Mời bạn nhập thông tin..." value={devicePrice} onChange={(event) => setDevicePrice(event.target.value)} />
           </div>
           <div className="col-md-12">
             <label htmlFor="inputEmail4" className="form-label">Phòng đang sử dụng</label>
-            <input type="text" className="form-control"      placeholder="Mời bạn nhập thông tin..." value={roomId} onChange={(event) => setRoomId(event.target.value)} />
+            <input type="text" className="form-control" placeholder="Mời bạn nhập thông tin..." value={roomNumber} onChange={(event) => setRoomNumber(event.target.value)} />
           </div>
-        
         </form>
       </Modal.Body>
       <Modal.Footer>

@@ -15,20 +15,33 @@ const ModalEditHd = (props) => {
     const [depositAmount, setDepositAmount] = useState("");
     const [roomId, setRoomId] = useState("");
     const [renterId, setRenterId] = useState("");
+    const [roomNumber, setRoomNumber] = useState("");
 
     const handleEditHd = async () => {
         if (renterId) {
             // Format dates to 'yyyy-mm-dd'
             const formattedStartDay = startDay ? moment(startDay).format('YYYY-MM-DD') : null;
             const formattedEndDate = endDate ? moment(endDate).format('YYYY-MM-DD') : null;
-
+    
             console.log('Starting updateHd with:', {
                 formattedStartDay, formattedEndDate, rentAmount, depositAmount, roomId, renterId
             });
+    
+            const roomMapping = {
+                100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
+                110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
+                132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
+              };
+            const mappedRoomId = roomMapping[parseInt(roomNumber)]; // Renamed to avoid conflict
             
-            let res = await updateHd(dataHdedit.contractId, formattedStartDay, formattedEndDate, rentAmount, depositAmount, roomId, renterId);
+            if (!mappedRoomId) {
+                toast.error("Số phòng không hợp lệ");
+                return;
+            }
+    
+            let res = await updateHd(dataHdedit.contractId, formattedStartDay, formattedEndDate, rentAmount, depositAmount, mappedRoomId, renterId); // Changed to mappedRoomId
             console.log('check res:', res);
-
+    
             if (res) {
                 handleEditHdfrommodal({
                     contractId: dataHdedit.contractId,
@@ -36,7 +49,8 @@ const ModalEditHd = (props) => {
                     endDate: formattedEndDate,
                     rentAmount,
                     depositAmount,
-                    roomId,
+                    roomId: mappedRoomId,
+                    roomNumber: parseInt(roomNumber),
                     renterId
                 });
                 handleCloseHd();
@@ -48,44 +62,26 @@ const ModalEditHd = (props) => {
             toast.error("Vui lòng nhập tên trước khi lưu");
         }
     };
-
+    
     useEffect(() => {
         if (show) {
             setStartDay(new Date(dataHdedit.startDay));
             setEndDate(new Date(dataHdedit.endDate));
             setRentAmount(dataHdedit.rentAmount);
             setDepositAmount(dataHdedit.depositAmount);
-            setRoomId(dataHdedit.roomId);
+            setRoomNumber(dataHdedit.roomNumber);
             setRenterId(dataHdedit.renterId);
         }
     }, [dataHdedit, show]);
 
     return (
-        <Modal show={show} onHide={handleCloseHd} size='xl' className='modal-add-tro'>
+        <Modal show={show} onHide={handleCloseHd} size='lg' className='modal-add-tro'>
             <Modal.Header closeButton>
                 <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
             </Modal.Header>
             <Modal.Body className="body_add_new">
                 <form className="row g-3">
-                    <div className="col-md-6">
-                        <label htmlFor="startDay" className="form-label">Ngày bắt đầu</label>
-                        <DatePicker
-                            className="form-control"
-                            selected={startDay}
-                            onChange={(date) => setStartDay(date)}
-                            dateFormat="dd-MM-yyyy"
-                        />
-                    </div>
-
-                    <div className="col-md-6">
-                        <label htmlFor="endDate" className="form-label">Ngày kết thúc</label>
-                        <DatePicker
-                            className="form-control"
-                            selected={endDate}
-                            onChange={(date) => setEndDate(date)}
-                            dateFormat="dd-MM-yyyy"
-                        />
-                    </div>
+                  
                     
                     <div className="col-md-6">
                         <label htmlFor="rentAmount" className="form-label">Số người ở</label>
@@ -99,12 +95,40 @@ const ModalEditHd = (props) => {
                     
                     <div className="col-md-6">
                         <label htmlFor="roomId" className="form-label">Phòng thuê</label>
-                        <input type="text" className="form-control" value={roomId} onChange={(event) => setRoomId(event.target.value)} />
+                        <input type="text" className="form-control" value={roomNumber} onChange={(event) => setRoomNumber(event.target.value)} />
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="renterId" className="form-label">Tên người thuê</label>
                         <input type="text" className="form-control" value={renterId} onChange={(event) => setRenterId(event.target.value)} />
                     </div>
+                    <div className="row">
+    <div className="col-md-6 my-3">
+        <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu </label>
+        <div className="date-picker-container">
+            <DatePicker
+                selected={startDay}
+                onChange={(date) => setStartDay(date)}
+                dateFormat="yyyy-MM-dd"
+                className="form-control"
+                placeholderText="Chọn ngày bắt đầu"
+            />
+        </div>
+    </div>
+
+    <div className="col-md-6 my-3">
+        <label htmlFor="inputStartDay" className="form-label">Ngày hết hạn </label>
+        <div className="date-picker-container">
+            <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                dateFormat="yyyy-MM-dd"
+                className="form-control"
+                placeholderText="Chọn ngày kết thúc"
+            />
+        </div>
+    </div>
+</div>
+
                 </form>
             </Modal.Body>
             <Modal.Footer>

@@ -34,6 +34,34 @@ const TableManageHd = (props) => {
 
     return formattedDate;
   };
+  const roomMapping = {
+    1: 100,
+    2: 101,
+    3: 102,
+    4: 103,
+    5: 104,
+    6: 105,
+    7: 106,
+    8: 107,
+    9: 108,
+    10: 109,
+    11: 110,
+    12: 111,
+    13: 112,
+    14: 113,
+    15: 118,
+    16: 119,
+    17: 130,
+    18: 131,
+    20: 132,
+    21: 133,
+    22: 134,
+    23: 135,
+    24: 136,
+    25: 137,
+    26: 138,
+    27: 139,
+  };
   
   const handleCloseHd = () => {
     setIsShowModalAddHd(false);
@@ -85,25 +113,17 @@ const TableManageHd = (props) => {
         const { data, total_pages } = res.data;
         setTotalHd(res.data.total);
         setTotalPageHd(res.total_pages);
-        const roomNumberPromises = res.data.map(async (hd) => {
-          try {
-        
-         const resTro = await fetchAllTro(hd.roomId);
-            const roomNumber = resTro.data[0].roomNumber;
-            return { ...hd, roomNumber };
-          } catch (error) {
-            console.error("Error fetching Tro data for roomNumber:", error);
-            return hd;
-          }
+        const updatedHoadonList = res.data.map((hd) => {
+          const roomNumber = roomMapping[hd.roomId];
+          return { ...hd, roomNumber };
         });
-        Promise.all([...roomNumberPromises]).then((updatedHoadonList) => {
-          setListHd(updatedHoadonList); 
-        });
+        setListHd(updatedHoadonList);
       }
     } catch (error) {
       console.error("Error fetching hóa đơn data:", error);
     }
   };
+  
   
 
   const handlePageClick = (event) => {
@@ -206,7 +226,7 @@ const TableManageHd = (props) => {
           {listHd && listHd.map((item, index) => (
             <tr key={`hd-${index}`}>
               <td>{item.roomNumber}</td>
-              <td>{item.name}</td>
+              <td>{item.rentAmount}người</td>
               <td>{formatDate(item.startDay)}</td> 
               <td>{formatDate(item.endDate)}</td>
               

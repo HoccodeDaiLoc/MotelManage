@@ -15,13 +15,26 @@ const ModalAddHoadon = (props) => {
     const [billStatus, setBillStatus] = useState("Chưa thanh toán");
     const [waterPrice, setWaterPrice] = useState("7000");
     const [electricPrice, setElectricPrice] = useState("3000");
-    const [roomId, setRoomId] = useState("");
+    const [roomNumber, setRoomNumber] = useState("");
 
+    const roomMapping = {
+        100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
+        110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
+        132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
+      };
+      
     const handUpdateHoadon = async () => {
         // Định dạng ngày tháng trước khi gửi lên server
         const formattedStartDate = moment(billStartDate).format('YYYY-MM-DD');
         const formattedEndDate = moment(billEndDate).format('YYYY-MM-DD');
         
+        // Kiểm tra xem roomNumber có hợp lệ hay không
+        const roomId = roomMapping[parseInt(roomNumber)];
+        if (!roomId) {
+            toast.error("Số phòng không hợp lệ");
+            return;
+        }
+    
         // Create the payload
         const payload = {
             startDate: formattedStartDate,
@@ -35,7 +48,7 @@ const ModalAddHoadon = (props) => {
         
         // Log the payload to the console
         console.log("Payload to be sent to server:", payload);
-
+    
         let res = await postCreateHoadon(
             formattedStartDate,
             formattedEndDate,
@@ -45,9 +58,9 @@ const ModalAddHoadon = (props) => {
             electricPrice,
             roomId
         );
-
+    
         console.log("Response from server:", res);
-
+    
         if (res) {
             handleCloseHoadon();
             setBillStartDate(null);
@@ -56,14 +69,15 @@ const ModalAddHoadon = (props) => {
             setBillStatus("Chưa thanh toán");
             setWaterPrice("7000");
             setElectricPrice("3000");
-            setRoomId("");
+            setRoomNumber("");
             toast.success("Đã lưu thành công");
             handUpdateTableHoadon({
                 billStartDate: formattedStartDate,
                 billEndDate: formattedEndDate,
                 paymentMethod: payMethod,
                 status: billStatus,
-                roomId: roomId
+                roomId: roomId,
+                roomNumber: parseInt(roomNumber),
             });
         } else {
             toast.error("Đã xảy ra lỗi");
@@ -77,26 +91,25 @@ const ModalAddHoadon = (props) => {
             </Modal.Header>
             <Modal.Body className="body_add_new">
                 <form className="row g-3">
-                  
                     <div className="col-md-6">
-                     <label htmlFor="inputID" className="form-label">Ngày bắt đầu :</label>
-                      <DatePicker className="form-control" 
-                         selected={billStartDate}
-                         onChange={date => setBillStartDate(date)}
-                         dateFormat="dd-MM-yyyy"
-                      />
+                        <label htmlFor="inputID" className="form-label">Ngày bắt đầu:</label>
+                        <DatePicker className="form-control" 
+                            selected={billStartDate}
+                            onChange={date => setBillStartDate(date)}
+                            dateFormat="dd-MM-yyyy"
+                        />
                     </div>
                     <div className="col-md-6">
-                        <label htmlFor="inputEmail4" className="form-label">Ngày lập hóa đơn :</label>
+                        <label htmlFor="inputEmail4" className="form-label">Ngày lập hóa đơn:</label>
                         <DatePicker className="form-control" 
-                           selected={billEndDate}
-                           onChange={date => setBillEndDate(date)}
-                           dateFormat="dd-MM-yyyy"
+                            selected={billEndDate}
+                            onChange={date => setBillEndDate(date)}
+                            dateFormat="dd-MM-yyyy"
                         />
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputStatus" className="form-label">Số phòng</label>
-                        <input type="text" className="form-control" value={roomId} onChange={(event) => setRoomId(event.target.value)} />
+                        <input type="text" className="form-control" value={roomNumber} onChange={(event) => setRoomNumber(event.target.value)} />
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputType" className="form-label">Phương thức thanh toán</label>

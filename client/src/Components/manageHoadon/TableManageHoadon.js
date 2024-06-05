@@ -101,7 +101,35 @@ const TableManageHoadon = (props) => {
     cloneListHoadon[index].status = hoadon.status;
     setListHoadon(cloneListHoadon);
   };
-
+  const roomMapping = {
+    1: 100,
+    2: 101,
+    3: 102,
+    4: 103,
+    5: 104,
+    6: 105,
+    7: 106,
+    8: 107,
+    9: 108,
+    10: 109,
+    11: 110,
+    12: 111,
+    13: 112,
+    14: 113,
+    15: 118,
+    16: 119,
+    17: 130,
+    18: 131,
+    20: 132,
+    21: 133,
+    22: 134,
+    23: 135,
+    24: 136,
+    25: 137,
+    26: 138,
+    27: 139,
+  };
+  
   useEffect(() => {
     // Call API
     getHoadon(1);
@@ -113,26 +141,18 @@ const TableManageHoadon = (props) => {
         const { data, total_pages } = resTb.data;
         setTotalHoadon(resTb.total);
         setTotalPageHoadon(resTb.total_page);
-        // Lấy thông tin về phòng sử dụng từ API fetchAllTro dựa trên roomId của hóa đơn
-        const roomNumberPromises = resTb.data.map(async (hoadon) => {
-          try {
-            const resTro = await fetchAllTro(hoadon.roomId); // Lấy thông tin phòng sử dụng từ roomId
-            const roomNumber = resTro.data[0].roomNumber; // Lấy roomNumber từ kết quả trả về
-            // Cập nhật thông tin roomNumber vào danh sách hóa đơn
-            return { ...hoadon, roomNumber }; // Thêm roomNumber vào thông tin hóa đơn
-          } catch (error) {
-            console.error("Error fetching Tro data:", error);
-            return hoadon; // Trả về hóa đơn ban đầu nếu có lỗi
-          }
-        });
-        Promise.all(roomNumberPromises).then((updatedHoadonList) => {
-          setListHoadon(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin roomNumber
-        });
+        // Update the roomNumber using the mapping
+        const updatedHoadonList = resTb.data.map(hoadon => ({
+          ...hoadon,
+          roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
+        }));
+        setListHoadon(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin roomNumber
       }
     } catch (error) {
       console.error("Error fetching hóa đơn data:", error);
     }
   };
+  
 
   const handlePageClick = (event) => {
     getHoadon(+event.selected + 1);
@@ -206,29 +226,22 @@ const TableManageHoadon = (props) => {
   const handleGetHoadonByStatus = async (status) => {
     try {
       let res;
-      let updatedHoadonList;
       if (status === "all") {
         res = await fetchAllHoadon(1);
       } else {
         res = await getHoadonByStatus(status);
       }
-      updatedHoadonList = await Promise.all(
-        res.data.map(async (hoadon) => {
-          try {
-            const resTro = await fetchAllTro(hoadon.roomId);
-            const roomNumber = resTro.data[0].roomNumber;
-            return { ...hoadon, roomNumber };
-          } catch (error) {
-            console.error("Error updating hoadon with roomNumber:", error);
-            return hoadon;
-          }
-        })
-      );
+      // Update the roomNumber using the mapping
+      const updatedHoadonList = res.data.map(hoadon => ({
+        ...hoadon,
+        roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
+      }));
       setListHoadon(updatedHoadonList);
     } catch (error) {
       console.error("Error handling bill data by status:", error);
     }
   };
+  
 
 
 
@@ -292,7 +305,7 @@ const TableManageHoadon = (props) => {
           </option>
         </select>
         <div className="group-btns"
-        style={{  marginLeft: "-220px" }}>
+        style={{  marginLeft: "-300px" }}>
           <CSVLink
             filename={"Hoadon.csv"}
             className="btn btn-success  mx-1" 
