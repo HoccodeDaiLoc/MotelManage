@@ -50,6 +50,7 @@ const TableManageTro = (props) => {
 
     setListTro(cloneListTro);
   };
+  
 
   useEffect(() => {
     // Call API
@@ -130,7 +131,7 @@ const TableManageTro = (props) => {
           <b>Danh sách phòng trọ:</b>
         </span>
         <button
-          className=" them btn btn-success "
+          className=" them btn btn-success " style={{  marginLeft: "700px" }}
           onClick={() => setIsShowModalAddTro(true)}
         >
           <MdAddHomeWork

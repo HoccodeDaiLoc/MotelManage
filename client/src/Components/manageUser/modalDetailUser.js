@@ -18,7 +18,7 @@ const ModalDetailUser = (props) => {
         backdrop="static"
         keyboard={false}
         dialogClassName="large-modal"
-        size="xl"
+        size="lg"
         centered
       >
         <Modal.Header closeButton>
@@ -26,7 +26,7 @@ const ModalDetailUser = (props) => {
         </Modal.Header>
         <Modal.Body className="body_add_new">
           <div className="row g-3">
-            <div className="col-md-6">
+            <div className="col-md-12">
               <label htmlFor="inputName" className="form-label">
                 Tên
               </label>
@@ -38,7 +38,7 @@ const ModalDetailUser = (props) => {
                 readOnly
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12">
               <label htmlFor="inputDateOfBirth" className="form-label">
                 Ngày sinh
               </label>
@@ -50,7 +50,7 @@ const ModalDetailUser = (props) => {
                 readOnly
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12">
               <label htmlFor="inputAddress" className="form-label my-3">
                 Địa chỉ
               </label>
@@ -62,7 +62,7 @@ const ModalDetailUser = (props) => {
                 readOnly
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12">
               <label htmlFor="inputPhone" className="form-label my-3">
                 Số điện thoại
               </label>
@@ -74,7 +74,7 @@ const ModalDetailUser = (props) => {
                 readOnly
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12">
               <label htmlFor="inputEmail" className="form-label my-3">
                 Email
               </label>
@@ -86,7 +86,7 @@ const ModalDetailUser = (props) => {
                 readOnly
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-12">
               <label htmlFor="inputCCCD" className="form-label my-3">
                 Số CCCD
               </label>

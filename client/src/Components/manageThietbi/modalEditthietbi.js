@@ -62,7 +62,7 @@ const ModalEditTb = (props) => {
         <form className="row g-3">
           <div className="col-md-6">
             <label htmlFor="inputID" className="form-label">
-              So phong
+              Số Phòng(ID)
             </label>
             <input
               type="text"
@@ -74,7 +74,7 @@ const ModalEditTb = (props) => {
 
           <div className="col-md-6">
             <label htmlFor="inputArea" className="form-label">
-              Ten thiet bi
+              Tên thiết bị
             </label>
             <input
               type="text"
@@ -86,7 +86,7 @@ const ModalEditTb = (props) => {
 
           <div className="col-md-6">
             <label htmlFor="inputStatus" className="form-label">
-              Gia
+              Giá thiết bị
             </label>
             <input
               type="text"

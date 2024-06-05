@@ -14,10 +14,13 @@ import _ from "lodash";
 import ModalDetailHoadon from "./modalDetailHoadon";
 import ModalEditHoadon from "./modalEditHoadon";
 import { CSVLink, CSVDownload } from "react-csv";
-import axios from "axios";
+import axios from "axios";import { FaCloudDownloadAlt } from "react-icons/fa";
 import { io, Socket } from "socket.io-client";
 import { useSelector } from "react-redux";
 import style from "../../styles/Managerment.modules.scss";
+import { IoIosWater } from "react-icons/io";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
+
 const TableManageHoadon = (props) => {
   const [listHoadon, setListHoadon] = useState([]);
   const [totalHoadon, setTotalHoadon] = useState(0);
@@ -36,6 +39,7 @@ const TableManageHoadon = (props) => {
   const user = useSelector((state) => state.user.account);
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
   const id = useSelector((state) => state.user.account.id);
+
 
   let socket = io("http://localhost:8080", { query: { id } });
   const [noti, setNoti] = useState();
@@ -178,6 +182,7 @@ const TableManageHoadon = (props) => {
         arr[3] = item.total;
         arr[4] = item.paymentMethod;
         arr[5] = item.status;
+     
         result.push(arr);
       });
       serDataExport(result);
@@ -225,19 +230,8 @@ const TableManageHoadon = (props) => {
     }
   };
 
-  const handleSearchHoadon = _.debounce((term) => {
-    if (term) {
-      let cloneListHoadon = _.cloneDeep(listHoadon);
 
-      cloneListHoadon = cloneListHoadon.filter((item) =>
-        item.first_name.toLowerCase().includes(term.toLowerCase())
-      );
 
-      setListHoadon(cloneListHoadon);
-    } else {
-      getHoadon(1);
-    }
-  }, 300);
 
   const handDetailHoadon = (hoadon) => {
     setIsShowModalDetailHoadon(true);
@@ -297,37 +291,41 @@ const TableManageHoadon = (props) => {
             Chưa thanh toán
           </option>
         </select>
-        <div className="group-btns">
+        <div className="group-btns"
+        style={{  marginLeft: "-220px" }}>
           <CSVLink
             filename={"Hoadon.csv"}
-            className="btn btn-primary"
+            className="btn btn-success  mx-1" 
             data={dataExport}
             asyncOnClick={true}
             onClick={getHoadonExport}
           >
-            <i className="fa-solid fa-file-arrow-down"></i> Download
+           <FaCloudDownloadAlt 
+            className="mr-2 mx-1"
+            style={{ fontSize: "1.5em", marginTop: "-5px" }}
+          /> Download
           </CSVLink>
           <button
-            className="btn btn-success"
+            className="btn btn-primary mx-1"
             onClick={() => setIsShowModalAddDiennuoc(true)}
           >
-            <i class="fa-solid fa-plug-circle-plus"></i> Thêm Điện Nước
+          <IoIosWater
+            className="mr-2 mx-1"
+            style={{ fontSize: "1.5em", marginTop: "-5px" }}
+          /> Ghi điện nước
           </button>
           <button
-            className="btn btn-success"
+            className="btn btn-danger"
             onClick={() => setIsShowModalAddHoadon(true)}
           >
-            <i class="fa-solid fa-plug-circle-plus"></i> Thêm Hoá Đơn
+           <FaMoneyBillTrendUp  
+            className="mr-2 mx-1"
+            style={{ fontSize: "1.5em", marginTop: "-5px" }}
+          /> Thêm Hoá Đơn
           </button>
         </div>
       </div>
-      <div className="col-4 my-3">
-        <input
-          className="form-control"
-          placeholder="Tìm kiếm hóa đơn ... "
-          onChange={(event) => handleSearchHoadon(event.target.value)}
-        />
-      </div>
+     
       <Table striped bordered hover>
         <thead>
           <tr>

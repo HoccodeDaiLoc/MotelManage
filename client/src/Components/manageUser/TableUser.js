@@ -13,6 +13,8 @@ import style1 from "../../styles/UserHomePage.modules.scss";
 import { FaUserPlus } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import unidecode from "unidecode";  
+
 
 const TableUser = (props) => {
   const [listUser, setListUser] = useState([]);
@@ -103,15 +105,17 @@ const TableUser = (props) => {
   const handleSearch = debounce((event) => {
     const term = event.target.value;
     if (term) {
+      const searchTerm = unidecode(term.toLowerCase()); // Chuyển từ khóa tìm kiếm thành không dấu và chuyển sang chữ thường
       const cloneListuser = _.cloneDeep(listUser);
       const filteredUsers = cloneListuser.filter(
-        (item) => item.name && item.name.includes(term)
+        (item) => item.name && unidecode(item.name.toLowerCase()).includes(searchTerm) // So sánh từ không dấu của tên người dùng với từ khóa tìm kiếm
       );
       setListUser(filteredUsers);
     } else {
       getUser(1);
     }
   }, 100);
+  
   const handDetailUser = (user) => {
     setIsShowModalDetail(true);
     setDataDetailUser(user);
@@ -129,7 +133,8 @@ const TableUser = (props) => {
           <b>Danh sách khách hàng:</b>
         </span>
         <button
-          className=" them btn btn-success"
+          className=" them btn btn-success " 
+          style={{  marginLeft: "680px" }}
           onClick={() => setIsShowModalAdd(true)}
         >
           <FaUserPlus

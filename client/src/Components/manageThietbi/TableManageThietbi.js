@@ -9,7 +9,7 @@ import { debounce } from "lodash";
 import _ from "lodash";
 import ModalDetailTb from "./modalDetailThietBi";
 import { TbDeviceIpadDollar } from "react-icons/tb";
-
+import unidecode from "unidecode";  
 
 const TableManageTb = (props) => {
   const [listTb, setListTb] = useState([]);
@@ -82,6 +82,20 @@ const TableManageTb = (props) => {
     }
   };
   
+  const getDeviceName = (categoryId) => {
+    switch (categoryId) {
+      case 1:
+        return "Máy lạnh";
+      case 2:
+        return "Tủ lạnh";
+      case 3:
+        return "Giường";
+      case 4:
+        return "Tivi";
+      default:
+        return "";
+    }
+  };
   
   
   
@@ -113,14 +127,14 @@ const TableManageTb = (props) => {
   };
 
   const handleSearchTb = debounce((event) => {
-    console.log(event.target.value);
-    let term = event.target.value;
+    const term = event.target.value;
     if (term) {
-      let cloneListTb = _.cloneDeep(listTb);
-      cloneListTb = cloneListTb.filter((item) =>
-        item.deviceName.includes(term)
+      const searchTerm = unidecode(term.toLowerCase()); // Chuyển từ khóa tìm kiếm thành không dấu và chuyển sang chữ thường
+      const cloneListTb = _.cloneDeep(listTb);
+      const filteredTb = cloneListTb.filter(
+        (item) => item.deviceName && unidecode(item.deviceName.toLowerCase()).includes(searchTerm) // So sánh từ không dấu của tên người dùng với từ khóa tìm kiếm
       );
-      setListTb(cloneListTb);
+      setListTb(filteredTb);
     } else {
       getTb(1);
     }
@@ -140,7 +154,7 @@ const TableManageTb = (props) => {
           <b>Danh sách thiết bị:</b>
         </span>
         <button
-          className="them btn btn-success"
+          className="them btn btn-success" style={{  marginLeft: "700px" }}
           onClick={() => setIsShowModalAddTb(true)}
         >
           <TbDeviceIpadDollar    className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
@@ -157,6 +171,7 @@ const TableManageTb = (props) => {
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th style={{ whiteSpace: "nowrap" }}>Loại thiết bị</th>
             <th style={{ whiteSpace: "nowrap" }}>Tên thiết bị</th>
             <th style={{ whiteSpace: "nowrap" }}>Giá thiết bị</th>
             <th style={{ whiteSpace: "nowrap" }}>Phòng sử dụng</th>
@@ -167,9 +182,10 @@ const TableManageTb = (props) => {
           {listTb &&
             listTb.map((item, index) => (
               <tr key={`tb-${index}`}>
+                <td>{getDeviceName(item.categoryId)}</td>
                 <td
                   style={{
-                    maxWidth: "450px",
+                    maxWidth: "400px",
                   }}
                 >
                   <p id="text_table">{item.deviceName}</p>

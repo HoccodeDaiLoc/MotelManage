@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { postCreateTb } from '../../service/ManageService';
+import { postCreateTb,fetchAllTroWithRoomNumber  } from '../../service/ManageService';
 import { toast } from 'react-toastify';
 
 const ModalAddTb = (props) => {
@@ -9,6 +9,7 @@ const ModalAddTb = (props) => {
   const [deviceName, setDeviceName] = useState("");
   const [devicePrice, setDevicePrice] = useState("");
   const [roomId, setRoomId] = useState("");
+  
   const handUpdateTb = async () => {
     // Kiểm tra nếu giá thiết bị và số phòng không phải là số
     if (isNaN(parseFloat(devicePrice)) || isNaN(parseInt(roomId))) {
@@ -36,25 +37,25 @@ const ModalAddTb = (props) => {
   return (
     <Modal show={show}
       onHide={handleCloseTb}
-      size='xl'
+      size='lg'
       className='modal-add-tro'>
       <Modal.Header closeButton>
         <Modal.Title>Thêm vào danh sách</Modal.Title>
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
-          <div className="col-md-6">
+          <div className="col-md-12">
             <label htmlFor="inputID" className="form-label">Loại Thiết Bị</label>
             <input
-              type="text" className="form-control" value={deviceName} onChange={(event) => setDeviceName(event.target.value)} />
+              type="text" className="form-control"      placeholder="Mời bạn nhập thông tin..." value={deviceName} onChange={(event)  => setDeviceName(event.target.value)} />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-12">
             <label htmlFor="inputEmail4" className="form-label">Giá thiết bị</label>
-            <input type="text" className="form-control" value={devicePrice} onChange={(event) => setDevicePrice(event.target.value)} />
+            <input type="text" className="form-control"      placeholder="Mời bạn nhập thông tin..." value={devicePrice} onChange={(event) => setDevicePrice(event.target.value)} />
           </div>
-          <div className="col-md-6">
+          <div className="col-md-12">
             <label htmlFor="inputEmail4" className="form-label">Phòng đang sử dụng</label>
-            <input type="text" className="form-control" value={roomId} onChange={(event) => setRoomId(event.target.value)} />
+            <input type="text" className="form-control"      placeholder="Mời bạn nhập thông tin..." value={roomId} onChange={(event) => setRoomId(event.target.value)} />
           </div>
         
         </form>

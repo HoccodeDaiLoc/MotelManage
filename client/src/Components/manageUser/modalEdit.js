@@ -96,6 +96,7 @@ const ModalEdit = (props) => {
               className="form-control"
               value={name}
               onChange={(event) => setName(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
@@ -108,6 +109,7 @@ const ModalEdit = (props) => {
               className="form-control"
               value={address}
               onChange={(event) => setAddress(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
@@ -131,6 +133,7 @@ const ModalEdit = (props) => {
               className="form-control"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
           <div className="col-md-6">
@@ -142,6 +145,7 @@ const ModalEdit = (props) => {
               className="form-control"
               value={cccd}
               onChange={(event) => setCccd(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
           <div className="col-md-6">

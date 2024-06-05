@@ -8,7 +8,7 @@ import style from "../../Components/ManagerApp.modules.scss";
 const ModalAddTro = (props) => {
   const { show, handleCloseTro, handUpdateTableTro } = props; // Trích xuất giá trị từ props
   const [roomNumber, setroomNumber] = useState("");
-  const [description, setdescription] = useState("Đầy đủ");
+  const [description, setdescription] = useState(" ");
   const [price, setprice] = useState("");
   const [roomStatus, setroomStatus] = useState("Phòng trống");
   const [roomArea, setroomArea] = useState("");
@@ -19,9 +19,6 @@ const ModalAddTro = (props) => {
 
   const [isReportBrokenVisible, setIsReportBrokenVisible] = useState("");
 
-  const toggleReportBrokenVisibility = () => {
-    setIsReportBrokenVisible(!isReportBrokenVisible);
-  };
 
   const handUpdateImageTro = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
@@ -97,18 +94,21 @@ const ModalAddTro = (props) => {
               className="form-control"
               value={roomNumber}
               onChange={(event) => setroomNumber(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
           <div className="col-md-6">
-            <label htmlFor="inputPrice" className="form-label">
+            <label htmlFor="inputPrice" className="form-label" >
               Giá Thuê
+              
             </label>
             <input
               type="text"
               className="form-control"
               value={price}
               onChange={(event) => setprice(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
@@ -121,6 +121,7 @@ const ModalAddTro = (props) => {
               className="form-control"
               value={roomArea}
               onChange={(event) => setroomArea(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
@@ -133,21 +134,22 @@ const ModalAddTro = (props) => {
               className="form-control"
               value={roomStatus}
               onChange={(event) => setroomStatus(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
+          
           <div className="col-md-6">
-            <label htmlFor="inputType" className="form-label">
-              Loại phòng
+            <label htmlFor="inputArea" className="form-label">
+             Mô tả
             </label>
-            <select
-              className="form-select"
+            <input
+              type="text"
+              className="form-control"
               value={description}
               onChange={(event) => setdescription(event.target.value)}
-            >
-              <option value="Đầy đủ">Đầy đủ</option>
-              <option value="Chưa đầy đủ">Chưa đầy đủ</option>
-            </select>
+              placeholder="Mời bạn nhập thông tin..."
+            />
           </div>
           <div className="col-md-12">
             <label className="label-upload-anhtro" htmlFor="labelUploadTro">

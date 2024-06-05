@@ -107,6 +107,7 @@ const ModalAdd = (props) => {
               className="form-control"
               value={name}
               onChange={(event) => setName(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
@@ -119,6 +120,7 @@ const ModalAdd = (props) => {
               className="form-control"
               value={address}
               onChange={(event) => setAddress(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
             />
           </div>
 
@@ -131,6 +133,7 @@ const ModalAdd = (props) => {
               className="form-control"
               value={phone}
               onChange={handlePhoneChange}
+              placeholder="Số Điện thoại gồm: 10 Số"
             />
           </div>
           <div className="col-md-6">
@@ -153,6 +156,7 @@ const ModalAdd = (props) => {
               className="form-control"
               value={cccd}
               onChange={handleCccdChange}
+              placeholder="Số căn cước công dân gồm:12 Số"
             />
           </div>
           <div className="col-md-12">

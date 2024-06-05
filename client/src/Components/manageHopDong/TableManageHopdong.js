@@ -92,7 +92,7 @@ const TableManageHd = (props) => {
         const roomNumberPromises = res.data.map(async (hd) => {
           try {
         
-            const resTro = await fetchAllTro(hd.roomId);
+         const resTro = await fetchAllTro(hd.roomId);
             const roomNumber = resTro.data[0].roomNumber;
             return { ...hd, roomNumber };
           } catch (error) {
@@ -175,10 +175,11 @@ const TableManageHd = (props) => {
       {" "}
       <div className="my-3 add-new">
         <span>
-          <b>Danh sách phòng trọ:</b>
+          <b>Danh sách hợp đồng cho thuê:</b>
         </span>
         <button
-          className="btn btn-success"
+          className="btn btn-success "
+          style={{  marginLeft: "640px" }}
           onClick={() => setIsShowModalAddHd(true)}
         >
           <BiSolidBookAdd
@@ -196,7 +197,7 @@ const TableManageHd = (props) => {
         />
       </div>
       <Table striped bordered hover>
-        <thead>
+<thead>
           <tr>
             <th>Phòng thuê</th>
             <th>Số lượng thuê</th>
