@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "../styles/SideBar.modules.scss";
 import { useNavigate } from "react-router-dom";
 import { fecthAllCategory } from "../service/CategoryService";
+import left_arrow from "../asset/image/left-arrow.svg";
 
 function SideBar() {
   const [items, setItems] = useState([]);
@@ -62,19 +63,13 @@ function SideBar() {
     <div id="SideBar_wrapper">
       <div className="SideBar_wrapper2">
         <span onClick={handlePrevious}>
-          <img
-            className="side_button"
-            src="https://www.svgrepo.com/show/408765/left-arrow-direction.svg"
-          ></img>
+          <img className="side_button" src={left_arrow}></img>
         </span>
 
         {renderItems()}
 
         <span onClick={handleNext}>
-          <img
-            className="side_button rotate"
-            src="https://www.svgrepo.com/show/408765/left-arrow-direction.svg"
-          ></img>
+          <img className="side_button rotate" src={left_arrow}></img>
         </span>
       </div>
     </div>

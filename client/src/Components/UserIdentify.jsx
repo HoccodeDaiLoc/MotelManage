@@ -31,7 +31,6 @@ function UserIdentify() {
             <button
               className="submit_btn"
               onClick={() => {
-                console.log("email input: ", ForgetEmail);
                 navigate("/Recover/RecoverInitiate", { state: ForgetEmail });
               }}
             >

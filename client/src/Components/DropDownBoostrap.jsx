@@ -10,7 +10,6 @@ import RoomPriceFilter from "./RoomPriceFilter";
 
 function DropDownBoostrap({ items }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams);
   const [buttonvalue, setButtonvalue] = useState("Giá phòng");
   const navigate = useNavigate();
 

@@ -64,6 +64,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         account: {
+          id: "",
+          username:"",
+          password:"",
+          isAdmin: false,
+          accessToken: "",
+          refreshToken: "",
           username: "",
           token: "",
           auth: false,

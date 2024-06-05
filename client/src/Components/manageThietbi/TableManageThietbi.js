@@ -44,6 +44,7 @@ const TableManageTb = (props) => {
     let index = listTb.findIndex((item) => item.deviceId === tb.deviceId);
     cloneListTb[index].deviceName = tb.deviceName;
     cloneListTb[index].devicePrice = tb.devicePrice;
+    cloneListTb[index].roomId = tb.roomId;
     setListTb(cloneListTb);
   };
 

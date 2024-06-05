@@ -14,7 +14,7 @@ function UserBill() {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [unpaidBill, setUnpaidBill] = useState([]);
-  let curentUrl = "localhost:3000" + useLocation().pathname;
+  let curentUrl = window.location.href;
   console.log(curentUrl);
   useEffect(() => {
     console.log(id);

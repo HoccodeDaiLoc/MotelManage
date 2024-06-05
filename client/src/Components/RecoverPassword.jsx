@@ -35,7 +35,6 @@ function RecoverPassword() {
             <button
               className="submit_btn"
               onClick={() => {
-                console.log(data.email, newPass);
                 postResetPassWord(data.email, data.token, newPass).then(
                   navigate("/Loggin")
                 );

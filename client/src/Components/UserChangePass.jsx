@@ -3,108 +3,96 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { putChangePass } from "../service/UserService";
 import { toast } from "react-toastify";
-
+import { UpdatePass } from "../schemas/index";
+import { useFormik } from "formik";
 function UserChangePassComponent() {
-  const [oldPass, setOldPass] = useState("");
-  const [newPass, setNewPass] = useState("");
-  const [checkPass, setCheckPass] = useState("");
   const mk = useSelector((state) => state.user.account.password);
-  console.log(mk);
+  const onSubmit = async (values, actions) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    putChangePass(values.password, values.newPassword).then(() =>
+      toast.success("Đã đổi mật khẩu thành công", {
+        position: "top-center",
+      })
+    );
+    actions.resetForm();
+  };
+
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        password: "",
+        newPassword: "",
+        confirmPassword: "",
+      },
+      validationSchema: UpdatePass,
+      onSubmit,
+    });
+
   return (
     <div className="UserInfo_Wrapper">
-      <form className="UserInfo_Container">
+      <form
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        className="UserInfo_Container"
+      >
         <h4 className="UserInfo_Item_Heading">Thay đổi mật khẩu</h4>
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Nhập mật khẩu cũ</h6>
           <input
-            type="text"
             maxLength={50}
-            className={"UserInfo_Item_Input"}
-            onChange={(e) => {
-              setOldPass(e.target.value);
-            }}
+            type="text"
+            className={`UserInfo_Item_Input inputbox ${errors.password && touched.password ? "input-error" : ""}`}
+            onChange={handleChange}
+            value={values.password}
+            id="password"
+            placeholder="Mật khẩu"
+            onBlur={handleBlur}
           />
+          {errors.password && touched.password && (
+            <p className="error">{errors.password}</p>
+          )}
         </div>
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Mật khẩu mới</h6>
           <input
             type="text"
             maxLength={50}
-            className={"UserInfo_Item_Input"}
-            onChange={(e) => {
-              setNewPass(e.target.value);
-            }}
+            className={`UserInfo_Item_Input inputbox ${errors.newPassword && touched.newPassword ? "input-error" : ""}`}
+            onChange={handleChange}
+            value={values.newPassword}
+            id="newPassword"
+            placeholder="Mật khẩu"
+            onBlur={handleBlur}
           />
         </div>{" "}
+        {errors.newPassword && touched.newPassword && (
+          <p className="error">{errors.newPassword}</p>
+        )}
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Nhập lại mật khẩu mới</h6>
           <input
+            id="confirmPassword"
             type="text"
+            placeholder="Nhập lại mật khẩu mới"
+            value={values.confirmPassword}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`UserInfo_Item_Input inputbox ${errors.confirmPassword && touched.confirmPassword ? "input-error" : ""}`}
             maxLength={50}
-            className={"UserInfo_Item_Input"}
-            onChange={(e) => {
-              setCheckPass(e.target.value);
-            }}
           />
         </div>
-        <div
-          className="UserInfo_Edit_Button"
-          onClick={async () => {
-            console.log(newPass);
-            if (newPass === null || oldPass === null || checkPass === null) {
-              toast.error("Nhập đầy đủ thông tin", {
-                position: "top-center",
-              });
-            }
-            if (newPass === "" || oldPass === "" || checkPass === "") {
-              toast.error("Nhập đầy đủ thông tin", {
-                position: "top-center",
-              });
-            }
-            if (
-              newPass === undefined ||
-              oldPass === undefined ||
-              checkPass === undefined
-            ) {
-              toast.error("Nhập đầy đủ thông tin", {
-                position: "top-center",
-              });
-            } else if (
-              newPass === checkPass &&
-              newPass != null &&
-              newPass != "" &&
-              newPass != undefined
-            ) {
-              try {
-                putChangePass(oldPass, newPass).then(() =>
-                  toast.success("Đã đổi mật khẩu thành công", {
-                    position: "top-center",
-                  })
-                );
-              } catch (err) {
-                console.error("Error response:");
-                console.error(err.response.data);
-                console.error(err.response.status);
-                console.error(err.response.headers);
-              } finally {
-                console.log("what de heo");
-              }
-              window.scrollBy({ top: -10000, behavior: "smooth" });
-            } else if (oldPass === newPass || oldPass === checkPass) {
-              toast.error(
-                "Mật khẩu mới không không được trùng với mật khẩu cũ!",
-                {
-                  position: "top-center",
-                }
-              );
-            } else {
-              toast.error("Mật khẩu mới không khớp!", {
-                position: "top-center",
-              });
-            }
-          }}
-        >
-          Lưu
+        {errors.confirmPassword && touched.confirmPassword && (
+          <p className="error">{errors.confirmPassword}</p>
+        )}
+        <div className="UserInfo_Edit_Button_Container">
+          <button
+            className="UserInfo_Edit_Button"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            Lưu
+          </button>
         </div>
       </form>
     </div>

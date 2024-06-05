@@ -63,6 +63,7 @@ export class DeviceRepository
       });
       return newDevice;
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }

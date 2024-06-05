@@ -101,18 +101,17 @@ const TableUser = (props) => {
     handleClose();
   };
   const handleSearch = debounce((event) => {
-    const term = event.target.value.toLowerCase(); // Chuyển chuỗi tìm kiếm sang chữ thường
+    const term = event.target.value;
     if (term) {
-        const cloneListUser = _.cloneDeep(listUser);
-        const filteredUsers = cloneListUser.filter(item => 
-            item.name && item.name.toLocaleLowerCase().includes(term)
-        );
-        setListUser(filteredUsers);
+      const cloneListuser = _.cloneDeep(listUser);
+      const filteredUsers = cloneListuser.filter(
+        (item) => item.name && item.name.includes(term)
+      );
+      setListUser(filteredUsers);
     } else {
-        getUser(1);
+      getUser(1);
     }
-}, 300);
-
+  }, 100);
   const handDetailUser = (user) => {
     setIsShowModalDetail(true);
     setDataDetailUser(user);
@@ -164,9 +163,7 @@ const TableUser = (props) => {
                 <tr key={`user-${index}`}>
                   <td>{item.name}</td>
                   <td>{formatDate(item.dateOfBirth)}</td>
-                
                   <td>{item.phone}</td>
-                 
                   <td>{item.cccd}</td>
                   <td>
                     <button

@@ -9,7 +9,6 @@ import {debounce} from "lodash";
 import _ from "lodash";
 import ModalDetailHd from "./modalDetailHd";
 import { BiSolidBookAdd } from "react-icons/bi";
-
 const TableManageHd = (props) => {
   const [listHd, setListHd] = useState([]);
   const [totalHd, setTotalHd] = useState(0);
@@ -24,6 +23,8 @@ const TableManageHd = (props) => {
 
   const [keyword, setKeyWord] = useState("");
 
+  const [updatedHoadonList, setUpdatedHoadonList] = useState([]);
+
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
   const [dataDetailHd, setDataDetailHd] = useState({});
   const formatDate = (date) => {
@@ -33,7 +34,7 @@ const TableManageHd = (props) => {
 
     return formattedDate;
   };
-
+  
   const handleCloseHd = () => {
     setIsShowModalAddHd(false);
     setIsShowModalEditHd(false);
@@ -57,7 +58,7 @@ const TableManageHd = (props) => {
 
     setListHd(cloneListHd);
   };
- console.log('checkuserroom',listHd)
+ 
   useEffect(() => {
     // Call API
     getHd(1);
@@ -66,7 +67,7 @@ const TableManageHd = (props) => {
   // const getHd = async (page) => {
   //   try {
   //     const res = await fetchAllHd(page);
-  //     console.log("checkhd", res);
+  
   //     if (res && res) {
   //       const { data, total_pages } = res.data;
   //       setTotalHd(res.data.total);
@@ -79,32 +80,24 @@ const TableManageHd = (props) => {
   // };
   const getHd = async (page) => {
     try {
-      const res = await fetchAllHd(page); // Lấy thông tin các hóa đơn
+      const res = await fetchAllHd(page);
       if (res && res.data) {
         const { data, total_pages } = res.data;
         setTotalHd(res.data.total);
-        setListHd(res.data);
         setTotalPageHd(res.total_pages);
-        const hdPromises = res.data.map(async (hd) => {
+        const roomNumberPromises = res.data.map(async (hd) => {
           try {
+        
             const resTro = await fetchAllTro(hd.roomId);
-            const roomNumber = resTro.data[0].roomNumber; // Lấy roomNumber từ kết quả trả về
-            const resUser = await fetchAllUser(hd.renterId); // Lấy thông tin người thuê từ renterId
-            const name = resUser.renterList[0].name; 
-            // Gộp thông tin phòng sử dụng và người thuê vào một đối tượng mới
-            const updatedHd = { 
-              ...hd,
-              roomNumber,
-              name
-            };
-            return updatedHd; // Trả về thông tin hóa đơn sau khi gộp
+            const roomNumber = resTro.data[0].roomNumber;
+            return { ...hd, roomNumber };
           } catch (error) {
-            console.error("Error fetching Tro or User data:", error);
-            return hd; // Trả về hóa đơn ban đầu nếu có lỗi
+            console.error("Error fetching Tro data for roomNumber:", error);
+            return hd;
           }
         });
-        Promise.all(hdPromises).then(updatedHoadonList => {
-          setListHd(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin phòng sử dụng và người thuê
+        Promise.all([...roomNumberPromises]).then((updatedHoadonList) => {
+          setListHd(updatedHoadonList); 
         });
       }
     } catch (error) {
@@ -112,6 +105,7 @@ const TableManageHd = (props) => {
     }
   };
   
+
   const handlePageClick = (event) => {
     getHd(+event.selected + 1);
   };
@@ -170,7 +164,11 @@ const TableManageHd = (props) => {
   };
 
   return (
-    <>
+    <div
+      className="UserInfo_Manager"
+      style={{ width: "80%", margin: "0px 0px 0px auto" }}
+    >
+      {" "}
       <div className="my-3 add-new">
         <span>
           <b>Danh sách phòng trọ:</b>
@@ -197,7 +195,7 @@ const TableManageHd = (props) => {
         <thead>
           <tr>
             <th>Phòng thuê</th>
-            <th>Người thuê</th>
+            <th>Số lượng thuê</th>
             <th>Ngày bắt đầu</th>
             <th>Ngày hết hạn</th>
             <th>Khác</th>
@@ -262,7 +260,7 @@ const TableManageHd = (props) => {
         handleCloseHd={handleCloseHd}
         handleDetailHdfrommodal={handleDetailHdfrommodal}
       />
-    </>
+    </div>
   );
 };
 
