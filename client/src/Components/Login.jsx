@@ -64,11 +64,14 @@ function Login() {
           srcSet=""
         />
       </Link>
+
       <form
         onSubmit={handleSubmit}
         className="LogginContainer"
         autoComplete="off"
       >
+        <hr></hr>
+
         <div className="LogginRight">
           <div className="title">Đăng nhập</div>
           {/* <form //onSubmit={handleSubmit} */}
@@ -115,6 +118,15 @@ function Login() {
                 </h6>
               </Link>
             </div>
+            <button
+              onClick={() => {
+                navigate("/SignIn");
+              }}
+              className="submit_loggin active"
+            >
+              Bạn chưa có tài khoản?
+            </button>
+            <hr></hr>
             <button
               className="submit_loggin active"
               // className={

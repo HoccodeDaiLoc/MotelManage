@@ -48,6 +48,7 @@ function SignIn() {
       </Link>
       <div className="SignContainer">
         <div className="SubSignContainer">
+          <hr></hr>
           <div className="text_container">
             <h3 className="title">Tạo tài khoản mới</h3>
             <h6 className="desc">Nhanh chóng và dễ dàng</h6>
@@ -93,6 +94,15 @@ function SignIn() {
             {errors.password && touched.password && (
               <p className="error">{errors.password}</p>
             )}
+            <button
+              onClick={() => {
+                navigate("/Loggin");
+              }}
+              className="submit_Sign active"
+            >
+              Bạn đã có tài khoản?
+            </button>
+            <hr></hr>
             <button className={"submit_Sign active"} type="submit">
               Đăng ký
             </button>

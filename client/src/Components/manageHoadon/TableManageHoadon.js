@@ -108,7 +108,7 @@ const TableManageHoadon = (props) => {
       if (resTb && resTb.data) {
         const { data, total_pages } = resTb.data;
         setTotalHoadon(resTb.total);
-        setTotalPageHoadon(resTb.total_pages);
+        setTotalPageHoadon(resTb.total_page);
         // Lấy thông tin về phòng sử dụng từ API fetchAllTro dựa trên roomId của hóa đơn
         const roomNumberPromises = resTb.data.map(async (hoadon) => {
           try {

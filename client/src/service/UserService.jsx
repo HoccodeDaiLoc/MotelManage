@@ -96,7 +96,19 @@ const putChangePass = (passwordCurrent, newPassword) => {
     }
   );
 };
-
+const putUpdateAvatar = (avatar) => {
+  return axios.put(
+    `/api/user/updateAvatar`,
+    {
+      avatar: avatar,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+};
 const fetchBillByRenter = (id, currentPage) => {
   return axios.get(`/api/bill/room/${id}?limit=12&page=${currentPage}`, {
     headers: {
@@ -141,6 +153,13 @@ const loginApi = (username, password) => {
     }
   );
 };
+const fetchContractByRenter = (id) => {
+  return axios.get(`/api/contract/renter/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
 export {
   fetchAllUser,
   postForgetPassWord,
@@ -153,4 +172,6 @@ export {
   putChangePass,
   postchecktoken,
   fetchBillByRenter,
+  putUpdateAvatar,
+  fetchContractByRenter,
 };
