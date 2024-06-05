@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 const instance = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "http://14.236.62.46:8080",
   // baseURL: "http://localhost:8080/",
 });
 

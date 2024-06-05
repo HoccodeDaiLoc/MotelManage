@@ -35,7 +35,7 @@ export class PaymentService implements PaymentService {
     const partnerCode = "MOMO";
     const redirectUrl = rederedirectUrl;
     const ipnUrl =
-      "https://8992-14-236-62-46.ngrok-free.app/api/payment/momo/call-back-with-momo";
+      "http://14.236.62.46:8080/api/payment/momo/call-back-with-momo";
     const requestType = "payWithMethod";
     const amount = bill.total.toString();
     const orderId = partnerCode + new Date().getTime();
@@ -138,6 +138,7 @@ export class PaymentService implements PaymentService {
       );
       return notifications;
     } catch (err) {
+      console.log(err);
       throw err;
     }
   }

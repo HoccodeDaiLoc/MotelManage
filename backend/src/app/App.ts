@@ -41,10 +41,10 @@ class App {
     this.server = http.createServer(this.app);
     this.io = new socketIo.Server(this.server, { cors: { origin: "*" } });
     this.socketClients = new Map();
+    this.plugins();
     this.databaseSync();
     this.useSession();
     this.initSocketIo();
-    this.plugins();
     this.routes();
     this.catchError();
   }

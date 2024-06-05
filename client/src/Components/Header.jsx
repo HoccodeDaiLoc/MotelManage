@@ -10,7 +10,7 @@ function Header(props) {
   const user = useSelector((state) => state.user.account);
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
   const id = useSelector((state) => state.user.account.id);
-  let socket = io("http://localhost:8080", { query: { id } });
+  let socket = io("http://14.236.62.46:8080", { query: { id } });
   const [noti, setNoti] = useState();
   useEffect(() => {
     socket.on("connect", () => {

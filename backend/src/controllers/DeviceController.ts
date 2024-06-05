@@ -110,4 +110,12 @@ export class DeviceController {
       next(err);
     }
   }
+
+  addDeviceForRoom = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      
+    }catch(err) {
+      next(err);
+    }
+  }
 }

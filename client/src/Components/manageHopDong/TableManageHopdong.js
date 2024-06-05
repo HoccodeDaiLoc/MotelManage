@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
@@ -7,16 +6,6 @@ import ModalEditHd from './modalEditHd'
 import ModalAddHd from './modalAddHd';
 import ModalConfirmHd from'./modalConfirmHd'
 import {debounce} from "lodash";
-=======
-import React, { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import ReactPaginate from "react-paginate";
-import { fetchAllHd } from "../../service/ManageService";
-import ModalEditHd from "./modalEditHd";
-import ModalAddHd from "./modalAddHd";
-import ModalConfirmHd from "./modalConfirmHd";
-import { debounce } from "lodash";
->>>>>>> 0f2a363c8acadf1b818392838bad10543b92bd5c
 import _ from "lodash";
 import ModalDetailHd from "./modalDetailHd";
 import { BiSolidBookAdd } from "react-icons/bi";
@@ -119,11 +108,7 @@ const TableManageHd = (props) => {
         });
       }
     } catch (error) {
-<<<<<<< HEAD
       console.error("Error fetching hóa đơn data:", error);
-=======
-      console.error("Error fetching hd data:", error);
->>>>>>> 0f2a363c8acadf1b818392838bad10543b92bd5c
     }
   };
   
@@ -219,7 +204,6 @@ const TableManageHd = (props) => {
           </tr>
         </thead>
         <tbody>
-<<<<<<< HEAD
           {listHd && listHd.map((item, index) => (
             <tr key={`hd-${index}`}>
               <td>{item.roomNumber}</td>
@@ -234,38 +218,6 @@ const TableManageHd = (props) => {
               </td>
             </tr>
           ))}
-=======
-          {listHd &&
-            listHd.map((item, index) => (
-              <tr key={`hd-${index}`}>
-                <td>{item.roomId}</td>
-                <td>{item.renterId}</td>
-                <td>{formatDate(item.startDay)}</td>
-                <td>{formatDate(item.endDate)}</td>
-
-                <td>
-                  <button
-                    className="btn btn-warning mx-3"
-                    onClick={() => handleEditHd(item)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handDeleteHd(item)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-success mx-3"
-                    onClick={() => handDetailHd(item)}
-                  >
-                    Chi tiết
-                  </button>
-                </td>
-              </tr>
-            ))}
->>>>>>> 0f2a363c8acadf1b818392838bad10543b92bd5c
         </tbody>
       </Table>
       <ReactPaginate
