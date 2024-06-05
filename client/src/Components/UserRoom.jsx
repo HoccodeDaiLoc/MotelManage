@@ -14,6 +14,8 @@ function UserRoom() {
       console.log(res);
       setRespone(res.status);
       setRoomData(res.room);
+      console.log(respone);
+      console.log(roomData);
     };
     fetchRoomByID(id);
   }, []);
@@ -21,61 +23,61 @@ function UserRoom() {
   return (
     <div className="UserInfo_Wrapper">
       <div className="UserInfo_Container">
-        {respone === 404 ||
+        {/* {respone === 404 ||
         respone === undefined ||
         respone === null ||
         roomData === undefined ||
         roomData === null ? (
           "Bạn chưa thuê phòng"
         ) : (
-          <>
-            <h4 className="UserInfo_Item_Heading">Phòng của tôi</h4>
-            <div className="UserInfo_Item">
-              <h6 className="UserInfo_Item_Text">Số phòng</h6>
-              <input
-                type="text"
-                maxLength={50}
-                placeholder={roomData?.roomNumber || ""}
-                className={"UserInfo_Item_Input"}
-                disabled
-              />
-              {/* chưa có value, đang hard code */}
-            </div>
-            <div className="UserInfo_Item">
-              <h6 className="UserInfo_Item_Text">Giá phòng</h6>
-              <input
-                type="text"
-                maxLength={50}
-                placeholder={roomData?.price || ""}
-                disabled
-                className={"UserInfo_Item_Input"}
-              />
-              {/* chưa có value, đang hard code */}
-            </div>{" "}
-            <div className="UserInfo_Item">
-              <h6 className="UserInfo_Item_Text">Diện tích</h6>
-              <input
-                type="text"
-                maxLength={50}
-                placeholder={roomData?.roomArea || ""}
-                disabled
-                className={"UserInfo_Item_Input"}
-              />
-              {/* chưa có value, đang hard code */}
-            </div>{" "}
-            <div className="UserInfo_Item">
-              <h6 className="UserInfo_Item_Text">Số người tối đa cho phép</h6>
-              <input
-                type="text"
-                maxLength={50}
-                placeholder={roomData?.maxOccupancy || ""}
-                disabled
-                className={"UserInfo_Item_Input"}
-              />
-              {/* chưa có value, đang hard code */}
-            </div>{" "}
-          </>
-        )}
+          <> */}
+        <h4 className="UserInfo_Item_Heading">Phòng của tôi</h4>
+        <div className="UserInfo_Item">
+          <h6 className="UserInfo_Item_Text">Số phòng</h6>
+          <input
+            type="text"
+            maxLength={50}
+            placeholder={roomData?.roomNumber || ""}
+            className={"UserInfo_Item_Input"}
+            disabled
+          />
+          {/* chưa có value, đang hard code */}
+        </div>
+        <div className="UserInfo_Item">
+          <h6 className="UserInfo_Item_Text">Giá phòng</h6>
+          <input
+            type="text"
+            maxLength={50}
+            placeholder={roomData?.price || ""}
+            disabled
+            className={"UserInfo_Item_Input"}
+          />
+          {/* chưa có value, đang hard code */}
+        </div>{" "}
+        <div className="UserInfo_Item">
+          <h6 className="UserInfo_Item_Text">Diện tích</h6>
+          <input
+            type="text"
+            maxLength={50}
+            placeholder={roomData?.roomArea || ""}
+            disabled
+            className={"UserInfo_Item_Input"}
+          />
+          {/* chưa có value, đang hard code */}
+        </div>{" "}
+        <div className="UserInfo_Item">
+          <h6 className="UserInfo_Item_Text">Số người tối đa cho phép</h6>
+          <input
+            type="text"
+            maxLength={50}
+            placeholder={roomData?.maxOccupancy || ""}
+            disabled
+            className={"UserInfo_Item_Input"}
+          />
+          {/* chưa có value, đang hard code */}
+        </div>{" "}
+        {/* </>
+        )} */}
       </div>
     </div>
   );
