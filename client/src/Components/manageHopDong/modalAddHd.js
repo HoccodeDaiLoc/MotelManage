@@ -10,9 +10,11 @@ import { toast } from 'react-toastify';
 const ModalAddHd = (props) => {
   const { show, handleCloseHd, handUpdateTableHd } = props; // Extract props values
   const [startDay, setStartDay] = useState(null); // Changed initial state to null
+  const [endDate, setEndDate] = useState(null); 
   const [rentAmount, setRentAmount] = useState("");
   const [roomId, setRoomId] = useState("");
   const [renterId, setRenterId] = useState("");
+  const [depositAmount, setDepositAmount] = useState("");
 
   const handUpdateHd = async () => {
     if (!startDay) {
@@ -20,12 +22,22 @@ const ModalAddHd = (props) => {
       return;
     }
     const formattedStartDay = startDay.toISOString().split('T')[0]; // Format date as yyyy-MM-dd
-    let res = await postCreateHd(formattedStartDay, rentAmount, roomId, renterId);
+    const formattedEndDay = endDate.toISOString().split('T')[0]; // Format date as yyyy-MM-dd
+    console.log("Data to be sent to server:");
+  console.log("formattedStartDay:", formattedStartDay);
+  console.log("rentAmount:", rentAmount);
+  console.log("roomId:", roomId);
+  console.log("renterId:", renterId);
+  console.log("formattedEndDay:", formattedEndDay);
+  console.log("depositAmount:", depositAmount);
+    let res = await postCreateHd(formattedStartDay, rentAmount, roomId, renterId,formattedEndDay,depositAmount);
     if (res) {
       setStartDay(null); // Reset startDay to null
       setRentAmount('');
       setRoomId('');
       setRenterId('');
+      setDepositAmount('')
+      setEndDate(null)
       handleCloseHd('');
       toast.success("Saved successfully");
 
@@ -34,6 +46,8 @@ const ModalAddHd = (props) => {
         rentAmount: rentAmount,
         roomId: roomId,
         renterId: renterId,
+        depositAmount:depositAmount,
+        endDate:formattedEndDay
       });
       console.log(res.data);
     } else {
@@ -47,7 +61,7 @@ const ModalAddHd = (props) => {
       backdrop="static"
       keyboard={false}
       dialogClassName="large-modal"
-      size='l'
+      size='lg'
       className='modal-add-tro'>
       <Modal.Header closeButton>
         <Modal.Title>Thêm hợp đồng </Modal.Title>
@@ -55,17 +69,9 @@ const ModalAddHd = (props) => {
       <Modal.Body className="body_add_new">
         <form className="row g-3">
          
-        <div className="col-md-12">
-            <label htmlFor="inputRoomId" className="form-label">Số phòng</label>
-            <input
-              type="text"
-              className="form-control"
-              value={roomId}
-              onChange={(event) => setRoomId(event.target.value)}
-            />
-          </div>
+
           <div className="col-md-12">
-            <label htmlFor="inputRentAmount" className="form-label">Số lượng người thuê</label>
+            <label htmlFor="inputRentAmount" className="form-label">Số lượng người </label>
             <input
               type="text"
               className="form-control"
@@ -74,10 +80,27 @@ const ModalAddHd = (props) => {
             />
           </div>
 
-          
+          <div className="col-md-12">
+            <label htmlFor="inputRoomId" className="form-label">Room ID</label>
+            <input
+              type="text"
+              className="form-control"
+              value={roomId}
+              onChange={(event) => setRoomId(event.target.value)}
+            />
+          </div>
+          <div className="col-md-12">
+            <label htmlFor="inputRoomId" className="form-label">Số tiền đặt cọc</label>
+            <input
+              type="text"
+              className="form-control"
+              value={depositAmount}
+              onChange={(event) => setDepositAmount(event.target.value)}
+            />
+          </div>
 
           <div className="col-md-12">
-            <label htmlFor="inputRenterId" className="form-label">Tên khách hàng</label>
+            <label htmlFor="inputRenterId" className="form-label">Renter ID</label>
             <input
               type="text"
               className="form-control"
@@ -85,7 +108,8 @@ const ModalAddHd = (props) => {
               onChange={(event) => setRenterId(event.target.value)}
             />
           </div>
-           <div className="col-md-12">
+          
+           <div className="col-md-6">
             <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu </label>
             <div className="date-picker-container">
               <DatePicker
@@ -95,6 +119,20 @@ const ModalAddHd = (props) => {
                 className="form-control"
                 placeholderText="Chọn ngày bắt đầu"
               />
+              
+            </div>
+
+            <div className="col-md-6">
+            <label htmlFor="inputStartDay" className="form-label">Ngày hết hạn </label>
+            <div className="date-picker-container">
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                dateFormat="yyyy-MM-dd"
+                className="form-control"
+                placeholderText="Chọn kết thúc"
+              />
+            </div> 
             </div>
           </div>
         </form>

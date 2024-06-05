@@ -27,6 +27,8 @@ const TableManageHd = (props) => {
 
   const [keyword, setKeyWord] = useState("");
 
+  const [updatedHoadonList, setUpdatedHoadonList] = useState([]);
+
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
   const [dataDetailHd, setDataDetailHd] = useState({});
   const formatDate = (date) => {
@@ -36,7 +38,7 @@ const TableManageHd = (props) => {
 
     return formattedDate;
   };
-
+  
   const handleCloseHd = () => {
     setIsShowModalAddHd(false);
     setIsShowModalEditHd(false);
@@ -60,7 +62,7 @@ const TableManageHd = (props) => {
 
     setListHd(cloneListHd);
   };
-  console.log("checkuserroom", listHd);
+ 
   useEffect(() => {
     // Call API
     getHd(1);
@@ -69,7 +71,7 @@ const TableManageHd = (props) => {
   // const getHd = async (page) => {
   //   try {
   //     const res = await fetchAllHd(page);
-  //     console.log("checkhd", res);
+  
   //     if (res && res) {
   //       const { data, total_pages } = res.data;
   //       setTotalHd(res.data.total);
@@ -82,45 +84,31 @@ const TableManageHd = (props) => {
   // };
   const getHd = async (page) => {
     try {
-      const res = await fetchAllHd(page); // Lấy thông tin các hóa đơn
+      const res = await fetchAllHd(page);
       if (res && res.data) {
         const { data, total_pages } = res.data;
         setTotalHd(res.data.total);
-        setListHd(res.data);
         setTotalPageHd(res.total_pages);
-        // Lấy thông tin về phòng sử dụng từ API fetchAllTro dựa trên roomId của hóa đơn
         const roomNumberPromises = res.data.map(async (hd) => {
           try {
+        
             const resTro = await fetchAllTro(hd.roomId);
-            const roomNumber = resTro.data[0].roomNumber; // Lấy roomNumber từ kết quả trả về
-            // Cập nhật thông tin roomNumber vào danh sách hóa đơn
-            return { ...hd, roomNumber }; // Thêm roomNumber vào thông tin hóa đơn
+            const roomNumber = resTro.data[0].roomNumber;
+            return { ...hd, roomNumber };
           } catch (error) {
-            console.error("Error fetching Tro data:", error);
-            return hd; // Trả về hóa đơn ban đầu nếu có lỗi
+            console.error("Error fetching Tro data for roomNumber:", error);
+            return hd;
           }
         });
-        // Lấy thông tin về phòng sử dụng từ API fetchAllTro dựa trên roomId của hóa đơn
-        const namePromise = res.data.map(async (hd) => {
-          try {
-            const resUser = await fetchAllUser(hd.renterId); // Lấy thông tin phòng sử dụng từ roomId
-            const name = resUser.renterList[0].name;
-            // Cập nhật thông tin roomNumber vào danh sách hóa đơn
-            return { ...hd, name }; // Thêm roomNumber vào thông tin hóa đơn
-          } catch (error) {
-            console.error("Error fetching Tro data:", error);
-            return hd; // Trả về hóa đơn ban đầu nếu có lỗi
-          }
-        });
-        const combinedPromises = [...roomNumberPromises, ...namePromise];
-        Promise.all(combinedPromises).then((updatedHoadonList) => {
-          setListHd(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin roomNumber
+        Promise.all([...roomNumberPromises]).then((updatedHoadonList) => {
+          setListHd(updatedHoadonList); 
         });
       }
     } catch (error) {
       console.error("Error fetching hóa đơn data:", error);
     }
   };
+  
 
   const handlePageClick = (event) => {
     getHd(+event.selected + 1);
@@ -211,7 +199,7 @@ const TableManageHd = (props) => {
         <thead>
           <tr>
             <th>Phòng thuê</th>
-            <th>Người thuê</th>
+            <th>Số lượng thuê</th>
             <th>Ngày bắt đầu</th>
             <th>Ngày hết hạn</th>
             <th>Khác</th>
@@ -222,7 +210,7 @@ const TableManageHd = (props) => {
             listHd.map((item, index) => (
               <tr key={`hd-${index}`}>
                 <td>{item.roomNumber}</td>
-                <td>{item.name}</td>
+                <td>{item.rentAmount} người</td>
                 <td>{formatDate(item.startDay)}</td>
                 <td>{formatDate(item.endDate)}</td>
 

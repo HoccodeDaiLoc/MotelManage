@@ -35,66 +35,67 @@ const ModalDetailHd = (props) => {
         </Modal.Header>
         <Modal.Body className="body_add_new">
           <div className="row g-3">
-            <div className="col-md-6">
-              <label htmlFor="inputID" className="form-label">Số Phòng</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputID"
-                value={dataDetailHd?.roomNumber || ''}
-                readOnly
-              />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="inputArea" className="form-label">Diện tích</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputArea"
-                value={dataDetailHd?.roomArea ?`${dataDetailHd.roomArea} m²` : ''}
-                readOnly
-              />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="inputPrice" className="form-label my-3">Giá phòng</label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputPrice"
-                  value={formatPrice(dataDetailHd?.price)}
-                  readOnly
-                />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="inputStatus" className="form-label my-3">Tình trạng</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputStatus"
-                value={dataDetailHd?.roomStatus || ''}
-                readOnly
-              /> 
-            </div>
-            <div className="col-md-12">
-              <label htmlFor="inputDescription" className="form-label my-3">Mô tả</label>
-              <textarea
-                className="form-control"
-                id="inputDescription"
-                value={dataDetailHd?.description || ''}
-                readOnly
-                rows="5" 
-              />
-            </div>
-            <div className="col-md-12 my-3 text-center">
-              <Button 
-                variant="danger" 
-                onClick={() => handleImageClick(dataDetailHd?.roomImage)}
-              >
-                Xem ảnh chi tiết phòng
-              </Button>
-            </div>
+          <div className="col-md-6">
+  <label htmlFor="inputRoomId" className="form-label ">Số  phòng</label>
+  <input
+    type="text"
+    className="form-control"
+    id="inputRoomId"
+    value={dataDetailHd?.roomNumber || ''}
+    readOnly
+  />
+</div>
+<div className="col-md-6">
+  <label htmlFor="inputStartDay" className="form-label ">Ngày bắt đầu</label>
+  <input
+    type="text"
+    className="form-control"
+    id="inputStartDay"
+    value={new Date(dataDetailHd?.startDay).toLocaleDateString('vi-VN') || ''}
+    readOnly
+  />
+</div>
+<div className="col-md-6">
+  <label htmlFor="inputEndDate" className="form-label my-3 ">Ngày kết thúc</label>
+  <input
+    type="text"
+    className="form-control"
+    id="inputEndDate"
+    value={new Date(dataDetailHd?.endDate).toLocaleDateString('vi-VN') || ''}
+    readOnly
+  />
+</div>
+<div className="col-md-6">
+  <label htmlFor="inputRentAmount" className="form-label my-3">Số tiền thuê (VND)</label>
+  <input
+    type="text"
+    className="form-control"
+    id="inputRentAmount"
+    value={formatPrice(dataDetailHd?.rentAmount)}
+    readOnly
+  />
+</div>
+<div className="col-md-6">
+  <label htmlFor="inputDepositAmount" className="form-label my-3">Số tiền đặt cọc (VND)</label>
+  <input
+    type="text"
+    className="form-control"
+    id="inputDepositAmount"
+    value={formatPrice(dataDetailHd?.depositAmount)}
+    readOnly
+  />
+</div>
+
+<div className="col-md-6">
+  <label htmlFor="inputRenterId" className="form-label my-3">Mã người thuê</label>
+  <input
+    type="text"
+    className="form-control"
+    id="inputRenterId"
+    value={dataDetailHd?.renterId || ''}
+    readOnly
+  />
+</div>
           </div>
         </Modal.Body>
         <Modal.Footer>

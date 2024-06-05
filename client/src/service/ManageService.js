@@ -20,7 +20,7 @@ const fetchAllstatusHd = (status) => {
   return axios.get(`/api/bill?status=${status}`); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
 const fetchAllHd = (page) => {
-  return axios.get(`/api/contract?page=${page}`);
+  return axios.get(`/api/contract?page=${page}&limit=6`);
 };
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
   const renterList = new FormData();
@@ -82,12 +82,21 @@ const postCreateHoadon = (
   });
 };
 
-const postCreateHd = (startDay, rentAmount, roomId, renterId) => {
+const postCreateHd = (
+  startDay,
+  rentAmount,
+  roomId,
+  renterId,
+  endDate,
+  depositAmount
+) => {
   return axios.post("/api/contract", {
     startDay,
     rentAmount,
     roomId,
     renterId,
+    endDate,
+    depositAmount,
   });
 };
 const updateUser = (

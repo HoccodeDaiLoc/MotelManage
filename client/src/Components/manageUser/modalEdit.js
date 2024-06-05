@@ -21,37 +21,27 @@ const ModalEdit = (props) => {
       toast.error("Vui lòng nhập tên trước khi lưu");
       return;
     }
-  
+
     // Kiểm tra email có đúng định dạng không
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast.error("Email không hợp lệ");
       return;
     }
-  
+
     // Kiểm tra CCCD có phải là số không
     if (isNaN(cccd)) {
       toast.error("CCCD phải là số");
       return;
     }
-  
+
     // Kiểm tra số điện thoại có phải là số không
     if (isNaN(phone)) {
       toast.error("Số điện thoại phải là số");
       return;
     }
-  
-    console.log("Starting updateUser with:", {
-      renterId: dataUseredit.renterId,
-      name,
-      dateOfBirth,
-      address,
-      phone,
-      email,
-      cccd,
-    });
-  
-    const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0];
+
+    const formattedDateOfBirth = dateOfBirth ? dateOfBirth.toISOString().split("T")[0] : null;
     let res = await updateUser(
       dataUseredit.renterId,
       name,
@@ -61,13 +51,12 @@ const ModalEdit = (props) => {
       email,
       cccd
     );
-    console.log("check res:", res);
-  
+
     if (res) {
       handleEditUserfrommodal({
         renterId: dataUseredit.renterId,
         name,
-        dateOfBirth,
+        dateOfBirth: formattedDateOfBirth,
         address,
         phone,
         email,
@@ -79,14 +68,13 @@ const ModalEdit = (props) => {
       toast.error("Update thất bại");
     }
   };
-  
 
   useEffect(() => {
     if (show) {
       setName(dataUseredit.name);
       setAddress(dataUseredit.address);
       setEmail(dataUseredit.email);
-      setDateOfBirth(dataUseredit.dateOfBirth);
+      setDateOfBirth(dataUseredit.dateOfBirth ? new Date(dataUseredit.dateOfBirth) : null);
       setPhone(dataUseredit.phone);
       setCccd(dataUseredit.cccd);
     }
