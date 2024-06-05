@@ -24,10 +24,7 @@ function Header(props) {
     socket.on("connect", () => {
       socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
       console.log("Connected to server");
-      console.log(socket);
-      socket.on("notification", (data) => {
-        console.log("Welcome message from server:", data);
-      });
+      console.log("socket", socket);
     });
   }, [user]);
 
@@ -40,9 +37,8 @@ function Header(props) {
   const handleclick = () => {
     console.log("anbc");
     console.log("check socket", socket);
-    socket.on("notification", (data) => {
-      console.log("abc");
-      console.log("Welcome message from server:", data);
+    socket.on("on", () => {
+      console.log("Connected to server");
     });
   };
   const navigate = useNavigate();

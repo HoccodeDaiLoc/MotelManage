@@ -84,9 +84,9 @@ function UserInfo() {
           console.log(downloadURL);
           let update = await putUpdateAvatar(downloadURL);
           setAvatarLink(downloadURL);
-          toast.success(downloadURL, {
-            position: "top-center",
-          });
+          // toast.success(downloadURL, {
+          //   position: "top-center",
+          // });
           setImage(null);
           setProgress(0);
         });
@@ -98,6 +98,7 @@ function UserInfo() {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
       // let ava =await
+      console.log(res);
       let data = res.renter;
       setEmail(data.email);
       setName(data.name);
@@ -253,20 +254,26 @@ function UserInfo() {
                   className="hidden"
                   id="imageInput"
                 />
-                <label htmlFor="imageInput" className="InputText">
-                  Select Image
-                </label>
-                {image && (
-                  <p className="image_preview_title">Selected: {image.name}</p>
-                )}
+
                 {image && (
                   <img
                     src={URL.createObjectURL(image)}
                     alt="Preview"
                     className="image_preview_item"
-                    style={{ maxWidth: "100%", maxHeight: "200px" }}
+                    style={{
+                      maxWidth: "150px",
+                      maxHeight: "150px",
+                      margin: "0px 20px 0px 20px",
+                    }}
                   />
                 )}
+                <label
+                  htmlFor="imageInput"
+                  className="InputText"
+                  style={{ whiteSpace: "nowrap" }}
+                >
+                  Select Image
+                </label>
               </div>
               {progress > 0 && (
                 <progress
@@ -276,14 +283,22 @@ function UserInfo() {
                 />
               )}
               {image && (
-                <button onClick={handleUpload} className="btn_upload">
+                <div
+                  onClick={() => {
+                    handleUpload();
+                  }}
+                  className="btn_upload"
+                >
                   Upload
-                </button>
+                </div>
               )}
             </div>
             <div className="uploaded_images_container">
-              <h2 className="uploaded_images_title">Ảnh đại diện của bạn</h2>
-              <img src={avatarLink} className="uploaded-images"></img>
+              <img
+                src={avatarLink}
+                className="uploaded-images"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              ></img>
             </div>
           </div>
         </div>
