@@ -41,7 +41,7 @@ export const handleLoginRedux = (username, password) => {
           password: res.user.password,
         },
       });
-      console.log("check auth", res.user.auth);
+      console.log("check auth", res.auth);
 
       toast.success("Đăng nhập thành công", {
         position: "top-center",

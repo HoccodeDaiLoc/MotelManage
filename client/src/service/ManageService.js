@@ -8,16 +8,13 @@ const fetchAllTro = (page) => {
   return axios.get(`/api/room?page=${page}&limit=6`);
 };
 
-const fetchAllIdroom= (roomId,roomNumber) => {
-  return axios.get(`/api/room/${roomId}`,roomNumber,roomId); // Sử dụng dấu nháy kép để bao quanh chuỗi
+const fetchAllIdroom = (roomId, roomNumber) => {
+  return axios.get(`/api/room/${roomId}`, roomNumber, roomId); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
-
 
 const fetchAllTb = (page) => {
   return axios.get(`/api/device?page=${page}&limit=6`);
 };
-
-
 
 const fetchAllHoadon = (status) => {
   return axios.get(`/api/bill`); // Sử dụng dấu nháy kép để bao quanh chuỗi
@@ -65,15 +62,8 @@ const postCreateTro = (
   );
 };
 
-<<<<<<< HEAD
-
-
-const postCreateTb = (deviceName, devicePrice,roomId) => {
-  return axios.post("/api/device", { deviceName, devicePrice ,roomId});
-=======
 const postCreateTb = (deviceName, devicePrice, roomId) => {
   return axios.post("/api/device", { deviceName, devicePrice, roomId });
->>>>>>> c5aaf0ff98b241f497fc6d4b7a328764fc05abd6
 };
 
 const postCreateHoadon = (
@@ -133,12 +123,6 @@ const updateUser = (
   });
 };
 
-<<<<<<< HEAD
-
-
-const updateTro = (roomId, roomNumber, description, price, roomStatus, roomArea,maxOccupancy) => {
-  console.log('roomid',roomId)
-=======
 const updateTro = (
   roomId,
   roomNumber,
@@ -149,7 +133,6 @@ const updateTro = (
   maxOccupancy
 ) => {
   console.log("roomid", roomId);
->>>>>>> c5aaf0ff98b241f497fc6d4b7a328764fc05abd6
   return axios.put(`/api/room/${roomId}`, {
     roomNumber,
     description,
@@ -217,7 +200,8 @@ export {
   updateUser,
   fetchAllTro,
   updateTro,
-  postCreateTro,fetchAllIdroom,
+  postCreateTro,
+  fetchAllIdroom,
   deleteUser,
   deleteTro,
   fetchAllTb,

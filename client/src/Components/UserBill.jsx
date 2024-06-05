@@ -14,6 +14,8 @@ function UserBill() {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [unpaidBill, setUnpaidBill] = useState([]);
+  const [noti, setNoti] = useState([]);
+
   let curentUrl = window.location.href;
   console.log(curentUrl);
   useEffect(() => {
@@ -34,6 +36,7 @@ function UserBill() {
 
   const handlePayment = async (billId, rederedirectUrl) => {
     const res = await PaymentByMomo(billId, rederedirectUrl);
+    console.log(res);
     window.open(res.result.payUrl, "_blank");
   };
 

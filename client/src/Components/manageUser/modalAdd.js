@@ -130,6 +130,7 @@ const ModalAdd = (props) => {
             </label>
             <input
               type="text"
+              maxLength={10}
               className="form-control"
               value={phone}
               onChange={handlePhoneChange}
@@ -144,6 +145,7 @@ const ModalAdd = (props) => {
               type="text"
               className="form-control"
               value={email}
+              placeholder="email"
               onChange={(event) => setEmail(event.target.value)}
             />
           </div>
@@ -153,10 +155,11 @@ const ModalAdd = (props) => {
             </label>
             <input
               type="text"
+              maxLength={12}
               className="form-control"
               value={cccd}
               onChange={handleCccdChange}
-              placeholder="Số căn cước công dân gồm:12 Số"
+              placeholder="Số căn cước công dân gồm: 12 Số"
             />
           </div>
           <div className="col-md-12">

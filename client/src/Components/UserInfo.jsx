@@ -24,6 +24,8 @@ const metadata = {
 };
 //hết trôn
 function UserInfo() {
+  const accessToken = localStorage.getItem("accesstoken");
+  console.log(accessToken);
   const id = useSelector((state) => state.user.account.id);
   const username = useSelector((state) => state.user.account.username);
   const token = useSelector((state) => state.user.account.token);
@@ -49,7 +51,6 @@ function UserInfo() {
     const storageRef = ref(storage, `images/${image.name}`);
 
     const uploadTask = uploadBytesResumable(storageRef, image, metadata);
-
     // Register three observers:
     // 1. 'state_changed' observer, called any time the state changes
     // 2. Error observer, called on failure
@@ -82,11 +83,12 @@ function UserInfo() {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           setUploadedImages([downloadURL, ...uploadedImages]);
           console.log(downloadURL);
-          let update = await putUpdateAvatar(downloadURL);
+          console.log("downloadURL");
+          console.log("as");
+          console.log(downloadURL);
+          let update = putUpdateAvatar(downloadURL, id);
+          update(downloadURL, id);
           setAvatarLink(downloadURL);
-          // toast.success(downloadURL, {
-          //   position: "top-center",
-          // });
           setImage(null);
           setProgress(0);
         });

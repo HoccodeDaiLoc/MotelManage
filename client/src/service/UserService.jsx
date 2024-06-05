@@ -96,9 +96,9 @@ const putChangePass = (passwordCurrent, newPassword) => {
     }
   );
 };
-const putUpdateAvatar = (avatar) => {
+const putUpdateAvatar = (avatar, id) => {
   return axios.put(
-    `/api/user/updateAvatar`,
+    `/api/user/updateAvatar/${id}`,
     {
       avatar: avatar,
     },
@@ -109,8 +109,7 @@ const putUpdateAvatar = (avatar) => {
     }
   );
 };
-// , currentPage
-// return axios.get(`/api/bill/room/${id}?limit=12&page=${currentPage}`, {
+
 const fetchBillByRenter = (id) => {
   return axios.get(`/api/bill/renter/${id}`, {
     headers: {

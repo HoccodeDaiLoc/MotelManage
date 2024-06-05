@@ -28,6 +28,8 @@ import ManageUser from "./Pages/ManagerUser";
 import ManageHoadon from "./Pages/ManageHoadon";
 import ManageHopDong from "./Pages/ManageHopdong";
 import TableManageHoadon from "./Components/manageHoadon/TableManageHoadon";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
   return auth ? children : "error page html";
@@ -44,11 +46,22 @@ function SuperPrivateRoute({ children }) {
     return <div>error page html</div>;
   }
 }
+
 function App() {
+  const id = useSelector((state) => state.user.account.id);
+  console.log(id);
+  const [socket, setSocket] = useState("");
+  useEffect(() => {
+    if (id !== null || id !== undefined) {
+      setSocket(io("localhost:8080", { query: { id } }));
+      console.log("socket", socket);
+    }
+  }, []);
+
   return (
     <>
       <BrowserRouter>
-        <Header></Header>
+        <Header socket={socket}></Header>
         <Routes>
           <Route
             index

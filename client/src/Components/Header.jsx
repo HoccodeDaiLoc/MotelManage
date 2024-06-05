@@ -13,34 +13,22 @@ import logout from "../asset/image/logout.svg";
 import person from "../asset/image/person.svg";
 import SignIn from "../asset/image/SignIn.svg";
 
-function Header(props) {
+function Header({ socket }) {
+  const [notifications, setNotification] = useState([]);
+  console.log("here:", socket);
+  useEffect(() => {
+    socket.on("notification", (data) => {
+      setNotification((prev) => [...prev, data]);
+    });
+    console.log(notifications);
+  }, [socket]);
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.account);
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
   const id = useSelector((state) => state.user.account.id);
-  let socket = io("http://14.236.62.46:8080", { query: { id } });
-  const [noti, setNoti] = useState();
-  useEffect(() => {
-    socket.on("connect", () => {
-      socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
-      console.log("Connected to server");
-      console.log("socket", socket);
-    });
-  }, [user]);
+  // let socket = io("http://14.236.62.46:8080", { query: { id } });
 
-  // useEffect(() => {
-  //   socket.on("notification", (data) => {
-  //     console.log("Welcome message from server:", data);
-  //   });
-  // });
-
-  const handleclick = () => {
-    console.log("anbc");
-    console.log("check socket", socket);
-    socket.on("on", () => {
-      console.log("Connected to server");
-    });
-  };
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
@@ -48,7 +36,9 @@ function Header(props) {
     dispatch(handleLogoutRedux());
     navigate("/");
   };
-
+  const DisplayNotification = () => {
+    return <span className="Notification">{notifications}</span>;
+  };
   useEffect(() => {
     if (user && user.auth === false) {
       navigate("/Loggin");
@@ -62,7 +52,7 @@ function Header(props) {
       <div
         className="header"
         onClick={() => {
-          handleclick();
+          // handleclick();
         }}
       >
         <div className="nav_left">
@@ -94,13 +84,11 @@ function Header(props) {
                 >
                   <div className="modal_user">
                     <span className="modal_part">
-                      <div className="modal_icon_container">
-                        <img
-                          src="https://www.svgrepo.com/show/493875/personal-center.svg"
-                          alt=""
-                          className="modal_icon"
-                        />
-                      </div>
+                      {notifications.length === 0
+                        ? "Bạn chưa có thông báo mới"
+                        : notifications.map((noti) => {
+                            DisplayNotification(noti);
+                          })}
                     </span>
                   </div>
                 </div>
@@ -171,7 +159,6 @@ function Header(props) {
                           setShow(!show);
                         }}
                       >
-                        {" "}
                         <div className="modal_icon_container">
                           <img src={person} alt="" className="modal_icon" />
                         </div>
