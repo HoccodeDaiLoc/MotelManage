@@ -68,9 +68,7 @@ function UserBill() {
                     <td>{bill.paymentMethod}</td>
                     <td>
                       {bill.status}
-
-                      {bill.status === "chưa thanh toán" &&
-                      bill.paymentMethod === "chuyển khoản" ? (
+                      {bill.status === "chưa thanh toán" ? (
                         <div className="icon_payment_container">
                           <div className="icon_payment_sub hover-text">
                             <img
