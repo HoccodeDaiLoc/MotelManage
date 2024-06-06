@@ -60,17 +60,6 @@ const ModalEditTb = (props) => {
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
-          <div className="col-md-6">
-            <label htmlFor="inputID" className="form-label">
-              Phòng sử dụng
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              value={roomId}
-              onChange={(event) => setRoomId(event.target.value)}
-            />
-          </div>
 
           <div className="col-md-6">
             <label htmlFor="inputArea" className="form-label">

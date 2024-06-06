@@ -5,7 +5,7 @@ export interface INotificationRepository extends BaseInterface {
   getListNotification(
     searchCondidate: any,
     limit: number,
-    page: number
+    offset: number
   ): Promise<Notification[] | null>;
   getNotification(searchCondidate: any): Promise<Notification | null>;
   createNotification(
@@ -14,4 +14,9 @@ export interface INotificationRepository extends BaseInterface {
     dateCreated: Date,
     isRead: boolean | undefined
   ): Promise<Notification | null>;
+  getNotificationByUserId(
+    userId: number,
+    limit: number,
+    offset: number
+  ): Promise<Notification[] | null>;
 }

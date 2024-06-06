@@ -146,13 +146,13 @@ const ModalDetailHoadon = (props) => {
               <MDBRow>
                 <MDBCol xl="8">
                   <p className="ms-3">
-                    Add additional notes and payment information
+                    Ghi chú hóa đơn :**
                   </p>
                 </MDBCol>
                 <MDBCol xl="3">
                   <MDBTypography listUnStyled>
                     <li className="text-muted ms-3">
-                      <span class="text-black me-4">Tạm tính</span> 1.720.000 đ
+                      <span class="text-black me-4">Tạm tính {formatCurrency(dataDetailHoadon?.total || '')}</span> 
                     </li>
                     <li className="text-muted ms-3 mt-2">
                       <span class="text-black me-4">Giảm giá(0%)</span>0 đ
@@ -160,7 +160,10 @@ const ModalDetailHoadon = (props) => {
                   </MDBTypography>
                   <p className="text-black float-start">
                     <span className="text-black me-3"> Tổng tiền cần thanh toán   </span>
-                    <span style={{ fontSize: "25px" }}>1.720.000 đ</span>
+                    <span style={{ fontSize: "25px", marginLeft: "20px" }}>
+                     {formatCurrency(dataDetailHoadon?.total || '')}
+                   </span>
+
                   </p>
                 </MDBCol>
               </MDBRow>

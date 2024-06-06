@@ -320,8 +320,8 @@ const TableManageHoadon = (props) => {
         <thead>
           <tr>
             <th>Số Phòng</th>
+            <th>Ngày bắt đầu </th>
             <th>Ngày lập hóa đơn</th>
-            <th>Hạn thu tiền</th>
             <th>Tổng hóa đơn</th>
             <th>Phương thức</th>
             <th>Tình trạng</th>
