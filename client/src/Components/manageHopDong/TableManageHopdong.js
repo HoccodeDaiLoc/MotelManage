@@ -156,22 +156,18 @@ const TableManageHd = (props) => {
   };
 
   const handleSearchHd = debounce((event) => {
+    console.log(event.target.value);
     let term = event.target.value;
     if (term) {
-      fetch(`http://127.0.0.1:8080/api/contract/room/${term}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.contract) {
-            setListHd([data.contract]); // Cập nhật danh sách hợp đồng với dữ liệu mới từ API
-          } else {
-            // Xử lý trường hợp 'contract' không được trả về từ API
-          }
-        })
-        .catch((error) => console.error("Error:", error));
+      let cloneListHd = _.cloneDeep(listHd);
+      cloneListHd = cloneListHd.filter((item) =>
+        item.roomNumber.toString().includes(term)
+      );
+      setListHd(cloneListHd);
     } else {
-      getHd(1); // Nếu không có term thì reset danh sách hợp đồng
+      getHd(1);
     }
-  }, 300);
+  }, 200);
 
   const handDetailHd = (hd) => {
     setIsShowModalDetailHd(true);
@@ -208,7 +204,7 @@ const TableManageHd = (props) => {
       <div className="col-4 my-3">
         <input
           className="form-control"
-          placeholder="Tìm kiếm hợp đồng"
+          placeholder="Vui lòng nhập số phòng..."
           onChange={(event) => handleSearchHd(event)}
         />
       </div>

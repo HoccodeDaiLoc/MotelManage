@@ -41,6 +41,24 @@ const ModalEdit = (props) => {
       return;
     }
 
+    const nameRegex = /\d/;
+   if (nameRegex.test(name)) {
+   toast.error("Tên không được chứa số");
+   return;
+   }
+   
+   if (cccd < 0 || phone < 0) {
+    toast.error("CCCD và số điện thoại phải là số dương");
+    return;
+  }
+  
+  if (phone.length !== 10) {
+    toast.error("Số điện thoại phải có 10 chữ số");
+    return;
+  }
+  
+
+
     const formattedDateOfBirth = dateOfBirth ? dateOfBirth.toISOString().split("T")[0] : null;
     let res = await updateUser(
       dataUseredit.renterId,
@@ -118,6 +136,7 @@ const ModalEdit = (props) => {
               Số điện thoại
             </label>
             <input
+             maxLength={10}
               type="text"
               className="form-control"
               value={phone}
@@ -141,6 +160,7 @@ const ModalEdit = (props) => {
               Số căn cước công dân :
             </label>
             <input
+             maxLength={12}
               type="text"
               className="form-control"
               value={cccd}

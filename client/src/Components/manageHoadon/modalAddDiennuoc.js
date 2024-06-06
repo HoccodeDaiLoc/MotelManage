@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
+import FormSelect from 'react-bootstrap/FormSelect';
 
 const ModalAddDiennuoc = (props) => {
     const { show, handleCloseHoadon } = props;
@@ -15,15 +15,20 @@ const ModalAddDiennuoc = (props) => {
     const [electricNumber, setElectricNumber] = useState('');
     const [electricRecordDate, setElectricRecordDate] = useState(new Date());
 
-    const roomMapping = { 1: 100,2: 101, 3: 102, 5: 104,6: 105, 7: 106, 8: 107,
-        9: 108, 10: 109,11: 110,12: 111,13: 112,14: 113,
-        15: 118, 16: 119,17: 130, 18: 131, 20: 132,21: 133,22: 134, 23: 135, 24: 136, 25: 137, 26: 138, 27: 139,
-      };
+    const roomMapping = { 1: 100, 2: 101, 3: 102, 5: 104, 6: 105, 7: 106, 8: 107,
+        9: 108, 10: 109, 11: 110, 12: 111, 13: 112, 14: 113,
+        15: 118, 16: 119, 17: 130, 18: 131, 20: 132, 21: 133, 22: 134, 23: 135, 24: 136, 25: 137, 26: 138, 27: 139,
+    };
 
-    const roomId = Object.keys(roomMapping).find(key => roomMapping[key] === parseInt(roomNumber));
+    const roomNumbers = Object.values(roomMapping);
 
     const addWaterReading = async () => {
         try {
+            const roomId = Object.keys(roomMapping).find(key => roomMapping[key] === parseInt(roomNumber));
+            if (!roomId) {
+                toast.error("Số phòng không hợp lệ");
+                return;
+            }
             const response = await axios.post(`http://127.0.0.1:8080/api/waterReading/room/${roomId}`, {
                 waterNumber: waterNumber,
                 waterRecordDate: waterRecordDate.toISOString().split('T')[0] // Chuyển đổi ngày thành chuỗi YYYY-MM-DD
@@ -38,6 +43,11 @@ const ModalAddDiennuoc = (props) => {
 
     const addElectricReading = async () => {
         try {
+            const roomId = Object.keys(roomMapping).find(key => roomMapping[key] === parseInt(roomNumber));
+            if (!roomId) {
+                toast.error("Số phòng không hợp lệ");
+                return;
+            }
             const response = await axios.post(`http://127.0.0.1:8080/api/electricReading/room/${roomId}`, {
                 electricNumber: electricNumber,
                 electricRecordDate: electricRecordDate.toISOString().split('T')[0] // Chuyển đổi ngày thành chuỗi YYYY-MM-DD
@@ -52,9 +62,9 @@ const ModalAddDiennuoc = (props) => {
 
     const handUpdateHoadon = async () => {
         try {
-            handleCloseHoadon();
             await addWaterReading();
             await addElectricReading();
+            handleCloseHoadon();
         } catch (error) {
             console.error(error);
         }
@@ -73,12 +83,16 @@ const ModalAddDiennuoc = (props) => {
                 <div className="row g-3">
                     <div className="col-md-12">
                         <label htmlFor="inputRoomNumber" className="form-label">Số phòng</label>
-                        <input 
-                            type="text" 
-                            className="form-control" 
+                        <FormSelect 
+                            className="form-select" 
                             value={roomNumber} 
-                            onChange={(event) => setRoomNumber(event.target.value)} 
-                        />
+                            onChange={(event) => setRoomNumber(event.target.value)}
+                        >
+                            <option value="">Chọn phòng có số điện mới...</option>
+                            {roomNumbers.map((room) => (
+                                <option key={room} value={room}>Phòng {room}</option>
+                            ))}
+                        </FormSelect>
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputWaterNumber" className="form-label">Số nước</label>

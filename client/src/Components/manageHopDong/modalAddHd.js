@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { postCreateHd } from "../../service/ManageService";
 import { toast } from 'react-toastify';
+import FormSelect from 'react-bootstrap/FormSelect';
 
 
 const ModalAddHd = (props) => {
@@ -20,6 +21,8 @@ const ModalAddHd = (props) => {
     110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
     132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
   };
+
+  const roomNumbers = Object.keys(roomMapping);
  
   const handUpdateHd = async () => {
     if (!startDay) {
@@ -93,14 +96,17 @@ const ModalAddHd = (props) => {
           </div>
 
           <div className="col-md-12">
-            <label htmlFor="inputRoomId" className="form-label">Thuê phòng số</label>
-            <input
-              type="text"
-              className="form-control"
-              value={roomNumber}
+            <label htmlFor="inputRoomNumber" className="form-label">Thuê phòng số</label>
+            <FormSelect 
+              className="form-select" 
+              value={roomNumber} 
               onChange={(event) => setRoomNumber(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
-            />
+            >
+              <option value="">Chọn phòng....</option>
+              {roomNumbers.map((room) => (
+                <option key={room} value={room}>Phòng {room}</option>
+              ))}
+            </FormSelect>
           </div>
           <div className="col-md-12">
             <label htmlFor="inputRoomId" className="form-label">Số tiền đặt cọc</label>

@@ -141,19 +141,22 @@ const TableManageTb = (props) => {
     setListTb(cloneListtb);
   };
 
+
+  
   const handleSearchTb = debounce((event) => {
-    const term = event.target.value;
+    console.log(event.target.value);
+    let term = event.target.value;
     if (term) {
-      const searchTerm = unidecode(term.toLowerCase()); // Chuyển từ khóa tìm kiếm thành không dấu và chuyển sang chữ thường
-      const cloneListTb = _.cloneDeep(listTb);
-      const filteredTb = cloneListTb.filter(
-        (item) => item.deviceName && unidecode(item.deviceName.toLowerCase()).includes(searchTerm) // So sánh từ không dấu của tên người dùng với từ khóa tìm kiếm
+      let cloneListTb = _.cloneDeep(listTb);
+      cloneListTb = cloneListTb.filter((item) =>
+        item.roomNumber.toString().includes(term)
       );
-      setListTb(filteredTb);
+      setListTb(cloneListTb);
     } else {
       getTb(1);
     }
-  }, 100);
+  }, 200);
+
 
   const handDetailTb = (tb) => {
     setIsShowModalDetailTb(true);
@@ -180,7 +183,7 @@ const TableManageTb = (props) => {
       <div className="col-4 my-3">
         <input
           className="form-control"
-          placeholder="Tìm kiếm thiết bị "
+          placeholder="Vui lòng nhập số phòng... "
           onChange={(event) => handleSearchTb(event)}
         />
       </div>
