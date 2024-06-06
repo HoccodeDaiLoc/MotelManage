@@ -271,4 +271,15 @@ export class RoomRepository
       throw err;
     }
   }
+
+  async getAllRoomNumber(): Promise<Room[]> {
+    try {
+      const rooms = await this.model.findAll({
+        attributes: ["roomNumber"],
+      });
+      return rooms;
+    }catch(err) {
+      throw err;
+    }
+  }
 }

@@ -67,11 +67,9 @@ export class BillRepository
     searchCondidate: any,
     limit: number,
     page: number
-  ): Promise<{rows: Bill[], count: number} | null> {
+  ): Promise<{ rows: Bill[]; count: number } | null> {
     try {
       const bills = await Bill.findAndCountAll({
-        limit: limit,
-        offset: (page - 1) * limit,
         where: searchCondidate,
         include: [
           {
@@ -79,6 +77,8 @@ export class BillRepository
             attributes: { exclude: ["billId"] },
           },
         ],
+        limit: limit,
+        offset: (page - 1) * limit,
         distinct: true,
       });
       return bills;
@@ -89,9 +89,10 @@ export class BillRepository
 
   async getBillAfterDate(
     date: Date,
+    status: string | undefined,
     limit: number,
     page: number
-  ): Promise<{rows: Bill[], count: number} | null> {
+  ): Promise<{ rows: Bill[]; count: number } | null> {
     try {
       const bills = await Bill.findAndCountAll({
         limit: limit,
@@ -100,6 +101,7 @@ export class BillRepository
           billStartDate: {
             [Op.gte]: date,
           },
+          status: status,
         },
         include: {
           model: BillItem,
@@ -117,7 +119,7 @@ export class BillRepository
     date: Date,
     limit: number,
     page: number
-  ): Promise<{rows: Bill[], count: number} | null> {
+  ): Promise<{ rows: Bill[]; count: number } | null> {
     try {
       const bills = await Bill.findAndCountAll({
         limit: limit,
@@ -146,7 +148,7 @@ export class BillRepository
     limit: number,
     page: number,
     searchCondidate: any
-  ): Promise<{rows: Bill[], count: number} | null> {
+  ): Promise<{ rows: Bill[]; count: number } | null> {
     try {
       let whereClause: {
         status?: string;
@@ -166,8 +168,56 @@ export class BillRepository
       if (status) {
         whereClause["status"] = status;
       }
-      for(let key in searchCondidate) {
-        if(key === "roomId") {
+      for (let key in searchCondidate) {
+        if (key === "roomId") {
+          whereClause[key] = searchCondidate[key];
+        }
+      }
+      const bills = await Bill.findAndCountAll({
+        limit: limit,
+        offset: (page - 1) * limit,
+        where: whereClause,
+        include: {
+          model: BillItem,
+          attributes: { exclude: ["billId"] },
+        },
+        distinct: true,
+      });
+      return bills;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getBillEndDateWithTimeFrame(
+    startDate: Date,
+    endDate: Date,
+    status: string | undefined,
+    limit: number,
+    page: number,
+    searchCondidate: any
+  ): Promise<{ rows: Bill[]; count: number } | null> {
+    try {
+      let whereClause: {
+        status?: string;
+        billStartDate?: any;
+        billEndDate?: any;
+        roomId?: number;
+      } = {
+        billEndDate: {
+          [Op.gte]: startDate,
+        },
+      };
+      if (endDate) {
+        whereClause["billEndDate"] = {
+          [Op.lte]: endDate,
+        };
+      }
+      if (status) {
+        whereClause["status"] = status;
+      }
+      for (let key in searchCondidate) {
+        if (key === "roomId") {
           whereClause[key] = searchCondidate[key];
         }
       }
@@ -193,7 +243,7 @@ export class BillRepository
         where: { billId: id },
       });
       return deletedBill > 0;
-    }catch(err) {
+    } catch (err) {
       throw err;
     }
   }

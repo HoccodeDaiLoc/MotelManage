@@ -142,4 +142,16 @@ export class RoomSevice implements IRoomService {
       throw err;
     }
   }
+
+  async getRoomnumber(): Promise<Room[]> {
+    try {
+      const rooms = await this.roomRepository.getAllRoomNumber();
+      if(rooms.length === 0) {
+        throw new AppError("No room found", 404);
+      }
+      return rooms;
+    } catch(err) {
+      throw err;
+    } 
+  }
 }

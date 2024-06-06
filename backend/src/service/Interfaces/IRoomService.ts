@@ -27,4 +27,5 @@ export interface IRoomService {
   getNumberRoom(): Promise<number>;
   updateRoomById(id: string, newData: any): Promise<Room>;
   getRoomByRenterId(renterId: number): Promise<Room>;
+  getRoomnumber(): Promise<Room[]>;
 }

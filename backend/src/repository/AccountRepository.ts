@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { Account } from "../models/Account";
 import { BaseRepository } from "./BaseRepository";
 import { IAccountRepository } from "./Interfaces/IAccountRepository";
+import { Renter } from "../models/Renter";
 
 @Service()
 export class AccountRepository
