@@ -11,6 +11,7 @@ class RoomRoutes extends BaseRoutes {
   public routes(): void {
     this.router.route("/device").get(this.controller.getRoomByCategoryDevice);
     this.router.route("/price").get(this.controller.filterRoomByPrice);
+    this.router.route("/roomNumber").get(this.controller.getAllRoomNumber);
     this.router
       .route("/")
       .get(this.controller.getAllRooms)

@@ -18,7 +18,7 @@ export class PaymentService implements PaymentService {
   @Inject(() => NotificationService)
   private notificationService!: INotificationService;
 
-  @Inject(() => RenterService)
+  @Inject(() => RenterRepository)
   private renterService!: IRenterRepository;
 
   paymentWithMoMo = async (

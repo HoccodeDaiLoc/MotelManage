@@ -223,7 +223,7 @@ export class BillService implements IBillService {
       if (!rentalRecord) {
         throw new AppError("Rental record not found", 404);
       }
-      const bills = await this.billRepository.getBillWithTimeFrame(
+      const bills = await this.billRepository.getBillEndDateWithTimeFrame(
         rentalRecord.checkInDate,
         rentalRecord.checkOutDate,
         status,

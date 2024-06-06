@@ -20,6 +20,7 @@ export interface IBillRepository extends BaseInterface {
   ): Promise<{rows: Bill[], count: number} | null>;
   getBillAfterDate(
     date: Date,
+    status: string | undefined,
     limit: number,
     page: number
   ): Promise<{rows: Bill[], count: number} | null>;
@@ -29,6 +30,14 @@ export interface IBillRepository extends BaseInterface {
     page: number
   ): Promise<{rows: Bill[], count: number} | null>;
   getBillWithTimeFrame(
+    startDate: Date,
+    endDate: Date,
+    status: string | undefined,
+    limit: number,
+    page: number,
+    searchCondidate: any
+  ): Promise<{rows: Bill[], count: number} | null>;
+  getBillEndDateWithTimeFrame(
     startDate: Date,
     endDate: Date,
     status: string | undefined,

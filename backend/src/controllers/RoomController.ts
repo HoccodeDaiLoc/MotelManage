@@ -218,4 +218,19 @@ export class RoomController {
       next(err);
     }
   }
+
+  getAllRoomNumber = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const roomNumber = await this.roomService.getRoomnumber();
+      if (roomNumber.length === 0) {
+        return next(new AppError("Không tìm thấy phòng", 404));
+      }
+      return res.status(200).json({
+        message: "success",
+        data: roomNumber
+      });
+    }catch(err) {
+      next(err);
+    }
+  }
 }

@@ -72,7 +72,10 @@ export class BillController {
       if (!limit) {
         limit = 12;
       }
-      const searchCondidate = req.query;
+      let searchCondidate;
+      if (req.query["status"] !== undefined) {
+        searchCondidate = { status: req.query["status"] };
+      }
       const bill = await this.billService.getListBill(
         searchCondidate,
         limit,
