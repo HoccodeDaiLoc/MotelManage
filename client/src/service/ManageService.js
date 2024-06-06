@@ -26,7 +26,7 @@ const fetchAllstatusHd = (status) => {
 const fetchAllHd = (page) => {
   return axios.get(`/api/contract?page=${page}&limit=8`);
 };
-const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
+const postCreateUser = (name, dateOfBirth, address, phone, email, cccd,roomId) => {
   const renterList = new FormData();
   renterList.append("name", name);
   renterList.append("dateOfBirth", dateOfBirth);
@@ -37,7 +37,7 @@ const postCreateUser = (name, dateOfBirth, address, phone, email, cccd) => {
 
   return axios.post(
     `/api/renter`,
-    { name, dateOfBirth, address, phone, email, cccd },
+    { name, dateOfBirth, address, phone, email, cccd ,roomId},
     renterList
   );
 };
@@ -47,23 +47,16 @@ const postCreateTro = (
   description,
   price,
   roomStatus,
-  roomArea
+  roomArea,roomImage
 ) => {
-  const data = new FormData();
-  data.append("roomNumber", roomNumber);
-  data.append("description", description);
-  data.append("price", price);
-  data.append("roomStatus", roomStatus);
-  data.append("roomArea", roomArea);
-  return axios.post(
-    `/api/room`,
-    { roomNumber, description, price, roomStatus, roomArea },
-    data
-  );
-};
+  return axios.post( `/api/room`,
+    { roomNumber, description, price, roomStatus, roomArea,roomImage},
+  
+  ); };
 
-const postCreateTb = (deviceName, devicePrice, roomId) => {
-  return axios.post("/api/device", { deviceName, devicePrice, roomId });
+
+const postCreateTb = (deviceName, devicePrice, roomId,categoryId,) => {
+  return axios.post("/api/device", { deviceName, devicePrice, roomId,categoryId });
 };
 
 const postCreateHoadon = (
