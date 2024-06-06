@@ -81,4 +81,25 @@ export class NotificationService implements INotificationService {
       throw err;
     }
   }
+
+  async getNotificationByUserId(
+    userId: number,
+    limit: number,
+    offset: number
+  ): Promise<Notification[]> {
+    try {
+      const notifications =
+        await this.notificationRepository.getNotificationByUserId(
+          userId,
+          limit,
+          offset
+        );
+      if (notifications === null) {
+        throw new AppError("Notification not found", 404);
+      }
+      return notifications;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
