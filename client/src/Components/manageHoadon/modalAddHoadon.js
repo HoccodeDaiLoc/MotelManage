@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import FormSelect from 'react-bootstrap/FormSelect';
 
 const ModalAddHoadon = (props) => {
     const { show, handleCloseHoadon, handUpdateTableHoadon } = props;
@@ -22,6 +23,8 @@ const ModalAddHoadon = (props) => {
         110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
         132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
       };
+
+      const roomNumbers = Object.keys(roomMapping);
       
     const handUpdateHoadon = async () => {
         // Định dạng ngày tháng trước khi gửi lên server
@@ -108,9 +111,18 @@ const ModalAddHoadon = (props) => {
                         />
                     </div>
                     <div className="col-md-6">
-                        <label htmlFor="inputStatus" className="form-label">Số phòng</label>
-                        <input type="text" className="form-control" value={roomNumber} onChange={(event) => setRoomNumber(event.target.value)} />
-                    </div>
+            <label htmlFor="inputRoomNumber" className="form-label">Phòng đang sử dụng</label>
+            <FormSelect 
+              className="form-select" 
+              value={roomNumber} 
+              onChange={(event) => setRoomNumber(event.target.value)}
+            >
+              <option value="">Chọn phòng....</option>
+              {roomNumbers.map((room) => (
+                <option key={room} value={room}>Phòng {room}</option>
+              ))}
+            </FormSelect>
+          </div>
                     <div className="col-md-6">
                         <label htmlFor="inputType" className="form-label">Phương thức thanh toán</label>
                         <select

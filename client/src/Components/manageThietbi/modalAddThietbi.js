@@ -10,12 +10,16 @@ const roomMapping = {
   110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
   132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
 };
+
+const roomNumbers = Object.keys(roomMapping);
+
 const ModalAddTb = (props) => {
   const { show, handleCloseTb, handUpdateTableTb } = props;
   const [deviceName, setDeviceName] = useState("");
   const [devicePrice, setDevicePrice] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
   const [categoryId, setCategoryId] = useState("");
+
   const handUpdateTb = async () => {
     if (isNaN(parseFloat(devicePrice)) || isNaN(parseInt(roomNumber))) {
       toast.error("Giá thiết bị và phòng phải là số");
@@ -27,14 +31,15 @@ const ModalAddTb = (props) => {
       return;
     }
     let res = await postCreateTb(deviceName, devicePrice, roomId, categoryId);
-   
+
     console.log("Dữ liệu tổng cảm gửi lên: ", { 
       deviceName: deviceName,
       devicePrice: devicePrice,
       categoryId: categoryId,
       roomId: roomId,
       roomNumber: parseInt(roomNumber),
-  });
+    });
+    
     if (res) {
       handleCloseTb();
       setDeviceName('');
@@ -53,6 +58,7 @@ const ModalAddTb = (props) => {
       toast.error("Đã xảy ra lỗi");
     }
   };
+
   return (
     <Modal show={show} onHide={handleCloseTb} size='lg' className='modal-add-tro'>
       <Modal.Header closeButton>
@@ -60,29 +66,55 @@ const ModalAddTb = (props) => {
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
-        <div className="col-md-12">
-   <label htmlFor="inputID" className="form-label">Loại Thiết Bị</label>
-  <FormSelect className="form-select" value={categoryId} onChange={(event) => setCategoryId(event.target.value)}>
-    <option value="">Chọn loại thiết bị</option>
-    <option value="1">Máy lạnh</option>
-    <option value="2">Tủ lạnh</option>
-    <option value="3">Giường</option>
-    <option value="4">Ti vi</option>
-  </FormSelect>
-  </div>
+          <div className="col-md-12">
+            <label htmlFor="inputCategoryId" className="form-label">Loại Thiết Bị</label>
+            <FormSelect 
+              className="form-select" 
+              value={categoryId} 
+              onChange={(event) => setCategoryId(event.target.value)}
+            >
+              <option value="">Chọn loại thiết bị</option>
+              <option value="1">Máy lạnh</option>
+              <option value="2">Tủ lạnh</option>
+              <option value="3">Giường</option>
+              <option value="4">Ti vi</option>
+            </FormSelect>
+          </div>
 
           <div className="col-md-12">
-            <label htmlFor="inputID" className="form-label">Tên Thiết Bị</label>
+            <label htmlFor="inputDeviceName" className="form-label">Tên Thiết Bị</label>
             <input
-              type="text" className="form-control" placeholder="Mời bạn nhập thông tin..." value={deviceName} onChange={(event) => setDeviceName(event.target.value)} />
+              type="text" 
+              className="form-control" 
+              placeholder="Mời bạn nhập thông tin..." 
+              value={deviceName} 
+              onChange={(event) => setDeviceName(event.target.value)} 
+            />
           </div>
+
           <div className="col-md-12">
-            <label htmlFor="inputEmail4" className="form-label">Giá thiết bị</label>
-            <input type="text" className="form-control" placeholder="Mời bạn nhập thông tin..." value={devicePrice} onChange={(event) => setDevicePrice(event.target.value)} />
+            <label htmlFor="inputDevicePrice" className="form-label">Giá thiết bị</label>
+            <input 
+              type="text" 
+              className="form-control" 
+              placeholder="Mời bạn nhập thông tin..." 
+              value={devicePrice} 
+              onChange={(event) => setDevicePrice(event.target.value)} 
+            />
           </div>
+
           <div className="col-md-12">
-            <label htmlFor="inputEmail4" className="form-label">Phòng đang sử dụng</label>
-            <input type="text" className="form-control" placeholder="Mời bạn nhập thông tin..." value={roomNumber} onChange={(event) => setRoomNumber(event.target.value)} />
+            <label htmlFor="inputRoomNumber" className="form-label">Phòng đang sử dụng</label>
+            <FormSelect 
+              className="form-select" 
+              value={roomNumber} 
+              onChange={(event) => setRoomNumber(event.target.value)}
+            >
+              <option value="">Chọn phòng....</option>
+              {roomNumbers.map((room) => (
+                <option key={room} value={room}>Phòng {room}</option>
+              ))}
+            </FormSelect>
           </div>
         </form>
       </Modal.Body>
@@ -97,4 +129,5 @@ const ModalAddTb = (props) => {
     </Modal>
   );
 };
+
 export default ModalAddTb;

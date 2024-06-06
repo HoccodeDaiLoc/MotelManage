@@ -4,44 +4,40 @@ import Modal from 'react-bootstrap/Modal';
 import { updateHoadon } from "../../service/ManageService";
 import { toast } from 'react-toastify';
 
-
 const ModalEditHoadon = (props) => {
-    const { show, handleCloseHoadon, dataHoadonedit, handleEditHoadonfrommodal } = props; // Trích xuất giá trị từ props
-    const [status, setStatus] = useState("");
-    const handleEditHoadon = async () => {
+  const { show, handleCloseHoadon, dataHoadonedit, handleEditHoadonfrommodal } = props;
+  const [status, setStatus] = useState("");
 
-      
-      if (status) {
-        let res = await updateHoadon( dataHoadonedit.billId,status);
-        if (res && res) {
-          handleEditHoadonfrommodal({
-            billId:dataHoadonedit.billId,
-            status: status,
-          });
-          handleCloseHoadon();
-          toast.success("Update thành công");
-        } else {
-          toast.error("Update thất bại");
-        }
+  const handleEditHoadon = async () => {
+    if (status) {
+      let res = await updateHoadon(dataHoadonedit.billId, status);
+      if (res) {
+        handleEditHoadonfrommodal({
+          billId: dataHoadonedit.billId,
+          status: status,
+        });
+        handleCloseHoadon();
+        toast.success("Update thành công");
       } else {
-        toast.error("Vui lòng nhập tên trước khi lưu");
+        toast.error("Update thất bại");
       }
+    } else {
+      toast.error("Vui lòng nhập trạng thái trước khi lưu");
     }
-  
-    useEffect(() => {
-      if (show) {
-        setStatus(dataHoadonedit.status);
-      }
-    }, [dataHoadonedit]);
-  
-    return (
-      <Modal show={show} 
-      onHide={handleCloseHoadon}
-     className='modal-add-tro'>
-        <Modal.Header closeButton>
-          <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="body_add_new"   >
+  };
+
+  useEffect(() => {
+    if (show) {
+      setStatus(dataHoadonedit.status);
+    }
+  }, [dataHoadonedit, show]);
+
+  return (
+    <Modal show={show} onHide={handleCloseHoadon} className='modal-add-tro'>
+      <Modal.Header closeButton>
+        <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="body_add_new">
         <form className="row g-3">
           <div className="col-md-6">
             <label htmlFor="inputType" className="form-label">
@@ -52,25 +48,24 @@ const ModalEditHoadon = (props) => {
               value={status}
               onChange={(event) => setStatus(event.target.value)}
             >
-              <option value="chưa thanh toán">Chưa thanh toán</option>
+              {status === "chưa thanh toán" && (
+                <option value="chưa thanh toán">Chưa thanh toán</option>
+              )}
               <option value="đã thanh toán">Đã thanh toán</option>
             </select>
           </div>
-      
-         
-         
         </form>
       </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseHoadon}>
-            Đóng
-          </Button>
-          <Button variant="primary" onClick={handleEditHoadon}>
-            Lưu
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  };
-  
-  export default ModalEditHoadon;
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseHoadon}>
+          Đóng
+        </Button>
+        <Button variant="primary" onClick={handleEditHoadon}>
+          Lưu
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+export default ModalEditHoadon;

@@ -7,9 +7,9 @@ import { postCreateUser } from "../../service/ManageService";
 import { toast } from "react-toastify";
 
 const ModalAdd = (props) => {
-  const { show, handleClose, handUpdateTable } = props; // Trích xuất giá trị từ props
+  const { show, handleClose, handUpdateTable } = props;
   const [name, setName] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(null); // Changed initial state to null
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("@gmail.com");
@@ -21,58 +21,53 @@ const ModalAdd = (props) => {
     110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
     132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
   };
-  
-  
-  
+
   const handleSaveUser = async () => {
     if (!dateOfBirth) {
-      toast.error("Please select a date of birth");
+      toast.error("Vui lòng chọn ngày sinh");
       return;
     }
     if (isNaN(phone)) {
-      toast.error("Phải là số");
+      toast.error("Số điện thoại phải là số");
       return;
     }
     if (isNaN(cccd)) {
-      toast.error("Phải là số");
+      toast.error("CCCD phải là số");
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      toast.error("Sai định dạng");
+      toast.error("Sai định dạng email");
       return;
     }
 
-    
     const roomId = roomMapping[parseInt(roomNumber)];
-  if (!roomId) {
-    toast.error("Số phòng không hợp lệ");
-    return;
-  }
+    if (!roomId) {
+      toast.error("Số phòng không hợp lệ");
+      return;
+    }
 
-    const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0]; // Format date as yyyy-MM-dd
+    const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0];
     let res = await postCreateUser(
       name,
       formattedDateOfBirth,
       address,
       phone,
       email,
-      cccd,roomId
+      cccd,
+      roomId
     );
 
-
-    console.log("check user", res);
-    if (res && res) {
-      // Thành công, đóng modal
+    if (res) {
       handleClose();
       setName("");
-      setDateOfBirth(null); // Reset dateOfBirth to null
+      setDateOfBirth(null);
       setAddress("");
       setPhone("");
       setEmail("");
       setCccd("");
-      setRoomNumber('');
-      toast.success("Đã lưu thành công");
+      setRoomNumber("");
+      toast.success("Lưu thông tin thành công");
       handUpdateTable({
         name: name,
         dateOfBirth: formattedDateOfBirth,
@@ -84,8 +79,7 @@ const ModalAdd = (props) => {
         roomNumber: parseInt(roomNumber),
       });
     } else {
-      // Xử lý khi thất bại, nếu cần
-      toast.error("An error occurred");
+      toast.error("Đã xảy ra lỗi");
     }
   };
 
@@ -94,7 +88,7 @@ const ModalAdd = (props) => {
     if (!isNaN(value)) {
       setPhone(value);
     } else {
-      toast.error("Phải là số");
+      toast.error("Số điện thoại phải là số");
     }
   };
 
@@ -103,7 +97,7 @@ const ModalAdd = (props) => {
     if (!isNaN(value)) {
       setCccd(value);
     } else {
-      toast.error("Phải nhập đúng là sô");
+      toast.error("CCCD phải là số");
     }
   };
 
@@ -120,7 +114,7 @@ const ModalAdd = (props) => {
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
-        <div className="col-md-6">
+          <div className="col-md-6">
             <label htmlFor="inputID" className="form-label">
               Tên khách hàng
             </label>
@@ -128,8 +122,8 @@ const ModalAdd = (props) => {
               type="text"
               className="form-control"
               value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              onChange={(event) => setName(event.target.value.replace(/\d+/g, ""))}
+              placeholder="Nhập tên khách hàng..."
             />
           </div>
           <div className="col-md-6">
@@ -141,7 +135,7 @@ const ModalAdd = (props) => {
               className="form-control"
               value={roomNumber}
               onChange={(event) => setRoomNumber(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              placeholder="Nhập số phòng thuê..."
             />
           </div>
 
@@ -154,7 +148,7 @@ const ModalAdd = (props) => {
               className="form-control"
               value={address}
               onChange={(event) => setAddress(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              placeholder="Nhập địa chỉ..."
             />
           </div>
 
@@ -168,7 +162,7 @@ const ModalAdd = (props) => {
               className="form-control"
               value={phone}
               onChange={handlePhoneChange}
-              placeholder="Số Điện thoại gồm: 10 Số"
+              placeholder="Nhập số điện thoại (10 số)..."
             />
           </div>
           <div className="col-md-6">
@@ -179,7 +173,7 @@ const ModalAdd = (props) => {
               type="text"
               className="form-control"
               value={email}
-              placeholder="email"
+              placeholder="Nhập email..."
               onChange={(event) => setEmail(event.target.value)}
             />
           </div>
@@ -193,37 +187,35 @@ const ModalAdd = (props) => {
               className="form-control"
               value={cccd}
               onChange={handleCccdChange}
-              placeholder="Số căn cước công dân gồm: 12 Số"
+              placeholder="Nhập số căn cước công dân (12 số)..."
             />
           </div>
           <div className="col-md-12">
             <label htmlFor="inputDateOfBirth" className="form-label">
-              Ngày sinh
-            </label>
-            <div className="date-picker-container">
-              <DatePicker
-                selected={dateOfBirth}
-                onChange={(date) => setDateOfBirth(date)}
-                dateFormat="yyyy-MM-dd"
-                className="form-control"
-                placeholderText="Chọn ngày sinh"
-              />
-            </div>
-          </div>
-
-          
-        </form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Đóng
-        </Button>
-        <Button variant="primary" onClick={handleSaveUser}>
-          Lưu thông tin
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+Ngày sinh
+</label>
+<div className="date-picker-container">
+<DatePicker
+selected={dateOfBirth}
+onChange={(date) => setDateOfBirth(date)}
+dateFormat="yyyy-MM-dd"
+className="form-control"
+placeholderText="Chọn ngày sinh"
+/>
+</div>
+</div>
+</form>
+</Modal.Body>
+<Modal.Footer>
+<Button variant="secondary" onClick={handleClose}>
+Đóng
+</Button>
+<Button variant="primary" onClick={handleSaveUser}>
+Lưu thông tin
+</Button>
+</Modal.Footer>
+</Modal>
+);
 };
 
 export default ModalAdd;
