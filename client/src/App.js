@@ -52,7 +52,7 @@ function App() {
   const [socket, setSocket] = useState("");
   useEffect(() => {
     if (id !== null || id !== undefined) {
-      setSocket(io("localhost:8080", { query: { id } }));
+      setSocket(io("localhost:8080", { query: { userId: id } }));
       console.log("socket", socket);
     }
   }, []);

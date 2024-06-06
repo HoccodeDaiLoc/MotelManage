@@ -80,7 +80,7 @@ function UserContract() {
               />
             </div>{" "}
             <div className="UserInfo_Item">
-              <h6 className="UserInfo_Item_Text">Giá tiền phòng mỗi tháng</h6>
+              <h6 className="UserInfo_Item_Text">Tiền cọc</h6>
               <input
                 type="text"
                 maxLength={50}

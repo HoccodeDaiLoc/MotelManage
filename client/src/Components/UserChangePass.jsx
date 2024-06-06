@@ -9,11 +9,15 @@ function UserChangePassComponent() {
   const mk = useSelector((state) => state.user.account.password);
   const onSubmit = async (values, actions) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    putChangePass(values.password, values.newPassword).then(() =>
-      toast.success("Đã đổi mật khẩu thành công", {
-        position: "top-center",
-      })
+    let res = await putChangePass(values.password, values.newPassword).then(
+      () =>
+        toast.success("Đã đổi mật khẩu thành công", {
+          position: "top-center",
+        })
     );
+    res();
+    console.log("check res", res);
+    console.log(values, actions);
     actions.resetForm();
   };
 

@@ -12,10 +12,35 @@ import login from "../asset/image/login.svg";
 import logout from "../asset/image/logout.svg";
 import person from "../asset/image/person.svg";
 import SignIn from "../asset/image/SignIn.svg";
+import { getNotification } from "../service/NotiService";
+import { fetchCurrentUser } from "../service/UserService";
 
 function Header({ socket }) {
   const [notifications, setNotification] = useState([]);
   console.log("here:", socket);
+  const user = useSelector((state) => state.user.account);
+  const isAdmin = useSelector((state) => state.user.account.isAdmin);
+  const id = useSelector((state) => state.user.account.id);
+  const [avatarLink, setAvatarLink] = useState("");
+
+  useEffect(() => {
+    const getCurrentUser = async (id) => {
+      let res = await fetchCurrentUser(id);
+      let data = res?.renter;
+      setAvatarLink(data?.account.avatar);
+    };
+    getCurrentUser(id);
+  }, [avatarLink]);
+
+  useEffect(() => {
+    console.log(socket);
+    // lấy api thông báo chỗ này
+    const getNoti = async (id) => {
+      let res = await getNotification(id);
+      console.log("check get noti from db:", res);
+    };
+    getNoti(id);
+  }, [id]);
 
   useEffect(() => {
     console.log(socket);
@@ -24,15 +49,10 @@ function Header({ socket }) {
         setNotification((prev) => [...prev, data]);
       });
     }
-    console.log(notifications);
+    console.log("check get noti from websocket:", notifications);
   }, [socket]);
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.account);
-  const isAdmin = useSelector((state) => state.user.account.isAdmin);
-  const id = useSelector((state) => state.user.account.id);
-  // let socket = io("http://14.236.62.46:8080", { query: { id } });
-
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
@@ -110,7 +130,22 @@ function Header({ socket }) {
                 setShow1(false);
               }}
             >
-              <img className="icon user" src={ava} alt="?"></img>
+              <img
+                className="icon user"
+                src={
+                  id === undefined || id === null || id === ""
+                    ? ava
+                    : avatarLink
+                }
+                srcSet={
+                  avatarLink === null ||
+                  avatarLink === null ||
+                  avatarLink === ""
+                    ? ava
+                    : avatarLink
+                }
+                alt="?"
+              ></img>
               {show ? (
                 <div
                   className="modal_user_container"
@@ -121,7 +156,7 @@ function Header({ socket }) {
                     {user.auth === true ? (
                       <span className="modal_part">
                         <div className="modal_icon_container">
-                          <img src={person} alt="" className="modal_icon" />
+                          <img srcSet={person} alt="" className="modal_icon" />
                         </div>
                         <Link to={"/user/Profile"}>Trang cá nhân</Link>
                       </span>

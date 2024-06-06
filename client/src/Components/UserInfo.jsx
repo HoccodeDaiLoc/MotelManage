@@ -9,16 +9,10 @@ import {
 } from "../service/UserService";
 import { toast } from "react-toastify";
 import { getDownloadURL, uploadBytesResumable, ref } from "firebase/storage";
-// import UploadImage from "./UploadImage";
-//trôn
+
 import { storage } from "../utils/firebase";
 import style1 from "../styles/Upload.modules.scss";
-import {
-  // ref,
-  // uploadBytesResumable,
-  // getDownloadURL,
-  listAll,
-} from "firebase/storage";
+import defaultava from "../asset/image/person-button-svgrepo-com.svg";
 const metadata = {
   contentType: "image/jpeg",
 };
@@ -41,6 +35,7 @@ function UserInfo() {
   const [progress, setProgress] = useState(0); // state hiển thị phần trăm tải ảnh lên store
   const [uploadedImages, setUploadedImages] = useState([]); // state hiển thị danh sách ảnh đã tải lên store
   const [avatarLink, setAvatarLink] = useState("");
+
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -83,11 +78,8 @@ function UserInfo() {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           setUploadedImages([downloadURL, ...uploadedImages]);
           console.log(downloadURL);
-          console.log("downloadURL");
-          console.log("as");
-          console.log(downloadURL);
-          let update = putUpdateAvatar(downloadURL, id);
-          update(downloadURL, id);
+          let res = await putUpdateAvatar(downloadURL, id);
+          console.log(res);
           setAvatarLink(downloadURL);
           setImage(null);
           setProgress(0);
@@ -108,7 +100,7 @@ function UserInfo() {
       setAddress(data.address);
       setPhoneNumber(data.phone);
       setCCCD(data.cccd);
-      setAvatarLink(data.avatar);
+      setAvatarLink(data.account.avatar);
     };
     getCurrentUser(id);
   }, []);
@@ -186,6 +178,7 @@ function UserInfo() {
             type="text"
             maxLength={50}
             placeholder="Họ tên của bạn"
+            defaultValue={name}
             className={"UserInfo_Item_Input"}
             onChange={(e) => setName(e.target.value)}
           />
@@ -248,6 +241,13 @@ function UserInfo() {
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Ảnh hồ sơ</h6>
           <div className="Upload_container">
+            <div className="uploaded_images_container">
+              <img
+                src={avatarLink != null ? avatarLink : defaultava}
+                className="uploaded-images"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              ></img>
+            </div>
             <div className="Upload_sub ">
               <div className="image-input-container">
                 <input
@@ -269,13 +269,28 @@ function UserInfo() {
                     }}
                   />
                 )}
-                <label
-                  htmlFor="imageInput"
-                  className="InputText"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  Select Image
-                </label>
+                <div className="btn_container">
+                  <label
+                    htmlFor="imageInput"
+                    className="InputText"
+                    style={{
+                      whiteSpace: "nowrap",
+                      margin: "0px 20px 0px 20px",
+                    }}
+                  >
+                    Chọn ảnh mới
+                  </label>
+                  {image && (
+                    <div
+                      onClick={() => {
+                        handleUpload();
+                      }}
+                      className="btn_upload"
+                    >
+                      Upload
+                    </div>
+                  )}
+                </div>
               </div>
               {progress > 0 && (
                 <progress
@@ -284,23 +299,6 @@ function UserInfo() {
                   className="progress-bar"
                 />
               )}
-              {image && (
-                <div
-                  onClick={() => {
-                    handleUpload();
-                  }}
-                  className="btn_upload"
-                >
-                  Upload
-                </div>
-              )}
-            </div>
-            <div className="uploaded_images_container">
-              <img
-                src={avatarLink}
-                className="uploaded-images"
-                style={{ maxWidth: "150px", maxHeight: "150px" }}
-              ></img>
             </div>
           </div>
         </div>

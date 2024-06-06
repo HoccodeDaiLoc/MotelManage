@@ -3,6 +3,7 @@ import style from "../styles/UserInfo.modules.scss";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { fetchBillByRenter } from "../service/UserService";
+import { io } from "socket.io-client";
 
 import ReactPaginate from "react-paginate";
 import { redirect, useLocation, useNavigate } from "react-router-dom";
@@ -13,19 +14,22 @@ function UserBill() {
   const id = useSelector((state) => state.user.account.id);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [unpaidBill, setUnpaidBill] = useState([]);
-  const [noti, setNoti] = useState([]);
+  const [notifications, setNotification] = useState([]);
+  const [socket, setSocket] = useState("");
+  useEffect(() => {
+    if (id !== null || id !== undefined) {
+      setSocket(io("localhost:8080", { query: { userId: id } }));
+      console.log("socket", socket);
+    }
+  }, []);
 
   let curentUrl = window.location.href;
-  console.log(curentUrl);
   useEffect(() => {
     console.log(id);
     const fetchBill = async (id, currentPage) => {
       try {
         const res = await fetchBillByRenter(id, currentPage);
         setBillData(res.data);
-        console.log(res);
-        console.log(res.data[0].status);
         setTotalPages(res.total_page);
       } catch (error) {
         console.error("Error fetching bills:", error);
@@ -38,6 +42,11 @@ function UserBill() {
     const res = await PaymentByMomo(billId, rederedirectUrl);
     console.log(res);
     window.open(res.result.payUrl, "_blank");
+    if (res.ok && socket) {
+      socket.on("notification", (data) => {
+        setNotification((prev) => [...prev, data]);
+      });
+    }
   };
 
   const handlePageClick = (event) => {
