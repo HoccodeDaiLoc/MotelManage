@@ -11,7 +11,6 @@ function ModalEditTro({
   handleEditTrofrommodal,
 }) {
   const name = dataTroEdit;
-  console.log(name);
   const [roomNumber, setroomNumber] = useState("");
   const [description, setdescription] = useState("Đầy đủ");
   const [price, setprice] = useState("");
@@ -103,7 +102,7 @@ function ModalEditTro({
         <Modal.Title>Chỉnh sửa danh sách trọ</Modal.Title>
       </Modal.Header>
       <Modal.Body className="body_add_new">
-        {console.log("data", dataTroEdit)}
+
         <form className="row g-3">
           <div className="col-md-6">
             <label htmlFor="inputID" className="form-label">

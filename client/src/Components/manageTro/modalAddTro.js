@@ -3,71 +3,89 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { postCreateTro } from "../../service/ManageService";
 import { toast } from "react-toastify";
-import style from "../../Components/ManagerApp.modules.scss";
-
+import { storage } from '../../utils/firebase';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+const metadata = {
+  contentType: "image/jpeg",
+};
 const ModalAddTro = (props) => {
-  const { show, handleCloseTro, handUpdateTableTro } = props; // Trích xuất giá trị từ props
-  const [roomNumber, setroomNumber] = useState("");
-  const [description, setdescription] = useState(" ");
-  const [price, setprice] = useState("");
-  const [roomStatus, setroomStatus] = useState("Phòng trống");
-  const [roomArea, setroomArea] = useState("");
-  // const [max_occupancy, setmax_occupancy] = useState("");
-
-  const [image, setImage] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
-
-  const [isReportBrokenVisible, setIsReportBrokenVisible] = useState("");
-
-
-  const handUpdateImageTro = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files);
-    } else {
-      setPreviewImage("");
+  const { show, handleCloseTro, handUpdateTableTro } = props;
+  const [roomNumber, setRoomNumber] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [roomStatus, setRoomStatus] = useState("Phòng trống");
+  const [roomArea, setRoomArea] = useState("");
+  const [images, setImages] = useState([]);
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [roomImage, setRoomImage] = useState([]);
+  const handUpdateImagesTro = (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const selectedImages = Array.from(event.target.files);
+      setImages(selectedImages);
     }
-    // console.log('upload file', event.target.files[0]);
   };
-
   const handUpdateTro = async () => {
-    // Kiểm tra xem giá phòng, số phòng và diện tích có phải là số không
     if (isNaN(price) || isNaN(roomNumber) || isNaN(roomArea)) {
-      // Nếu không phải số, báo lỗi và không thực hiện lưu
       toast.error("Giá phòng, số phòng và diện tích phải là số");
-    } else {
-      // Nếu là số, tiếp tục thực hiện lưu
-      let res = await postCreateTro(
-        roomNumber,
-        description,
-        price,
-        roomStatus,
-        roomArea
-      );
-      console.log("check", res);
-      if (res) {
-        setroomNumber("");
-        setdescription("");
-        setprice("");
-        setroomStatus("");
-        setroomArea("");
-        handleCloseTro();
-        toast.success("Đã lưu thành công");
-        handUpdateTableTro({
-          roomNumber: roomNumber,
-          description: description,
-          price: price,
-          roomStatus: roomStatus,
-          roomArea: roomArea,
-        });
-        console.log(res.data);
-      } else {
-        toast.error("Đã xảy ra lỗi");
-      }
+      return;
     }
+    const imageUrlArray = [];
+    images.forEach((image) => {
+      const storageRef = ref(storage, `image/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image, metadata);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(progress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            imageUrlArray.push(downloadURL);
+            if (imageUrlArray.length === images.length) {
+              postCreateTro(roomNumber, description, price, roomStatus, roomArea, imageUrlArray)
+                .then(res => {
+                  if (res) {
+                    setRoomNumber("");
+                    setDescription("");
+                    setPrice("");
+                    setRoomStatus("Phòng trống");
+                    setRoomArea("");
+                    setImages([]);
+                    setUploadedImages([]);
+                    setProgress(0);
+                    handleCloseTro();
+                    toast.success("Đã lưu thành công");
+                    handUpdateTableTro({
+                      roomNumber: roomNumber,
+                      description: description,
+                      price: price,
+                      roomStatus: roomStatus,
+                      roomArea: roomArea,
+                      roomImage: imageUrlArray
+                    });
+                  } else {
+toast.error("Đã xảy ra lỗi");
+                  }
+                })
+                .catch(error => {
+                  console.error("Error creating tro:", error);
+                  toast.error("Đã xảy ra lỗi khi tạo phòng trọ");
+                });
+            }
+          });
+        }
+      );
+    });
   };
-  
-
   return (
     <Modal
       show={show}
@@ -83,92 +101,82 @@ const ModalAddTro = (props) => {
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
-
-          
           <div className="col-md-6">
-            <label htmlFor="inputID" className="form-label">
+            <label htmlFor="inputRoomNumber" className="form-label">
               Số Phòng
             </label>
             <input
-         
+              type="text"
               className="form-control"
               value={roomNumber}
-              onChange={(event) => setroomNumber(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              onChange={(event) => setRoomNumber(event.target.value)}
+              placeholder="Nhập số phòng..."
             />
           </div>
-
           <div className="col-md-6">
-            <label htmlFor="inputPrice" className="form-label" >
+            <label htmlFor="inputPrice" className="form-label">
               Giá Thuê
-              
             </label>
             <input
               type="text"
               className="form-control"
               value={price}
-              onChange={(event) => setprice(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              onChange={(event) => setPrice(event.target.value)}
+              placeholder="Nhập giá thuê..."
             />
           </div>
-
           <div className="col-md-6">
             <label htmlFor="inputArea" className="form-label">
-              Diện tích
+              Diện Tích
             </label>
             <input
               type="text"
               className="form-control"
               value={roomArea}
-              onChange={(event) => setroomArea(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              onChange={(event) => setRoomArea(event.target.value)}
+              placeholder="Nhập diện tích..."
             />
           </div>
-
           <div className="col-md-6">
             <label htmlFor="inputStatus" className="form-label">
-              Tình trạng
+              Tình Trạng
             </label>
             <input
               type="text"
               className="form-control"
               value={roomStatus}
-              onChange={(event) => setroomStatus(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              onChange={(event) => setRoomStatus(event.target.value)}
+              placeholder="Nhập tình trạng..."
             />
           </div>
-
-          
-          <div className="col-md-6">
-            <label htmlFor="inputArea" className="form-label">
-             Mô tả
+          <div className="col-md-12">
+            <label htmlFor="inputDescription" className="form-label">
+              Mô Tả
             </label>
             <input
               type="text"
               className="form-control"
               value={description}
-              onChange={(event) => setdescription(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              onChange={(event) => setDescription(event.target.value)}
+              placeholder="Nhập mô tả..."
             />
           </div>
           <div className="col-md-12">
             <label className="label-upload-anhtro" htmlFor="labelUploadTro">
               Thêm Ảnh
-              <i className="fa-solid fa-circle-plus"></i>
             </label>
             <input
-              type="file"
+type="file"
+              multiple
               hidden
               id="labelUploadTro"
-              onChange={(event) => handUpdateImageTro(event)}
+              onChange={(event) => handUpdateImagesTro(event)}
             />
           </div>
           <div className="img_tro">
-            {previewImage ? (
-              <img src={previewImage} alt="Preview" />
-            ) : (
-              <span>Ảnh chi tiết phòng</span>
-            )}
+            {images.map((img, index) => (
+              <img key={index} src={URL.createObjectURL(img)} alt={`Preview ${index}`} />
+            ))}
           </div>
         </form>
       </Modal.Body>
@@ -176,12 +184,11 @@ const ModalAddTro = (props) => {
         <Button variant="secondary" onClick={handleCloseTro}>
           Đóng
         </Button>
-        <Button variant="primary" onClick={handUpdateTro} closeButton>
+        <Button variant="primary" onClick={handUpdateTro}>
           Lưu
         </Button>
       </Modal.Footer>
     </Modal>
   );
 };
-
 export default ModalAddTro;

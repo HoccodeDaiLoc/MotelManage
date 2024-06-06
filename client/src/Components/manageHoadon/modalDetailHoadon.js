@@ -174,12 +174,17 @@ const ModalDetailHoadon = (props) => {
                     className="text-capitalize"
                     style={{ backgroundColor: "#60bdf3" }}
                   >
-                    Gửi hóa đơn                  </MDBBtn>
+                    Đã xác nhận                  </MDBBtn>
                 </MDBCol>
               </MDBRow>
             </MDBCardBody>
             <MDBCardFooter className="bg-dark">
+              
               <Button variant="secondary" onClick={handleCloseHoadon}>Đóng</Button>
+              <Button className="text-capitalize"
+                 
+                    style={{ backgroundColor: "#60bdf3", marginLeft: "20px" }}
+                    variant="secondary" onClick={''}>Gửi hóa</Button>
             </MDBCardFooter>
           </MDBCard>
         </MDBContainer>

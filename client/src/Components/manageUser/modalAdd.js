@@ -14,7 +14,16 @@ const ModalAdd = (props) => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("@gmail.com");
   const [cccd, setCccd] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
 
+  const roomMapping = {
+    100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
+    110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
+    132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
+  };
+  
+  
+  
   const handleSaveUser = async () => {
     if (!dateOfBirth) {
       toast.error("Please select a date of birth");
@@ -33,6 +42,14 @@ const ModalAdd = (props) => {
       toast.error("Sai định dạng");
       return;
     }
+
+    
+    const roomId = roomMapping[parseInt(roomNumber)];
+  if (!roomId) {
+    toast.error("Số phòng không hợp lệ");
+    return;
+  }
+
     const formattedDateOfBirth = dateOfBirth.toISOString().split("T")[0]; // Format date as yyyy-MM-dd
     let res = await postCreateUser(
       name,
@@ -40,8 +57,10 @@ const ModalAdd = (props) => {
       address,
       phone,
       email,
-      cccd
+      cccd,roomId
     );
+
+
     console.log("check user", res);
     if (res && res) {
       // Thành công, đóng modal
@@ -52,6 +71,7 @@ const ModalAdd = (props) => {
       setPhone("");
       setEmail("");
       setCccd("");
+      setRoomNumber('');
       toast.success("Đã lưu thành công");
       handUpdateTable({
         name: name,
@@ -60,6 +80,8 @@ const ModalAdd = (props) => {
         phone: phone,
         email: email,
         cccd: cccd,
+        roomId: roomId,
+        roomNumber: parseInt(roomNumber),
       });
     } else {
       // Xử lý khi thất bại, nếu cần
@@ -81,7 +103,7 @@ const ModalAdd = (props) => {
     if (!isNaN(value)) {
       setCccd(value);
     } else {
-      toast.error("Citizen ID must be numeric");
+      toast.error("Phải nhập đúng là sô");
     }
   };
 
@@ -98,7 +120,7 @@ const ModalAdd = (props) => {
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
-          <div className="col-md-6">
+        <div className="col-md-6">
             <label htmlFor="inputID" className="form-label">
               Tên khách hàng
             </label>
@@ -107,6 +129,18 @@ const ModalAdd = (props) => {
               className="form-control"
               value={name}
               onChange={(event) => setName(event.target.value)}
+              placeholder="Mời bạn nhập thông tin..."
+            />
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="inputID" className="form-label">
+              Phòng thuê
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              value={roomNumber}
+              onChange={(event) => setRoomNumber(event.target.value)}
               placeholder="Mời bạn nhập thông tin..."
             />
           </div>
@@ -176,6 +210,8 @@ const ModalAdd = (props) => {
               />
             </div>
           </div>
+
+          
         </form>
       </Modal.Body>
       <Modal.Footer>

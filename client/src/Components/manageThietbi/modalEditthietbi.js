@@ -62,7 +62,7 @@ const ModalEditTb = (props) => {
         <form className="row g-3">
           <div className="col-md-6">
             <label htmlFor="inputID" className="form-label">
-              Số Phòng(ID)
+              Phòng sử dụng
             </label>
             <input
               type="text"
