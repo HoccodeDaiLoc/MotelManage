@@ -14,7 +14,8 @@ import _ from "lodash";
 import ModalDetailHoadon from "./modalDetailHoadon";
 import ModalEditHoadon from "./modalEditHoadon";
 import { CSVLink, CSVDownload } from "react-csv";
-import axios from "axios";import { FaCloudDownloadAlt } from "react-icons/fa";
+import axios from "axios";
+import { FaCloudDownloadAlt } from "react-icons/fa";
 import { io, Socket } from "socket.io-client";
 import { useSelector } from "react-redux";
 import style from "../../styles/Managerment.modules.scss";
@@ -36,26 +37,6 @@ const TableManageHoadon = (props) => {
   const [dataDetailHoadon, setDataDetailHoadon] = useState({});
   const [dataExport, serDataExport] = useState([]);
   const [status, setStatus] = useState("");
-  const user = useSelector((state) => state.user.account);
-  const isAdmin = useSelector((state) => state.user.account.isAdmin);
-  const id = useSelector((state) => state.user.account.id);
-
-
-  let socket = io("http://localhost:8080", { query: { id } });
-  const [noti, setNoti] = useState();
-  // useEffect(() => {
-  //   socket.on("connect", () => {
-  //     socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
-  //     console.log("Connected to server");
-  //     console.log(socket);
-  //   });
-  // }, [user]);
-
-  // useEffect(() => {
-  //   socket.on("notification", (data) => {
-  //     console.log("Welcome message from server:", data);
-  //   });
-  // });
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -129,7 +110,7 @@ const TableManageHoadon = (props) => {
     26: 138,
     27: 139,
   };
-  
+
   useEffect(() => {
     // Call API
     getHoadon(1);
@@ -142,7 +123,7 @@ const TableManageHoadon = (props) => {
         setTotalHoadon(resTb.total);
         setTotalPageHoadon(resTb.total_page);
         // Update the roomNumber using the mapping
-        const updatedHoadonList = resTb.data.map(hoadon => ({
+        const updatedHoadonList = resTb.data.map((hoadon) => ({
           ...hoadon,
           roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
         }));
@@ -152,7 +133,6 @@ const TableManageHoadon = (props) => {
       console.error("Error fetching hóa đơn data:", error);
     }
   };
-  
 
   const handlePageClick = (event) => {
     getHoadon(+event.selected + 1);
@@ -202,7 +182,7 @@ const TableManageHoadon = (props) => {
         arr[3] = item.total;
         arr[4] = item.paymentMethod;
         arr[5] = item.status;
-     
+
         result.push(arr);
       });
       serDataExport(result);
@@ -232,7 +212,7 @@ const TableManageHoadon = (props) => {
         res = await getHoadonByStatus(status);
       }
       // Update the roomNumber using the mapping
-      const updatedHoadonList = res.data.map(hoadon => ({
+      const updatedHoadonList = res.data.map((hoadon) => ({
         ...hoadon,
         roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
       }));
@@ -241,10 +221,6 @@ const TableManageHoadon = (props) => {
       console.error("Error handling bill data by status:", error);
     }
   };
-  
-
-
-
 
   const handDetailHoadon = (hoadon) => {
     setIsShowModalDetailHoadon(true);
@@ -304,41 +280,42 @@ const TableManageHoadon = (props) => {
             Chưa thanh toán
           </option>
         </select>
-        <div className="group-btns"
-        style={{  marginLeft: "-300px" }}>
+        <div className="group-btns" style={{ marginLeft: "-300px" }}>
           <CSVLink
             filename={"Hoadon.csv"}
-            className="btn btn-success  mx-1" 
+            className="btn btn-success  mx-1"
             data={dataExport}
             asyncOnClick={true}
             onClick={getHoadonExport}
           >
-           <FaCloudDownloadAlt 
-            className="mr-2 mx-1"
-            style={{ fontSize: "1.5em", marginTop: "-5px" }}
-          /> Download
+            <FaCloudDownloadAlt
+              className="mr-2 mx-1"
+              style={{ fontSize: "1.5em", marginTop: "-5px" }}
+            />{" "}
+            Download
           </CSVLink>
           <button
             className="btn btn-primary mx-1"
             onClick={() => setIsShowModalAddDiennuoc(true)}
           >
-          <IoIosWater
-            className="mr-2 mx-1"
-            style={{ fontSize: "1.5em", marginTop: "-5px" }}
-          /> Ghi điện nước
+            <IoIosWater
+              className="mr-2 mx-1"
+              style={{ fontSize: "1.5em", marginTop: "-5px" }}
+            />{" "}
+            Ghi điện nước
           </button>
           <button
             className="btn btn-danger"
             onClick={() => setIsShowModalAddHoadon(true)}
           >
-           <FaMoneyBillTrendUp  
-            className="mr-2 mx-1"
-            style={{ fontSize: "1.5em", marginTop: "-5px" }}
-          /> Thêm Hoá Đơn
+            <FaMoneyBillTrendUp
+              className="mr-2 mx-1"
+              style={{ fontSize: "1.5em", marginTop: "-5px" }}
+            />{" "}
+            Thêm Hoá Đơn
           </button>
         </div>
       </div>
-     
       <Table striped bordered hover>
         <thead>
           <tr>

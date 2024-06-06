@@ -20,7 +20,7 @@ function Header({ socket }) {
   console.log("here:", socket);
   const user = useSelector((state) => state.user.account);
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
-  const id = useSelector((state) => state.user.account.id);
+  const id = useSelector((state) => state.user.account.renterId);
   const [avatarLink, setAvatarLink] = useState("");
 
   useEffect(() => {
@@ -30,8 +30,7 @@ function Header({ socket }) {
       setAvatarLink(data?.account.avatar);
     };
     getCurrentUser(id);
-  }, [avatarLink]);
-
+  }, []);
   useEffect(() => {
     console.log(socket);
     // lấy api thông báo chỗ này
@@ -44,13 +43,15 @@ function Header({ socket }) {
 
   useEffect(() => {
     console.log(socket);
+    console.log("check get noti from websocket after:", notifications);
+
     if (socket) {
       socket.on("notification", (data) => {
         setNotification((prev) => [...prev, data]);
       });
     }
-    console.log("check get noti from websocket:", notifications);
-  }, [socket]);
+    console.log("check get noti from websocket after:", notifications);
+  }, []);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -131,6 +132,7 @@ function Header({ socket }) {
               }}
             >
               <img
+                style={{ borderRadius: "50%" }}
                 className="icon user"
                 src={
                   id === undefined || id === null || id === ""
@@ -149,7 +151,7 @@ function Header({ socket }) {
               {show ? (
                 <div
                   className="modal_user_container"
-                  tabindex="-1"
+                  tabIndex={-1}
                   role="dialog"
                 >
                   <div className="modal_user">

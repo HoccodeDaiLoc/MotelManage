@@ -11,7 +11,7 @@ import { PaymentByMomo } from "../service/PaymentService";
 import momo from "../asset/image/momo.png";
 function UserBill() {
   const [billData, setBillData] = useState([]);
-  const id = useSelector((state) => state.user.account.id);
+  const id = useSelector((state) => state.user.account.renterId);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [notifications, setNotification] = useState([]);
@@ -24,6 +24,8 @@ function UserBill() {
   }, []);
 
   let curentUrl = window.location.href;
+  // let curentUrl = "https://obliging-tops-owl.ngrok-free.app/user/Bill";
+  //  let curentUrl = "https://obliging-tops-owl.ngrok-free.app/user/Bill";
   useEffect(() => {
     console.log(id);
     const fetchBill = async (id, currentPage) => {
@@ -42,10 +44,12 @@ function UserBill() {
     const res = await PaymentByMomo(billId, rederedirectUrl);
     console.log(res);
     window.open(res.result.payUrl, "_blank");
-    if (res.ok && socket) {
+    if (socket) {
+      console.log("checknoti", notifications);
       socket.on("notification", (data) => {
         setNotification((prev) => [...prev, data]);
       });
+      console.log("checknotiafter2", notifications);
     }
   };
 
@@ -92,7 +96,7 @@ function UserBill() {
                               alt=""
                               srcset="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
                             />
-                            <span class="hover-text-content">
+                            <span className="hover-text-content">
                               Thanh toán online với momo
                             </span>
                           </div>

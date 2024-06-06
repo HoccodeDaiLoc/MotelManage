@@ -110,7 +110,12 @@ const putUpdateAvatar = (avatar, id) => {
   );
 };
 
-const fetchBillByRenter = (id) => {
+const fetchBillByRenter = (id, currentPage) => {
+  // return axios.get(`/api/bill/renter/${id}?limit=12&page=${currentPage}`, {
+  //   headers: {
+  //     Authorization: `Bearer ${accessToken}`,
+  //   },
+  // });
   return axios.get(`/api/bill/renter/${id}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,

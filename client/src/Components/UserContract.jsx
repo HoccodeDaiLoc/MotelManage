@@ -6,7 +6,7 @@ import { fetchContractByRenter } from "../service/UserService";
 function UserContract() {
   const [contractData, setContractData] = useState("");
   const [respone, setRespone] = useState();
-  const id = useSelector((state) => state.user.account.id);
+  const id = useSelector((state) => state.user.account.renterId);
   useEffect(() => {
     const fetchContract = async (id) => {
       let res = await fetchContractByRenter(id);

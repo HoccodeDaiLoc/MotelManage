@@ -41,7 +41,9 @@ const ModalEdit = (props) => {
       return;
     }
 
-    const formattedDateOfBirth = dateOfBirth ? dateOfBirth.toISOString().split("T")[0] : null;
+    const formattedDateOfBirth = dateOfBirth
+      ? dateOfBirth.toISOString().split("T")[0]
+      : null;
     let res = await updateUser(
       dataUseredit.renterId,
       name,
@@ -74,14 +76,22 @@ const ModalEdit = (props) => {
       setName(dataUseredit.name);
       setAddress(dataUseredit.address);
       setEmail(dataUseredit.email);
-      setDateOfBirth(dataUseredit.dateOfBirth ? new Date(dataUseredit.dateOfBirth) : null);
+      setDateOfBirth(
+        dataUseredit.dateOfBirth ? new Date(dataUseredit.dateOfBirth) : null
+      );
       setPhone(dataUseredit.phone);
       setCccd(dataUseredit.cccd);
     }
   }, [dataUseredit, show]);
 
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size="xl">
+    <Modal
+      show={show}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+      size="xl"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
       </Modal.Header>
@@ -121,6 +131,7 @@ const ModalEdit = (props) => {
               type="text"
               className="form-control"
               value={phone}
+              maxLength={10}
               onChange={(event) => setPhone(event.target.value)}
             />
           </div>
@@ -144,6 +155,7 @@ const ModalEdit = (props) => {
               type="text"
               className="form-control"
               value={cccd}
+              maxLength={12}
               onChange={(event) => setCccd(event.target.value)}
               placeholder="Mời bạn nhập thông tin..."
             />

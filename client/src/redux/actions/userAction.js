@@ -24,6 +24,8 @@ export const handleLoginRedux = (username, password) => {
       // console.log("id: ", res.user.id);
       console.log("admin: ", res.user.isAdmin);
       localStorage.setItem("id", res.user.id);
+      localStorage.setItem("renterId", res.user.renterId);
+
       localStorage.setItem("user", res.user);
       localStorage.setItem("username", res.user.username.trim());
       localStorage.setItem("password", res.user.password);
@@ -35,6 +37,8 @@ export const handleLoginRedux = (username, password) => {
         data: {
           username: username.trim(),
           id: res.user.id,
+          renterId: res.user.renterId,
+
           isAdmin: res.user.isAdmin,
           accessToken: res.accessToken,
           refreshToken: res.refeshToken,

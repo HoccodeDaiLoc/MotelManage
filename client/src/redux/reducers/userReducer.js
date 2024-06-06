@@ -10,6 +10,7 @@ import {
 const INITIAL_STATE = {
   account: {
     id: localStorage.getItem("id"),
+    renterId: localStorage.getItem("renterId"),
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
     isAdmin: localStorage.getItem("isAdmin"),
@@ -43,6 +44,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           id: action.data.id,
+          renterId: action.data.renterId,
           username: action.data.username,
           password: action.data.password,
           isAdmin: action.data.isAdmin,
@@ -55,6 +57,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
     case USER_LOGOUT:
       localStorage.removeItem("id");
+      localStorage.removeItem("renterId");
       localStorage.removeItem("user");
       localStorage.removeItem("refreshtoken");
       localStorage.removeItem("username");
@@ -65,8 +68,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           id: "",
-          username:"",
-          password:"",
+          renterId: "",
+          username: "",
+          password: "",
           isAdmin: false,
           accessToken: "",
           refreshToken: "",

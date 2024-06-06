@@ -7,7 +7,7 @@ import { fetchRoomByRenter } from "../service/RoomService";
 function UserRoom() {
   const [roomData, setRoomData] = useState("");
   const [respone, setRespone] = useState();
-  const id = useSelector((state) => state.user.account.id);
+  const id = useSelector((state) => state.user.account.renterId);
   useEffect(() => {
     const fetchRoomByID = async (id) => {
       let res = await fetchRoomByRenter(id);
