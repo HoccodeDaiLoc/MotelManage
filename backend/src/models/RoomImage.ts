@@ -3,12 +3,12 @@ import { Room } from "./Room";
 import { Image } from "./Image";
 
 @Table({
-    tableName: RoomImage.ROOMIMAGE_TABLE_NAME
+    tableName: "roomImages"
 })
 export class RoomImage extends Model {
     private static ROOMIMAGE_TABLE_NAME = "roomImages" as string;
     private static ROOMIMAGE_ID = "roomImage_id" as string;
-    
+
     @Column({
         type: DataType.INTEGER,
         field: RoomImage.ROOMIMAGE_ID,
@@ -31,6 +31,9 @@ export class RoomImage extends Model {
     })
     imageId!: number;
 
+    @BelongsTo(() => Room)
+    room!: Room;
+
     @BelongsTo(() => Image)
-    image!: Image[];
+    image!: Image;
 }

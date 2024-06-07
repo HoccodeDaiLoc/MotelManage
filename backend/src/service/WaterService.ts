@@ -16,6 +16,13 @@ export class WaterService implements IWaterService {
     roomId: number
   ): Promise<void> {
     try {
+      const waterLastestReading = await this.waterRepository.getLastestWaterReading(roomId);
+      if(waterLastestReading && new Date(waterLastestReading.waterRecordDate).getTime() > date.getTime()) {
+        throw new AppError("Water reading date must be greater than the lastest reading date", 400);
+      }
+      if(waterLastestReading && waterLastestReading.waterNumber > waterNumber) {
+        throw new AppError("Water reading must be greater than the lastest reading", 400);
+      }
       await this.waterRepository.createWaterReading(waterNumber, date, roomId);
     } catch (err) {
       throw err;

@@ -16,6 +16,13 @@ export class ElectricReadingService implements IElectricReadingService {
     roomId: number
   ): Promise<void> {
     try {
+      const electricLastestReading = await this.electricReadingRepository.getLatestElectricReading(roomId);
+      if(electricLastestReading && new Date(electricLastestReading.electricRecordDate).getTime() > date.getTime()) {
+        throw new AppError("Electric reading date must be greater than the lastest reading date", 400);
+      }
+      if(electricLastestReading && electricLastestReading.electricNumber > electricNumber) {
+        throw new AppError("Electric reading must be greater than the lastest reading", 400);
+      }
       await this.electricReadingRepository.createElectricReading(
         electricNumber,
         date,
