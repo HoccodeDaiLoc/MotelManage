@@ -7,6 +7,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import FormSelect from 'react-bootstrap/FormSelect';
 
+// Helper function to format the date as YYYY-MM-DD without time zone effects
+const formatDate = (date) => {
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
+    return adjustedDate.toISOString().split('T')[0];
+};
+
 const ModalAddDiennuoc = (props) => {
     const { show, handleCloseHoadon } = props;
     const [roomNumber, setRoomNumber] = useState('');
@@ -31,7 +38,7 @@ const ModalAddDiennuoc = (props) => {
             }
             const response = await axios.post(`http://127.0.0.1:8080/api/waterReading/room/${roomId}`, {
                 waterNumber: waterNumber,
-                waterRecordDate: waterRecordDate.toISOString().split('T')[0] // Chuyển đổi ngày thành chuỗi YYYY-MM-DD
+                waterRecordDate: formatDate(waterRecordDate) // Use the helper function to format the date
             });
             console.log(response.data);
             toast.success("Đã thêm dữ liệu nước thành công");
@@ -50,7 +57,7 @@ const ModalAddDiennuoc = (props) => {
             }
             const response = await axios.post(`http://127.0.0.1:8080/api/electricReading/room/${roomId}`, {
                 electricNumber: electricNumber,
-                electricRecordDate: electricRecordDate.toISOString().split('T')[0] // Chuyển đổi ngày thành chuỗi YYYY-MM-DD
+                electricRecordDate: formatDate(electricRecordDate) // Use the helper function to format the date
             });
             console.log(response.data);
             toast.success("Đã thêm dữ liệu điện thành công");

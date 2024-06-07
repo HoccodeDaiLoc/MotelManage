@@ -23,9 +23,7 @@ const ModalEditHd = (props) => {
         110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
         132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
       };
-
     const roomNumbers = Object.keys(roomMapping);
-
     const handleEditHd = async () => {
         if (renterId) {
             const formattedStartDay = startDay ? moment(startDay).format('YYYY-MM-DD') : null;
@@ -35,6 +33,11 @@ const ModalEditHd = (props) => {
             
             if (!mappedRoomId) {
                 toast.error("Số phòng không hợp lệ");
+                return;
+            }
+
+            if (isNaN(depositAmount)) {
+                toast.error("Tiền cọc phải là một số");
                 return;
             }
 

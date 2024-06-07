@@ -26,6 +26,11 @@ const fetchAllstatusHd = (status) => {
 const fetchAllHd = (page) => {
   return axios.get(`/api/contract?page=${page}&limit=8`);
 };
+
+const fetchAllDetailRoom = (roomId) => {
+  return axios.get(`/api/room/${roomId}`,);
+};
+
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd,roomId) => {
   const renterList = new FormData();
   renterList.append("name", name);
@@ -210,4 +215,5 @@ export {
   postCreateHd,
   updateHd,
   deleteHd,
+  fetchAllDetailRoom
 };

@@ -18,20 +18,6 @@ function ModalEditTro({
   const [roomArea, setroomArea] = useState("");
   // const [max_occupancy, setmax_occupancy] = useState("");
 
-  const [image, setImage] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
-
-  const [isReportBrokenVisible, setIsReportBrokenVisible] = useState("");
-
-  const handUpdateImageTro = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files);
-    } else {
-      // setPreviewImage('');
-    }
-    // console.log('upload file', event.target.files[0]);
-  };
   const handleEditTro = async () => {
     // Kiểm tra nếu roomNumber, price, roomArea là số
     const isRoomNumberNumber = /^\d+$/.test(roomNumber);
@@ -168,25 +154,7 @@ function ModalEditTro({
               onChange={(event) => setroomArea(event.target.value)}
             />
           </div>
-          <div className="col-md-12">
-            <label className="label-upload-anhtro" htmlFor="labelUploadTro">
-              Thêm Ảnh
-              <i className="fa-solid fa-circle-plus"></i>
-            </label>
-            <input
-              type="file"
-              hidden
-              id="labelUploadTro"
-              onChange={(event) => handUpdateImageTro(event)}
-            />
-          </div>
-          <div className="img_tro">
-            {previewImage ? (
-              <img src={previewImage} alt="Preview" />
-            ) : (
-              <span>Ảnh chi tiết phòng</span>
-            )}
-          </div>
+    
         </form>
       </Modal.Body>
       <Modal.Footer>

@@ -42,10 +42,10 @@ const ModalDetailHoadon = (props) => {
               <MDBContainer className="mb-2 mt-3">
                 <MDBRow className="d-flex align-items-baseline">
                 <MDBCol xl="9">
-   <p style={{ color: "#7e8d9f", fontSize: "20px" }}>
-    <strong>Ngày lập hóa đơn: {formatDate(dataDetailHoadon?.billEndDate) || ''}</strong>
-   </p>
-  </MDBCol>
+             <p style={{ color: "#7e8d9f", fontSize: "20px" }}>
+             <strong>Ngày lập hóa đơn: {formatDate(dataDetailHoadon?.billEndDate) || ''}</strong>
+             </p>
+            </MDBCol>
                   <MDBCol xl="3" className="float-end">
                     <MDBBtn
                       color="light"
@@ -53,21 +53,9 @@ const ModalDetailHoadon = (props) => {
                       className="text-capitalize border-0"
                     >
                       <MDBIcon fas icon="print" color="primary" className="me-1" />
-                      In
+                      Hóa đơn đã được xuất.
                     </MDBBtn>
-                    <MDBBtn
-                      color="light"
-                      ripple="dark"
-                      className="text-capitalize border-0 ms-2"
-                    >
-                      <MDBIcon
-                        far
-                        icon="file-pdf"
-                        color="danger"
-                        className="me-1"
-                      />
-                      PDF
-                    </MDBBtn>
+                    
                     <hr />
                   </MDBCol>
                 </MDBRow>
@@ -88,9 +76,9 @@ const ModalDetailHoadon = (props) => {
                     <li className="text-muted">
                       To: <span style={{ color: "#5d9fc5" }}>Phòng số {dataDetailHoadon?.roomNumber || ''}</span>
                     </li>
-                    <li className="text-muted">Thành phố Đà Nẵng</li>
+                    <li className="text-muted">Hòa Khánh Bắc ,</li>
                     <li className="text-muted">
-                      <MDBIcon fas icon="phone-alt" /> 0348944811
+                      <MDBIcon/>Thành phố Đà Nẵng
                     </li>
                   </MDBTypography>
                 </MDBCol>
