@@ -9,9 +9,11 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+
 const metadata = {
   contentType: "image/jpeg",
 };
+
 const ModalAddTro = (props) => {
   const { show, handleCloseTro, handUpdateTableTro } = props;
   const [roomNumber, setRoomNumber] = useState("");
@@ -23,17 +25,25 @@ const ModalAddTro = (props) => {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [progress, setProgress] = useState(0);
   const [roomImage, setRoomImage] = useState([]);
+
   const handUpdateImagesTro = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const selectedImages = Array.from(event.target.files);
       setImages(selectedImages);
     }
   };
+
   const handUpdateTro = async () => {
     if (isNaN(price) || isNaN(roomNumber) || isNaN(roomArea)) {
       toast.error("Giá phòng, số phòng và diện tích phải là số");
       return;
     }
+
+    if (images.length === 0) {
+      toast.error("Vui lòng thêm ít nhất một ảnh");
+      return;
+    }
+
     const imageUrlArray = [];
     images.forEach((image) => {
       const storageRef = ref(storage, `image/${image.name}`);
@@ -73,7 +83,7 @@ const ModalAddTro = (props) => {
                       roomImage: imageUrlArray
                     });
                   } else {
-toast.error("Đã xảy ra lỗi");
+                    toast.error("Đã xảy ra lỗi");
                   }
                 })
                 .catch(error => {
@@ -86,6 +96,7 @@ toast.error("Đã xảy ra lỗi");
       );
     });
   };
+
   return (
     <Modal
       show={show}
@@ -166,7 +177,7 @@ toast.error("Đã xảy ra lỗi");
               Thêm Ảnh
             </label>
             <input
-type="file"
+              type="file"
               multiple
               hidden
               id="labelUploadTro"
@@ -191,4 +202,5 @@ type="file"
     </Modal>
   );
 };
+
 export default ModalAddTro;

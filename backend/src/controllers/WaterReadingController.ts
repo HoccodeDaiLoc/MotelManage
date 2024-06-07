@@ -16,7 +16,7 @@ export class WaterReadingController {
       const roomId = +req.params.roomId as number;
       await this.waterService.addWaterReading(
         waterNumber,
-        waterRecordDate,
+        new Date(waterRecordDate),
         roomId
       );
       return res.status(201).json({

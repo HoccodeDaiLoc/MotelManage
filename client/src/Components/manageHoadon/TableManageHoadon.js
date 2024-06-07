@@ -167,24 +167,30 @@ const TableManageHoadon = (props) => {
     let result = [];
     if (listHoadon && listHoadon.length > 0) {
       result.push([
-        "Phòng số",
+        ["Phòng số"],
         ["Ngày lập"],
         ["Hạn thanh toán"],
         ["Tổng hóa đơn"],
         ["Phương thức"],
         ["Tình trạng"],
+        ["Tiền phòng"],
+        ["Tiền điện"],
+        ["Tiền nước"],
       ]);
-      listHoadon.map((item) => {
+      listHoadon.forEach((item) => {
         let arr = [];
-        arr[0] = item.roomId;
+        arr[0] = item.roomNumber;
         arr[1] = item.billStartDate;
         arr[2] = item.billEndDate;
         arr[3] = item.total;
         arr[4] = item.paymentMethod;
         arr[5] = item.status;
-
+        item.billItem.forEach((billItem) => {
+          arr.push(billItem.totalAmont);
+        });
         result.push(arr);
       });
+
       serDataExport(result);
       done();
     }

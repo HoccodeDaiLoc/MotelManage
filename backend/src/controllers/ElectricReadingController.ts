@@ -16,7 +16,7 @@ export class ElectricReadingController {
       const roomId = +req.params.roomId as number;
       await this.electricReadingService.addElectricReading(
         electricNumber,
-        electricRecordDate,
+        new Date(electricRecordDate),
         roomId
       );
       return res.status(201).json({

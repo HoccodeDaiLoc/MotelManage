@@ -36,6 +36,11 @@ const ModalAddHd = (props) => {
     }
     const formattedStartDay = startDay.toISOString().split('T')[0]; // Format date as yyyy-MM-dd
     const formattedEndDay = endDate.toISOString().split('T')[0]; // Format date as yyyy-MM-dd
+
+    if (isNaN(depositAmount)) {
+      toast.error("Số tiền đặt cọc phải là một số");
+      return;
+    }
     console.log("Data to be sent to server:");
   console.log("formattedStartDay:", formattedStartDay);
   console.log("rentAmount:", rentAmount);
@@ -53,8 +58,9 @@ const ModalAddHd = (props) => {
       setEndDate(null)
       handleCloseHd('');
       toast.success("Saved successfully");
-
+     
       handUpdateTableHd({ 
+        
         startDay: formattedStartDay,
         rentAmount: rentAmount,
         renterId: renterId,
@@ -62,7 +68,11 @@ const ModalAddHd = (props) => {
         endDate:formattedEndDay,
         roomId: roomId,
         roomNumber: parseInt(roomNumber),
+
+        
       });
+     
+    
       console.log(res.data);
     } else {
       toast.error("An error occurred");

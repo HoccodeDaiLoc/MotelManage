@@ -159,9 +159,19 @@ export class BillService implements IBillService {
         const renterObject = renter.toJSON() as Renter;
         return renterObject.renterId;
       });
+      const dateStart = new Date(billStartDate);
+      let dayStart = String(dateStart.getDate()).padStart(2, "0");
+      let monthStart = String(dateStart.getMonth() + 1).padStart(2, "0");
+      let yearStart = dateStart.getFullYear();
+      const billStartDateString = `${dayStart}/${monthStart}/${yearStart}`;
+      const dateEnd = new Date(billEndDate);
+      let dayEnd = String(dateEnd.getDate()).padStart(2, "0");
+      let monthEnd = String(dateEnd.getMonth() + 1).padStart(2, "0");
+      let yearEnd = dateEnd.getFullYear();
+      const billEndDateString = `${dayEnd}/${monthEnd}/${yearEnd}`;
       const newNotification = await this.notificationService.createNotification(
         "Hóa đơn mới",
-        `Hóa đơn mới cho phòng ${roomId} từ ngày ${billStartDate} đến ${billEndDate} đã được tạo`,
+        `Hóa đơn mới cho phòng ${roomId} từ ngày ${billStartDateString} đến ${billEndDateString} với tổng số tiền là ${total}`,
         new Date(),
         renterIds,
         undefined
@@ -229,7 +239,7 @@ export class BillService implements IBillService {
         status,
         limit,
         page,
-        {roomId: rentalRecord.roomId}
+        { roomId: rentalRecord.roomId }
       );
       if (bills?.count === 0) {
         throw new AppError("Bill not found", 404);
