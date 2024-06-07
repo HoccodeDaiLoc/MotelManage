@@ -23,6 +23,7 @@ import session, { Session } from "express-session";
 import { Redis } from "../config/Redis";
 import RedisStore from "connect-redis";
 import { LargeNumberLike } from "crypto";
+import NotificationRoutes from "../routes/NotificationRoutes";
 dotenv.config();
 
 interface SessionData {
@@ -71,6 +72,7 @@ class App {
     this.app.use("/api/waterReading", WaterReadingRoutes);
     this.app.use("/api/rentalrecord", RentalRecordRoutes);
     this.app.use("/api/electricReading", ElectricReadingRoutes);
+    this.app.use("/api/notification", NotificationRoutes);
     this.app.use("/api/bill", BillRoutes);
     this.app.use("/api/payment", PaymentRoutes);
   }

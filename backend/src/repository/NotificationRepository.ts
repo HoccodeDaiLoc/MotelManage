@@ -12,12 +12,12 @@ export class NotificationRepository
   async getListNotification(
     searchCondidate: any,
     limit: number,
-    page: number
+    offset: number
   ): Promise<Notification[] | null> {
     try {
       const notifications = await Notification.findAll({
         limit: limit,
-        offset: page * limit,
+        offset,
         where: searchCondidate,
         include: {
           model: NotificationSubject,
@@ -80,6 +80,28 @@ export class NotificationRepository
         where: searchCondidate,
       });
       return notification!;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getNotificationByUserId(
+    userId: number,
+    limit: number,
+    offset: number
+  ): Promise<Notification[] | null> {
+    try {
+      const notifications = await Notification.findAll({
+        limit: limit,
+        offset,
+        include: {
+          model: NotificationSubject,
+          where: {
+            userId: userId,
+          },
+        },
+      });
+      return notifications;
     } catch (err) {
       throw err;
     }
