@@ -130,13 +130,13 @@ const ModalAddHd = (props) => {
           </div>
 
           <div className="col-md-12">
-            <label htmlFor="inputRenterId" className="form-label"> ID khách </label>
+            <label htmlFor="inputRenterId" className="form-label"> Mã hợp đồng </label>
             <input
               type="text"
               className="form-control"
               value={renterId}
               onChange={(event) => setRenterId(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
+              placeholder="Mời bạn nhập mã hợp đồng..."
             />
           </div>
           <div className="row">

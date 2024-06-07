@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { postCreateUser } from "../../service/ManageService";
 import { toast } from "react-toastify";
+import FormSelect from 'react-bootstrap/FormSelect';
 
 const ModalAdd = (props) => {
   const { show, handleClose, handUpdateTable } = props;
@@ -16,11 +17,14 @@ const ModalAdd = (props) => {
   const [cccd, setCccd] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
 
+  
+
   const roomMapping = {
     100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
     110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
     132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
   };
+  const roomNumbers = Object.keys(roomMapping);
 
   const handleSaveUser = async () => {
     if (!dateOfBirth) {
@@ -127,16 +131,17 @@ const ModalAdd = (props) => {
             />
           </div>
           <div className="col-md-6">
-            <label htmlFor="inputID" className="form-label">
-              Phòng thuê
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              value={roomNumber}
+            <label htmlFor="inputRoomNumber" className="form-label">Phòng đang sử dụng</label>
+            <FormSelect 
+              className="form-select" 
+              value={roomNumber} 
               onChange={(event) => setRoomNumber(event.target.value)}
-              placeholder="Nhập số phòng thuê..."
-            />
+            >
+              <option value="">Chọn phòng....</option>
+              {roomNumbers.map((room) => (
+                <option key={room} value={room}>Phòng {room}</option>
+              ))}
+            </FormSelect>
           </div>
 
           <div className="col-md-6">
