@@ -53,7 +53,7 @@ class App {
   private databaseSync(): void {
     const database = Database.getInstance();
     database
-      .sequelize!.sync({ force: false })
+      .sequelize!.sync({force: false})
       .then(() => {
         // console.log('✅ Cơ sở dữ liệu đã được đồng bộ hóa.');
       })
