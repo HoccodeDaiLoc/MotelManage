@@ -6,10 +6,10 @@ import { Renter } from "./Renter";
     tableName: RentalRecord.RENTALRECORD_TABLE_NAME
 })
 export class RentalRecord extends Model {
-    private static RENTALRECORD_TABLE_NAME = "rentalRecords" as string;
-    private static RENTALRECORD_ID = "rentalRecord_id" as string;
-    private static RENTALRECORD_CHECK_IN_DATE = "checkInDate" as string;
-    private static RENTALRECORD_CHECK_OUT_DATE = "checkOutDate" as string;
+    private static RENTALRECORD_TABLE_NAME = "rentalrecords" as string;
+    private static RENTALRECORD_ID = "rentalrecord_id" as string;
+    private static RENTALRECORD_CHECK_IN_DATE = "checkindate" as string;
+    private static RENTALRECORD_CHECK_OUT_DATE = "checkoutdate" as string;
 
     @Column({
         type: DataType.INTEGER,

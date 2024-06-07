@@ -233,4 +233,31 @@ export class RoomController {
       next(err);
     }
   }
+
+  addRenterToRoom = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const renterId = +req.params.renterId as number;
+      const roomId = +req.body.roomId as number;
+      const startDate = req.body["startDate"] as Date;
+      await this.roomService.addRenterToRoom(startDate, roomId, renterId);
+      return res.status(201).json({
+        message: "add renter to room successfuly"
+      });
+    }catch(err) {
+      next(err);
+    }
+  }
+
+  deleteRenterFromRoom = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const renterId = +req.params.renterId as number;
+      const endDate = req.body["endDate"] as Date;
+      await this.roomService.deleteRenterFromRoom(endDate, renterId);
+      return res.status(200).json({
+        message: "delete renter from room successfuly"
+      });
+    }catch(err){
+      next(err);
+    }  
+  }
 }

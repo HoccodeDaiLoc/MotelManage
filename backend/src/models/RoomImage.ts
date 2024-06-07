@@ -3,10 +3,10 @@ import { Room } from "./Room";
 import { Image } from "./Image";
 
 @Table({
-    tableName: "roomImages"
+    tableName: RoomImage.ROOMIMAGE_TABLE_NAME
 })
 export class RoomImage extends Model {
-    private static ROOMIMAGE_TABLE_NAME = "roomImages" as string;
+    private static ROOMIMAGE_TABLE_NAME = "roomimages" as string;
     private static ROOMIMAGE_ID = "roomImage_id" as string;
 
     @Column({
