@@ -57,7 +57,7 @@ const ModalAddHd = (props) => {
       setDepositAmount('')
       setEndDate(null)
       handleCloseHd('');
-      toast.success("Saved successfully");
+      toast.success("Lưu thông tin thành công");
      
       handUpdateTableHd({ 
         

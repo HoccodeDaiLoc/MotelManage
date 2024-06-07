@@ -87,19 +87,22 @@ const TableUser = (props) => {
   }, []);
   const getUser = async (page) => {
     try {
-      const res = await fetchAllUser(page);
-      console.log(res.renterList);
-
+      const res = await fetchAllUser(page); // Lấy thông tin các thiết bị
       if (res && res.renterList) {
         const { data, total_pages } = res.renterList;
-        setTotalUser(res.renterList.total);
-        setListUser(res.renterList);
+        setTotalUser(res.total);
+        const updatedUserList = res.renterList.map(user => ({
+          ...user,
+          roomNumber: roomMapping[user.roomId] || user.roomId // Map roomId to roomNumber
+        }));
+        setListUser(updatedUserList);
         setTotalPage(res.total_pages);
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
+
   const handlePageClick = (event) => {
     getUser(+event.selected + 1);
   };

@@ -143,7 +143,7 @@ const ModalDetailTro = (props) => {
             </div>
             <div className="col-md-12">
     <label htmlFor="inputDescription" className="form-label my-3">
-    Tiện ích gồm có :
+    Tiện ích gồm có : ***
     </label>
      <textarea
     className="form-control"
