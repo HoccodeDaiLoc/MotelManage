@@ -5,6 +5,8 @@ import { RenterRepository } from "../repository/RenterRepository";
 import { IRenterRepository } from "../repository/Interfaces/IRenterRepository";
 import { RentalRecordRepository } from "../repository/RentalRecordRepository";
 import { IRentalRecordRepository } from "../repository/Interfaces/IRentalRecordRepository";
+import { RoomRepository } from "../repository/RoomRepository";
+import { IRoomRepository } from "../repository/Interfaces/IRoomRepository";
 
 @Service()
 export class RenterService implements IRenterService {
@@ -13,6 +15,9 @@ export class RenterService implements IRenterService {
 
   @Inject(() => RentalRecordRepository)
   rentalRecordRepository!: IRentalRecordRepository;
+
+  @Inject(() => RoomRepository)
+  roomRepository!: IRoomRepository;
 
   async getAllRenter(page: number, limit: number): Promise<{rows: Renter[], count: number}> {
     try {
@@ -65,6 +70,7 @@ export class RenterService implements IRenterService {
           roomId,
           newRenter.renterId
         );
+        await this.roomRepository.updateRoomById(roomId.toString(), { status: "Đang cho thuê" });
       }
       return newRenter;
     } catch (err) {

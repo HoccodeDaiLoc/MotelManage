@@ -275,7 +275,7 @@ export class RoomRepository
   async getAllRoomNumber(): Promise<Room[]> {
     try {
       const rooms = await this.model.findAll({
-        attributes: ["roomNumber"],
+        attributes: ["roomId", "roomNumber"],
       });
       return rooms;
     }catch(err) {
