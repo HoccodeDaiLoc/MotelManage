@@ -11,7 +11,6 @@ export class ContractRepository
   async create(
     startDay: Date,
     endDate: Date | undefined,
-    rentAmount: number,
     deposit_amount: number | undefined,
     roomId: number,
     renterId: number
@@ -20,7 +19,6 @@ export class ContractRepository
       return Contract.create({
         startDay,
         endDate,
-        rentAmount,
         depositAmount: deposit_amount,
         roomId,
         renterId,
@@ -76,9 +74,9 @@ export class ContractRepository
     }
   }
 
-  async updateById(id: number, contract: Contract): Promise<Contract> {
+  async updateById(id: number, data: any): Promise<Contract> {
     try {
-      await Contract.update(contract, {
+      await Contract.update(data, {
         where: {
           id: id,
         },
