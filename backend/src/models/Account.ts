@@ -6,7 +6,7 @@ import { Renter } from "./Renter";
     tableName: Account.ACCOUNT_TABLE_NAME
 })
 export class Account extends Model {
-    private static ACCOUNT_TABLE_NAME = "Accounts" as string;
+    private static ACCOUNT_TABLE_NAME = "accounts" as string;
     private static ACCOUNT_ID = "id" as string;
     private static ACCOUNT_AVATAR = "avatar" as string;
     private static ACCOUNT_USERNAME = "username" as string;

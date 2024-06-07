@@ -3,7 +3,7 @@ import { RentalRecord } from "../../models/RentalRecord";
 export interface IRentalRecordService {
   createRentalRecord(
     checkInDate: Date,
-    checkOutDate: Date,
+    checkOutDate: Date | undefined,
     roomId: number,
     renterId: number
   ): Promise<RentalRecord>;
@@ -13,7 +13,8 @@ export interface IRentalRecordService {
   ): Promise<RentalRecord>;
   updateRentalRecordByRenterId(
     renterId: number,
-    rentalRecord: RentalRecord
+    data: any
   ): Promise<RentalRecord>;
   deleteRentalRecord(id: number): Promise<boolean>;
+  checkRenterExistInRoom(renterId: number, roomId: number, newStartDate: Date): Promise<boolean>;
 }

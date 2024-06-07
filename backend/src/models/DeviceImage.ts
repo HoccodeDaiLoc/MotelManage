@@ -6,7 +6,7 @@ import { Image } from "./Image";
     tableName: DeviceImage.DEVICEIMAGE_TABLE_NAME
 })
 export class DeviceImage extends Model {
-    private static DEVICEIMAGE_TABLE_NAME = "deviceImages" as string;
+    private static DEVICEIMAGE_TABLE_NAME = "deviceimages" as string;
     private static DEVICEIMAGE_ID = "deviceImage_id" as string;
     
     @Column({

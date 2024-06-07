@@ -28,4 +28,6 @@ export interface IRoomService {
   updateRoomById(id: string, newData: any): Promise<Room>;
   getRoomByRenterId(renterId: number): Promise<Room>;
   getRoomnumber(): Promise<Room[]>;
+  addRenterToRoom(startDate: Date, roomId: number, renterId: number): Promise<void>;
+  deleteRenterFromRoom(endDate: Date, renterId: number): Promise<void>;
 }

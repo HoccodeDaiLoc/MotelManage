@@ -6,7 +6,7 @@ import { Bill } from "./Bill";
     tableName: BillItem.BILLITEM_TABLE_NAME
 })
 export class BillItem extends Model {
-    private static BILLITEM_TABLE_NAME = "BillItems" as string;
+    private static BILLITEM_TABLE_NAME = "billitems" as string;
     private static BILLITEM_ID = "id" as string;
     private static BILLITEM_NAME = "name" as string;
     private static BILLITEM_QUANTITY = "quantity" as string;

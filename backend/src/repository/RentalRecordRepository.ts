@@ -5,6 +5,7 @@ import { IImageRepository } from "./Interfaces/IImageRepository";
 import { RentalRecord } from "../models/RentalRecord";
 import { IRentalRecordRepository } from "./Interfaces/IRentalRecordRepository";
 import { Renter } from "../models/Renter";
+import { Op } from "sequelize";
 
 @Service()
 export class RentalRecordRepository
@@ -72,6 +73,26 @@ export class RentalRecordRepository
       });
       return updatedRental[1][0];
     } catch (err) {
+      throw err;
+    }
+  }
+
+  async checkRenterExistInRoom(renterId: number, roomId: number,startDate: Date): Promise<boolean> {
+    try {
+      const rentalRecord = await RentalRecord.findOne({
+        where: {
+          roomId,
+          renterId,
+          checkInDate: {
+            [Op.lte]: startDate,
+          },
+          checkOutDate: {
+            [Op.gte]: startDate,
+          }
+        }
+      });
+      return !!rentalRecord;
+    }catch(err) {
       throw err;
     }
   }

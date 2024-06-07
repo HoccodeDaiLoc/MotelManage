@@ -11,9 +11,9 @@ export class RentalRecordService implements RentalRecordService {
 
   async createRentalRecord(
     checkInDate: Date,
-    checkOutDate: Date,
-    renterId: number,
-    roomId: number
+    checkOutDate: Date | undefined,
+    roomId: number,
+    renterId: number
   ): Promise<RentalRecord> {
     try {
       return await this.rentalRecordRepository.createRentalRecord(
@@ -47,7 +47,7 @@ export class RentalRecordService implements RentalRecordService {
 
   async updateRentalRecordByRenterId(
     renterId: number,
-    rentalRecord: RentalRecord
+    data: any
   ): Promise<RentalRecord> {
     try {
       const searchCondition = {renterId: renterId};
@@ -56,7 +56,7 @@ export class RentalRecordService implements RentalRecordService {
       }
       return await this.rentalRecordRepository.updateRentalRecordByRenterId(
         renterId,
-        rentalRecord
+        data
       );
     } catch (err) {
       throw err;
@@ -70,6 +70,14 @@ export class RentalRecordService implements RentalRecordService {
         throw new AppError("Rental Record not found", 404);
       }
       return await this.rentalRecordRepository.deleteRentalById(id);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async checkRenterExistInRoom(renterId: number, roomId: number, newStartDate: Date) {
+    try {
+      return this.rentalRecordRepository.checkRenterExistInRoom(renterId, roomId, newStartDate);
     } catch (err) {
       throw err;
     }
