@@ -43,6 +43,14 @@ export class RenterService implements IRenterService {
     }
   }
 
+  async getAllRenterOfRoom(roomId: number, limit: number, page: number): Promise<{ rows: Renter[]; count: number; }> {
+    try {
+      return await this.renterRepository.getAllRenterOfRoom(roomId, limit, page);
+    }catch(err) {
+      throw err;
+    }
+  }
+
   async addRenter(
     name: string,
     dateOfBirth: Date,
