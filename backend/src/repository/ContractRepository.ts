@@ -21,7 +21,7 @@ export class ContractRepository
         startDay,
         endDate,
         rentAmount,
-        deposit_amount,
+        depositAmount: deposit_amount,
         roomId,
         renterId,
       });
