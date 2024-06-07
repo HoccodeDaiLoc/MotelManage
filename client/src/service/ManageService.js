@@ -16,8 +16,8 @@ const fetchAllTb = (page) => {
   return axios.get(`/api/device?page=${page}&limit=8`);
 };
 
-const fetchAllHoadon = (status) => {
-  return axios.get(`/api/bill`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+const fetchAllHoadon = (page) => {
+  return axios.get(`/api/bill?page=${page}&limit=8`); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
 
 const fetchAllstatusHd = (status) => {
