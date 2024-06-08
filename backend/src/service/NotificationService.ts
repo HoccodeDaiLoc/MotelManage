@@ -102,4 +102,17 @@ export class NotificationService implements INotificationService {
       throw err;
     }
   }
+
+  async updateNotification(searchCondidate: any, data: any): Promise<Notification> {
+    try {
+      const noti = await this.notificationRepository.getNotification(searchCondidate);
+      if (noti === null) {
+        throw new AppError("Notification not found", 404);
+      }
+      const notification = await this.notificationRepository.updateNotification(data, searchCondidate);
+      return notification;
+    }catch(err) {
+      throw err;
+    }
+  }
 }

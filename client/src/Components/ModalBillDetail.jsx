@@ -51,8 +51,8 @@ const MyModal = ({ bill, onClose }) => {
                 <td>{billitem.id}</td>
                 <td>{billitem.itemName}</td>
                 <td>{billitem.quantity}</td>
-                <td>{billitem.unitPrice}</td>
-                <td>{billitem.totalAmont}</td>
+                <td>{billitem.unitPrice} VNĐ</td>
+                <td>{billitem.totalAmont} VNĐ</td>
               </tr>
             ))}
           </tbody>

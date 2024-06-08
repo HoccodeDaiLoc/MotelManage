@@ -19,4 +19,5 @@ export interface INotificationService {
     limit: number,
     offset: number
   ): Promise<Notification[]>;
+  updateNotification(searchCondidate: any, data: any): Promise<Notification>;
 }

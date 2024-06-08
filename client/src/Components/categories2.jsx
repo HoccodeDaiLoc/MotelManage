@@ -23,7 +23,7 @@ function Categories() {
           const data = res;
           SetCurrentActive(data.data[0].device[0].categoryId);
           setItems(data.data);
-          setTotalPages(data.total_pages);
+          setTotalPages(data.total_page);
           setCurrentPage(data.page);
         } else {
           console.error("Error fetching data:", res.statusText);

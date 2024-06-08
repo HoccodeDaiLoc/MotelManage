@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
@@ -7,6 +8,20 @@ import ModalAddHd from './modalAddHd';
 import ModalConfirmHd from'./modalConfirmHd'
 import ModalAddrenter from './ModalAddrenter';
 import {debounce} from "lodash";
+=======
+import React, { useEffect, useState } from "react";
+import Table from "react-bootstrap/Table";
+import ReactPaginate from "react-paginate";
+import {
+  fetchAllHd,
+  fetchAllTro,
+  fetchAllUser,
+} from "../../service/ManageService";
+import ModalEditHd from "./modalEditHd";
+import ModalAddHd from "./modalAddHd";
+import ModalConfirmHd from "./modalConfirmHd";
+import { debounce } from "lodash";
+>>>>>>> dbfeefef827da704647870b7074014aafa7b73a7
 import _ from "lodash";
 import ModalDetailHd from "./modalDetailHd";
 import { BiSolidBookAdd } from "react-icons/bi";
@@ -31,26 +46,22 @@ const TableManageHd = (props) => {
   const [updatedHoadonList, setUpdatedHoadonList] = useState([]);
 
   const [roomNumbers, setRoomNumbers] = useState([]);
-  
 
   useEffect(() => {
     fetchRoomNumbers();
   }, []);
-  
 
   const fetchRoomNumbers = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
+      const response = await fetch("http://127.0.0.1:8080/api/room/roomNumber");
       const data = await response.json();
       if (data && data.data) {
         setRoomNumbers(data.data);
       }
     } catch (error) {
-      console.error('Error fetching room numbers:', error);
+      console.error("Error fetching room numbers:", error);
     }
   };
-
-  
 
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
   const [dataDetailHd, setDataDetailHd] = useState({});
@@ -61,7 +72,7 @@ const TableManageHd = (props) => {
 
     return formattedDate;
   };
-  
+
   const handleCloseHd = () => {
     setIsShowModalAddHd(false);
     setIsShowModalEditHd(false);
@@ -89,7 +100,7 @@ const TableManageHd = (props) => {
 
     setListHd(cloneListHd);
   };
- 
+
   useEffect(() => {
     // Call API
     getHd(1);
@@ -98,7 +109,7 @@ const TableManageHd = (props) => {
   // const getHd = async (page) => {
   //   try {
   //     const res = await fetchAllHd(page);
-  
+
   //     if (res && res) {
   //       const { data, total_pages } = res.data;
   //       setTotalHd(res.data.total);
@@ -118,7 +129,7 @@ const TableManageHd = (props) => {
         setTotalPageHd(res.total_pages);
         const updatedHoadonList = res.data.map((hd) => {
           // const roomNumber = roomMapping[hd.roomId];
-          return { ...hd};
+          return { ...hd };
         });
         setListHd(updatedHoadonList);
       }
@@ -126,8 +137,6 @@ const TableManageHd = (props) => {
       console.error("Error fetching hóa đơn data:", error);
     }
   };
-  
-  
 
   const handlePageClick = (event) => {
     getHd(+event.selected + 1);
@@ -194,7 +203,7 @@ const TableManageHd = (props) => {
         </span>
         <button
           className="btn btn-success "
-          style={{  marginLeft: "640px" }}
+          style={{ marginLeft: "640px" }}
           onClick={() => setIsShowModalAddHd(true)}
         >
           <BiSolidBookAdd
@@ -224,7 +233,7 @@ const TableManageHd = (props) => {
         />
       </div>
       <Table striped bordered hover>
-<thead>
+        <thead>
           <tr>
             <th>Phòng thuê</th>
             <th>Tiền phòng</th>
@@ -235,6 +244,7 @@ const TableManageHd = (props) => {
           </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
         {listHd &&
   listHd.map((item, index) => (
     <tr key={`hd-${index}`}>
@@ -251,6 +261,54 @@ const TableManageHd = (props) => {
       </td>
     </tr>
   ))}
+=======
+          {listHd &&
+            listHd.map((item, index) => (
+              <tr key={`hd-${index}`}>
+                <td>
+                  {
+                    roomNumbers.find((room) => room.roomId === item.roomId)
+                      ?.roomNumber
+                  }
+                </td>
+                <td>
+                  {item.rentAmount.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
+                <td>
+                  {item.depositAmount.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </td>
+                <td>{formatDate(item.startDay)}</td>
+                <td>{formatDate(item.endDate)}</td>
+
+                <td>
+                  <button
+                    className="btn btn-warning mx-3"
+                    onClick={() => handleEditHd(item)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handDeleteHd(item)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-success mx-3"
+                    onClick={() => handDetailHd(item)}
+                  >
+                    Chi tiết
+                  </button>
+                </td>
+              </tr>
+            ))}
+>>>>>>> dbfeefef827da704647870b7074014aafa7b73a7
         </tbody>
       </Table>
       <ReactPaginate

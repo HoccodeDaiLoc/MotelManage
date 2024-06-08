@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from "../styles/Header.modules.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +24,7 @@ function Header({ socket }) {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
-
+  let counter = 0;
   useEffect(() => {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
@@ -47,8 +47,8 @@ function Header({ socket }) {
   }, [id, socket]);
 
   function truncateString(text) {
-    if (text.length > 60) {
-      return text.slice(0, 60) + "...";
+    if (text.length > 120) {
+      return text.slice(0, 120) + "...";
     } else {
       return text;
     }
@@ -81,7 +81,24 @@ function Header({ socket }) {
                 setShow(false);
               }}
             >
-              <img className="icon" src={bell} alt="help me nick"></img>
+              <div className="noti_container">
+                <img className="icon" src={bell} alt="help me nick"></img>
+
+                {notifications.length === 0 ||
+                notifications.status === "error" ||
+                notifications.status === "fail" ||
+                notifications === undefined ||
+                notifications === null
+                  ? ""
+                  : notifications.find((noti) => {
+                      if (noti.isRead === false) {
+                        counter += 1;
+                        {
+                          console.log(counter);
+                        }
+                      }
+                    })}
+              </div>
               {show1 ? (
                 <div
                   className="modal_user_container_noti"
@@ -89,7 +106,6 @@ function Header({ socket }) {
                   role="dialog"
                 >
                   <div className="modal_noti">
-                    {console.log("mynoti", notifications)}
                     {notifications.length === 0 ||
                     notifications.status === "error" ||
                     notifications.status === "fail" ||
@@ -97,37 +113,42 @@ function Header({ socket }) {
                     notifications === null
                       ? "Bạn chưa có thông báo mới"
                       : notifications.reverse().map((noti) => (
-                          <LazyLoad
+                          <div
                             key={noti.notificationId}
-                            offset={5}
-                            threshold={0.5}
+                            className="modal_part_noti"
                           >
-                            <div
-                              key={noti.notificationId}
-                              className="modal_part_noti"
-                            >
-                              <div className="modal_icon_container">
-                                <img
-                                  srcSet={taolaadminne}
-                                  style={{ borderRadius: "50%" }}
-                                  alt=""
-                                  className="modal_icon"
-                                />
-                              </div>
-                              <div className="Notification">
-                                <h6>{noti.title}</h6>
-                                <p style={{ margin: "0px" }}>
-                                  {truncateString(noti.content)}
-                                </p>
-                                <span>
-                                  Ngày tạo: {noti.dateCreated.slice(0, 10)}
-                                </span>
-                              </div>
+                            <div className="modal_icon_container">
+                              <img
+                                srcSet={taolaadminne}
+                                style={{ borderRadius: "50%" }}
+                                alt=""
+                                className="modal_icon"
+                              />
                             </div>
-                          </LazyLoad>
+                            {noti.isRead === false ||
+                            noti.isRead === "false" ? (
+                              <div className="bluepoint"></div>
+                            ) : (
+                              ""
+                            )}
+                            <div className="Notification">
+                              <h6>{noti.title}</h6>
+                              <p style={{ margin: "0px" }}>
+                                {truncateString(noti.content)}
+                              </p>
+                              <span>
+                                Ngày tạo: {noti.dateCreated.slice(0, 10)}
+                              </span>
+                            </div>
+                          </div>
                         ))}
                   </div>
                 </div>
+              ) : (
+                ""
+              )}
+              {counter > 0 ? (
+                <div className="unread_icon_container">{counter}</div>
               ) : (
                 ""
               )}
