@@ -20,11 +20,6 @@ export const validateContract = [
     .optional()
     .isDate()
     .withMessage("endDate must be a valid date"),
-  body("rentAmount")
-    .notEmpty()
-    .withMessage("rentAmount is required")
-    .isNumeric()
-    .withMessage("rentAmount must be a number"),
   body("deposit_amount")
     .optional()
     .isNumeric()

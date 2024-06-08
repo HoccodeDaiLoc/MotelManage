@@ -9,6 +9,8 @@ import { IImageRepository } from "../repository/Interfaces/IImageRepository";
 import { RoomImageRepository } from "../repository/RoomImageRepository";
 import { IRoomImageRepository } from "../repository/Interfaces/IRoomImageRepository";
 import { AppError } from "../errors/AppError";
+import { RentalRecordService } from "./RentalRecordService";
+import { IRentalRecordService } from "./Interfaces/IRentalRecordService";
 
 @Service()
 export class RoomSevice implements IRoomService {
@@ -20,6 +22,9 @@ export class RoomSevice implements IRoomService {
 
   @Inject(() => RoomImageRepository)
   private roomImageRepository!: IRoomImageRepository;
+
+  @Inject(() => RentalRecordService)
+  private rentalRecordService!: IRentalRecordService;
 
   async getAllRooms(page: number, limit: number): Promise<Room[] | null> {
     try {
@@ -153,5 +158,25 @@ export class RoomSevice implements IRoomService {
     } catch(err) {
       throw err;
     } 
+  }
+
+  async addRenterToRoom(startDate: Date, roomId: number, renterId: number): Promise<void> {
+    try {
+      const isRenterExist = await this.rentalRecordService.checkRenterExistInRoom(renterId, roomId, new Date(startDate));
+      if(isRenterExist) {
+        throw new AppError("Renter already exist in room", 400);
+      }
+      await this.rentalRecordService.createRentalRecord(new Date(startDate), undefined, roomId, renterId);
+    }catch(err) {
+      throw err;
+    }
+  }
+
+  async deleteRenterFromRoom(endDate: Date, renterId: number): Promise<void> {
+    try {
+      await this.rentalRecordService.updateRentalRecordByRenterId(renterId, {endDate: endDate});
+    } catch (err) {
+      throw err;
+    }
   }
 }

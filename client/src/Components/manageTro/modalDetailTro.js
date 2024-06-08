@@ -1,23 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Carousel from "react-bootstrap/Carousel";
 import style from "./ManagerModalDetailTro.modules.scss";
+import { fetchAllDetailRoom } from "../../service/ManageService";
 
 const ModalDetailTro = (props) => {
+
   const { show, handleCloseTro, dataDetailTro } = props;
+
   const [showImageModal, setShowImageModal] = useState(false);
+
   const [selectedRoomImages, setSelectedRoomImages] = useState([]);
 
+  const [roomDetails, setRoomDetails] = useState(null);
+
+  const [roomId, setRoomId] = useState(null);
+
   const handleImageClick = (images) => {
+
     setSelectedRoomImages(images || []);
+
     setShowImageModal(true);
+
   };
 
   const formatPrice = (price) => {
+
     if (!price) return "";
+
     return new Intl.NumberFormat("vi-VN").format(price) + " VND";
+
   };
+
+  useEffect(() => {
+
+    if (dataDetailTro) {
+  
+      getDetailTro(dataDetailTro.roomId); // Thay thế dataDetailTro.roomId bằng trường chứa ID của phòng
+  
+    }
+  
+  }, [dataDetailTro]);
+
+  
+  const getDetailTro = async (roomId) => {
+
+    try {
+
+      const res = await fetchAllDetailRoom(roomId);
+
+      if (res && res.room) {
+
+        setRoomDetails(res.room);
+
+      }
+
+    } catch (error) {
+
+      console.error("Error fetching tro data:", error);
+
+    }
+
+  };
+
+  const handleShowDetail = (roomId) => {
+
+    setRoomId(roomId);
+
+  };
+
+  console.log('fetchalldetail', roomDetails);
+
 
   return (
     <>
@@ -88,6 +142,18 @@ const ModalDetailTro = (props) => {
               />
             </div>
             <div className="col-md-12">
+    <label htmlFor="inputDescription" className="form-label my-3">
+    Tiện ích gồm có : ***
+    </label>
+     <textarea
+    className="form-control"
+    id="inputDescription"
+    value={roomDetails?.device?.map(device => device.deviceName).join('\n') || ""}
+    readOnly
+    rows={roomDetails?.device?.length || 5}
+    />
+     </div>
+            <div className="col-md-12">
               <label htmlFor="inputDescription" className="form-label my-3">
                 Mô tả
               </label>
@@ -99,6 +165,9 @@ const ModalDetailTro = (props) => {
                 rows="5"
               />
             </div>
+  
+
+            
             <div className="col-md-12 my-3 text-center">
               <Button
                 variant="danger"

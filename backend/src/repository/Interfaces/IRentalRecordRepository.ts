@@ -13,4 +13,5 @@ export interface IRentalRecordRepository extends BaseInterface {
   deleteRentalById(id: number): Promise<boolean>;
   updateRentalRecordByRoomId(id: number, newData: any): Promise<RentalRecord>;
   updateRentalRecordByRenterId(id: number, newData: any): Promise<RentalRecord>;
+  checkRenterExistInRoom(renterId: number, roomId: number,startDate: Date): Promise<boolean>;
 }

@@ -4,11 +4,16 @@ import { IContractService } from "./Interfaces/IContractService";
 import { ContractRepository } from "../repository/ContractRepository";
 import { IContractRepository } from "../repository/Interfaces/IContractRepository";
 import { AppError } from "../errors/AppError";
+import { RoomRepository } from "../repository/RoomRepository";
+import { IRoomRepository } from "../repository/Interfaces/IRoomRepository";
 
 @Service()
 export class ContractService implements IContractService {
   @Inject(() => ContractRepository)
   contractRepository!: IContractRepository;
+
+  @Inject(() => RoomRepository)
+  roomRepository!: IRoomRepository;
 
   async getAllContracts(limit: number, page: number): Promise<{rows:Contract[], count: number}> {
     try {
@@ -46,32 +51,36 @@ export class ContractService implements IContractService {
     }
   }
 
-  deleteContractById(id: number): Promise<boolean> {
+  async deleteContractById(id: number): Promise<boolean> {
     try {
-      return this.contractRepository.deleteById(id);
+      return await this.contractRepository.deleteById(id);
     } catch (err) {
       throw err;
     }
   }
 
-  createContract(contract: any): Promise<Contract> {
+  async createContract(contract: any): Promise<Contract> {
     try {
       const {
         startDay,
         endDate,
-        rentAmount,
         depositAmount,
         roomId,
         renterId,
       } = contract;
-      return this.contractRepository.create(
+      const newcontract = await this.contractRepository.create(
         startDay,
         endDate,
-        rentAmount,
         depositAmount,
         roomId,
         renterId
       );
+      const room = await this.roomRepository.getRoomById(roomId);
+      const newData = {
+        rentAmount: room?.price,
+      };
+      await this.contractRepository.updateById(newcontract.contractId, newData);
+      return (await this.contractRepository.getById(newcontract.contractId))!;
     } catch (err) {
       throw err;
     }

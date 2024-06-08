@@ -16,4 +16,5 @@ export interface IRenterService {
     checkOutDate: Date | undefined,
   ): Promise<Renter>;
   updateRenterById(id: number, newData: any): Promise<Renter>;
+  getAllRenterOfRoom(roomId: number, limit: number, page: number): Promise<{ rows: Renter[], count: number }>;
 }

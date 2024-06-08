@@ -15,6 +15,26 @@ import { IoSettings } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import unidecode from "unidecode";  
 
+const roomMapping = {
+  1: 100,
+  2: 101,
+  3: 102, 4: 103,
+  5: 104, 6: 105, 7: 106,
+  8: 107,9: 108, 10: 109,11: 110,12: 111, 13: 112,14: 113,
+  15: 118,
+  16: 119,
+  17: 130,
+  18: 131,
+  20: 132,
+  21: 133,
+  22: 134,
+  23: 135,
+  24: 136,
+  25: 137,
+  26: 138,
+  27: 139,
+};
+
 
 const TableUser = (props) => {
   const [listUser, setListUser] = useState([]);
@@ -67,19 +87,22 @@ const TableUser = (props) => {
   }, []);
   const getUser = async (page) => {
     try {
-      const res = await fetchAllUser(page);
-      console.log(res.renterList);
-
+      const res = await fetchAllUser(page); // Lấy thông tin các thiết bị
       if (res && res.renterList) {
         const { data, total_pages } = res.renterList;
-        setTotalUser(res.renterList.total);
-        setListUser(res.renterList);
+        setTotalUser(res.total);
+        const updatedUserList = res.renterList.map(user => ({
+          ...user,
+          roomNumber: roomMapping[user.roomId] || user.roomId // Map roomId to roomNumber
+        }));
+        setListUser(updatedUserList);
         setTotalPage(res.total_pages);
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
+
   const handlePageClick = (event) => {
     getUser(+event.selected + 1);
   };

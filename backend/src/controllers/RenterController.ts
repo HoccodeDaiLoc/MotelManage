@@ -127,4 +127,28 @@ export class RenterController {
       next(err);
     }
   };
+
+  getAllRenterOfRoom = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      let limit = Number(req.query["limit"]) as number;
+      let page = Number(req.query["page"]) as number;
+      if (!page) {
+        page = 1;
+      }
+      if (!limit) {
+        limit = 12;
+      }
+      const roomId = +req.params["roomId"] as number;
+      const renterList = await this.renterService.getAllRenterOfRoom(roomId, limit, page);
+      if(renterList.count === 0) {
+        return next(new AppError("Không thể tìm thấy người thuê", 404));
+      }
+      return res.status(200).json({
+        message: "success",
+        data: renterList.rows
+      });
+    }catch(err) {
+      next(err);
+    }
+  }
 }

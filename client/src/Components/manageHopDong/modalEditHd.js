@@ -106,7 +106,7 @@ const ModalEditHd = (props) => {
                         </FormSelect>
                     </div>
                     <div className="col-md-6">
-                        <label htmlFor="renterId" className="form-label">Tên người thuê</label>
+                        <label htmlFor="renterId" className="form-label">Mã hợp đồng  người thuê</label>
                         <input type="text" className="form-control" value={renterId} onChange={(event) => setRenterId(event.target.value)} />
                     </div>
                     <div className="row">

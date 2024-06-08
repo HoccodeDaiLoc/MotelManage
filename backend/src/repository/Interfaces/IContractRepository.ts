@@ -8,11 +8,10 @@ export interface IContractRepository extends BaseInterface{
   create(
     startDate: Date,
     endDate: Date | undefined,
-    rentAmount: number,
     deposit_amount: number | undefined,
     roomId: number,
     renterId: number
   ): Promise<Contract>;
-  updateById(id: number, contract: Contract): Promise<Contract>;
+  updateById(id: number, data: any): Promise<Contract>;
   deleteById(id: number): Promise<boolean>;
 }
