@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { loginApi, postCreateUser } from "../../service/UserService";
+import { push } from "react-router-redux";
 export const FETCH_USER_lOGIN = "FETCH_USER_lOGIN";
 export const FETCH_USER_ERROR = "FETCH_USER_ERROR";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
@@ -22,9 +23,10 @@ export const handleLoginRedux = (username, password) => {
       // console.log("accesstokjen: ", res.accessToken);
       // console.log("refreshtoken: ", res.refeshToken);
       // console.log("id: ", res.user.id);
-      console.log("admin: ", res.user.isAdmin);
+      // console.log("admin: ", res.user.isAdmin);
       localStorage.setItem("id", res.user.id);
-      localStorage.setItem("user", res.user);
+      localStorage.setItem("renterId", res.user.renterId);
+      localStorage.setItem("avatar", res.user.avatar);
       localStorage.setItem("username", res.user.username.trim());
       localStorage.setItem("password", res.user.password);
       localStorage.setItem("accesstoken", res.accessToken);
@@ -33,8 +35,10 @@ export const handleLoginRedux = (username, password) => {
       dispatch({
         type: FETCH_USER_SUCCESS,
         data: {
-          username: username.trim(),
+          username: res.user.username.trim(),
           id: res.user.id,
+          renterId: res.user.renterId,
+          avatar: res.user.avatar,
           isAdmin: res.user.isAdmin,
           accessToken: res.accessToken,
           refreshToken: res.refeshToken,
@@ -80,13 +84,11 @@ export const handleSignInRedux = (
         type: POST_USER_SUCCESS,
         data: {
           username: username,
-          // isAdmin: res.user.isAdmin,
           password: password,
           email: email,
-          // dob: res.user.dob,
         },
       });
-      toast.success("Đăng nhập thành công", {
+      toast.success("Đăng ký thành công", {
         position: "top-center",
       });
     } else {

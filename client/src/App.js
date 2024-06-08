@@ -32,19 +32,17 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
-  return auth ? children : "error page html";
+  if (!auth) {
+    return <Navigate to="/loggin" replace />;
+  }
+  return children;
 }
 function SuperPrivateRoute({ children }) {
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
-  console.log("here", isAdmin);
-  if (isAdmin === "true" || isAdmin === true) {
-    console.log("there", isAdmin);
-    return children;
+  if (!isAdmin) {
+    return <Navigate to="/loggin" replace />;
   }
-  if (isAdmin === false) {
-    console.log(isAdmin);
-    return <div>error page html</div>;
-  }
+  return children;
 }
 
 function App() {
@@ -52,7 +50,7 @@ function App() {
   const [socket, setSocket] = useState("");
   useEffect(() => {
     if (id !== null || id !== undefined) {
-      setSocket(io("localhost:8080", { query: { userId: id } }));
+      setSocket(io("http://localhost:8080", { query: { userId: id } }));
       console.log("socket", socket);
     }
   }, []);

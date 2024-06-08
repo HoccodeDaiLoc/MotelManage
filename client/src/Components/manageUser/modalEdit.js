@@ -41,25 +41,9 @@ const ModalEdit = (props) => {
       return;
     }
 
-    const nameRegex = /\d/;
-   if (nameRegex.test(name)) {
-   toast.error("Tên không được chứa số");
-   return;
-   }
-   
-   if (cccd < 0 || phone < 0) {
-    toast.error("CCCD và số điện thoại phải là số dương");
-    return;
-  }
-  
-  if (phone.length !== 10) {
-    toast.error("Số điện thoại phải có 10 chữ số");
-    return;
-  }
-  
-
-
-    const formattedDateOfBirth = dateOfBirth ? dateOfBirth.toISOString().split("T")[0] : null;
+    const formattedDateOfBirth = dateOfBirth
+      ? dateOfBirth.toISOString().split("T")[0]
+      : null;
     let res = await updateUser(
       dataUseredit.renterId,
       name,
@@ -92,14 +76,22 @@ const ModalEdit = (props) => {
       setName(dataUseredit.name);
       setAddress(dataUseredit.address);
       setEmail(dataUseredit.email);
-      setDateOfBirth(dataUseredit.dateOfBirth ? new Date(dataUseredit.dateOfBirth) : null);
+      setDateOfBirth(
+        dataUseredit.dateOfBirth ? new Date(dataUseredit.dateOfBirth) : null
+      );
       setPhone(dataUseredit.phone);
       setCccd(dataUseredit.cccd);
     }
   }, [dataUseredit, show]);
 
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size="xl">
+    <Modal
+      show={show}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+      size="xl"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Chỉnh sửa danh sách</Modal.Title>
       </Modal.Header>
@@ -136,10 +128,10 @@ const ModalEdit = (props) => {
               Số điện thoại
             </label>
             <input
-             maxLength={10}
               type="text"
               className="form-control"
               value={phone}
+              maxLength={10}
               onChange={(event) => setPhone(event.target.value)}
             />
           </div>
@@ -160,10 +152,10 @@ const ModalEdit = (props) => {
               Số căn cước công dân :
             </label>
             <input
-             maxLength={12}
               type="text"
               className="form-control"
               value={cccd}
+              maxLength={12}
               onChange={(event) => setCccd(event.target.value)}
               placeholder="Mời bạn nhập thông tin..."
             />

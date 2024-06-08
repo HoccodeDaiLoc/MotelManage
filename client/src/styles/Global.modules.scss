@@ -12,13 +12,19 @@ $secondbackground: #e9ebee;
 $buttonbackground: #e2e4eb;
 $primaryRed: #dc3d35;
 $secondaryRed: #ff385c;
-
+#root{
+  width: 100%;
+  height: 100%;
+  
+}
+// 30p cuoc doi`
 * {
   list-style: none !important;
   text-decoration: none !important;
-  box-sizing: border-box !important; /* Added */
+  box-sizing: border-box !important;
   font-family: "Roboto", sans-serif !important;
   color: $primaryText;
+
 }
 
 .bold {
@@ -51,4 +57,9 @@ $secondaryRed: #ff385c;
   font-size: 0.75rem;
   text-align: left;
   margin-top: 0.25rem;
+  margin-bottom: 0px;
+}
+input.input-error,
+select.input-error {
+  border-color: #fc8181;
 }

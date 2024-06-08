@@ -1,6 +1,6 @@
 import style from "../styles/UserInfo.modules.scss";
 import DatePicker from "react-datepicker";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   fetchCurrentUser,
@@ -19,10 +19,9 @@ const metadata = {
 //hết trôn
 function UserInfo() {
   const accessToken = localStorage.getItem("accesstoken");
-  console.log(accessToken);
-  const id = useSelector((state) => state.user.account.id);
+  const id = useSelector((state) => state.user.account.renterId);
   const username = useSelector((state) => state.user.account.username);
-  const token = useSelector((state) => state.user.account.token);
+  const user = useSelector((state) => state.user.account);
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [address, setAddress] = useState("");
@@ -30,12 +29,10 @@ function UserInfo() {
   const [email, setEmail] = useState("");
   const [CCCD, setCCCD] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  //trôn
   const [image, setImage] = useState(null); // state lưu ảnh sau khi chọn
   const [progress, setProgress] = useState(0); // state hiển thị phần trăm tải ảnh lên store
   const [uploadedImages, setUploadedImages] = useState([]); // state hiển thị danh sách ảnh đã tải lên store
   const [avatarLink, setAvatarLink] = useState("");
-
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -43,7 +40,7 @@ function UserInfo() {
   };
 
   const handleUpload = () => {
-    const storageRef = ref(storage, `images/${image.name}`);
+    const storageRef = ref(storage, `images/${id}/${image.name}`);
 
     const uploadTask = uploadBytesResumable(storageRef, image, metadata);
     // Register three observers:
@@ -77,9 +74,7 @@ function UserInfo() {
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           setUploadedImages([downloadURL, ...uploadedImages]);
-          console.log(downloadURL);
           let res = await putUpdateAvatar(downloadURL, id);
-          console.log(res);
           setAvatarLink(downloadURL);
           setImage(null);
           setProgress(0);
@@ -92,7 +87,6 @@ function UserInfo() {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
       // let ava =await
-      console.log(res);
       let data = res.renter;
       setEmail(data.email);
       setName(data.name);
@@ -150,6 +144,9 @@ function UserInfo() {
       setPhoneNumber(phone);
       setEmail(email);
       setCCCD(CCCD);
+      setAvatarLink(avatarLink);
+      localStorage.setItem("avatar", avatarLink);
+      console.log(" check local", localStorage.getItem("avatar"));
       toast.success("Đã thay đổi thông tin thành công", {
         position: "top-center",
       });
@@ -245,7 +242,11 @@ function UserInfo() {
               <img
                 src={avatarLink != null ? avatarLink : defaultava}
                 className="uploaded-images"
-                style={{ maxWidth: "150px", maxHeight: "150px" }}
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "150px",
+                  borderRadius: "50%",
+                }}
               ></img>
             </div>
             <div className="Upload_sub ">

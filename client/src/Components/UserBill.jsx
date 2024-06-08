@@ -1,57 +1,48 @@
-import Dropdown from "react-bootstrap/Dropdown";
-import style from "../styles/UserInfo.modules.scss";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { fetchBillByRenter } from "../service/UserService";
-import { io } from "socket.io-client";
-
 import ReactPaginate from "react-paginate";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { PaymentByMomo } from "../service/PaymentService";
 import momo from "../asset/image/momo.png";
+import MyModal from "./ModalBillDetail";
+
 function UserBill() {
   const [billData, setBillData] = useState([]);
-  const id = useSelector((state) => state.user.account.id);
+  const id = useSelector((state) => state.user.account.renterId);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [notifications, setNotification] = useState([]);
-  const [socket, setSocket] = useState("");
+  const [selectedBill, setSelectedBill] = useState(null);
+
+  let currentUrl = window.location.href;
+
   useEffect(() => {
     if (id !== null || id !== undefined) {
-      setSocket(io("localhost:8080", { query: { userId: id } }));
-      console.log("socket", socket);
+      const fetchBill = async (id, currentPage) => {
+        try {
+          const res = await fetchBillByRenter(id, currentPage);
+          setBillData(res.data);
+          setTotalPages(res.total_page);
+        } catch (error) {
+          console.error("Error fetching bills:", error);
+        }
+      };
+      fetchBill(id, currentPage);
     }
-  }, []);
-
-  let curentUrl = window.location.href;
-  useEffect(() => {
-    console.log(id);
-    const fetchBill = async (id, currentPage) => {
-      try {
-        const res = await fetchBillByRenter(id, currentPage);
-        setBillData(res.data);
-        setTotalPages(res.total_page);
-      } catch (error) {
-        console.error("Error fetching bills:", error);
-      }
-    };
-    fetchBill(id, currentPage);
   }, [currentPage]);
 
   const handlePayment = async (billId, rederedirectUrl) => {
     const res = await PaymentByMomo(billId, rederedirectUrl);
     console.log(res);
     window.open(res.result.payUrl, "_blank");
-    if (res.ok && socket) {
-      socket.on("notification", (data) => {
-        setNotification((prev) => [...prev, data]);
-      });
-    }
   };
 
   const handlePageClick = (event) => {
     const newCurrentPage = event.selected + 1;
     setCurrentPage(newCurrentPage);
+  };
+
+  const handleRowClick = (billItem) => {
+    setSelectedBill(billItem);
   };
 
   return (
@@ -73,32 +64,36 @@ function UserBill() {
               </thead>
               <tbody>
                 {billData.map((bill) => (
-                  <tr key={bill.billId}>
+                  <tr
+                    key={bill.billId}
+                    onClick={() => {
+                      console.log(bill.billItem);
+                      handleRowClick(bill.billItem);
+                    }}
+                  >
                     <td>{bill.billId}</td>
                     <td>{bill.billStartDate.slice(0, 10)}</td>
                     <td>{bill.billEndDate.slice(0, 10)}</td>
                     <td>{bill.paymentMethod}</td>
                     <td>
                       {bill.status}
-                      {bill.status === "chưa thanh toán" ? (
+                      {bill.status === "chưa thanh toán" && (
                         <div className="icon_payment_container">
                           <div className="icon_payment_sub hover-text">
                             <img
-                              onClick={() => {
-                                handlePayment(bill.billId, curentUrl);
-                              }}
+                              onClick={() =>
+                                handlePayment(bill.billId, currentUrl)
+                              }
                               className="icon_payment"
                               src={momo}
                               alt=""
-                              srcset="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
+                              srcSet="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
                             />
-                            <span class="hover-text-content">
+                            <span className="hover-text-content">
                               Thanh toán online với momo
                             </span>
                           </div>
                         </div>
-                      ) : (
-                        ""
                       )}
                     </td>
                     <td>{bill.total}</td>
@@ -106,7 +101,7 @@ function UserBill() {
                 ))}
               </tbody>
             </table>
-            <div className="paginate_container">
+            <div className="paginate_container" tabIndex={-1000}>
               <ReactPaginate
                 previousLabel="Previous"
                 nextLabel="Next"
@@ -124,8 +119,7 @@ function UserBill() {
                 pageRangeDisplayed={5} //số page ở giữa
                 onPageChange={handlePageClick}
                 containerClassName="pagination"
-                activeClassName="active"
-                // forcePage={pageOffset}
+                activeClassName="active" // forcePage={pageOffset}
               />
             </div>
           </>
@@ -133,6 +127,15 @@ function UserBill() {
           "Bạn chưa có hóa đơn nào"
         )}
       </div>
+      {selectedBill && (
+        <MyModal
+          className="modal_me"
+          bill={selectedBill} // Pass the selected bill to the modal
+          onClose={() => {
+            setSelectedBill(null);
+          }}
+        />
+      )}
     </div>
   );
 }

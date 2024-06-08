@@ -87,7 +87,7 @@ const ModalDetailHd = (props) => {
 </div>
 
 <div className="col-md-6">
-  <label htmlFor="inputRenterId" className="form-label my-3">Mã người thuê</label>
+  <label htmlFor="inputRenterId" className="form-label my-3">Mã hợp đồng</label>
   <input
     type="text"
     className="form-control"

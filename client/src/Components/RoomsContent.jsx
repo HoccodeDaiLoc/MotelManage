@@ -5,6 +5,7 @@ import { fetchRoomByPrice, fetchRoomByPage } from "../service/RoomService";
 import { useNavigate } from "react-router-dom";
 import DropDownBoostrap from "./DropDownBoostrap";
 import { useSelector } from "react-redux";
+import Pagination from "./Pagination";
 function RoomsContent() {
   const [items, setItems] = useState([]); // Use a more descriptive name
   const [totalPages, setTotalPages] = useState(1);
