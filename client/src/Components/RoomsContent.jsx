@@ -69,10 +69,26 @@ function RoomsContent() {
           ))}
         </div>
         <div className="paginate_container">
-          <Pagination
-            handlePageClick={handlePageClick()}
-            totalPages={totalPages}
-          ></Pagination>
+          <ReactPaginate
+            previousLabel="Previous"
+            nextLabel="Next"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            pageCount={totalPages} //tổng
+            marginPagesDisplayed={2} //số page đầu cuối
+            pageRangeDisplayed={5} //số page ở giữa
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            activeClassName="active"
+            // forcePage={pageOffset}
+          />
         </div>
       </div>
     </>

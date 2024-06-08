@@ -20,7 +20,32 @@ const ModalAddHoadon = (props) => {
   const [electricPrice, setElectricPrice] = useState("3000");
   const [roomNumber, setRoomNumber] = useState("");
   const [roomMapping, setRoomMapping] = useState({});
+  const [notifications, setNotification] = useState({});
 
+  useEffect(() => {
+    const fetchRoomData = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8080/api/room/roomNumber"
+        );
+        const result = await response.json();
+        if (response.ok) {
+          const roomData = result.data.reduce((acc, room) => {
+            acc[room.roomNumber] = room.roomId;
+            return acc;
+          }, {});
+          setRoomMapping(roomData);
+          setRoomNumber(Object.keys(roomData));
+        } else {
+          toast.error("Lấy dữ liệu phòng thất bại");
+        }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi khi lấy dữ liệu phòng");
+      }
+    };
+
+    fetchRoomData();
+  }, []);
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
