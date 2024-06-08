@@ -84,13 +84,28 @@
         min-width: 40px;
         height: 40px;
         border-radius: 50px;
-
+        position: relative;
         .icon {
           cursor: pointer;
           padding: 0px;
           margin: 0px;
           width: 24px;
           height: 24px;
+        }
+        .unread_icon_container{
+          display: flex;
+          justify-items: center;
+          align-items: center;
+          background-color: Global.$primaryRed;
+          padding: 4px;
+          border-radius: 50px;
+          position: absolute;
+          width: 15px;
+          height: 15px;
+          z-index: 200;
+          top: 20px;
+          left: 20px;
+          color: #fff;
         }
       }
       .icon_container:hover {
@@ -110,13 +125,14 @@
           top: 50px;
           right: 5px;
           z-index: 1000;
-          width: 360px;
+          width: 460px;
           height: 200px;
           position: absolute;
           background-color: #f7f7f7;
           border-radius: 5px;
           box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
           .modal_noti {
+            position: absolute;
             height: 50%;
             width: fit-content;
             display: flex;
@@ -148,8 +164,17 @@
               flex-direction: row;
               justify-content: flex-start;
               align-items: center;
-
+                .bluepoint{
+                  background-color: #3ea6ff ;
+                  border-radius: 50px;
+                  min-width: 10px;
+                  min-height: 10px;
+                }
             }
+            .Notification{
+              padding:5px 10px;
+            }
+
           }
         }
         .modal_user_container {
@@ -194,6 +219,8 @@
                 border-radius: 20px;
                 .modal_icon {
                   width: 20px;
+                  position: relative;
+
                 }
               }
             }
