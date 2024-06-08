@@ -25,6 +25,27 @@ const TableManageHd = (props) => {
 
   const [updatedHoadonList, setUpdatedHoadonList] = useState([]);
 
+  const [roomNumbers, setRoomNumbers] = useState([]);
+  
+
+  useEffect(() => {
+    fetchRoomNumbers();
+  }, []);
+  
+
+  const fetchRoomNumbers = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
+      const data = await response.json();
+      if (data && data.data) {
+        setRoomNumbers(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching room numbers:', error);
+    }
+  };
+  
+
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
   const [dataDetailHd, setDataDetailHd] = useState({});
   const formatDate = (date) => {
@@ -33,34 +54,6 @@ const TableManageHd = (props) => {
     const formattedDate = new Date(date).toLocaleDateString("vi-VN");
 
     return formattedDate;
-  };
-  const roomMapping = {
-    1: 100,
-    2: 101,
-    3: 102,
-    4: 103,
-    5: 104,
-    6: 105,
-    7: 106,
-    8: 107,
-    9: 108,
-    10: 109,
-    11: 110,
-    12: 111,
-    13: 112,
-    14: 113,
-    15: 118,
-    16: 119,
-    17: 130,
-    18: 131,
-    20: 132,
-    21: 133,
-    22: 134,
-    23: 135,
-    24: 136,
-    25: 137,
-    26: 138,
-    27: 139,
   };
   
   const handleCloseHd = () => {
@@ -114,8 +107,8 @@ const TableManageHd = (props) => {
         setTotalHd(res.data.total);
         setTotalPageHd(res.total_pages);
         const updatedHoadonList = res.data.map((hd) => {
-          const roomNumber = roomMapping[hd.roomId];
-          return { ...hd, roomNumber };
+          // const roomNumber = roomMapping[hd.roomId];
+          return { ...hd};
         });
         setListHd(updatedHoadonList);
       }
@@ -222,7 +215,7 @@ const TableManageHd = (props) => {
         <tbody>
           {listHd && listHd.map((item, index) => (
             <tr key={`hd-${index}`}>
-              <td>{item.roomNumber}</td>
+              <td>{roomNumbers.find(room => room.roomId === item.roomId)?.roomNumber}</td>
               <td>{item.rentAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
               <td>{item.depositAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
               <td>{formatDate(item.startDay)}</td> 

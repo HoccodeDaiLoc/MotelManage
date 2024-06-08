@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { postCreateHoadon } from "../../service/ManageService";
@@ -17,12 +17,30 @@ const ModalAddHoadon = (props) => {
     const [waterPrice, setWaterPrice] = useState("7000");
     const [electricPrice, setElectricPrice] = useState("3000");
     const [roomNumber, setRoomNumber] = useState("");
+    const [roomMapping, setRoomMapping] = useState({});
 
-    const roomMapping = {
-        100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
-        110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
-        132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
-      };
+    useEffect(() => {
+        const fetchRoomData = async () => {
+          try {
+            const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
+            const result = await response.json();
+            if (response.ok) {
+              const roomData = result.data.reduce((acc, room) => {
+                acc[room.roomNumber] = room.roomId;
+                return acc;
+              }, {});
+              setRoomMapping(roomData);
+              setRoomNumber(Object.keys(roomData));
+            } else {
+              toast.error("Lấy dữ liệu phòng thất bại");
+            }
+          } catch (error) {
+            toast.error("Đã xảy ra lỗi khi lấy dữ liệu phòng");
+          }
+        };
+    
+        fetchRoomData();
+      }, []);
 
       const roomNumbers = Object.keys(roomMapping);
       

@@ -8,8 +8,8 @@ const fetchAllTro = (page) => {
   return axios.get(`/api/room?page=${page}&limit=8`);
 };
 
-const fetchAllIdroom = (roomId, roomNumber) => {
-  return axios.get(`/api/room/${roomId}`, roomNumber, roomId); // Sử dụng dấu nháy kép để bao quanh chuỗi
+const fetchAllIdroom = () => {
+  return axios.get(`/api/room/roomNumber/`,); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
 
 const fetchAllTb = (page) => {
