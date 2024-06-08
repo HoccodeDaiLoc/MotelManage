@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { Contract } from "../models/Contract";
 import { BaseRepository } from "./BaseRepository";
 import { IContractRepository } from "./Interfaces/IContractRepository";
+import { Renter } from "../models/Renter";
 
 @Service()
 export class ContractRepository
@@ -68,6 +69,9 @@ export class ContractRepository
     try {
       return await Contract.findOne({
         where: searchConditions,
+        include: {
+          model: Renter,
+        }
       });
     } catch (err) {
       throw err;
