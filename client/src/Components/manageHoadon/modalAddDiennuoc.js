@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import DatePicker from 'react-datepicker';
@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import FormSelect from 'react-bootstrap/FormSelect';
 
-// Helper function to format the date as YYYY-MM-DD without time zone effects
 const formatDate = (date) => {
     const offset = date.getTimezoneOffset();
     const adjustedDate = new Date(date.getTime() - (offset * 60 * 1000));
@@ -21,13 +20,31 @@ const ModalAddDiennuoc = (props) => {
     const [waterRecordDate, setWaterRecordDate] = useState(new Date()); 
     const [electricNumber, setElectricNumber] = useState('');
     const [electricRecordDate, setElectricRecordDate] = useState(new Date());
+    const [roomMapping, setRoomMapping] = useState({});
+    const [roomNumbers, setRoomNumbers] = useState([]);
 
-    const roomMapping = { 1: 100, 2: 101, 3: 102, 5: 104, 6: 105, 7: 106, 8: 107,
-        9: 108, 10: 109, 11: 110, 12: 111, 13: 112, 14: 113,
-        15: 118, 16: 119, 17: 130, 18: 131, 20: 132, 21: 133, 22: 134, 23: 135, 24: 136, 25: 137, 26: 138, 27: 139,
-    };
+    useEffect(() => {
+        const fetchRoomData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8080/api/room/roomNumber');
+                const result = response.data;
+                if (response.status === 200) {
+                    const roomData = result.data.reduce((acc, room) => {
+                        acc[room.roomId] = room.roomNumber;
+                        return acc;
+                    }, {});
+                    setRoomMapping(roomData);
+                    setRoomNumbers(Object.values(roomData));
+                } else {
+                    toast.error("Lấy dữ liệu phòng thất bại");
+                }
+            } catch (error) {
+                toast.error("Đã xảy ra lỗi khi lấy dữ liệu phòng");
+            }
+        };
 
-    const roomNumbers = Object.values(roomMapping);
+        fetchRoomData();
+    }, []);
 
     const addWaterReading = async () => {
         try {
@@ -38,7 +55,7 @@ const ModalAddDiennuoc = (props) => {
             }
             const response = await axios.post(`http://127.0.0.1:8080/api/waterReading/room/${roomId}`, {
                 waterNumber: waterNumber,
-                waterRecordDate: formatDate(waterRecordDate) // Use the helper function to format the date
+                waterRecordDate: formatDate(waterRecordDate)
             });
             console.log(response.data);
             toast.success("Đã thêm dữ liệu nước thành công");
@@ -57,7 +74,7 @@ const ModalAddDiennuoc = (props) => {
             }
             const response = await axios.post(`http://127.0.0.1:8080/api/electricReading/room/${roomId}`, {
                 electricNumber: electricNumber,
-                electricRecordDate: formatDate(electricRecordDate) // Use the helper function to format the date
+                electricRecordDate: formatDate(electricRecordDate)
             });
             console.log(response.data);
             toast.success("Đã thêm dữ liệu điện thành công");

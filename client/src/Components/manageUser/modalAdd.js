@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import DatePicker from "react-datepicker";
@@ -16,15 +16,32 @@ const ModalAdd = (props) => {
   const [email, setEmail] = useState("@gmail.com");
   const [cccd, setCccd] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
+  const [roomMapping, setRoomMapping] = useState({});
+  const [roomNumbers, setRoomNumbers] = useState([]);
 
-  
+  useEffect(() => {
+    // Hàm lấy dữ liệu từ API
+    const fetchRoomData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
+        const result = await response.json();
+        if (response.ok) {
+          const roomData = result.data.reduce((acc, room) => {
+            acc[room.roomNumber] = room.roomId;
+            return acc;
+          }, {});
+          setRoomMapping(roomData);
+          setRoomNumbers(Object.keys(roomData));
+        } else {
+          toast.error("Lấy dữ liệu phòng thất bại");
+        }
+      } catch (error) {
+        toast.error("Đã xảy ra lỗi khi lấy dữ liệu phòng");
+      }
+    };
 
-  const roomMapping = {
-    100: 1, 101: 2, 102: 3,  103: 4,104: 5, 105: 6, 106: 7, 107: 8, 108: 9, 109: 10, 
-    110: 11, 111: 12, 112: 13, 113: 14, 118: 15, 119: 16, 130: 17, 131: 18, 
-    132: 20, 133: 21, 134: 22, 135: 23, 136: 24, 137: 25, 138: 26, 139: 27
-  };
-  const roomNumbers = Object.keys(roomMapping);
+    fetchRoomData();
+  }, []);
 
   const handleSaveUser = async () => {
     if (!dateOfBirth) {
@@ -197,30 +214,30 @@ const ModalAdd = (props) => {
           </div>
           <div className="col-md-12">
             <label htmlFor="inputDateOfBirth" className="form-label">
-Ngày sinh
-</label>
-<div className="date-picker-container">
-<DatePicker
-selected={dateOfBirth}
-onChange={(date) => setDateOfBirth(date)}
-dateFormat="yyyy-MM-dd"
-className="form-control"
-placeholderText="Chọn ngày sinh"
-/>
-</div>
-</div>
-</form>
-</Modal.Body>
-<Modal.Footer>
-<Button variant="secondary" onClick={handleClose}>
-Đóng
-</Button>
-<Button variant="primary" onClick={handleSaveUser}>
-Lưu thông tin
-</Button>
-</Modal.Footer>
-</Modal>
-);
+              Ngày sinh
+            </label>
+            <div className="date-picker-container">
+              <DatePicker
+                selected={dateOfBirth}
+                onChange={(date) => setDateOfBirth(date)}
+                dateFormat="yyyy-MM-dd"
+                className="form-control"
+                placeholderText="Chọn ngày sinh"
+              />
+            </div>
+          </div>
+        </form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Đóng
+        </Button>
+        <Button variant="primary" onClick={handleSaveUser}>
+          Lưu thông tin
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 };
 
 export default ModalAdd;

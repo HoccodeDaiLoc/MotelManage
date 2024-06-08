@@ -6,7 +6,7 @@ import {
   fetchAllstatusHd,
   fetchAllTro,
 } from "../../service/ManageService";
-import ModalAddHoadon from "./modalAddHoadon"; // Sửa tên thành component viết hoa
+import ModalAddHoadon from "./modalAddHoadon";
 import ModalAddDiennuoc from "./modalAddDiennuoc";
 import ModalConfirmHoadon from "./modalConfirmHoadon";
 import { debounce } from "lodash";
@@ -37,6 +37,43 @@ const TableManageHoadon = (props) => {
   const [dataDetailHoadon, setDataDetailHoadon] = useState({});
   const [dataExport, serDataExport] = useState([]);
   const [status, setStatus] = useState("");
+  const user = useSelector((state) => state.user.account);
+  const isAdmin = useSelector((state) => state.user.account.isAdmin);
+  const id = useSelector((state) => state.user.account.id);
+
+  const [roomNumbers, setRoomNumbers] = useState([]);
+
+  useEffect(() => {
+    fetchRoomNumbers();
+  }, []);
+
+  const fetchRoomNumbers = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8080/api/room/roomNumber");
+      const data = await response.json();
+      if (data && data.data) {
+        setRoomNumbers(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching room numbers:", error);
+    }
+  };
+
+  let socket = io("http://localhost:8080", { query: { id } });
+  const [noti, setNoti] = useState();
+  // useEffect(() => {
+  //   socket.on("connect", () => {
+  //     socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
+  //     console.log("Connected to server");
+  //     console.log(socket);
+  //   });
+  // }, [user]);
+
+  // useEffect(() => {
+  //   socket.on("notification", (data) => {
+  //     console.log("Welcome message from server:", data);
+  //   });
+  // });
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -50,7 +87,7 @@ const TableManageHoadon = (props) => {
         currency: "VND",
       });
     }
-    return null; // hoặc trả về một giá trị mặc định khác nếu cần thiết
+    return null;
   };
 
   const getHoadonByStatus = (status) => {
@@ -82,52 +119,23 @@ const TableManageHoadon = (props) => {
     cloneListHoadon[index].status = hoadon.status;
     setListHoadon(cloneListHoadon);
   };
-  const roomMapping = {
-    1: 100,
-    2: 101,
-    3: 102,
-    4: 103,
-    5: 104,
-    6: 105,
-    7: 106,
-    8: 107,
-    9: 108,
-    10: 109,
-    11: 110,
-    12: 111,
-    13: 112,
-    14: 113,
-    15: 118,
-    16: 119,
-    17: 130,
-    18: 131,
-    20: 132,
-    21: 133,
-    22: 134,
-    23: 135,
-    24: 136,
-    25: 137,
-    26: 138,
-    27: 139,
-  };
 
   useEffect(() => {
-    // Call API
     getHoadon(1);
   }, []);
   const getHoadon = async (page) => {
     try {
-      const resTb = await fetchAllHoadon(page); // Lấy thông tin các hóa đơn
+      const resTb = await fetchAllHoadon(page);
       if (resTb && resTb.data) {
         const { data, total_pages } = resTb.data;
         setTotalHoadon(resTb.total);
         setTotalPageHoadon(resTb.total_page);
-        // Update the roomNumber using the mapping
+
         const updatedHoadonList = resTb.data.map((hoadon) => ({
           ...hoadon,
-          roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
+          // roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId,
         }));
-        setListHoadon(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin roomNumber
+        setListHoadon(updatedHoadonList);
       }
     } catch (error) {
       console.error("Error fetching hóa đơn data:", error);
@@ -217,10 +225,10 @@ const TableManageHoadon = (props) => {
       } else {
         res = await getHoadonByStatus(status);
       }
-      // Update the roomNumber using the mapping
+
       const updatedHoadonList = res.data.map((hoadon) => ({
         ...hoadon,
-        roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
+        // roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId,
       }));
       setListHoadon(updatedHoadonList);
     } catch (error) {
@@ -258,8 +266,8 @@ const TableManageHoadon = (props) => {
             padding: "4px 8px",
             borderRadius: "4px",
             border: "1px solid #ccc",
-            backgroundColor: "#dc3545", // Màu nền đỏ nhạt
-            color: "white", // Màu chữ trắng
+            backgroundColor: "#dc3545",
+            color: "white",
             fontSize: "14px",
           }}
         >
@@ -338,7 +346,13 @@ const TableManageHoadon = (props) => {
           {listHoadon &&
             listHoadon.map((item, index) => (
               <tr key={`hoadon-${index}`}>
-                <td>{item.roomNumber}</td>
+                <td>
+                  {
+                    roomNumbers.find((room) => room.roomId === item.roomId)
+                      ?.roomNumber
+                  }
+                </td>
+
                 <td>{formatDate(item.billStartDate)}</td>
                 <td>{formatDate(item.billEndDate)}</td>
                 <td>{formatCurrency(item.total)}</td>

@@ -2,76 +2,71 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Carousel from "react-bootstrap/Carousel";
-import style from "./ManagerModalDetailTro.modules.scss";
-import { fetchAllDetailRoom } from "../../service/ManageService";
+import { fetchAllDetailRoom, fetchAllDetailRenter } from "../../service/ManageService";
+import "./ManagerModalDetailTro.modules.scss"; // Assuming you have your custom styles here
 
 const ModalDetailTro = (props) => {
-
   const { show, handleCloseTro, dataDetailTro } = props;
 
   const [showImageModal, setShowImageModal] = useState(false);
-
   const [selectedRoomImages, setSelectedRoomImages] = useState([]);
-
   const [roomDetails, setRoomDetails] = useState(null);
-
+  const [renterDetails, setRenterDetails] = useState([]);
   const [roomId, setRoomId] = useState(null);
 
   const handleImageClick = (images) => {
-
     setSelectedRoomImages(images || []);
-
     setShowImageModal(true);
-
   };
 
   const formatPrice = (price) => {
-
     if (!price) return "";
-
     return new Intl.NumberFormat("vi-VN").format(price) + " VND";
-
   };
 
   useEffect(() => {
-
     if (dataDetailTro) {
-  
       getDetailTro(dataDetailTro.roomId); // Thay thế dataDetailTro.roomId bằng trường chứa ID của phòng
-  
     }
-  
   }, [dataDetailTro]);
 
-  
   const getDetailTro = async (roomId) => {
-
     try {
-
       const res = await fetchAllDetailRoom(roomId);
-
       if (res && res.room) {
-
         setRoomDetails(res.room);
-
       }
-
     } catch (error) {
-
       console.error("Error fetching tro data:", error);
-
     }
+  };
 
+  useEffect(() => {
+    if (dataDetailTro) {
+      getDetailRenter(dataDetailTro.roomId); // Thay thế dataDetailTro.roomId bằng trường chứa ID của phòng
+    }
+  }, [dataDetailTro]);
+
+  const getDetailRenter = async (roomId) => {
+    try {
+      const res = await fetchAllDetailRenter(roomId);
+      if (res && res.data) {
+        setRenterDetails(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching renter data:", error);
+    }
   };
 
   const handleShowDetail = (roomId) => {
-
     setRoomId(roomId);
-
   };
 
-  console.log('fetchalldetail', roomDetails);
+  const renterNames = Array.isArray(renterDetails)
+    ? renterDetails.map((renter, index) =>  ` Khách hàng ${index + 1}: ${renter.name}`).join('\n')
+    : "";
 
+  console.log('fetchalldetail', renterDetails);
 
   return (
     <>
@@ -109,9 +104,7 @@ const ModalDetailTro = (props) => {
                 type="text"
                 className="form-control"
                 id="inputArea"
-                value={
-                  dataDetailTro?.roomArea ? `${dataDetailTro.roomArea} m²` : ""
-                }
+                value={dataDetailTro?.roomArea ? `${dataDetailTro.roomArea} m²` : ""}
                 readOnly
               />
             </div>
@@ -141,18 +134,31 @@ const ModalDetailTro = (props) => {
                 readOnly
               />
             </div>
+            <div className="col-md-6">
+              <label htmlFor="inputRenter" className="form-label my-3">
+                Khách đang thuê : ***
+              </label>
+              <textarea
+                className="form-control same-height"
+                id="inputRenter"
+                value={renterNames}
+                readOnly
+                rows={Array.isArray(renterDetails) ? renterDetails.length : 5}
+              />
+            </div>
+
             <div className="col-md-12">
-    <label htmlFor="inputDescription" className="form-label my-3">
-    Tiện ích gồm có : ***
-    </label>
-     <textarea
-    className="form-control"
-    id="inputDescription"
-    value={roomDetails?.device?.map(device => device.deviceName).join('\n') || ""}
-    readOnly
-    rows={roomDetails?.device?.length || 5}
-    />
-     </div>
+              <label htmlFor="inputDescription" className="form-label my-3">
+                Tiện ích gồm có : ***
+              </label>
+              <textarea
+                className="form-control same-height"
+                id="inputDescription"
+                value={roomDetails?.device?.map(device => device.deviceName).join('\n') || ""}
+                readOnly
+                rows={roomDetails?.device?.length || 5}
+              />
+            </div>
             <div className="col-md-12">
               <label htmlFor="inputDescription" className="form-label my-3">
                 Mô tả
@@ -165,9 +171,7 @@ const ModalDetailTro = (props) => {
                 rows="5"
               />
             </div>
-  
 
-            
             <div className="col-md-12 my-3 text-center">
               <Button
                 variant="danger"

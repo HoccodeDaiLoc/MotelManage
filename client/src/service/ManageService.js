@@ -8,8 +8,8 @@ const fetchAllTro = (page) => {
   return axios.get(`/api/room?page=${page}&limit=8`);
 };
 
-const fetchAllIdroom = (roomId, roomNumber) => {
-  return axios.get(`/api/room/${roomId}`, roomNumber, roomId); // Sử dụng dấu nháy kép để bao quanh chuỗi
+const fetchAllIdroom = () => {
+  return axios.get(`/api/room/roomNumber/`,); // Sử dụng dấu nháy kép để bao quanh chuỗi
 };
 
 const fetchAllTb = (page) => {
@@ -29,6 +29,9 @@ const fetchAllHd = (page) => {
 
 const fetchAllDetailRoom = (roomId) => {
   return axios.get(`/api/room/${roomId}`,);
+};
+const fetchAllDetailRenter = (roomId) => {
+  return axios.get(`/api/renter/room/${roomId}`,);
 };
 
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd,roomId) => {
@@ -215,5 +218,6 @@ export {
   postCreateHd,
   updateHd,
   deleteHd,
-  fetchAllDetailRoom
+  fetchAllDetailRoom,
+  fetchAllDetailRenter
 };

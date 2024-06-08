@@ -56,6 +56,27 @@ const TableUser = (props) => {
 
   const [isShowModalDetail, setIsShowModalDetail] = useState(false);
   const [dataDetailUser, setDataDetailUser] = useState({});
+
+  const [roomNumbers, setRoomNumbers] = useState([]);
+
+  useEffect(() => {
+    fetchRoomNumbers();
+  }, []);
+  
+
+  const fetchRoomNumbers = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
+      const data = await response.json();
+      if (data && data.data) {
+        setRoomNumbers(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching room numbers:', error);
+    }
+  };
+
+  
   const handleClose = () => {
     setIsShowModalAdd(false);
     setIsShowModalEdit(false);

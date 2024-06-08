@@ -11,34 +11,6 @@ import ModalDetailTb from "./modalDetailThietBi";
 import { TbDeviceIpadDollar } from "react-icons/tb";
 import unidecode from "unidecode";  
 
-const roomMapping = {
-  1: 100,
-  2: 101,
-  3: 102,
-  4: 103,
-  5: 104,
-  6: 105,
-  7: 106,
-  8: 107,
-  9: 108,
-  10: 109,
-  11: 110,
-  12: 111,
-  13: 112,
-  14: 113,
-  15: 118,
-  16: 119,
-  17: 130,
-  18: 131,
-  20: 132,
-  21: 133,
-  22: 134,
-  23: 135,
-  24: 136,
-  25: 137,
-  26: 138,
-  27: 139,
-};
 
 const TableManageTb = (props) => {
   const [listTb, setListTb] = useState([]);
@@ -55,6 +27,27 @@ const TableManageTb = (props) => {
 
   const [isShowModalDetailTb, setIsShowModalDetailTb] = useState(false);
   const [dataDetailTb, setDataDetailTb] = useState({});
+
+  const [roomNumbers, setRoomNumbers] = useState([]);
+
+  useEffect(() => {
+    fetchRoomNumbers();
+  }, []);
+  
+
+  const fetchRoomNumbers = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
+      const data = await response.json();
+      if (data && data.data) {
+        setRoomNumbers(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching room numbers:', error);
+    }
+  };
+  
+
 
   const handleCloseTb = () => {
     setIsShowModalAddTb(false);
@@ -89,7 +82,7 @@ const TableManageTb = (props) => {
         setTotalTb(resTb.total);
         const updatedTbList = resTb.data.map(tb => ({
           ...tb,
-          roomNumber: roomMapping[tb.roomId] || tb.roomId // Map roomId to roomNumber
+          // roomNumber: roomMapping[tb.roomId] || tb.roomId // Map roomId to roomNumber
         }));
         setListTb(updatedTbList);
         setTotalPageTb(resTb.total_pages);
@@ -211,7 +204,8 @@ const TableManageTb = (props) => {
                 </td>
                 <td>{item.devicePrice.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
 
-                <td>{item.roomNumber}</td>
+                <td>{roomNumbers.find(room => room.roomId === item.roomId)?.roomNumber}</td>
+
                 <td>
                   <button
                     className="btn btn-warning mx-3"
