@@ -1,8 +1,19 @@
-import React, { useState ,useEffect } from 'react';
+import  { useState ,useEffect } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Carousel from 'react-bootstrap/Carousel';
 import { fetchAllContractRenter } from "../../service/ManageService";
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardFooter,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBTypography,
+  MDBCardHeader,
+} from 'mdb-react-ui-kit';
 
 const ModalDetailHd = (props) => {
   const { show, handleCloseHd, dataDetailHd, roomNumbers } = props;
@@ -44,158 +55,132 @@ const ModalDetailHd = (props) => {
   };
 
   console.log('fetchalldetail', renterDetail);
-
   return (
-    <>
-      <Modal 
-        show={show} 
-        onHide={handleCloseHd}
-        backdrop="static"
-        keyboard={false}
-        dialogClassName="large-modal"
-        size='lg'
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Bản hợp đồng đại diện bên thuê</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="body_add_new">
-          <div className="row g-3">
-          <div className="col-md-6">
-              <label htmlFor="inputRenterId" className="form-label my-3">Tên khách hàng:(Ông/bà..)</label>
-              <input
-            type="text"
-         className="form-control"
-          id="inputRenterId"
-         value={renterDetail?.renter?.name || ""}
-         readOnly
-                />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="inputRenterId" className="form-label my-3">Có số căn cước công dân :</label>
-              <input
-            type="text"
-          className="form-control"
-          id="inputRenterId"
-           value={renterDetail?.renter?.cccd || ""}
-         readOnly
-                />
-            </div>
+    <Modal show={show} onHide={handleCloseHd} backdrop="static" keyboard={false} size="xl">
+      <Modal.Header closeButton>
+        <Modal.Title>Chi tiết hợp đồng thuê trọ</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <MDBContainer className="py-5">
+          <MDBCard>
+            <MDBCardHeader className="bg-dark text-white text-center">
+              HỢP ĐỒNG THUÊ TRỌ
+            </MDBCardHeader>
+            <MDBCardBody>
+              <MDBContainer>
+                <MDBRow>
+                  <MDBCol xl="12">
+                    <ul className="right-align" >
+                      <li style={{ marginRight: '350px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</li>
+                      <li style={{ marginRight: '400px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>Độc lập - Tự do - Hạnh phúc</li>
+                    </ul>
+                    <MDBTypography listUnStyled className="float-end">
+                      <li style={{ fontSize: '30px', color: 'red' }}>Thuê trọ</li>
+                      <li>Hòa Khánh Bắc, Đà Nẵng</li>
+                      <li>0232000111</li>
+                      <li>thuetro@gmail.com</li>
+                    </MDBTypography>
+                  </MDBCol>
+                </MDBRow>
+                <MDBRow className="text-center">
+                  <h3 className="text-uppercase text-center mt-3" style={{ fontSize: '40px' }}>
+                    HỢP ĐỒNG THUÊ TRỌ
+                  </h3>
+                  <p>Kính gửi: {dataDetailHd.tenantName}</p>
+                </MDBRow>
+                <MDBRow>
+                  <MDBCol md="6" style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
+                    <p>
+                      <strong>Bên A (Bên cho thuê):</strong>
+                    </p>
+                    <p>Họ và tên: Phòng trọ sinh viên</p>
+                    <p>Địa chỉ: Hòa Khánh Bắc, Đà Nẵng</p>
+                    <p>Số điện thoại: 0222.211.133</p>
+                  </MDBCol>
+                  <MDBCol md="6" style={{ padding: '30px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
+               <p>
+             <strong>Bên B (Bên thuê):</strong>
+             </p>
+             <p style={{ margin: '5px 0' }}>Họ và tên: {renterDetail?.renter?.name || ""}             </p>
+             <p style={{ margin: '5px 0' }}>Địa chỉ: {renterDetail?.renter?.cccd || ""}     </p>
+             <p style={{ margin: '5px 0' }}>Địa chỉ: {renterDetail?.renter?.address || ""}             </p>
+             <p style={{ margin: '5px 0' }}>Số điện thoại:{renterDetail?.renter?.phone || ""}             </p>
+                  </MDBCol>
 
-            <div className="col-md-6">
-              <label htmlFor="inputRenterId" className="form-label my-3">Số điện thoại liên hệ :</label>
-              <input
-            type="text"
-           className="form-control"
-           id="inputRenterId"
-           value={renterDetail?.renter?.phone || ""}
-           readOnly
-                />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="inputRenterId" className="form-label my-3">Thường trú tại địa chỉ :</label>
-              <input
-            type="text"
-           className="form-control"
-           id="inputRenterId"
-           value={renterDetail?.renter?.address || ""}
-           readOnly
-                />
-            </div>
-           
-            <div className="col-md-6">
-              <label htmlFor="inputRoomId" className="form-label my-3 ">Số phòng bên khách thuê :</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputRoomId"
-                value={roomNumbers.find(room => room.roomId === dataDetailHd?.roomId)?.roomNumber || ""}
-                readOnly
-              />
-            </div>
+                </MDBRow>
+                <MDBRow className="mt-4">
+                  <p>
+                    <strong>Điều 1: Đối tượng hợp đồng</strong>
+                  </p>
+                  <p>
+              Bên A đồng ý cho bên B thuê các phòng số:{' '}
+              {roomNumbers.find(room => room.roomId === dataDetailHd?.roomId)?.roomNumber || ""}
 
-            <div className="col-md-6">
-              <label htmlFor="inputRentAmount" className="form-label my-3">Số tiền thuê (VND)</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputRentAmount"
-                value={formatPrice(dataDetailHd?.rentAmount)}
-                readOnly
-              />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="inputStartDay" className="form-label my-3 ">Ngày lập hợp đồng</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputStartDay"
-                value={new Date(dataDetailHd?.startDay).toLocaleDateString('vi-VN') || ''}
-                readOnly
-              />
-            </div>
-            <div className="col-md-6">
-              <label htmlFor="inputEndDate" className="form-label my-3 ">Ngày hết hạn hợp đồng</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputEndDate"
-                value={new Date(dataDetailHd?.endDate).toLocaleDateString('vi-VN') || ''}
-                readOnly
-              />
-            </div>
-            
-            <div className="col-md-12">
-              <label htmlFor="inputDepositAmount" className="form-label my-3">Số tiền đặt cọc cho bên A (VND)</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputDepositAmount"
-                value={formatPrice(dataDetailHd?.depositAmount)}
-                readOnly
-                
-              />
-                <p className=' mx-1 my-2'>Đại diên bên trọ đã xác nhận lập hợp đồng : **</p> 
-            </div>
-            
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseHd}>
-            Đóng
-          </Button>
-        </Modal.Footer>
-      </Modal>
+             </p>
 
-      <Modal 
-        show={showImageModal} 
-        onHide={() => setShowImageModal(false)} 
-        size="xl"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Ảnh chi tiết phòng</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedRoomImages.length > 0 ? (
-            <Carousel interval={null}>
-              {selectedRoomImages.map((image, index) => (
-                <Carousel.Item key={index}>
-                  <img
-                    className="d-block w-100"
-                    src={image.image.imageUrl}
-                    alt={`Slide ${index + 1}`}
-                    style={{ maxHeight: '600px', objectFit: 'cover' }}
-                  />
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          ) : (
-            <p>Không có hình ảnh để hiển thị</p>
-          )}
-        </Modal.Body>
-      </Modal>
-    </>
+                </MDBRow>
+                <MDBRow className="mt-4">
+                  <p>
+                    <strong>Điều 2: Thời hạn hợp đồng</strong>
+                  </p>
+                  <p>Thời hạn thuê:  Bắt đầu từ ngày {new Date(dataDetailHd?.startDay).toLocaleDateString('vi-VN') || ''} đến ngày {new Date(dataDetailHd?.endDate).toLocaleDateString('vi-VN') || ''}
+                  .</p>
+                </MDBRow>
+                <MDBRow className="mt-4">
+                  <p>
+                    <strong>Điều 3: Giá thuê và phương thức thanh toán</strong>
+                  </p>
+                  <p>Giá thuê: {formatPrice(dataDetailHd?.rentAmount)}
+                    
+     mỗi tháng.</p>
+       <p>Tiền đặt cọc: {formatPrice(dataDetailHd?.depositAmount)}
+       </p>
+                  <p>Phương thức thanh toán:Chuyển khoản hoặc tiền mặt</p>
+                </MDBRow>
+                <MDBRow className="mt-4">
+                  <p>
+                    <strong>Điều 4: Quyền và nghĩa vụ của các bên</strong>
+                  </p>
+                  <p>
+                    <strong>Bên A:</strong>
+                    <br />
+                    - Đảm bảo căn phòng trong tình trạng tốt.
+                    <br />
+                    - Cung cấp các dịch vụ kèm theo (nếu có).
+                  </p>
+                  <p>
+                    <strong>Bên B:</strong>
+                    <br />
+                    - Thanh toán tiền thuê đúng hạn.
+                    <br />
+                    - Sử dụng căn phòng đúng mục đích và bảo quản tốt tài sản.
+                  </p>
+                </MDBRow>
+                <MDBRow className="mt-4">
+                  <p>
+                    <strong>Điều 5: Điều khoản chung</strong>
+                  </p>
+                  <p>Hợp đồng được lập thành hai bản, mỗi bên giữ một bản có giá trị pháp lý như nhau.</p>
+                </MDBRow>
+                <MDBRow className="mt-4">
+                  <MDBCol xl="6">
+                    <p className="fw-bold">Ngày ký: {new Date(dataDetailHd?.startDay).toLocaleDateString('vi-VN') || ''}
+                    </p>
+                    <p className="fw-bold mt-3">Bên A (Bên cho thuê)</p>
+                    <p className="mt-5">{dataDetailHd.landlordName}</p>
+                  </MDBCol>
+                  <MDBCol xl="6" className="text-end">
+                    <p className="fw-bold mt-3">Bên B (Bên thuê)</p>
+                    <p className="mt-5">{dataDetailHd.tenantName}</p>
+                  </MDBCol>
+                </MDBRow>
+              </MDBContainer>
+            </MDBCardBody>
+            <MDBCardFooter className="bg-dark"></MDBCardFooter>
+          </MDBCard>
+        </MDBContainer>
+      </Modal.Body>
+    </Modal>
   );
 };
 

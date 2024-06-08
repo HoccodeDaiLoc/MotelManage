@@ -5,16 +5,21 @@ import { fetchAllHd,fetchAllTro,fetchAllUser } from "../../service/ManageService
 import ModalEditHd from './modalEditHd'
 import ModalAddHd from './modalAddHd';
 import ModalConfirmHd from'./modalConfirmHd'
+import ModalAddrenter from './ModalAddrenter';
 import {debounce} from "lodash";
 import _ from "lodash";
 import ModalDetailHd from "./modalDetailHd";
 import { BiSolidBookAdd } from "react-icons/bi";
+
+
 const TableManageHd = (props) => {
   const [listHd, setListHd] = useState([]);
   const [totalHd, setTotalHd] = useState(0);
   const [totalPageHd, setTotalPageHd] = useState(0);
 
   const [isShowModalAddHd, setIsShowModalAddHd] = useState(false);
+  const [isShowModalAdd, setIsShowModalAdd] = useState(false);
+
   const [isShowModalEditHd, setIsShowModalEditHd] = useState(false);
   const [dataHdedit, setDataHdEdit] = useState({});
 
@@ -62,12 +67,16 @@ const TableManageHd = (props) => {
     setIsShowModalEditHd(false);
     setIsShowModalDeleteHd(false);
     setIsShowModalDetailHd(false);
+    setIsShowModalAdd(false);
   };
 
   const handUpdateTableHd = (hd) => {
     setListHd([hd, ...listHd]);
   };
-
+ 
+  const handUpdateTable = (hd) => {
+    setListHd([hd, ...listHd]);
+  };
   const handleEditHdfrommodal = (hd) => {
     let cloneListHd = _.cloneDeep(listHd);
     let index = listHd.findIndex((item) => item.contractId === hd.contractId);
@@ -194,6 +203,18 @@ const TableManageHd = (props) => {
           />
           Thêm Hợp Đồng
         </button>
+
+        <button
+          className="btn btn-success "
+          style={{  marginLeft: "640px" }}
+          onClick={() => setIsShowModalAdd(true)}
+        >
+          <BiSolidBookAdd
+            className="mr-2 mx-1"
+            style={{ fontSize: "1.5em", marginTop: "-5px" }}
+          />
+          Thêm khach
+        </button>
       </div>
       <div className="col-4 my-3">
         <input
@@ -214,21 +235,22 @@ const TableManageHd = (props) => {
           </tr>
         </thead>
         <tbody>
-          {listHd && listHd.map((item, index) => (
-            <tr key={`hd-${index}`}>
-              <td>{roomNumbers.find(room => room.roomId === item.roomId)?.roomNumber}</td>
-              <td>{item.rentAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
-              <td>{item.depositAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
-              <td>{formatDate(item.startDay)}</td> 
-              <td>{formatDate(item.endDate)}</td>
-              
-              <td>
-                <button className='btn btn-warning mx-3' onClick={() => handleEditHd(item)}>Edit</button>
-                <button className='btn btn-danger' onClick={() => handDeleteHd(item)}>Delete</button>
-                <button className='btn btn-success mx-3' onClick={() => handDetailHd(item)}>Chi tiết</button>
-              </td>
-            </tr>
-          ))}
+        {listHd &&
+  listHd.map((item, index) => (
+    <tr key={`hd-${index}`}>
+      <td>{roomNumbers.find(room => room.roomId === item.roomId)?.roomNumber}</td>
+      <td>{item.rentAmount ? item.rentAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</td>
+      <td>{item.depositAmount ? item.depositAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</td>
+      <td>{formatDate(item.startDay)}</td> 
+      <td>{formatDate(item.endDate)}</td>
+      
+      <td>
+        <button className='btn btn-warning mx-3' onClick={() => handleEditHd(item)}>Edit</button>
+        <button className='btn btn-danger' onClick={() => handDeleteHd(item)}>Delete</button>
+        <button className='btn btn-success mx-3' onClick={() => handDetailHd(item)}>Chi tiết</button>
+      </td>
+    </tr>
+  ))}
         </tbody>
       </Table>
       <ReactPaginate
@@ -254,6 +276,12 @@ const TableManageHd = (props) => {
         show={isShowModalAddHd}
         handleCloseHd={handleCloseHd}
         handUpdateTableHd={handUpdateTableHd}
+      />
+
+        <ModalAddrenter
+        show={isShowModalAdd}
+        handleCloseHd={handleCloseHd}
+        handUpdateTable={handUpdateTable}
       />
       <ModalEditHd
         show={isShowModalEditHd}
