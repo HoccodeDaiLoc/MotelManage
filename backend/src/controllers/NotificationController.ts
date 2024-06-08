@@ -43,4 +43,37 @@ export class NotificationController {
       next(err);
     }
   };
+
+  updateNotification = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const notificationId = +req.params.notificationId as number;
+      const data = req.body;
+      const notification = await this.notificationService.updateNotification(
+        notificationId,
+        data
+      );
+      return res.status(200).json({
+        message: "success",
+        data: notification,
+      });
+    }catch(err) {
+      next(err);
+    }
+  }
+
+  changeRead = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const notificationId = +req.params.notificationId as number;
+      const notification = await this.notificationService.updateNotification(
+        {notificationId},
+        { isRead: true }
+      );
+      return res.status(200).json({
+        message: "success",
+        data: notification,
+      });
+    }catch(err) {
+      next(err);
+    }
+  }
 }

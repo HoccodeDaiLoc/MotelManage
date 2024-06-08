@@ -8,6 +8,8 @@ class NotificationRoutes extends BaseRoutes {
 
     public routes(): void {
         this.router.route("/user/:userId").get(this.controller.getListNotificationByUserId);
+        this.router.route("/:notificationId").put(this.controller.updateNotification);
+        this.router.route("/changeread/:notificationId").post(this.controller.changeRead);
     }
 }
 

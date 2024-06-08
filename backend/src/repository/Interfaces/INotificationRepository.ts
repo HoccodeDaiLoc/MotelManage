@@ -19,4 +19,5 @@ export interface INotificationRepository extends BaseInterface {
     limit: number,
     offset: number
   ): Promise<Notification[] | null>;
+  updateNotification(id: number, data: any): Promise<Notification>;
 }
