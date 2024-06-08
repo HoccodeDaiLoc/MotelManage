@@ -62,6 +62,9 @@ export class ContractRepository
         where: {
           id: id,
         },
+        include: {
+          model: Renter
+        }
       });
     } catch (err) {
       throw err;
