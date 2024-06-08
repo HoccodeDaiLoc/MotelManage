@@ -17,7 +17,7 @@ import {
 } from 'mdb-react-ui-kit';
 
 const ModalDetailHoadon = (props) => {
-  const { show, handleCloseHoadon, dataDetailHoadon } = props;
+  const { show, handleCloseHoadon, dataDetailHoadon,roomNumbers } = props;
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -74,7 +74,7 @@ const ModalDetailHoadon = (props) => {
                 <MDBCol xl="8">
                   <MDBTypography listUnStyled>
                     <li className="text-muted">
-                      To: <span style={{ color: "#5d9fc5" }}>Phòng số {dataDetailHoadon?.roomNumber || ''}</span>
+                      To: <span style={{ color: "#5d9fc5" }}>Phòng số {roomNumbers.find(room => room.roomId === dataDetailHoadon?.roomId)?.roomNumber || ""}</span>
                     </li>
                     <li className="text-muted">Hòa Khánh Bắc ,</li>
                     <li className="text-muted">

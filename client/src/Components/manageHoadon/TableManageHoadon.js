@@ -427,6 +427,7 @@ const TableManageHoadon = (props) => {
         dataDetailHoadon={dataDetailHoadon}
         handleCloseHoadon={handleCloseHoadon}
         handleDetailHoadonfrommodal={handleDetailHoadonfrommodal}
+        roomNumbers={roomNumbers}
       />
     </div>
   );

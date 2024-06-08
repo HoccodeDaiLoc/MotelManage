@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const ModalDetailTb = ({ show, handleCloseTb, dataDetailTb }) => {
+const ModalDetailTb = ({ show, handleCloseTb, dataDetailTb,roomNumbers  }) => {
   const getDeviceName = (categoryId) => {
     switch (categoryId) {
       case 1:
@@ -78,7 +78,7 @@ const ModalDetailTb = ({ show, handleCloseTb, dataDetailTb }) => {
               type="text"
               className="form-control"
               id="inputPhone"
-              value={dataDetailTb?.roomId || ""}
+              value={roomNumbers.find(room => room.roomId === dataDetailTb?.roomId)?.roomNumber || ""}
               readOnly
             />
           </div>
