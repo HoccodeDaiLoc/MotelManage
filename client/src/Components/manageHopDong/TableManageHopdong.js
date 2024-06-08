@@ -212,7 +212,8 @@ const TableManageHd = (props) => {
 <thead>
           <tr>
             <th>Phòng thuê</th>
-            <th>Số lượng thuê</th>
+            <th>Tiền phòng</th>
+            <th>Tiền cọc</th>
             <th>Ngày bắt đầu</th>
             <th>Ngày hết hạn</th>
             <th>Khác</th>
@@ -222,7 +223,8 @@ const TableManageHd = (props) => {
           {listHd && listHd.map((item, index) => (
             <tr key={`hd-${index}`}>
               <td>{item.roomNumber}</td>
-              <td>{item.rentAmount}người</td>
+              <td>{item.rentAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
+              <td>{item.depositAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</td>
               <td>{formatDate(item.startDay)}</td> 
               <td>{formatDate(item.endDate)}</td>
               

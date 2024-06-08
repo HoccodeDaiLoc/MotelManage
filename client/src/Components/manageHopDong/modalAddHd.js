@@ -92,19 +92,7 @@ const ModalAddHd = (props) => {
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
-         
-
-          <div className="col-md-12">
-            <label htmlFor="inputRentAmount" className="form-label">Số lượng người </label>
-            <input
-              type="text"
-              className="form-control"
-              value={rentAmount}
-              onChange={(event) => setRentAmount(event.target.value)}
-              placeholder="Mời bạn nhập thông tin..."
-            />
-          </div>
-
+    
           <div className="col-md-12">
             <label htmlFor="inputRoomNumber" className="form-label">Thuê phòng số</label>
             <FormSelect 

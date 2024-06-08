@@ -30,6 +30,9 @@ const fetchAllHd = (page) => {
 const fetchAllDetailRoom = (roomId) => {
   return axios.get(`/api/room/${roomId}`,);
 };
+const fetchAllDetailRenter = (roomId) => {
+  return axios.get(`/api/renter/room/${roomId}`,);
+};
 
 const postCreateUser = (name, dateOfBirth, address, phone, email, cccd,roomId) => {
   const renterList = new FormData();
@@ -215,5 +218,6 @@ export {
   postCreateHd,
   updateHd,
   deleteHd,
-  fetchAllDetailRoom
+  fetchAllDetailRoom,
+  fetchAllDetailRenter
 };

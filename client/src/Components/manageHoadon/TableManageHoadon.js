@@ -6,7 +6,7 @@ import {
   fetchAllstatusHd,
   fetchAllTro,
 } from "../../service/ManageService";
-import ModalAddHoadon from "./modalAddHoadon"; // Sửa tên thành component viết hoa
+import ModalAddHoadon from "./modalAddHoadon"; 
 import ModalAddDiennuoc from "./modalAddDiennuoc";
 import ModalConfirmHoadon from "./modalConfirmHoadon";
 import { debounce } from "lodash";
@@ -69,7 +69,7 @@ const TableManageHoadon = (props) => {
         currency: "VND",
       });
     }
-    return null; // hoặc trả về một giá trị mặc định khác nếu cần thiết
+    return null; 
   };
 
   const getHoadonByStatus = (status) => {
@@ -131,22 +131,22 @@ const TableManageHoadon = (props) => {
   };
   
   useEffect(() => {
-    // Call API
+ 
     getHoadon(1);
   }, []);
   const getHoadon = async (page) => {
     try {
-      const resTb = await fetchAllHoadon(page); // Lấy thông tin các hóa đơn
+      const resTb = await fetchAllHoadon(page);
       if (resTb && resTb.data) {
         const { data, total_pages } = resTb.data;
         setTotalHoadon(resTb.total);
         setTotalPageHoadon(resTb.total_page);
-        // Update the roomNumber using the mapping
+     
         const updatedHoadonList = resTb.data.map(hoadon => ({
           ...hoadon,
-          roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
+          roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, 
         }));
-        setListHoadon(updatedHoadonList); // Cập nhật danh sách hóa đơn với thông tin roomNumber
+        setListHoadon(updatedHoadonList); 
       }
     } catch (error) {
       console.error("Error fetching hóa đơn data:", error);
@@ -239,10 +239,10 @@ const TableManageHoadon = (props) => {
       } else {
         res = await getHoadonByStatus(status);
       }
-      // Update the roomNumber using the mapping
+
       const updatedHoadonList = res.data.map(hoadon => ({
         ...hoadon,
-        roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, // Fallback to roomId if no mapping is found
+        roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId, 
       }));
       setListHoadon(updatedHoadonList);
     } catch (error) {
@@ -284,8 +284,8 @@ const TableManageHoadon = (props) => {
             padding: "4px 8px",
             borderRadius: "4px",
             border: "1px solid #ccc",
-            backgroundColor: "#dc3545", // Màu nền đỏ nhạt
-            color: "white", // Màu chữ trắng
+            backgroundColor: "#dc3545", 
+            color: "white",
             fontSize: "14px",
           }}
         >
