@@ -44,6 +44,7 @@ const TableManageHd = (props) => {
       console.error('Error fetching room numbers:', error);
     }
   };
+
   
 
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
@@ -143,7 +144,7 @@ const TableManageHd = (props) => {
 
   const handleDetailHdfrommodal = (hd) => {
     let cloneListHd = _.cloneDeep(listHd);
-    let index = listHd.findIndex((item) => item.id == hd.id);
+    let index = listHd.findIndex((item) => item.contractId == hd.contractId);
     cloneListHd[index].first_name = hd.first_name;
     setListHd(cloneListHd);
   };
@@ -271,6 +272,7 @@ const TableManageHd = (props) => {
         dataDetailHd={dataDetailHd}
         handleCloseHd={handleCloseHd}
         handleDetailHdfrommodal={handleDetailHdfrommodal}
+        roomNumbers={roomNumbers}
       />
     </div>
   );

@@ -271,6 +271,7 @@ const TableManageTb = (props) => {
         dataDetailTb={dataDetailTb}
         handleCloseTb={handleCloseTb}
         handleDetailTbfrommodal={handleDetailTbfrommodal}
+        roomNumbers={roomNumbers}
       />
     </div>
   );
