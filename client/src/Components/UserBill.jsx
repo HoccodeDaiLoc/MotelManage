@@ -5,6 +5,8 @@ import ReactPaginate from "react-paginate";
 import { PaymentByMomo } from "../service/PaymentService";
 import momo from "../asset/image/momo.png";
 import MyModal from "./ModalBillDetail";
+import { io } from "socket.io-client";
+import { getNotification } from "../service/NotiService";
 
 function UserBill() {
   const [billData, setBillData] = useState([]);
@@ -12,14 +14,37 @@ function UserBill() {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBill, setSelectedBill] = useState(null);
+  const [notifications, setNotification] = useState([]);
 
   let currentUrl = window.location.href;
+  const [socket, setSocket] = useState("");
+
+  useEffect(() => {
+    if (id !== null || id !== undefined) {
+      setSocket(io("http://localhost:8080", { query: { userId: id } }));
+      console.log("socket", socket);
+    }
+  }, []);
+
+  useEffect(() => {
+    const getNoti = async (id) => {
+      let res = await getNotification(id);
+      setNotification(res.data);
+    };
+    getNoti(id);
+    if (socket) {
+      socket.on("notification", (data) => {
+        setNotification((prev) => [...prev, data]);
+      });
+    }
+  }, [id, socket]);
 
   useEffect(() => {
     if (id !== null || id !== undefined) {
       const fetchBill = async (id, currentPage) => {
         try {
           const res = await fetchBillByRenter(id, currentPage);
+          console.log(res);
           setBillData(res.data);
           setTotalPages(res.total_page);
         } catch (error) {
@@ -32,8 +57,8 @@ function UserBill() {
 
   const handlePayment = async (billId, rederedirectUrl) => {
     const res = await PaymentByMomo(billId, rederedirectUrl);
-    console.log(res);
-    window.open(res.result.payUrl, "_blank");
+    console.log("check momo", res);
+    if (res && socket) window.open(res.result.payUrl, "_blank");
   };
 
   const handlePageClick = (event) => {
@@ -64,14 +89,12 @@ function UserBill() {
               </thead>
               <tbody>
                 {billData.map((bill) => (
-                  <tr
-                    key={bill.billId}
-                    onClick={() => {
-                      console.log(bill.billItem);
-                      handleRowClick(bill.billItem);
-                    }}
-                  >
-                    <td>{bill.billId}</td>
+                  <tr key={bill.billId}>
+                    <td
+                      onClick={() => {
+                        handleRowClick(bill.billItem);
+                      }}
+                    ></td>
                     <td>{bill.billStartDate.slice(0, 10)}</td>
                     <td>{bill.billEndDate.slice(0, 10)}</td>
                     <td>{bill.paymentMethod}</td>
@@ -89,14 +112,17 @@ function UserBill() {
                               alt=""
                               srcSet="https://cdn6.aptoide.com/imgs/1/c/6/1c6ee4ebc681cf5f4ac98f3d6175a655_icon.png"
                             />
-                            <span className="hover-text-content">
+                            <span
+                              tabIndex={1000}
+                              className="hover-text-content"
+                            >
                               Thanh toán online với momo
                             </span>
                           </div>
                         </div>
                       )}
                     </td>
-                    <td>{bill.total}</td>
+                    <td>{bill.total} VNĐ</td>
                   </tr>
                 ))}
               </tbody>
