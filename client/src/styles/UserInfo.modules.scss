@@ -66,7 +66,31 @@
                 }
             }
         }
-        
+         .UserInfo_Item{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-bottom: 20px;
+.SubItem{
+    display: flex;
+    flex-direction: column;
+}
+            .UserInfo_Item_Text{
+                width: 150px;
+            }
+            .SecondaryText{
+                @extend %SecondaryText;
+                padding: 5px 0px;
+            }
+            .UserInfo_Item_Input{
+                width: 500px;
+                border-radius: 10px;
+                border: 0.2px solid rgba(0, 0, 0, .05);
+                padding:8px 10px;
+                outline: none;
+                // ko có viền khi click vào
+            }
+        }
         .UserInfo_Item{
             display: flex;
             flex-direction: row;

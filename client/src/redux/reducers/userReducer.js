@@ -1,4 +1,5 @@
 import { faL } from "@fortawesome/free-solid-svg-icons";
+
 import {
   USER_LOGIN,
   USER_LOGOUT,
@@ -10,6 +11,7 @@ import {
 const INITIAL_STATE = {
   account: {
     id: localStorage.getItem("id"),
+    avatar: localStorage.getItem("avatar"),
     renterId: localStorage.getItem("renterId"),
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
@@ -44,6 +46,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           id: action.data.id,
+          avatar: action.data.avatar,
           renterId: action.data.renterId,
           username: action.data.username,
           password: action.data.password,
@@ -56,27 +59,21 @@ const userReducer = (state = INITIAL_STATE, action) => {
         isError: false,
       };
     case USER_LOGOUT:
-      localStorage.removeItem("id");
-      localStorage.removeItem("renterId");
-      localStorage.removeItem("user");
-      localStorage.removeItem("refreshtoken");
-      localStorage.removeItem("username");
-      localStorage.removeItem("accesstoken");
-      localStorage.removeItem("password");
-      localStorage.removeItem("isAdmin");
+      localStorage.clear();
+      console.log("check action: ", action);
       return {
         ...state,
         account: {
           id: "",
+          avatar: "",
           renterId: "",
           username: "",
           password: "",
-          isAdmin: false,
+          isAdmin: "",
           accessToken: "",
           refreshToken: "",
           username: "",
-          token: "",
-          auth: false,
+          auth: "",
         },
       };
 

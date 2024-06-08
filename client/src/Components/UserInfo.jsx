@@ -19,11 +19,9 @@ const metadata = {
 //hết trôn
 function UserInfo() {
   const accessToken = localStorage.getItem("accesstoken");
-  console.log(accessToken);
   const id = useSelector((state) => state.user.account.renterId);
   const username = useSelector((state) => state.user.account.username);
   const user = useSelector((state) => state.user.account);
-  console.log(user);
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [address, setAddress] = useState("");
@@ -76,9 +74,7 @@ function UserInfo() {
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           setUploadedImages([downloadURL, ...uploadedImages]);
-          console.log(downloadURL);
           let res = await putUpdateAvatar(downloadURL, id);
-          console.log(res);
           setAvatarLink(downloadURL);
           setImage(null);
           setProgress(0);
@@ -91,7 +87,6 @@ function UserInfo() {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
       // let ava =await
-      console.log(res);
       let data = res.renter;
       setEmail(data.email);
       setName(data.name);
@@ -150,6 +145,8 @@ function UserInfo() {
       setEmail(email);
       setCCCD(CCCD);
       setAvatarLink(avatarLink);
+      localStorage.setItem("avatar", avatarLink);
+      console.log(" check local", localStorage.getItem("avatar"));
       toast.success("Đã thay đổi thông tin thành công", {
         position: "top-center",
       });

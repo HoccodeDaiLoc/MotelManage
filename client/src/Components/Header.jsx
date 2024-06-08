@@ -1,77 +1,58 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import style from "../styles/Header.modules.scss";
-import { Form, Link, NavLink, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogoutRedux } from "../redux/actions/userAction";
-import { io, Socket } from "socket.io-client";
 import ava from "../asset/image/ava.svg";
 import bell from "../asset/image/bell.svg";
 import imagethuetro from "../asset/image/imagethuetro.png";
 import login from "../asset/image/login.svg";
 import logout from "../asset/image/logout.svg";
 import person from "../asset/image/person.svg";
-import SignIn from "../asset/image/SignIn.svg";
+import taolaadminne from "../asset/image/dog.jpg";
 import { getNotification } from "../service/NotiService";
 import { fetchCurrentUser } from "../service/UserService";
+import LazyLoad from "react-lazy-load";
 
 function Header({ socket }) {
   const [notifications, setNotification] = useState([]);
-  console.log("here:", socket);
   const user = useSelector((state) => state.user.account);
   const isAdmin = useSelector((state) => state.user.account.isAdmin);
   const id = useSelector((state) => state.user.account.renterId);
   const [avatarLink, setAvatarLink] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
 
   useEffect(() => {
     const getCurrentUser = async (id) => {
       let res = await fetchCurrentUser(id);
-      let data = res?.renter;
-      setAvatarLink(data?.account.avatar);
+      setAvatarLink(localStorage.getItem("avatar"));
     };
     getCurrentUser(id);
-  }, []);
+  }, [localStorage.getItem("avatar")]);
+
   useEffect(() => {
-    console.log(socket);
-    // lấy api thông báo chỗ này
     const getNoti = async (id) => {
       let res = await getNotification(id);
-      console.log("check get noti from db:", res);
+      setNotification(res.data);
     };
     getNoti(id);
-  }, [id]);
-
-  useEffect(() => {
-    console.log(socket);
-    console.log("check get noti from websocket after:", notifications);
-
     if (socket) {
       socket.on("notification", (data) => {
         setNotification((prev) => [...prev, data]);
       });
     }
-    console.log("check get noti from websocket after:", notifications);
-  }, []);
+  }, [id, socket]);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [show1, setShow1] = useState(false);
-  const handleLogout = () => {
-    dispatch(handleLogoutRedux());
-    navigate("/");
-  };
-  const DisplayNotification = () => {
-    return <span className="Notification">{notifications}</span>;
-  };
-  useEffect(() => {
-    if (user && user.auth === false) {
-      navigate("/Loggin");
-      toast.success("Đăng xuất thành công", {
-        position: "top-center",
-      });
+  function truncateString(text) {
+    if (text.length > 60) {
+      return text.slice(0, 60) + "...";
+    } else {
+      return text;
     }
-  }, [user]);
+  }
   return (
     <div className="header_container">
       <div
@@ -103,18 +84,48 @@ function Header({ socket }) {
               <img className="icon" src={bell} alt="help me nick"></img>
               {show1 ? (
                 <div
-                  className="modal_user_container"
-                  tabindex="-1"
+                  className="modal_user_container_noti"
+                  tabIndex={-1}
                   role="dialog"
                 >
-                  <div className="modal_user">
-                    <span className="modal_part">
-                      {notifications.length === 0
-                        ? "Bạn chưa có thông báo mới"
-                        : notifications.map((noti) => {
-                            DisplayNotification(noti);
-                          })}
-                    </span>
+                  <div className="modal_noti">
+                    {console.log("mynoti", notifications)}
+                    {notifications.length === 0 ||
+                    notifications.status === "error" ||
+                    notifications.status === "fail" ||
+                    notifications === undefined ||
+                    notifications === null
+                      ? "Bạn chưa có thông báo mới"
+                      : notifications.reverse().map((noti) => (
+                          <LazyLoad
+                            key={noti.notificationId}
+                            offset={5}
+                            threshold={0.5}
+                          >
+                            <div
+                              key={noti.notificationId}
+                              className="modal_part_noti"
+                            >
+                              <div className="modal_icon_container">
+                                <img
+                                  srcSet={taolaadminne}
+                                  style={{ borderRadius: "50%" }}
+                                  alt=""
+                                  className="modal_icon"
+                                />
+                              </div>
+                              <div className="Notification">
+                                <h6>{noti.title}</h6>
+                                <p style={{ margin: "0px" }}>
+                                  {truncateString(noti.content)}
+                                </p>
+                                <span>
+                                  Ngày tạo: {noti.dateCreated.slice(0, 10)}
+                                </span>
+                              </div>
+                            </div>
+                          </LazyLoad>
+                        ))}
                   </div>
                 </div>
               ) : (
@@ -168,7 +179,6 @@ function Header({ socket }) {
                         className="modal_part"
                         onClick={() => {
                           setShow1(false);
-
                           setShow(!show);
                         }}
                       >
@@ -182,7 +192,7 @@ function Header({ socket }) {
                       <Link
                         className="modal_part"
                         onClick={() => {
-                          handleLogout();
+                          dispatch(handleLogoutRedux());
                           navigate("/Loggin");
                         }}
                       >
@@ -218,5 +228,4 @@ function Header({ socket }) {
     </div>
   );
 }
-// https://www.svgrepo.com/show/355933/user-circle.svg
 export default Header;

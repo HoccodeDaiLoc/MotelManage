@@ -15,7 +15,7 @@ $imgheight: $imgwidth+20px;
         display: grid;
         grid-template-columns: auto auto auto auto;
         grid-template-rows: auto auto auto;
-        height: 200vh;
+        height: 200%;
         grid-column-gap: 92px;
     }
     
@@ -33,7 +33,8 @@ $imgheight: $imgwidth+20px;
     flex-direction: column;
     width: fit-content;
     height: fit-content;
-    
+   margin: 20px 0px;
+
     .Room_details_container{
             cursor: pointer;
 
@@ -73,21 +74,7 @@ $imgheight: $imgwidth+20px;
   .listing {
     margin-bottom: 1rem;
   }
-.paginate_container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .paginate{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
 
-    }
-    li{
-        padding: 5px;
-    }
-}
 .Dropdown_container{
     @extend %fixat1360;
     .Dropdown{

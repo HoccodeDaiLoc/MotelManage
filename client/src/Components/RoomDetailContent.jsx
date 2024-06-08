@@ -23,6 +23,9 @@ function RoomDetailContent() {
   const navigate = useNavigate();
   let imgArray = Images.slice(0, 5);
 
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+
   return (
     <div className="XD">
       {imgArray.length > 1 && (
@@ -38,6 +41,7 @@ function RoomDetailContent() {
                 <div className="big_img_container">
                   {imgArray[0] && (
                     <img
+                      onClick={handleShow}
                       className="big_img"
                       src={imgArray[0].image.imageUrl}
                       alt=""
@@ -94,6 +98,7 @@ function RoomDetailContent() {
               <div className="Side_info">
                 <div className="Modal_container">
                   <RoomModal
+                    show={show}
                     roomNumber={data.roomNumber}
                     data={Images}
                   ></RoomModal>

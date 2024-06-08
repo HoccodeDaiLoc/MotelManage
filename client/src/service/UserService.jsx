@@ -116,7 +116,7 @@ const fetchBillByRenter = (id, currentPage) => {
   //     Authorization: `Bearer ${accessToken}`,
   //   },
   // });
-  return axios.get(`/api/bill/renter/${id}`, {
+  return axios.get(`/api/bill/renter/${id}?limit=10&page=${currentPage}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

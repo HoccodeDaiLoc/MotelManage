@@ -93,7 +93,7 @@
           height: 24px;
         }
       }
-      .icon_container:hover{
+      .icon_container:hover {
         background-color: Global.$buttonbackground;
       }
       .icon_container:last-child {
@@ -102,7 +102,56 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        .modal_user_container_noti {
+          overflow-y: auto; /* Thêm thanh cuộn dọc */
+          flex-direction: column;
+          display: flex;
+          opacity: 1;
+          top: 50px;
+          right: 5px;
+          z-index: 1000;
+          width: 360px;
+          height: 200px;
+          position: absolute;
+          background-color: #f7f7f7;
+          border-radius: 5px;
+          box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
+          .modal_noti {
+            height: 50%;
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: medium;
+            width: 100%;
+            .modal_icon_container {
+              margin-right: 10px;
+              width: fit-content;
+              height: fit-content;
+              background-color: Global.$secondbackground;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 20px;
+              .modal_icon {
+                width: 56px;
+                height: 56px;
+              }
+            }
+            .modal_part_noti {
+              margin: 10px 0px;
+              display: flex;
+              width: 100%;
+              height: fit-content;
+              flex-direction: row;
+              justify-content: flex-start;
+              align-items: center;
 
+            }
+          }
+        }
         .modal_user_container {
           opacity: 1;
           top: 50px;
@@ -113,7 +162,8 @@
           position: absolute;
           background-color: #f7f7f7;
           border-radius: 5px;
-          box-shadow: 0 -4px 32px rgba(0,0,0,.2);
+          box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
+
           .modal_user {
             height: 100%;
             width: fit-content;
@@ -124,6 +174,7 @@
             padding: 10px;
             font-size: medium;
             width: 100%;
+
             .modal_part {
               display: flex;
               width: 100%;
@@ -131,7 +182,8 @@
               flex-direction: row;
               justify-content: flex-start;
               align-items: center;
-              .modal_icon_container{
+
+              .modal_icon_container {
                 width: 36px;
                 height: 36px;
                 background-color: Global.$secondbackground;
@@ -140,7 +192,7 @@
                 align-items: center;
                 margin-right: 16px;
                 border-radius: 20px;
-                .modal_icon{
+                .modal_icon {
                   width: 20px;
                 }
               }
@@ -177,7 +229,6 @@
 #white_background {
   background-color: #ffffff;
 }
-.active{
+.active {
   background-color: Global.$buttonbackground;
-
 }
