@@ -47,6 +47,9 @@ export class ContractRepository
       return await Contract.findAndCountAll({
         limit: limit,
         offset: (page - 1) * limit,
+        include: {
+          model: Renter,
+        }
       });
     } catch (err) {
       throw err;
@@ -59,6 +62,9 @@ export class ContractRepository
         where: {
           id: id,
         },
+        include: {
+          model: Renter
+        }
       });
     } catch (err) {
       throw err;
