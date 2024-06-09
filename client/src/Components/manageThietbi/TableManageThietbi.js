@@ -76,21 +76,22 @@ const TableManageTb = (props) => {
 
   const getTb = async (page) => {
     try {
-      const resTb = await fetchAllTb(page); // Lấy thông tin các thiết bị
-      if (resTb && resTb.data) {
-        const { data, total_pages } = resTb.data;
-        setTotalTb(resTb.total);
-        const updatedTbList = resTb.data.map(tb => ({
-          ...tb,
-          // roomNumber: roomMapping[tb.roomId] || tb.roomId // Map roomId to roomNumber
-        }));
-        setListTb(updatedTbList);
-        setTotalPageTb(resTb.total_pages);
-      }
+        const resTb = await fetchAllTb(page); // Fetch device information
+        if (resTb && resTb.data) {
+            const { data, total_pages } = resTb.data;
+            setTotalTb(resTb.total);
+            const updatedTbList = resTb.data.map(tb => ({
+                ...tb,
+                roomNumber: roomNumbers.find(room => room.roomId === tb.roomId)?.roomNumber
+            }));
+            setListTb(updatedTbList);
+            setTotalPageTb(resTb.total_pages);
+        }
     } catch (error) {
-      console.error("Error fetching tb data:", error);
+        console.error("Error fetching tb data:", error);
     }
-  };
+};
+
 
   const getDeviceName = (categoryId) => {
     switch (categoryId) {
@@ -135,20 +136,22 @@ const TableManageTb = (props) => {
   };
 
 
-  
   const handleSearchTb = debounce((event) => {
-    console.log(event.target.value);
-    let term = event.target.value;
+    const term = event.target.value.toLowerCase(); 
     if (term) {
-      let cloneListTb = _.cloneDeep(listTb);
-      cloneListTb = cloneListTb.filter((item) =>
-        item.roomNumber.toString().includes(term)
-      );
-      setListTb(cloneListTb);
+        const filteredTb = listTb.filter((item) => {
+            
+            const roomNumberStr = item.roomNumber ? item.roomNumber.toString().toLowerCase() : "";
+            return roomNumberStr.includes(term);
+        });
+        setListTb(filteredTb);
     } else {
-      getTb(1);
+        
+        getTb(1);
     }
-  }, 200);
+}, 200);
+
+
 
 
   const handDetailTb = (tb) => {
@@ -223,7 +226,7 @@ const TableManageTb = (props) => {
                     className="btn btn-success mx-3"
                     onClick={() => handDetailTb(item)}
                   >
-                    Chi tiet
+                   Chi tiết
                   </button>
                 </td>
               </tr>

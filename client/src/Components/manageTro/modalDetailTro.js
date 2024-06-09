@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Carousel from "react-bootstrap/Carousel";
 import { fetchAllDetailRoom, fetchAllDetailRenter } from "../../service/ManageService";
-import "./ManagerModalDetailTro.modules.scss"; // Assuming you have your custom styles here
+import "./ManagerModalDetailTro.modules.scss"; 
 
 const ModalDetailTro = (props) => {
   const { show, handleCloseTro, dataDetailTro } = props;
@@ -26,7 +26,7 @@ const ModalDetailTro = (props) => {
 
   useEffect(() => {
     if (dataDetailTro) {
-      getDetailTro(dataDetailTro.roomId); // Thay thế dataDetailTro.roomId bằng trường chứa ID của phòng
+      getDetailTro(dataDetailTro.roomId);
     }
   }, [dataDetailTro]);
 
@@ -43,7 +43,7 @@ const ModalDetailTro = (props) => {
 
   useEffect(() => {
     if (dataDetailTro) {
-      getDetailRenter(dataDetailTro.roomId); // Thay thế dataDetailTro.roomId bằng trường chứa ID của phòng
+      getDetailRenter(dataDetailTro.roomId); 
     }
   }, [dataDetailTro]);
 

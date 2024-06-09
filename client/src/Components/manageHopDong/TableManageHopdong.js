@@ -111,23 +111,22 @@ const TableManageHd = (props) => {
   // };
   const getHd = async (page) => {
     try {
-      const res = await fetchAllHd(page);
-      if (res && res.data) {
-        const { data, total_pages } = res.data;
-        setTotalHd(res.data.total);
-        setTotalPageHd(res.total_pages);
-        const updatedHoadonList = res.data.map((hd) => {
-          // const roomNumber = roomMapping[hd.roomId];
-          return { ...hd};
-        });
-        setListHd(updatedHoadonList);
-      }
+        const resHd = await fetchAllHd(page); // Fetch device information
+        if (resHd && resHd.data) {
+            const { data, total_pages } = resHd.data;
+            setTotalHd(resHd.total);
+            const updatedHdList = resHd.data.map(tb => ({
+                ...tb,
+                roomNumber: roomNumbers.find(room => room.roomId === tb.roomId)?.roomNumber
+            }));
+            setListHd(updatedHdList);
+            setTotalPageHd(resHd.total_pages);
+        }
     } catch (error) {
-      console.error("Error fetching hóa đơn data:", error);
+        console.error("Error fetching tb data:", error);
     }
-  };
-  
-  
+};
+
 
   const handlePageClick = (event) => {
     getHd(+event.selected + 1);
@@ -158,19 +157,22 @@ const TableManageHd = (props) => {
     setListHd(cloneListHd);
   };
 
+
   const handleSearchHd = debounce((event) => {
-    console.log(event.target.value);
-    let term = event.target.value;
+    const term = event.target.value.toLowerCase(); 
     if (term) {
-      let cloneListHd = _.cloneDeep(listHd);
-      cloneListHd = cloneListHd.filter((item) =>
-        item.roomNumber.toString().includes(term)
-      );
-      setListHd(cloneListHd);
+        const filteredHd = listHd.filter((item) => {
+            
+            const roomNumberStr = item.roomNumber ? item.roomNumber.toString().toLowerCase() : "";
+            return roomNumberStr.includes(term);
+        });
+        setListHd(filteredHd);
     } else {
-      getHd(1);
+        
+        getHd(1);
     }
-  }, 200);
+}, 200);
+
 
   const handDetailHd = (hd) => {
     setIsShowModalDetailHd(true);
