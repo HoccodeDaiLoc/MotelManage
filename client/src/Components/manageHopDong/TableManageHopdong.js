@@ -213,7 +213,7 @@ const TableManageHd = (props) => {
             className="mr-2 mx-1"
             style={{ fontSize: "1.5em", marginTop: "-5px" }}
           />
-          Thêm khach
+          Tạo hợp đồng
         </button>
       </div>
       <div className="col-4 my-3">

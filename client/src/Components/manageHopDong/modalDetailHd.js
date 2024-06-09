@@ -177,6 +177,7 @@ const ModalDetailHd = (props) => {
               </MDBContainer>
             </MDBCardBody>
             <MDBCardFooter className="bg-dark"></MDBCardFooter>
+            <Button variant="secondary" onClick={handleCloseHd}>Đóng</Button>
           </MDBCard>
         </MDBContainer>
       </Modal.Body>
