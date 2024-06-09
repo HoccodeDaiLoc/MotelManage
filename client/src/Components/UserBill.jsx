@@ -7,7 +7,7 @@ import momo from "../asset/image/momo.png";
 import MyModal from "./ModalBillDetail";
 import { io } from "socket.io-client";
 import { getNotification } from "../service/NotiService";
-
+import arrow_down from "../asset/image/arrow-downsvg.svg";
 function UserBill() {
   const [billData, setBillData] = useState([]);
   const id = useSelector((state) => state.user.account.renterId);
@@ -70,17 +70,82 @@ function UserBill() {
     setSelectedBill(billItem);
   };
 
+  const SortByUnpaid = (res) => {
+    let BillArray = [];
+
+    res.find((bill) => {
+      if (bill.status === "chưa thanh toán") {
+        BillArray.push(bill);
+      }
+    });
+    return BillArray;
+  };
+  const SortByPaid = (res) => {
+    let BillArray = [];
+    res.find((bill) => {
+      if (bill.status === "đã thanh toán") {
+        BillArray.push(bill);
+      }
+    });
+    return BillArray;
+  };
+
+  const [currentBill, SetCurrentBill] = useState("AllBill");
+
   return (
     <div className="UserInfo_Wrapper">
       <div className="UserInfo_Container">
         {billData.length > 0 ? (
           <>
-            <h4 className="UserInfo_Item_Heading">Hóa đơn của bạn</h4>
+            <div className="User_Header_container">
+              <h4 className="UserInfo_Item_Heading">Hóa đơn của bạn</h4>
+              <select
+                name="billSelect"
+                id="billSelect"
+                className="billSelect"
+                value={currentBill}
+                onChange={async (e) => {
+                  SetCurrentBill(e.target.value);
+                  console.log(e.target.value);
+
+                  if (e.target.value === "UnpaidBill") {
+                    const res = await fetchBillByRenter(id, currentPage);
+                    setBillData(SortByUnpaid(res.data));
+                  }
+                  if (e.target.value === "PaidBill") {
+                    const res = await fetchBillByRenter(id, currentPage);
+                    setBillData(SortByPaid(res.data));
+                  }
+                  if (e.target.value === "AllBill") {
+                    const res = await fetchBillByRenter(id, currentPage);
+                    setBillData(res.data);
+                  }
+                }}
+              >
+                <option value="AllBill">Tất cả hóa đơn</option>
+                <option value="PaidBill">Hóa đơn đã thanh toán</option>
+                <option value="UnpaidBill">Hóa đơn chưa thanh toán</option>
+              </select>
+              <img src={arrow_down} className="icon bill_arrow"></img>
+            </div>
             <table className="UserInfo_Table">
               <thead>
-                <tr>
-                  <th>Mã</th>
-                  <th>Ngày tạo hóa đơn</th>
+                <tr className="UserInfo_Table_Row">
+                  <th
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setBillData(
+                        [...billData].reverse()
+                      ); /* tạo 1 arrays mới bằng toán tử ... , và reverse*/
+                    }}
+                  >
+                    Mã
+                    <img src={arrow_down} className="icon table_icon"></img>
+                  </th>
+                  <th style={{ cursor: "pointer" }}>
+                    Ngày tạo hóa đơn
+                    <img src={arrow_down} className="icon table_icon"></img>
+                  </th>
                   <th>Hạn thanh toán</th>
                   <th>Phương thức thanh toán</th>
                   <th>Trạng thái thanh toán</th>
@@ -91,10 +156,13 @@ function UserBill() {
                 {billData.map((bill) => (
                   <tr key={bill.billId}>
                     <td
+                      style={{ cursor: "pointer" }}
                       onClick={() => {
                         handleRowClick(bill.billItem);
                       }}
-                    ></td>
+                    >
+                      {bill.billId}
+                    </td>
                     <td>{bill.billStartDate.slice(0, 10)}</td>
                     <td>{bill.billEndDate.slice(0, 10)}</td>
                     <td>{bill.paymentMethod}</td>

@@ -53,9 +53,9 @@ function Login() {
 
   return (
     <section className="LogginWrapper">
-      <Link to={"/"} className="logo_container">
+      {/* <Link to={"/"} className="logo_container">
         <img className="logo" src={imagethuetro} alt="" srcSet="" />
-      </Link>
+      </Link> */}
 
       <form
         onSubmit={handleSubmit}
@@ -110,26 +110,19 @@ function Login() {
                 </h6>
               </Link>
             </div>
-            <button
+
+            <hr></hr>
+            <button className="submit_loggin active" type="submit">
+              Đăng nhập
+            </button>
+            <h6
               onClick={() => {
                 navigate("/SignIn");
               }}
-              className="submit_loggin active"
+              className="Loggin_text"
             >
               Bạn chưa có tài khoản?
-            </button>
-            <hr></hr>
-            <button
-              className="submit_loggin active"
-              // className={
-              //   username && password ? "submit_loggin active" : "submit_loggin"
-              // }
-              // disabled={!username || !password}
-              type="submit"
-            >
-              {/* <FontAwesomeIcon className="spinner" /> */}
-              Đăng nhập
-            </button>
+            </h6>
           </div>
         </div>
       </form>
