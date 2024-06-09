@@ -56,7 +56,7 @@ const ModalDetailHd = (props) => {
 
   console.log('fetchalldetail', renterDetail);
   return (
-    <Modal show={show} onHide={handleCloseHd} backdrop="static" keyboard={false} size="xl">
+    <Modal show={show} onHide={handleCloseHd} backdrop="static" keyboard={false} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Chi tiết hợp đồng thuê trọ</Modal.Title>
       </Modal.Header>
@@ -71,8 +71,8 @@ const ModalDetailHd = (props) => {
                 <MDBRow>
                   <MDBCol xl="12">
                     <ul className="right-align" >
-                      <li style={{ marginRight: '350px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</li>
-                      <li style={{ marginRight: '400px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>Độc lập - Tự do - Hạnh phúc</li>
+                      <li style={{ marginRight: '180px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</li>
+                      <li style={{ marginRight: '240px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>Độc lập - Tự do - Hạnh phúc</li>
                     </ul>
                     <MDBTypography listUnStyled className="float-end">
                       <li style={{ fontSize: '30px', color: 'red' }}>Thuê trọ</li>
@@ -89,7 +89,7 @@ const ModalDetailHd = (props) => {
                   <p>Kính gửi: {dataDetailHd.tenantName}</p>
                 </MDBRow>
                 <MDBRow>
-                  <MDBCol md="6" style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
+                  <MDBCol md="6" style={{ padding: '20px' }}>
                     <p>
                       <strong>Bên A (Bên cho thuê):</strong>
                     </p>
@@ -97,12 +97,12 @@ const ModalDetailHd = (props) => {
                     <p>Địa chỉ: Hòa Khánh Bắc, Đà Nẵng</p>
                     <p>Số điện thoại: 0222.211.133</p>
                   </MDBCol>
-                  <MDBCol md="6" style={{ padding: '30px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
+                  <MDBCol md="6" style={{ padding: '30px',marginTop: '-15px',marginRight: '-50px' }}>
                <p>
-             <strong>Bên B (Bên thuê):</strong>
+             <strong style={{marginRight: '50px' }} >Bên B (Bên thuê):</strong>
              </p>
-             <p style={{ margin: '5px 0' }}>Họ và tên: {renterDetail?.renter?.name || ""}             </p>
-             <p style={{ margin: '5px 0' }}>Địa chỉ: {renterDetail?.renter?.cccd || ""}     </p>
+             <p style={{ margin: '5px 0' }}>Họ và tên(Ông/bà ...): {renterDetail?.renter?.name || ""}             </p>
+             <p style={{ margin: '5px 0' }}>Số căn cước công dân: {renterDetail?.renter?.cccd || ""}     </p>
              <p style={{ margin: '5px 0' }}>Địa chỉ: {renterDetail?.renter?.address || ""}             </p>
              <p style={{ margin: '5px 0' }}>Số điện thoại:{renterDetail?.renter?.phone || ""}             </p>
                   </MDBCol>

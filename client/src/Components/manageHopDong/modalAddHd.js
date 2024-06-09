@@ -41,10 +41,14 @@ const ModalAddHd = (props) => {
   }, []);
 
   const handUpdateHd = async () => {
-    if (!startDay) {
-      toast.error("Vui lòng chọn ngày bắt đầu");
+
+    if (!startDay || !depositAmount || !roomNumber) {
+  
+      toast.error("Vui lòng nhập đầy đủ thông tin trước khi lưu.");
+  
       return;
     }
+  
     const roomId = roomMapping[parseInt(roomNumber)];
     if (!roomId) {
       toast.error("Số phòng không hợp lệ");
@@ -135,7 +139,7 @@ const ModalAddHd = (props) => {
             />
           </div>
 
-          <div className="col-md-12">
+          {/* <div className="col-md-12">
             <label htmlFor="inputRenterId" className="form-label">Mã hợp đồng</label>
             <input
          type="text"
@@ -144,7 +148,7 @@ const ModalAddHd = (props) => {
           placeholder="Mã hợp đồng..."
               disabled // Đã có renterId từ props
                   />   
-          </div>
+          </div> */}
           <div className="row">
             <div className="col-md-6 my-3">
               <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu</label>
