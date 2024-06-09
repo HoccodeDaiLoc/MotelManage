@@ -14,7 +14,7 @@ const ModalAddHoadon = (props) => {
   const { show, handleCloseHoadon, handUpdateTableHoadon } = props;
   const [billStartDate, setBillStartDate] = useState(null);
   const [billEndDate, setBillEndDate] = useState(null);
-  const [payMethod, setPayMethod] = useState("Chuyển khoản"); // Default value
+  const [payMethod, setPayMethod] = useState("Chuyển khoản"); 
   const [billStatus, setBillStatus] = useState("Chưa thanh toán");
   const [waterPrice, setWaterPrice] = useState("7000");
   const [electricPrice, setElectricPrice] = useState("3000");
@@ -120,7 +120,7 @@ const ModalAddHoadon = (props) => {
       handleCloseHoadon();
       setBillStartDate(null);
       setBillEndDate(null);
-      setPayMethod("Chuyển khoản"); // Reset to default value
+      setPayMethod("Chuyển khoản"); 
       setBillStatus("Chưa thanh toán");
       setWaterPrice("7000");
       setElectricPrice("3000");

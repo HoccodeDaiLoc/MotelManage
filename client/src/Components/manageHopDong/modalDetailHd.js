@@ -74,16 +74,11 @@ const ModalDetailHd = (props) => {
                       <li style={{ marginRight: '180px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</li>
                       <li style={{ marginRight: '240px', padding: '0', listStyle: 'none', textAlign: 'right', fontWeight: 'bold' }}>Độc lập - Tự do - Hạnh phúc</li>
                     </ul>
-                    <MDBTypography listUnStyled className="float-end">
-                      <li style={{ fontSize: '30px', color: 'red' }}>Thuê trọ</li>
-                      <li>Hòa Khánh Bắc, Đà Nẵng</li>
-                      <li>0232000111</li>
-                      <li>thuetro@gmail.com</li>
-                    </MDBTypography>
+                    
                   </MDBCol>
                 </MDBRow>
                 <MDBRow className="text-center">
-                  <h3 className="text-uppercase text-center mt-3" style={{ fontSize: '40px' }}>
+                  <h3 className="text-uppercase text-center mt-3" style={{ fontSize: '40px' ,color:"red" }}>
                     HỢP ĐỒNG THUÊ TRỌ
                   </h3>
                   <p>Kính gửi: {dataDetailHd.tenantName}</p>

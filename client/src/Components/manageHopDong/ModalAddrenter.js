@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { postCreateUser } from "../../service/ManageService";
 import { toast } from 'react-toastify';
 import FormSelect from 'react-bootstrap/FormSelect';
-import ModalAddHd from './modalAddHd'; // Import ModalAddHd
+import ModalAddHd from './modalAddHd'; 
 
 const ModalAddrenter = (props) => {
   const { show, handleCloseHd, handUpdateTable } = props;
@@ -19,8 +19,8 @@ const ModalAddrenter = (props) => {
   const [roomNumber, setRoomNumber] = useState("");
   const [roomMapping, setRoomMapping] = useState({});
   const [roomNumbers, setRoomNumbers] = useState([]);
-  const [renterId, setRenterId] = useState(""); // State mới để lưu renter ID
-  const [showHd, setShowHd] = useState(false); // State để hiển thị ModalAddHd
+  const [renterId, setRenterId] = useState(""); 
+  const [showHd, setShowHd] = useState(false); 
 
   useEffect(() => {
     const fetchRoomData = async () => {
