@@ -22,6 +22,9 @@ import { Notification } from "../models/Notification";
 import { Renter } from "../models/Renter";
 import { RenterRepository } from "../repository/RenterRepository";
 import { IRenterRepository } from "../repository/Interfaces/IRenterRepository";
+import fs from "fs";
+import path from "path";
+import EmailService from "../utils/Email";
 
 @Service()
 export class BillService implements IBillService {
@@ -302,5 +305,31 @@ export class BillService implements IBillService {
     } catch (err) {
       throw err;
     }
+  }
+
+  async sendMail(billId: number) {
+    const bill = await this.billRepository.getBill({ billId });
+    if(bill === null) {
+      throw new AppError("Bill not found", 404);
+    }
+    const renters = await this.renterRepository.getAllRenterOfRoom(bill.roomId, 100, 1);
+    const templatePath = path.join(
+      __dirname,
+      "../utils/bill.html"
+    );
+    const subject = "Hóa đơn mới";
+    const renterIds = renters.rows.map((renter) => {
+      const renterObject = renter.toJSON() as Renter;
+      const email = renterObject.email;
+      
+    });
+
+    let htmlContent = fs.readFileSync(templatePath, "utf8");
+    // await EmailService.getInstance().sendMail(
+    //   email,
+    //   subject,
+    //   undefined,
+    //   htmlContent
+    // );
   }
 }

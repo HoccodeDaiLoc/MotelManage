@@ -221,7 +221,8 @@ export class RoomController {
 
   getAllRoomNumber = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const roomNumber = await this.roomService.getRoomnumber();
+      const status = req.query["status"] as string | undefined;
+      const roomNumber = await this.roomService.getRoomnumber(status);
       if (roomNumber.length === 0) {
         return next(new AppError("Không tìm thấy phòng", 404));
       }
