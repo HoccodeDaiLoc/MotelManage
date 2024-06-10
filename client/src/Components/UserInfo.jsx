@@ -21,7 +21,6 @@ function UserInfo() {
   const accessToken = localStorage.getItem("accesstoken");
   const id = useSelector((state) => state.user.account.renterId);
   const username = useSelector((state) => state.user.account.username);
-  const user = useSelector((state) => state.user.account);
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [address, setAddress] = useState("");
@@ -176,6 +175,7 @@ function UserInfo() {
             maxLength={50}
             placeholder="Họ tên của bạn"
             defaultValue={name}
+            disabled
             className={"UserInfo_Item_Input"}
             onChange={(e) => setName(e.target.value)}
           />
@@ -187,6 +187,7 @@ function UserInfo() {
             maxLength={50}
             placeholder="Email của bạn"
             defaultValue={email}
+            disabled
             className={"UserInfo_Item_Input"}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -197,6 +198,7 @@ function UserInfo() {
             type="text"
             maxLength={12}
             placeholder="CCCD của bạn"
+            disabled
             defaultValue={CCCD}
             className={"UserInfo_Item_Input"}
             onChange={(e) => setCCCD(e.target.value)}
@@ -206,6 +208,7 @@ function UserInfo() {
           <div className="sub_dob_container">
             <h6 className="UserInfo_Item_Text">Ngày sinh</h6>
             <DatePicker
+              disabled
               className="UserInfo_Item_Input"
               selected={dateOfBirth}
               onChange={(date) => setDateOfBirth(date)}
@@ -218,6 +221,7 @@ function UserInfo() {
           <input
             type="text"
             maxLength={100}
+            disabled
             defaultValue={address}
             placeholder="Địa chỉ của bạn"
             className={"UserInfo_Item_Input"}
@@ -229,6 +233,7 @@ function UserInfo() {
           <input
             type="text"
             maxLength={10}
+            disabled
             defaultValue={phone}
             placeholder="Số điện thoại của bạn"
             className={"UserInfo_Item_Input"}

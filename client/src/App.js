@@ -49,7 +49,9 @@ function App() {
   const id = useSelector((state) => state.user.account.id);
   const [socket, setSocket] = useState("");
   useEffect(() => {
-    if (id !== null || id !== undefined) {
+    console.log("check", id);
+    if (id) {
+      console.log("userid first", id);
       setSocket(io("http://localhost:8080", { query: { userId: id } }));
       console.log("socket", socket);
     }
