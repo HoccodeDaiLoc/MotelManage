@@ -10,6 +10,7 @@ import { Renter } from "../models/Renter";
 import { AppError } from "../errors/AppError";
 import Authentication from "../utils/Authentication";
 import EmailService from "../utils/Email";
+import crypto from "crypto";
 
 import fs from "fs";
 import path from "path";
@@ -180,14 +181,13 @@ export class AccountService implements IAccountService {
       if (!account) {
         throw new AppError("Không tìm thấy người dùng", 404);
       }
-      const resetToken = Authentication.generateResetToken();
+      const resetToken = crypto.randomBytes(8).toString('hex');
       const currentTime = new Date();
       const passwordResetExpires = new Date(currentTime.getTime() + 10 * 60000);
       await this.accountRepository.updateAccountById(account.id, {
         passwordResetToken: resetToken,
         passwordResetExpires: passwordResetExpires,
       });
-      console.log(__dirname);
       const templatePath = path.join(
         __dirname,
         "../utils/ForgotPasswordMail.html"
