@@ -46,7 +46,7 @@ function RoomsContent() {
         <div className="info">
           <div className="bold">Phòng {item?.roomNumber}</div>
           <div className="area">Diện tích phòng {item?.roomArea} m²</div>
-          <div className="max">Phòng {item?.roomStatus}</div>
+          <div className="max"> {item?.roomStatus}</div>
           <div className="max">Số người ở tối đa {item?.maxOccupancy}</div>
           <div className="cost bold">Giá phòng {item?.price} vnđ/tháng</div>
         </div>

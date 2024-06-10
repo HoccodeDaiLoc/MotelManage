@@ -58,7 +58,9 @@ function UserBill() {
   const handlePayment = async (billId, rederedirectUrl) => {
     const res = await PaymentByMomo(billId, rederedirectUrl);
     console.log("check momo", res);
-    if (res && socket) window.open(res.result.payUrl, "_blank");
+    if (res && socket) {
+      window.open(res.result.payUrl, "_blank");
+    }
   };
 
   const handlePageClick = (event) => {
@@ -142,10 +144,7 @@ function UserBill() {
                     Mã
                     <img src={arrow_down} className="icon table_icon"></img>
                   </th>
-                  <th style={{ cursor: "pointer" }}>
-                    Ngày tạo hóa đơn
-                    <img src={arrow_down} className="icon table_icon"></img>
-                  </th>
+                  <th>Ngày tạo hóa đơn</th>
                   <th>Hạn thanh toán</th>
                   <th>Phương thức thanh toán</th>
                   <th>Trạng thái thanh toán</th>

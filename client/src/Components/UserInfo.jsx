@@ -245,6 +245,8 @@ function UserInfo() {
                 style={{
                   maxWidth: "150px",
                   maxHeight: "150px",
+                  minHeight: "150px",
+                  minWidth: "150px",
                   borderRadius: "50%",
                 }}
               ></img>
@@ -266,6 +268,8 @@ function UserInfo() {
                     style={{
                       maxWidth: "150px",
                       maxHeight: "150px",
+                      minHeight: "150px",
+                      minWidth: "150px",
                       margin: "0px 20px 0px 20px",
                     }}
                   />

@@ -1,7 +1,7 @@
 @use "./Global.modules.scss";
 
 .LogginWrapper {
-  background-image:url('../asset/image/background.jpg');
+  background-image:url('../asset/image/the-ivy-hotel-baltimore-maryland-exterior_HERO_BLACKHTL0223-a77ffd66b4e2413f9e68c92ce642b03c.jpg');
   background-attachment:fixed;
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,7 +26,6 @@
       height: 43.776px;
     }
   }
-
   .LogginContainer {
     background-color: #313338;
     margin: auto;
@@ -35,7 +34,6 @@
     padding: 20px;
     display: flex;
     flex-direction: row;
-
     .LogginRight {
       display: flex;
       flex-direction: column;
@@ -48,10 +46,8 @@
         font-size: x-large;
         margin-bottom: 20px;
       }
-
       .LogginForm {
         color: hsl(215 calc(1 * 8.8%) 73.3% / 1);
-
         display: flex;
         flex-direction: column;
         padding: 20px;
@@ -60,20 +56,14 @@
         }
         .pass_text{
             color: hsl(215 calc(1 * 8.8%) 73.3% / 1);
-
         }
         .spinner {
           margin-right: 10px;
           animation: spin infinite 5s linear;
-
-          /*You can increase or decrease the timer (5s) to 
-                     increase or decrease the speed of the spinner*/
         }
-
         .pass_container {
           position: relative;
           margin-bottom: 20px;
-
           .icon1 {
             cursor: pointer;
             position: absolute;
@@ -122,19 +112,16 @@
                 border: 1px solid #ccc;
                 border-radius: 5px;
               }
-
               .forgetpass_box:focus {
-                outline: none; /* Remove default outline */
-                border-color: #ff385c; /* Highlight on focus */
+                outline: none; 
+                border-color: #ff385c; 
               }
             }
           }
         }
-
         .username_container {
           margin-bottom: 20px;
         }
-
         &.user_username,
         &.pass {
           border: none;
