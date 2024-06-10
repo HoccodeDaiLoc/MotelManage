@@ -1,5 +1,6 @@
 import axios from "./customize-axios";
 const accessToken = localStorage.getItem("accesstoken");
+const userid = localStorage.getItem("id");
 
 const getNotification = (id) => {
   return axios.get(`/api/notification/user/${id}`, {
@@ -9,11 +10,11 @@ const getNotification = (id) => {
   });
 };
 
-const postNotification = (id, notiId) => {
+const postNotification = (id) => {
   return axios.post(
-    `/api/notification/user/${id}`,
+    `api/notification/changeread/${id}`,
     {
-      notificationId: notiId,
+      userId: userid,
     },
     {
       headers: {

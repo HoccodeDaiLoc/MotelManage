@@ -139,26 +139,27 @@
             flex-direction: column;
             align-items: flex-start;
             border-radius: 5px;
-            padding: 10px;
             font-size: medium;
             width: 100%;
             .modal_icon_container {
               margin-right: 10px;
               width: fit-content;
               height: fit-content;
-              background-color: Global.$secondbackground;
+              background-color: grey;
               display: flex;
               justify-content: center;
               align-items: center;
               border-radius: 20px;
+              
               .modal_icon {
                 width: 56px;
                 height: 56px;
               }
             }
             .modal_part_noti {
-              margin: 10px 0px;
               display: flex;
+            padding: 10px;
+
               width: 100%;
               height: fit-content;
               flex-direction: row;
@@ -174,6 +175,10 @@
             .Notification{
               padding:5px 10px;
             }
+            .modal_part_noti:hover{
+              background-color: Global.$secondbackground;
+            }
+            
 
           }
         }

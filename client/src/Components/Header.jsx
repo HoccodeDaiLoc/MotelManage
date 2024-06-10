@@ -39,6 +39,7 @@ function Header({ socket }) {
       setNotification(res.data);
     };
     getNoti(id);
+    console.log(socket);
     if (socket) {
       socket.on("notification", (data) => {
         setNotification((prev) => [...prev, data]);
@@ -83,7 +84,7 @@ function Header({ socket }) {
             >
               <div className="noti_container">
                 <img className="icon" src={bell} alt="help me nick"></img>
-
+                {console.log(notifications)}
                 {notifications.length === 0 ||
                 notifications.status === "error" ||
                 notifications.status === "fail" ||
@@ -91,6 +92,7 @@ function Header({ socket }) {
                 notifications === null
                   ? ""
                   : notifications.find((noti) => {
+                      console.log(noti);
                       if (noti.isRead === false) {
                         counter += 1;
                         {
@@ -116,8 +118,10 @@ function Header({ socket }) {
                           <div
                             style={{ cursor: "pointer" }}
                             onClick={() => {
-                              if (noti.isRead === false) {
-                                postNotification(id, noti.notificationId);
+                              if (
+                                noti.notificationSubjects[0].isRead === false
+                              ) {
+                                postNotification(noti.notificationId);
                               }
 
                               navigate("user/Bill");
@@ -133,20 +137,25 @@ function Header({ socket }) {
                                 className="modal_icon"
                               />
                             </div>
-                            {noti.isRead === false ||
-                            noti.isRead === "false" ? (
+                            {noti.notificationSubjects[0].isRead === false ||
+                            noti.notificationSubjects[0].isRead === "false" ? (
                               <div className="bluepoint"></div>
                             ) : (
                               ""
                             )}
                             <div className="Notification">
-                              <h6>{noti.title}</h6>
                               <p style={{ margin: "0px" }}>
-                                {truncateString(noti.content)}
+                                {noti.content + " vnđ"}
                               </p>
-                              <span>
-                                Ngày tạo: {noti.dateCreated.slice(0, 10)}
-                              </span>
+                              <h6
+                                style={{
+                                  fontSize: "small",
+                                  marginTop: "10px",
+                                  float: "right",
+                                }}
+                              >
+                                {noti.dateCreated.slice(0, 10)}
+                              </h6>
                             </div>
                           </div>
                         ))}
