@@ -87,6 +87,7 @@ function UserInfo() {
       let res = await fetchCurrentUser(id);
       // let ava =await
       let data = res.renter;
+      console.log(data);
       setEmail(data.email);
       setName(data.name);
       setDateOfBirth(data.dateOfBirth);
@@ -177,7 +178,6 @@ function UserInfo() {
             defaultValue={name}
             disabled
             className={"UserInfo_Item_Input"}
-            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div className="UserInfo_Item">
@@ -189,7 +189,6 @@ function UserInfo() {
             defaultValue={email}
             disabled
             className={"UserInfo_Item_Input"}
-            onChange={(e) => setEmail(e.target.value)}
           />
         </div>{" "}
         <div className="UserInfo_Item">
@@ -201,7 +200,6 @@ function UserInfo() {
             disabled
             defaultValue={CCCD}
             className={"UserInfo_Item_Input"}
-            onChange={(e) => setCCCD(e.target.value)}
           />
         </div>{" "}
         <div className="UserInfo_Item">
@@ -211,7 +209,6 @@ function UserInfo() {
               disabled
               className="UserInfo_Item_Input"
               selected={dateOfBirth}
-              onChange={(date) => setDateOfBirth(date)}
               dateFormat="yyyy-MM-dd"
             />
           </div>
@@ -225,7 +222,6 @@ function UserInfo() {
             defaultValue={address}
             placeholder="Địa chỉ của bạn"
             className={"UserInfo_Item_Input"}
-            onChange={(e) => setAddress(e.target.value)}
           />
         </div>
         <div className="UserInfo_Item">
@@ -237,7 +233,6 @@ function UserInfo() {
             defaultValue={phone}
             placeholder="Số điện thoại của bạn"
             className={"UserInfo_Item_Input"}
-            onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>{" "}
         <div className="UserInfo_Item">

@@ -16,26 +16,23 @@ import LazyLoad from "react-lazy-load";
 
 function Header({ socket }) {
   const [notifications, setNotification] = useState([]);
+  const userid = useSelector((state) => state.user.account.userId);
   const user = useSelector((state) => state.user.account);
-  const isAdmin = useSelector((state) => state.user.account.isAdmin);
-  const renterId = useSelector((state) => state.user.account.renterId);
-  const id = useSelector((state) => state.user.account.id);
-  console.log("userid", id);
-  console.log("renterid", renterId);
 
+  const isAdmin = useSelector((state) => state.user.account.isAdmin);
+  const id = useSelector((state) => state.user.account.renterId);
   const [avatarLink, setAvatarLink] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   let counter = 0;
-
   useEffect(() => {
-    const getCurrentUser = async (renterId) => {
-      let res = await fetchCurrentUser(renterId);
+    const getCurrentUser = async (id) => {
+      let res = await fetchCurrentUser(id);
       setAvatarLink(localStorage.getItem("avatar"));
     };
-    getCurrentUser(renterId);
+    getCurrentUser(id);
   }, [localStorage.getItem("avatar")]);
 
   useEffect(() => {
@@ -44,13 +41,12 @@ function Header({ socket }) {
       setNotification(res.data);
     };
     getNoti(id);
-    console.log("socket", socket);
+    console.log(socket);
     if (socket) {
       socket.on("notification", (data) => {
         setNotification((prev) => [...prev, data]);
       });
     }
-    console.log("noti", notifications);
   }, [id, socket]);
 
   function truncateString(text) {
@@ -97,7 +93,8 @@ function Header({ socket }) {
                 notifications === undefined ||
                 notifications === null
                   ? ""
-                  : notifications.reverse().find((noti) => {
+                  : notifications.find((noti) => {
+                      console.log(noti);
                       if (noti.notificationSubjects[0].isRead === false) {
                         counter += 1;
                         {
@@ -123,15 +120,10 @@ function Header({ socket }) {
                           <div
                             style={{ cursor: "pointer" }}
                             onClick={() => {
-                              console.log("this", noti);
                               if (
-                                noti.notificationSubjects[0].isRead === false ||
-                                noti.notificationSubjects[0].isRead === "false"
+                                noti.notificationSubjects[0].isRead === false
                               ) {
                                 postNotification(noti.notificationId);
-                                console.log(
-                                  noti.notificationSubjects[0].isRead
-                                );
                               }
 
                               navigate("user/Bill");
@@ -194,7 +186,7 @@ function Header({ socket }) {
                 style={{ borderRadius: "50%" }}
                 className="icon user"
                 src={
-                  renterId === undefined || renterId === null || renterId === ""
+                  id === undefined || id === null || id === ""
                     ? ava
                     : avatarLink
                 }

@@ -10,41 +10,40 @@ import { getNotification } from "../service/NotiService";
 import arrow_down from "../asset/image/arrow-downsvg.svg";
 function UserBill() {
   const [billData, setBillData] = useState([]);
-  const renterid = useSelector((state) => state.user.account.renterId);
+  const id = useSelector((state) => state.user.account.renterId);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBill, setSelectedBill] = useState(null);
   const [notifications, setNotification] = useState([]);
 
-  const userid = useSelector((state) => state.user.account.id);
   let currentUrl = window.location.href;
   const [socket, setSocket] = useState("");
 
   useEffect(() => {
-    if (userid !== null || userid !== undefined) {
-      setSocket(io("http://localhost:8080", { query: { userId: userid } }));
+    if (id !== null || id !== undefined) {
+      setSocket(io("http://localhost:8080", { query: { userId: id } }));
       console.log("socket", socket);
     }
   }, []);
 
   useEffect(() => {
-    const getNoti = async (userid) => {
-      let res = await getNotification(userid);
+    const getNoti = async (id) => {
+      let res = await getNotification(id);
       setNotification(res.data);
     };
-    getNoti(userid);
+    getNoti(id);
     if (socket) {
       socket.on("notification", (data) => {
         setNotification((prev) => [...prev, data]);
       });
     }
-  }, [userid, socket]);
+  }, [id, socket]);
 
   useEffect(() => {
-    if (renterid !== null || renterid !== undefined) {
-      const fetchBill = async (renterid, currentPage) => {
+    if (id !== null || id !== undefined) {
+      const fetchBill = async (id, currentPage) => {
         try {
-          const res = await fetchBillByRenter(renterid, currentPage);
+          const res = await fetchBillByRenter(id, currentPage);
           console.log(res);
           setBillData(res.data);
           setTotalPages(res.total_page);
@@ -52,7 +51,7 @@ function UserBill() {
           console.error("Error fetching bills:", error);
         }
       };
-      fetchBill(renterid, currentPage);
+      fetchBill(id, currentPage);
     }
   }, [currentPage]);
 
@@ -112,15 +111,15 @@ function UserBill() {
                   console.log(e.target.value);
 
                   if (e.target.value === "UnpaidBill") {
-                    const res = await fetchBillByRenter(renterid, currentPage);
+                    const res = await fetchBillByRenter(id, currentPage);
                     setBillData(SortByUnpaid(res.data));
                   }
                   if (e.target.value === "PaidBill") {
-                    const res = await fetchBillByRenter(renterid, currentPage);
+                    const res = await fetchBillByRenter(id, currentPage);
                     setBillData(SortByPaid(res.data));
                   }
                   if (e.target.value === "AllBill") {
-                    const res = await fetchBillByRenter(renterid, currentPage);
+                    const res = await fetchBillByRenter(id, currentPage);
                     setBillData(res.data);
                   }
                 }}
