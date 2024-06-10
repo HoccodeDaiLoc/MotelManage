@@ -38,9 +38,6 @@ export class NotificationRepository
         where: searchCondidate,
         include: {
           model: NotificationSubject,
-          attributes: {
-            include: ["user_id"],
-          },
         },
       });
       return notification;
@@ -53,14 +50,12 @@ export class NotificationRepository
     title: string,
     content: string,
     dateCreated: Date,
-    isRead: boolean | undefined
   ): Promise<Notification | null> {
     try {
       const notification = await Notification.create({
         title,
         content,
         dateCreated,
-        isRead,
       });
       return notification;
     } catch (err) {

@@ -12,7 +12,6 @@ export interface INotificationRepository extends BaseInterface {
     title: string,
     content: string,
     dateCreated: Date,
-    isRead: boolean | undefined
   ): Promise<Notification | null>;
   getNotificationByUserId(
     userId: number,

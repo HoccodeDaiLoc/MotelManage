@@ -64,10 +64,8 @@ export class NotificationController {
   changeRead = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const notificationId = +req.params.notificationId as number;
-      const notification = await this.notificationService.updateNotification(
-        {notificationId},
-        { isRead: true }
-      );
+      const userId = +req.body.userId as number;
+      const notification = await this.notificationService.changeRead(userId, notificationId);
       return res.status(200).json({
         message: "success",
         data: notification,

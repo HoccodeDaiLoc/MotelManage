@@ -10,7 +10,6 @@ export class Notification extends Model {
     private static NOTIFICATION_TITLE  = "title" as string;
     private static NOTIFICATION_CONTENT = "content" as string;
     private static NOTIFICATION_DATE_CREATED = "date_created" as string;
-    private static NOTIFICATION_IS_READ = "is_read" as string;
 
     @Column({
         type: DataType.INTEGER,
@@ -37,13 +36,6 @@ export class Notification extends Model {
         field: Notification.NOTIFICATION_DATE_CREATED
     })
     dateCreated!: Date;
-
-    @Column({
-        type: DataType.BOOLEAN,
-        defaultValue: false,
-        field: Notification.NOTIFICATION_IS_READ
-    })
-    isRead!: boolean;
 
     @HasMany(() => NotificationSubject)
     notificationSubjects!: NotificationSubject[];

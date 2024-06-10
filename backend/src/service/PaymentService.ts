@@ -35,7 +35,7 @@ export class PaymentService implements PaymentService {
     const partnerCode = "MOMO";
     const redirectUrl = rederedirectUrl;
     const ipnUrl =
-      "https://obliging-tops-owl.ngrok-free.app/api/payment/momo/call-back-with-momo";
+      "https://bright-boss-grouper.ngrok-free.app/api/payment/momo/call-back-with-momo";
     const requestType = "payWithMethod";
     const amount = bill.total.toString();
     const orderId = partnerCode + new Date().getTime();

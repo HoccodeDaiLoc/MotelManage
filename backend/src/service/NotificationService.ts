@@ -56,14 +56,12 @@ export class NotificationService implements INotificationService {
     content: string,
     dateCreated: Date,
     subjects: number[],
-    isRead: boolean | undefined
   ): Promise<Notification> {
     try {
       const notification = await this.notificationRepository.createNotification(
         title,
         content,
         dateCreated,
-        isRead
       );
       const subjectsObject = await Promise.all(
         subjects.map(async (userId) => {
@@ -111,6 +109,20 @@ export class NotificationService implements INotificationService {
       }
       const notification = await this.notificationRepository.updateNotification(data, searchCondidate);
       return notification;
+    }catch(err) {
+      throw err;
+    }
+  }
+
+  async changeRead(userId: number, notificationId: number): Promise<Notification> {
+    try {
+      const subject = await this.notificationSubjectRepository.getNotificationSubject({ userId, notificationId });
+      if(subject === null) {
+        throw new AppError("NotificationSubject not found", 404);
+      }
+      const subjectsNoti = await this.notificationSubjectRepository.updateNotificationSubject(userId, notificationId);
+      const notification = await this.notificationRepository.getNotification({ notificationId });
+      return notification!;
     }catch(err) {
       throw err;
     }
