@@ -16,4 +16,5 @@ export interface IBillService {
   getBillByRoom(roomId: number, status: string, limit: number, page: number): Promise<{rows: Bill[], count: number}>;
   updateBillById(billId: number, data: any): Promise<Bill>;
   deleteBillById(billId: number): Promise<boolean>;
+  sendMail(billId: number): Promise<void>;
 }

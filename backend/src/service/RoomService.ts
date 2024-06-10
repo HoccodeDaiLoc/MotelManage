@@ -148,9 +148,9 @@ export class RoomService implements IRoomService {
     }
   }
 
-  async getRoomnumber(): Promise<Room[]> {
+  async getRoomnumber(status: string | undefined): Promise<Room[]> {
     try {
-      const rooms = await this.roomRepository.getAllRoomNumber();
+      const rooms = await this.roomRepository.getAllRoomNumber(status);
       if(rooms.length === 0) {
         throw new AppError("No room found", 404);
       }

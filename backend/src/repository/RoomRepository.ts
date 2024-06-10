@@ -272,13 +272,22 @@ export class RoomRepository
     }
   }
 
-  async getAllRoomNumber(): Promise<Room[]> {
+  async getAllRoomNumber(status: string | undefined): Promise<Room[]> {
     try {
+      if (status === undefined) {
+        const rooms = await this.model.findAll({
+          attributes: ["roomId", "roomNumber"],
+        });
+        return rooms;
+      }
       const rooms = await this.model.findAll({
+        where: {
+          roomStatus: status,
+        },
         attributes: ["roomId", "roomNumber"],
       });
       return rooms;
-    }catch(err) {
+    } catch (err) {
       throw err;
     }
   }

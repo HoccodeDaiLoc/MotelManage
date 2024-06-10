@@ -23,5 +23,5 @@ export interface IRoomRepository extends BaseInterface {
   getNumberRoom(): Promise<number>;
   updateRoomById(id: string, newData: any): Promise<Room>;
   getRoomByRenterId(renterId: number): Promise<Room | null>;
-  getAllRoomNumber(): Promise<Room[]>;
+  getAllRoomNumber(status: string | undefined): Promise<Room[]>;
 }
