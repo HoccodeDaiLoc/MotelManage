@@ -25,7 +25,7 @@ const ModalAddrenter = (props) => {
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
+        const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber?status=Phòng trống');
         const result = await response.json();
         if (response.ok) {
           const roomData = result.data.reduce((acc, room) => {
