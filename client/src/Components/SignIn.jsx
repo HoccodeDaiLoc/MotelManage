@@ -38,9 +38,9 @@ function SignIn() {
 
   return (
     <form onSubmit={handleSubmit} className="SignWrapper" autoComplete="off">
-      <Link to={"/"} className="logo_container">
+      {/* <Link to={"/"} className="logo_container">
         <img className="logo" src={logo} alt="" srcSet="" />
-      </Link>
+      </Link> */}
       <div className="SignContainer">
         <div className="SubSignContainer">
           <hr></hr>
@@ -89,18 +89,19 @@ function SignIn() {
             {errors.password && touched.password && (
               <p className="error">{errors.password}</p>
             )}
-            <button
-              onClick={() => {
-                navigate("/Loggin");
-              }}
-              className="submit_Sign active"
-            >
-              Bạn đã có tài khoản?
-            </button>
+
             <hr></hr>
             <button className={"submit_Sign active"} type="submit">
               Đăng ký
             </button>
+            <h6
+              onClick={() => {
+                navigate("/Loggin");
+              }}
+              className="sign_text"
+            >
+              Bạn đã có tài khoản?
+            </h6>
           </div>
         </div>
       </div>

@@ -5,7 +5,55 @@
     @extend %UserInfo;
     // background-color:#ffffff ;  
     .UserInfo_Container{
-
+        .User_Header_container{
+            position: relative;
+            .bill_arrow{
+                position: absolute;
+                bottom: 14px;
+                right: 590px;
+            }
+        }
+        .billSelect {
+            appearance: none;
+            background-color: #fff; 
+            border: 1px solid #ddd; 
+            padding: 0.8em 1.2em;
+            font-size: 16px;
+            line-height: 1.2;
+            border-radius: 0.4em; 
+            -webkit-appearance: none; 
+            -moz-appearance: none;
+          }
+          
+          .billSelect:focus {
+            outline: none; 
+            border-color: #009879;
+          }
+          
+          .billSelect option {
+            background-color: #fff;
+            color: #333; 
+            padding: 0.5em 1em; 
+            cursor: pointer;
+          }
+          
+          .billSelect option:selected {
+            background-color: #009879; 
+            color: #fff; 
+          }
+          
+          .billSelect::-ms-expand {
+            appearance: none;
+            margin: 0; 
+            padding: 0; 
+            background-color: #009879; 
+            color: #fff;
+            pointer-events: none; 
+          }
+          
+          .billSelect[dir="rtl"]::-ms-expand {
+            transform: rotate(180deg); 
+          }
         .UserInfo_Table {
             border-collapse: collapse;
             margin: 25px 0;
@@ -14,6 +62,13 @@
             border-radius: 5px 5px 0 0;
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            .UserInfo_Table_Row{
+                position: relative;
+                .table_icon{
+                    position: absolute;
+                }
+            }
+
         }
         
         .UserInfo_Table thead tr {
@@ -107,14 +162,10 @@
             .UserInfo_Item_Input{
                 width: 500px;
                 border-radius: 10px;
-                border: 0.2px solid rgba(0, 0, 0, .05);
                 padding:8px 10px;
                 outline: none;
+                border:#009879 0.2px solid;
                 // ko có viền khi click vào
-            }
-
-
-            .UserInfo_Edit_Button:hover{
             }
 
         }
@@ -164,7 +215,7 @@
     background-color: #fff; /* Set background color */
     padding: 10px; /* Add padding */
     left:70px;
-    top: 20px;
+    bottom: 20px;
     border-radius: 5px; /* Add rounded corners */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
   }

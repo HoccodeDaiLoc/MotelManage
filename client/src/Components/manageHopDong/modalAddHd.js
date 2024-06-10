@@ -8,15 +8,14 @@ import { toast } from 'react-toastify';
 import FormSelect from 'react-bootstrap/FormSelect';
 
 const ModalAddHd = (props) => {
-  const { show, handleCloseHd, handUpdateTableHd } = props;
+  const { show, handleCloseHd, handUpdateTableHd, renterId } = props;
   const [startDay, setStartDay] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [rentAmount, setRentAmount] = useState("");
-  const [renterId, setRenterId] = useState("");
   const [depositAmount, setDepositAmount] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
   const [roomMapping, setRoomMapping] = useState({});
-  const [roomNumbers, setRoomNumbers] = useState([]);
+  const [roomNumbers, setRoomNumbers] = useState("");
 
   useEffect(() => {
     const fetchRoomData = async () => {
@@ -42,10 +41,14 @@ const ModalAddHd = (props) => {
   }, []);
 
   const handUpdateHd = async () => {
-    if (!startDay) {
-      toast.error("Vui lòng chọn ngày bắt đầu");
+
+    if (!startDay || !depositAmount || !roomNumber) {
+  
+      toast.error("Vui lòng nhập đầy đủ thông tin trước khi lưu.");
+  
       return;
     }
+  
     const roomId = roomMapping[parseInt(roomNumber)];
     if (!roomId) {
       toast.error("Số phòng không hợp lệ");
@@ -53,7 +56,8 @@ const ModalAddHd = (props) => {
     }
     const formattedStartDay = startDay.toISOString().split('T')[0];
     const formattedEndDay = endDate ? endDate.toISOString().split('T')[0] : null;
-
+    
+    
     if (isNaN(depositAmount)) {
       toast.error("Số tiền đặt cọc phải là một số");
       return;
@@ -64,11 +68,21 @@ const ModalAddHd = (props) => {
       setStartDay(null);
       setRentAmount('');
       setRoomNumber('');
-      setRenterId('');
       setDepositAmount('');
       setEndDate(null);
       handleCloseHd();
       toast.success("Lưu thông tin thành công");
+      console.log(res.data);
+
+      console.log("Thông tin gửi lên server:");
+      console.log("startDay:", formattedStartDay);
+      console.log("endDate:", formattedEndDay);
+      console.log("rentAmount:", rentAmount);
+      console.log("roomId:", roomId);
+      console.log("renterId:", renterId);
+      console.log("depositAmount:", depositAmount);
+    
+      
 
       handUpdateTableHd({
         startDay: formattedStartDay,
@@ -109,9 +123,9 @@ const ModalAddHd = (props) => {
               onChange={(event) => setRoomNumber(event.target.value)}
             >
               <option value="">Chọn phòng....</option>
-              {roomNumbers.map((room) => (
-                <option key={room} value={room}>Phòng {room}</option>
-              ))}
+              {Array.isArray(roomNumbers) && roomNumbers.map((room) => (
+         <option key={room} value={room}>Phòng {room}</option>
+          ))}
             </FormSelect>
           </div>
           <div className="col-md-12">
@@ -125,16 +139,16 @@ const ModalAddHd = (props) => {
             />
           </div>
 
-          <div className="col-md-12">
+          {/* <div className="col-md-12">
             <label htmlFor="inputRenterId" className="form-label">Mã hợp đồng</label>
             <input
-              type="text"
-              className="form-control"
-              value={renterId}
-              onChange={(event) => setRenterId(event.target.value)}
-              placeholder="Mời bạn nhập mã hợp đồng..."
-            />
-          </div>
+         type="text"
+           className="form-control"
+       value={renterId}
+          placeholder="Mã hợp đồng..."
+              disabled // Đã có renterId từ props
+                  />   
+          </div> */}
           <div className="row">
             <div className="col-md-6 my-3">
               <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu</label>
@@ -172,6 +186,7 @@ const ModalAddHd = (props) => {
         <Button variant="primary" onClick={handUpdateHd}>
           Lưu
         </Button>
+        
       </Modal.Footer>
     </Modal>
   );

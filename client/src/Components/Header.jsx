@@ -10,7 +10,7 @@ import login from "../asset/image/login.svg";
 import logout from "../asset/image/logout.svg";
 import person from "../asset/image/person.svg";
 import taolaadminne from "../asset/image/dog.jpg";
-import { getNotification } from "../service/NotiService";
+import { getNotification, postNotification } from "../service/NotiService";
 import { fetchCurrentUser } from "../service/UserService";
 import LazyLoad from "react-lazy-load";
 
@@ -114,6 +114,14 @@ function Header({ socket }) {
                       ? "Bạn chưa có thông báo mới"
                       : notifications.reverse().map((noti) => (
                           <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              if (noti.isRead === false) {
+                                postNotification(id, noti.notificationId);
+                              }
+
+                              navigate("user/Bill");
+                            }}
                             key={noti.notificationId}
                             className="modal_part_noti"
                           >

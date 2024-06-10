@@ -131,7 +131,7 @@ const ModalAddTro = (props) => {
             <input
               type="text"
               className="form-control"
-              value={price}
+              value={price }
               onChange={(event) => setPrice(event.target.value)}
               placeholder="Nhập giá thuê..."
             />

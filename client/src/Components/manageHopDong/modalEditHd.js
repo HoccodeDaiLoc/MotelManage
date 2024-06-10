@@ -59,14 +59,14 @@ const ModalEditHd = (props) => {
                 return;
             }
 
-            let res = await updateHd(dataHdedit.contractId, formattedStartDay, formattedEndDate, rentAmount, depositAmount, mappedRoomId, renterId);
+            let res = await updateHd(dataHdedit.contractId, formattedStartDay, formattedEndDate,  depositAmount, mappedRoomId, renterId);
             
             if (res) {
                 handleEditHdfrommodal({
                     contractId: dataHdedit.contractId,
                     startDay: formattedStartDay,
                     endDate: formattedEndDate,
-                    rentAmount,
+                    
                     depositAmount,
                     roomId: mappedRoomId,
                     roomNumber: parseInt(roomNumber),
@@ -86,7 +86,6 @@ const ModalEditHd = (props) => {
         if (show) {
             setStartDay(new Date(dataHdedit.startDay));
             setEndDate(new Date(dataHdedit.endDate));
-            setRentAmount(dataHdedit.rentAmount);
             setDepositAmount(dataHdedit.depositAmount);
             setRoomNumber(dataHdedit.roomNumber);
             setRenterId(dataHdedit.renterId);
@@ -100,17 +99,7 @@ const ModalEditHd = (props) => {
             </Modal.Header>
             <Modal.Body className="body_add_new">
                 <form className="row g-3">
-                    <div className="col-md-6">
-                        <label htmlFor="rentAmount" className="form-label">Số người ở</label>
-                        <input type="text" className="form-control" value={rentAmount} onChange={(event) => setRentAmount(event.target.value)} />
-                    </div>
-                    
-                    <div className="col-md-6">
-                        <label htmlFor="depositAmount" className="form-label">Tiền cọc</label>
-                        <input type="text" className="form-control" value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
-                    </div>
-                    
-                    <div className="col-md-12">
+                <div className="col-md-6">
                         <label htmlFor="inputRoomNumber" className="form-label">Thuê phòng số</label>
                         <FormSelect 
                             className="form-select" 
@@ -123,10 +112,14 @@ const ModalEditHd = (props) => {
                             ))}
                         </FormSelect>
                     </div>
-                    <div className="col-md-12">
-                        <label htmlFor="renterId" className="form-label">Mã hợp đồng  người thuê</label>
-                        <input type="text" className="form-control" value={renterId} onChange={(event) => setRenterId(event.target.value)} />
+               
+                    
+                    <div className="col-md-6">
+                        <label htmlFor="depositAmount" className="form-label">Tiền cọc</label>
+                        <input type="text" className="form-control" value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
                     </div>
+                    
+                   
                     <div className="row">
                         <div className="col-md-6 my-3">
                             <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu</label>

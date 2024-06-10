@@ -27,18 +27,6 @@ const ModalDetailUser = (props) => {
         <Modal.Body className="body_add_new">
           <div className="row g-3">
 
-          <div className="col-md-12">
-              <label htmlFor="inputName" className="form-label">
-                Mã hợp đồng của khách : ***
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputName"
-                value={dataDetailUser?.renterId || ""}
-                readOnly
-              />
-            </div>
             <div className="col-md-12">
               <label htmlFor="inputName" className="form-label">
                 Tên
