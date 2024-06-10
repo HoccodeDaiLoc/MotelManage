@@ -15,6 +15,16 @@ import {
   MDBTableHead,
   MDBTypography,
 } from 'mdb-react-ui-kit';
+import { IoIosPrint } from 'react-icons/io';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FcHome } from "react-icons/fc";
+import { FiMapPin } from 'react-icons/fi';
+import { BsDot } from 'react-icons/bs';
+
+
+
+
 
 const ModalDetailHoadon = (props) => {
   const { show, handleCloseHoadon, dataDetailHoadon,roomNumbers } = props;
@@ -52,7 +62,8 @@ const ModalDetailHoadon = (props) => {
                       ripple="dark"
                       className="text-capitalize border-0"
                     >
-                      <MDBIcon fas icon="print" color="primary" className="me-1" />
+                      <MDBIcon color="primary" className="me-1" />
+                      <FontAwesomeIcon icon={faPrint} style={{ color: 'blue' }} className="me-1" />
                       Hóa đơn đã được xuất.
                     </MDBBtn>
                     
@@ -64,9 +75,11 @@ const ModalDetailHoadon = (props) => {
                 <MDBCol md="12" className="text-center">
                 <span className="ms-0"
                  style={{ color: "#5d9fc5", fontSize: "4rem" }}>
+                  
                  HÓA ĐƠN 
+                 
                   </span>
-                  <p className="pt-0">Thuê trọ xin chào !</p>
+                  <p  className="pt-0">Thuê trọ xin chào !</p>
                   <p className="pt-0"></p>
                 </MDBCol>
               </MDBContainer>
@@ -76,9 +89,10 @@ const ModalDetailHoadon = (props) => {
                     <li className="text-muted">
                       To: <span style={{ color: "#5d9fc5" }}>Phòng số {roomNumbers.find(room => room.roomId === dataDetailHoadon?.roomId)?.roomNumber || ""}</span>
                     </li>
-                    <li className="text-muted">Hòa Khánh Bắc ,</li>
+                    <li className="text-muted"><FiMapPin />
+                    Hòa Khánh Bắc ,</li>
                     <li className="text-muted">
-                      <MDBIcon/>Thành phố Đà Nẵng
+                      <MDBIcon/> Thành phố Đà Nẵng
                     </li>
                   </MDBTypography>
                 </MDBCol>
@@ -92,7 +106,7 @@ const ModalDetailHoadon = (props) => {
                     <li className="text-muted">
                       <MDBIcon fas icon="circle" style={{ color: "#84B0CA" }} />
                       <span className="fw-bold ms-1">Ngày lập: </span>
-  Ngày {formatDate(dataDetailHoadon?.billEndDate) || ''}
+                   Ngày {formatDate(dataDetailHoadon?.billEndDate) || ''}
                     </li>
                     <li className="text-muted">
                       <MDBIcon fas icon="circle" style={{ color: "#84B0CA" }} />
