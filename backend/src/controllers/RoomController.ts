@@ -1,7 +1,7 @@
 import Container from "typedi";
 import { NextFunction, Request, Response } from "express";
 import { IRoomService } from "../service/Interfaces/IRoomService";
-import { RoomSevice } from "../service/RoomService";
+import { RoomService } from "../service/RoomService";
 import { AppError } from "../errors/AppError";
 import { IDeviceCategoryService } from "../service/Interfaces/IDeviceCategoryService";
 import { DeviceCategoryService } from "../service/DeviceCategoryService";
@@ -12,7 +12,7 @@ export class RoomController {
   private deviceCategoryService: IDeviceCategoryService;
 
   constructor() {
-    this.roomService = Container.get(RoomSevice);
+    this.roomService = Container.get(RoomService);
     this.deviceCategoryService = Container.get(DeviceCategoryService);
   }
 

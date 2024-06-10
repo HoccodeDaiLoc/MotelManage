@@ -13,7 +13,7 @@ import { RentalRecordService } from "./RentalRecordService";
 import { IRentalRecordService } from "./Interfaces/IRentalRecordService";
 
 @Service()
-export class RoomSevice implements IRoomService {
+export class RoomService implements IRoomService {
   @Inject(() => RoomRepository)
   private roomRepository!: IRoomRepository;
 
@@ -163,6 +163,13 @@ export class RoomSevice implements IRoomService {
   async addRenterToRoom(startDate: Date, roomId: number, renterId: number): Promise<void> {
     try {
       const isRenterExist = await this.rentalRecordService.checkRenterExistInRoom(renterId, roomId, new Date(startDate));
+      const room = await this.roomRepository.getRoomById(roomId);
+      if(!room) {
+        throw new AppError("Room not found", 404);
+      }
+      if(room.roomStatus === "Phòng trống") {
+        await this.roomRepository.updateRoomById(roomId.toString(), {roomStatus: "Phòng đã thuê"});
+      }
       if(isRenterExist) {
         throw new AppError("Renter already exist in room", 400);
       }

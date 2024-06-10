@@ -44,7 +44,7 @@ class App {
     this.socketClients = new Map();
     this.plugins();
     this.databaseSync();
-    this.useSession();
+    // this.useSession();
     this.initSocketIo();
     this.routes();
     this.catchError();
