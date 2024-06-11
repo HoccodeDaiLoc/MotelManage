@@ -77,7 +77,7 @@ export class RentalRecordService implements RentalRecordService {
 
   async checkRenterExistInRoom(renterId: number, roomId: number, newStartDate: Date) {
     try {
-      return this.rentalRecordRepository.checkRenterExistInRoom(renterId, roomId, newStartDate);
+      return !!this.rentalRecordRepository.checkRenterExistInRoom(renterId, roomId, newStartDate);
     } catch (err) {
       throw err;
     }

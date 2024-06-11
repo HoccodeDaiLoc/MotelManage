@@ -168,13 +168,12 @@ export class RoomService implements IRoomService {
         throw new AppError("Room not found", 404);
       }
       if(room.roomStatus === "Phòng trống") {
-        await this.roomRepository.updateRoomById(roomId.toString(), {roomStatus: "Phòng đã thuê"});
+        await this.roomRepository.updateRoomById(roomId.toString(), {roomStatus: "Đang cho thuê"});
       }
       if(isRenterExist) {
         throw new AppError("Renter already exist in room", 400);
       }
       await this.rentalRecordService.createRentalRecord(new Date(startDate), undefined, roomId, renterId);
-      await this.roomRepository.updateRoomById(roomId.toString(), {status: "Đang cho thuê"});
     }catch(err) {
       throw err;
     }
