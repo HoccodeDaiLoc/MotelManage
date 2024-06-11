@@ -174,6 +174,7 @@ export class RoomService implements IRoomService {
         throw new AppError("Renter already exist in room", 400);
       }
       await this.rentalRecordService.createRentalRecord(new Date(startDate), undefined, roomId, renterId);
+      await this.roomRepository.updateRoomById(roomId.toString(), {status: "Đang cho thuê"});
     }catch(err) {
       throw err;
     }

@@ -7,6 +7,7 @@ import { RentalRecordRepository } from "../repository/RentalRecordRepository";
 import { IRentalRecordRepository } from "../repository/Interfaces/IRentalRecordRepository";
 import { RoomRepository } from "../repository/RoomRepository";
 import { IRoomRepository } from "../repository/Interfaces/IRoomRepository";
+import { AppError } from "../errors/AppError";
 
 @Service()
 export class RenterService implements IRenterService {
