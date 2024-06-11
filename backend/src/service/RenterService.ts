@@ -63,14 +63,20 @@ export class RenterService implements IRenterService {
     checkOutDate: Date | undefined
   ): Promise<Renter> {
     try {
-      const newRenter = await this.renterRepository.createRenter(
-        name,
-        dateOfBirth,
-        address,
-        phone,
-        email,
-        cccd
-      );
+      const existRenter = await this.renterRepository.getRenterByEmail(email);
+      let newRenter: Renter;
+      if(existRenter) {
+        newRenter = await this.renterRepository.updateRenterById(existRenter.renterId, {name, dateOfBirth, address, phone, cccd});
+      } else {
+        newRenter = await this.renterRepository.createRenter(
+          name,
+          dateOfBirth,
+          address,
+          phone,
+          email,
+          cccd
+        );
+      }
       if (roomId) {
         await this.rentalRecordRepository.createRentalRecord(
           checkInDate,
