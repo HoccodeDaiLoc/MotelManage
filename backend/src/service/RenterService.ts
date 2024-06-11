@@ -81,14 +81,21 @@ export class RenterService implements IRenterService {
           cccd
         );
       }
-      if (roomId) {
+      if(roomId){
+        const room = await this.roomRepository.getRoomById(roomId!);
+        if(!room) {
+          throw new AppError("Phòng không tồn tại", 404);
+        }
         await this.rentalRecordRepository.createRentalRecord(
           checkInDate,
           checkOutDate,
           roomId,
           newRenter.renterId
         );
-        await this.roomRepository.updateRoomById(roomId.toString(), { status: "Đang cho thuê" });
+        if (room.roomStatus === "Phòng trống") {
+
+          await this.roomRepository.updateRoomById(roomId.toString(), {roomStatus: "Đang cho thuê"});
+        }
       }
       return newRenter;
     } catch (err) {
