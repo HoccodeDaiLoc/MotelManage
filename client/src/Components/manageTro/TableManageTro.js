@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
 import { fetchAllTro } from "../../service/ManageService";
-import ModalEditTro from "./modalEditTro"; // Sửa tên thành component viết hoa
-import ModalAddTro from "./modalAddTro"; // Sửa tên thành component viết hoa
+import ModalEditTro from "./modalEditTro";
+import ModalAddTro from "./modalAddTro"; 
 import ModalConfirmTro from "./ModalCofirmTro";
 import { debounce } from "lodash";
 import style from "../../styles/UserHomePage.modules.scss";
@@ -125,13 +125,11 @@ const TableManageTro = (props) => {
 
   return (
     <div className="UserInfo_Manager" style={{ width: "80%" }}>
-      <div className="my-3 add-new">
-        <span>
-
-          <b>Danh sách phòng trọ:</b>
-        </span>
+  
+      
         <button
-          className=" them btn btn-success " style={{  marginLeft: "700px" }}
+         className="them btn"
+         style={{backgroundColor: "#1c75b1", color: "white",  marginLeft: "860px" ,marginBottom: "-90px"}}
           onClick={() => setIsShowModalAddTro(true)}
         >
           <MdAddHomeWork
@@ -140,7 +138,7 @@ const TableManageTro = (props) => {
           />
           Thêm Phòng
         </button>
-      </div>
+      
       <div className="col-4 my-3">
         <input
           className="form-control"

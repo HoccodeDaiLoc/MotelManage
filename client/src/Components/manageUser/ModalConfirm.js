@@ -10,7 +10,7 @@ const ModalConfirm = (props) => {
   const confirmDelete = async () => {
     let res = await deleteUser(dataUserDelete.renterId);
     if (res && res) {
-      toast.success("Xoa thanh cong");
+      toast.success("Đã thực hiện xóa thành công ");
       handleClose();
       handDeleteUserFromModal(dataUserDelete);
     } else {

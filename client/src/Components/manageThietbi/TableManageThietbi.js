@@ -164,18 +164,16 @@ const TableManageTb = (props) => {
       className="UserInfo_Manager"
       style={{ width: "80%", margin: "0px 0px 0px auto" }}
     >
-      <div className="my-3 add-new">
-        <span>
-          <b>Danh sách thiết bị:</b>
-        </span>
-        <button
-          className="them btn btn-success" style={{  marginLeft: "700px" }}
+    
+    <button
+            className="them btn"
+           style={{backgroundColor: "#1c75b1", color: "white",  marginLeft: "860px" ,marginBottom: "-90px"}}
           onClick={() => setIsShowModalAddTb(true)}
         >
           <TbDeviceIpadDollar    className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
            Thêm Thiết Bị
         </button>
-      </div>
+
       <div className="col-4 my-3">
         <input
           className="form-control"

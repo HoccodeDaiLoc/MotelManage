@@ -15,25 +15,6 @@ import { IoSettings } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import unidecode from "unidecode";  
 
-const roomMapping = {
-  1: 100,
-  2: 101,
-  3: 102, 4: 103,
-  5: 104, 6: 105, 7: 106,
-  8: 107,9: 108, 10: 109,11: 110,12: 111, 13: 112,14: 113,
-  15: 118,
-  16: 119,
-  17: 130,
-  18: 131,
-  20: 132,
-  21: 133,
-  22: 134,
-  23: 135,
-  24: 136,
-  25: 137,
-  26: 138,
-  27: 139,
-};
 
 
 const TableUser = (props) => {
@@ -114,7 +95,6 @@ const TableUser = (props) => {
         setTotalUser(res.total);
         const updatedUserList = res.renterList.map(user => ({
           ...user,
-          roomNumber: roomMapping[user.roomId] || user.roomId // Map roomId to roomNumber
         }));
         setListUser(updatedUserList);
         setTotalPage(res.total_pages);
@@ -173,20 +153,8 @@ const TableUser = (props) => {
   return (
     <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
-        <span>
-          <b>Danh sách khách hàng:</b>
-        </span>
-        <button
-          className=" them btn btn-success " 
-          style={{  marginLeft: "680px" }}
-          onClick={() => setIsShowModalAdd(true)}
-        >
-          <FaUserPlus
-            className="mr-2 mx-1"
-            style={{ fontSize: "1.3em", marginTop: "-5px" }}
-          />
-          Thêm danh sách
-        </button>
+    
+      
       </div>
       <div className="col-4 my-3">
         <input
