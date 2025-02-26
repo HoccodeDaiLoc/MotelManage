@@ -25,7 +25,7 @@ const ModalAddrenter = (props) => {
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber?status=Phòng trống');
+        const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
         const result = await response.json();
         if (response.ok) {
           const roomData = result.data.reduce((acc, room) => {
@@ -143,7 +143,7 @@ const ModalAddrenter = (props) => {
         size="xl"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Thêm danh sách khách hàng</Modal.Title>
+          <Modal.Title>Tạo hợp đồng cho thuê</Modal.Title>
         </Modal.Header>
         <Modal.Body className="body_add_new">
           <form className="row g-3">

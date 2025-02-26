@@ -20,7 +20,7 @@ const ModalAddHd = (props) => {
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber?status=Phòng trống');
+        const response = await fetch('http://127.0.0.1:8080/api/room/roomNumber');
         const result = await response.json();
         if (response.ok) {
           const roomData = result.data.reduce((acc, room) => {
@@ -110,7 +110,7 @@ const ModalAddHd = (props) => {
       size='lg'
       className='modal-add-tro'>
       <Modal.Header closeButton>
-        <Modal.Title>Thêm hợp đồng </Modal.Title>
+        <Modal.Title> Xác nhận thanh toán</Modal.Title>
       </Modal.Header>
       <Modal.Body className="body_add_new">
         <form className="row g-3">
@@ -129,7 +129,7 @@ const ModalAddHd = (props) => {
             </FormSelect>
           </div>
           <div className="col-md-12">
-            <label htmlFor="inputRoomId" className="form-label">Số tiền đặt cọc</label>
+            <label htmlFor="inputRoomId" className="form-label">Số tiền thanh toántoán</label>
             <input
               type="text"
               className="form-control"
@@ -138,17 +138,6 @@ const ModalAddHd = (props) => {
               placeholder="Mời bạn nhập thông tin..."
             />
           </div>
-
-          {/* <div className="col-md-12">
-            <label htmlFor="inputRenterId" className="form-label">Mã hợp đồng</label>
-            <input
-         type="text"
-           className="form-control"
-       value={renterId}
-          placeholder="Mã hợp đồng..."
-              disabled // Đã có renterId từ props
-                  />   
-          </div> */}
           <div className="row">
             <div className="col-md-6 my-3">
               <label htmlFor="inputStartDay" className="form-label">Ngày bắt đầu</label>

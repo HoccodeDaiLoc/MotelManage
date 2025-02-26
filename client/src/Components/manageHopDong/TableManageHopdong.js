@@ -189,26 +189,10 @@ const TableManageHd = (props) => {
       className="UserInfo_Manager"
       style={{ width: "80%", margin: "0px 0px 0px auto" }}
     >
-      {" "}
-      <div className="my-3 add-new">
-        <span>
-          <b>Danh sách hợp đồng cho thuê:</b>
-        </span>
-        {/* <button
-          className="btn btn-success "
-          style={{  marginLeft: "640px" }}
-          onClick={() => setIsShowModalAdd(true)}
-        >
-          <BiSolidBookAdd
-            className="mr-2 mx-1"
-            style={{ fontSize: "1.5em", marginTop: "-5px" }}
-          />
-          Thêm khach
-        </button> */}
-
         <button
-          className="btn btn-success "
-          style={{  marginLeft: "640px" }}
+          className="btn btn "
+          style={{backgroundColor: "#1c75b1", color: "white",marginLeft: "875px",marginBottom: "-90px"}}
+    
           onClick={() => setIsShowModalAdd(true)}
         >
           <BiSolidBookAdd
@@ -217,7 +201,7 @@ const TableManageHd = (props) => {
           />
           Tạo hợp đồng
         </button>
-      </div>
+    
       <div className="col-4 my-3">
         <input
           className="form-control"
