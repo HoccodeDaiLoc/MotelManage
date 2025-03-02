@@ -9,7 +9,8 @@ import { debounce } from "lodash";
 import _ from "lodash";
 import ModalDetailTb from "./modalDetailThietBi";
 import { TbDeviceIpadDollar } from "react-icons/tb";
-import unidecode from "unidecode";  
+import unidecode from "unidecode";
+import { FaEdit, FaTrash, FaInfoCircle } from "react-icons/fa";
 
 
 const TableManageTb = (props) => {
@@ -33,7 +34,7 @@ const TableManageTb = (props) => {
   useEffect(() => {
     fetchRoomNumbers();
   }, []);
-  
+
 
   const fetchRoomNumbers = async () => {
     try {
@@ -46,7 +47,7 @@ const TableManageTb = (props) => {
       console.error('Error fetching room numbers:', error);
     }
   };
-  
+
 
 
   const handleCloseTb = () => {
@@ -76,21 +77,21 @@ const TableManageTb = (props) => {
 
   const getTb = async (page) => {
     try {
-        const resTb = await fetchAllTb(page); // Fetch device information
-        if (resTb && resTb.data) {
-            const { data, total_pages } = resTb.data;
-            setTotalTb(resTb.total);
-            const updatedTbList = resTb.data.map(tb => ({
-                ...tb,
-                roomNumber: roomNumbers.find(room => room.roomId === tb.roomId)?.roomNumber
-            }));
-            setListTb(updatedTbList);
-            setTotalPageTb(resTb.total_pages);
-        }
+      const resTb = await fetchAllTb(page); // Fetch device information
+      if (resTb && resTb.data) {
+        const { data, total_pages } = resTb.data;
+        setTotalTb(resTb.total);
+        const updatedTbList = resTb.data.map(tb => ({
+          ...tb,
+          roomNumber: roomNumbers.find(room => room.roomId === tb.roomId)?.roomNumber
+        }));
+        setListTb(updatedTbList);
+        setTotalPageTb(resTb.total_pages);
+      }
     } catch (error) {
-        console.error("Error fetching tb data:", error);
+      console.error("Error fetching tb data:", error);
     }
-};
+  };
 
 
   const getDeviceName = (categoryId) => {
@@ -137,19 +138,19 @@ const TableManageTb = (props) => {
 
 
   const handleSearchTb = debounce((event) => {
-    const term = event.target.value.toLowerCase(); 
+    const term = event.target.value.toLowerCase();
     if (term) {
-        const filteredTb = listTb.filter((item) => {
-            
-            const roomNumberStr = item.roomNumber ? item.roomNumber.toString().toLowerCase() : "";
-            return roomNumberStr.includes(term);
-        });
-        setListTb(filteredTb);
+      const filteredTb = listTb.filter((item) => {
+
+        const roomNumberStr = item.roomNumber ? item.roomNumber.toString().toLowerCase() : "";
+        return roomNumberStr.includes(term);
+      });
+      setListTb(filteredTb);
     } else {
-        
-        getTb(1);
+
+      getTb(1);
     }
-}, 200);
+  }, 200);
 
 
 
@@ -164,15 +165,15 @@ const TableManageTb = (props) => {
       className="UserInfo_Manager"
       style={{ width: "80%", margin: "0px 0px 0px auto" }}
     >
-    
-    <button
-            className="them btn"
-           style={{backgroundColor: "#1c75b1", color: "white",  marginLeft: "860px" ,marginBottom: "-90px"}}
-          onClick={() => setIsShowModalAddTb(true)}
-        >
-          <TbDeviceIpadDollar    className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
-           Thêm Thiết Bị
-        </button>
+
+      <button
+        className="them btn"
+        style={{ backgroundColor: "#1c75b1", color: "white", marginLeft: "860px", marginBottom: "-90px" }}
+        onClick={() => setIsShowModalAddTb(true)}
+      >
+        <TbDeviceIpadDollar className="mr-2 mx-1" style={{ fontSize: "1.3em", marginTop: "-5px" }} />
+        Thêm Thiết Bị
+      </button>
 
       <div className="col-4 my-3">
         <input
@@ -212,19 +213,19 @@ const TableManageTb = (props) => {
                     className="btn btn-warning mx-3"
                     onClick={() => handleEditTb(item)}
                   >
-                    Edit
+                    Cập nhật <FaEdit size={15} style={{ marginBottom: "3px" }} />
                   </button>
                   <button
                     className="btn btn-danger"
                     onClick={() => handDeleteTb(item)}
                   >
-                    Delete
+                    Xóa <FaTrash size={15} style={{ marginBottom: "3px" }} />
                   </button>
                   <button
-                    className="btn btn-success mx-3"
+                    className="btn btn-success mx-2"
                     onClick={() => handDetailTb(item)}
                   >
-                   Chi tiết
+                    Chi Tiết <FaInfoCircle size={15} style={{ marginBottom: "2px" }} />
                   </button>
                 </td>
               </tr>

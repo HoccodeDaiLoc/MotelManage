@@ -6,7 +6,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import logoApp from "../asset/image/imagethuetro.png";
+
 import "./ManagerHeader.modules.scss";
 import { FaUserFriends } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
@@ -67,12 +67,12 @@ const Header = () => {
                 className={`my-2  ${getLinkClass("/pageQLPT")}`}
                 onClick={() => {
                   
-                  updateCurrentPage("Quản lý phòng trọ");
+                  updateCurrentPage("Quản lý phòng");
                   toggleSidebar();
                 }}
               >
                 <FaHome className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-8px" }} />
-                Quản lý phòng trọ
+                Quản lý phòng
               </Nav.Link>
               <Nav.Link
                 as={Link}

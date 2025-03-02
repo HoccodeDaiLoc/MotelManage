@@ -13,7 +13,8 @@ import style1 from "../../styles/UserHomePage.modules.scss";
 import { FaUserPlus } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import unidecode from "unidecode";  
+import unidecode from "unidecode";
+import { FaEdit, FaTrash, FaInfoCircle } from "react-icons/fa";
 
 
 
@@ -43,7 +44,7 @@ const TableUser = (props) => {
   useEffect(() => {
     fetchRoomNumbers();
   }, []);
-  
+
 
   const fetchRoomNumbers = async () => {
     try {
@@ -57,7 +58,7 @@ const TableUser = (props) => {
     }
   };
 
-  
+
   const handleClose = () => {
     setIsShowModalAdd(false);
     setIsShowModalEdit(false);
@@ -139,7 +140,7 @@ const TableUser = (props) => {
       getUser(1);
     }
   }, 100);
-  
+
   const handDetailUser = (user) => {
     setIsShowModalDetail(true);
     setDataDetailUser(user);
@@ -153,8 +154,8 @@ const TableUser = (props) => {
   return (
     <div className="UserInfo_Manager" style={{ width: "80%" }}>
       <div className="my-3 add-new">
-    
-      
+
+
       </div>
       <div className="col-4 my-3">
         <input
@@ -187,20 +188,21 @@ const TableUser = (props) => {
                       className="btn btn-warning mx-3"
                       onClick={() => handleEditUser(item)}
                     >
-                      Edit
+                      Câp nhật <FaEdit size={15} style={{ marginBottom: "3px" }} />
                     </button>
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger "
                       onClick={() => handDeleteUser(item)}
                     >
-                      Delete
+                      Xóa <FaTrash size={15} style={{ marginBottom: "3px" }} />
                     </button>
                     <button
-                      className="btn btn-success mx-2"
+                      className="btn btn-success mx-3"
                       onClick={() => handDetailUser(item)}
                     >
-                      Chi Tiết
+                      Chi Tiết <FaInfoCircle size={15} style={{ marginBottom: "2px" }} />
                     </button>
+
                   </td>
                 </tr>
               ))}

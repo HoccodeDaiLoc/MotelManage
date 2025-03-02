@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
-import {
-  fetchAllHoadon,
-  fetchAllstatusHd,
-  fetchAllTro,
-} from "../../service/ManageService";
+import {fetchAllHoadon} from "../../service/ManageService";
 import ModalAddHoadon from "./modalAddHoadon";
 import ModalAddDiennuoc from "./modalAddDiennuoc";
 import ModalConfirmHoadon from "./modalConfirmHoadon";
@@ -21,7 +17,7 @@ import { useSelector } from "react-redux";
 import style from "../../styles/Managerment.modules.scss";
 import { IoIosWater } from "react-icons/io";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
-
+import { FaEdit, FaTrash, FaInfoCircle } from "react-icons/fa";
 const TableManageHoadon = (props) => {
   const [listHoadon, setListHoadon] = useState([]);
   const [totalHoadon, setTotalHoadon] = useState(0);
@@ -61,20 +57,6 @@ const TableManageHoadon = (props) => {
 
   let socket = io("http://localhost:8080", { query: { id } });
   const [noti, setNoti] = useState();
-  // useEffect(() => {
-  //   socket.on("connect", () => {
-  //     socket.emit("hello", "hellosserfsf"); // Send "hello" message to the server
-  //     console.log("Connected to server");
-  //     console.log(socket);
-  //   });
-  // }, [user]);
-
-  // useEffect(() => {
-  //   socket.on("notification", (data) => {
-  //     console.log("Welcome message from server:", data);
-  //   });
-  // });
-
   const formatDate = (date) => {
     if (!date) return "";
     const formattedDate = new Date(date).toLocaleDateString("vi-VN");
@@ -133,7 +115,6 @@ const TableManageHoadon = (props) => {
 
         const updatedHoadonList = resTb.data.map((hoadon) => ({
           ...hoadon,
-          // roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId,
         }));
         setListHoadon(updatedHoadonList);
       }
@@ -204,19 +185,6 @@ const TableManageHoadon = (props) => {
     }
   };
 
-  // const handleGetHoadonByStatus = async (status) => {
-  //   try {
-  //     let res;
-  //     if (status === "all") {
-  //       res = await fetchAllHoadon(1);
-  //     } else {
-  //       res = await getHoadonByStatus(status);
-  //     }
-  //     setListHoadon(res.data);
-  //   } catch (error) {
-  //     console.error("Error handling bill data by status:", error);
-  //   }
-  // };
   const handleGetHoadonByStatus = async (status) => {
     try {
       let res;
@@ -228,7 +196,6 @@ const TableManageHoadon = (props) => {
 
       const updatedHoadonList = res.data.map((hoadon) => ({
         ...hoadon,
-        // roomNumber: roomMapping[hoadon.roomId] || hoadon.roomId,
       }));
       setListHoadon(updatedHoadonList);
     } catch (error) {
@@ -266,7 +233,7 @@ const TableManageHoadon = (props) => {
             padding: "4px 8px",
             borderRadius: "4px",
             border: "1px solid #ccc",
-            backgroundColor: "#dc3545",
+            backgroundColor: "#1c75b1",
             color: "white",
             fontSize: "14px",
           }}
@@ -360,22 +327,22 @@ const TableManageHoadon = (props) => {
                 <td>{item.status}</td>
                 <td>
                   <button
-                    className="btn btn-warning mx-3"
+                    className="btn btn-warning mx-0"
                     onClick={() => handleEditHoadon(item)}
                   >
-                    Edit
+                    Cập nhật <FaEdit size={15} style={{ marginBottom: "3px" }} />
                   </button>
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-danger mx-1"
                     onClick={() => handDeleteHoadon(item)}
                   >
-                    Delete
+                    Xóa <FaTrash size={15} style={{ marginBottom: "3px" }} />
                   </button>
                   <button
-                    className="btn btn-success mx-3"
+                    className="btn btn-success mx-1"
                     onClick={() => handDetailHoadon(item)}
                   >
-                    Chi tiết
+                    Chi Tiết <FaInfoCircle size={15} style={{ marginBottom: "2px" }} />
                   </button>
                 </td>
               </tr>

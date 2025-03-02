@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleLogoutRedux } from "../redux/actions/userAction";
 import ava from "../asset/image/ava.svg";
 import bell from "../asset/image/bell.svg";
-import imagethuetro from "../asset/image/imagethuetro.png";
+import LogoFinal from "../asset/image/LogoFinal.webp";
 import login from "../asset/image/login.svg";
 import logout from "../asset/image/logout.svg";
 import person from "../asset/image/person.svg";
@@ -67,11 +67,11 @@ function Header({ socket }) {
         <div className="nav_left">
           {isAdmin === true ? (
             <Link to="/Home">
-              <img className="logo" src={imagethuetro} alt="logo"></img>
+              <img className="logo" src={LogoFinal} alt="logo"></img>
             </Link>
           ) : (
             <Link to="/">
-              <img className="logo" src={imagethuetro} alt="logo"></img>
+              <img className="logo" src={LogoFinal} alt="logo"></img>
             </Link>
           )}
         </div>

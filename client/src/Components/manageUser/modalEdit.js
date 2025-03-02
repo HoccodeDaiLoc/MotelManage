@@ -22,20 +22,18 @@ const ModalEdit = (props) => {
       return;
     }
 
-    // Kiểm tra email có đúng định dạng không
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast.error("Email không hợp lệ");
       return;
     }
 
-    // Kiểm tra CCCD có phải là số không
+
     if (isNaN(cccd)) {
       toast.error("CCCD phải là số");
       return;
     }
 
-    // Kiểm tra số điện thoại có phải là số không
     if (isNaN(phone)) {
       toast.error("Số điện thoại phải là số");
       return;

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactPaginate from 'react-paginate';
-import { fetchAllHd,fetchAllTro,fetchAllUser } from "../../service/ManageService";
+import { fetchAllHd, fetchAllTro, fetchAllUser } from "../../service/ManageService";
 import ModalEditHd from './modalEditHd'
 import ModalAddHd from './modalAddHd';
-import ModalConfirmHd from'./modalConfirmHd'
+import ModalConfirmHd from './modalConfirmHd'
 import ModalAddrenter from './ModalAddrenter';
-import {debounce} from "lodash";
+import { debounce } from "lodash";
 import _ from "lodash";
 import ModalDetailHd from "./modalDetailHd";
 import { BiSolidBookAdd } from "react-icons/bi";
+import { FaEdit, FaTrash, FaInfoCircle } from "react-icons/fa";
 
 
 const TableManageHd = (props) => {
@@ -31,12 +32,12 @@ const TableManageHd = (props) => {
   const [updatedHoadonList, setUpdatedHoadonList] = useState([]);
 
   const [roomNumbers, setRoomNumbers] = useState([]);
-  
+
 
   useEffect(() => {
     fetchRoomNumbers();
   }, []);
-  
+
 
   const fetchRoomNumbers = async () => {
     try {
@@ -50,7 +51,7 @@ const TableManageHd = (props) => {
     }
   };
 
-  
+
 
   const [isShowModalDetailHd, setIsShowModalDetailHd] = useState(false);
   const [dataDetailHd, setDataDetailHd] = useState({});
@@ -61,7 +62,7 @@ const TableManageHd = (props) => {
 
     return formattedDate;
   };
-  
+
   const handleCloseHd = () => {
     setIsShowModalAddHd(false);
     setIsShowModalEditHd(false);
@@ -73,7 +74,7 @@ const TableManageHd = (props) => {
   const handUpdateTableHd = (hd) => {
     setListHd([hd, ...listHd]);
   };
- 
+
   const handUpdateTable = (hd) => {
     setListHd([hd, ...listHd]);
   };
@@ -89,43 +90,27 @@ const TableManageHd = (props) => {
 
     setListHd(cloneListHd);
   };
- 
+
   useEffect(() => {
-    // Call API
     getHd(1);
   }, []);
-
-  // const getHd = async (page) => {
-  //   try {
-  //     const res = await fetchAllHd(page);
-  
-  //     if (res && res) {
-  //       const { data, total_pages } = res.data;
-  //       setTotalHd(res.data.total);
-  //       setListHd(res.data);
-  //       setTotalPageHd(res.total_pages);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching hd data:', error);
-  //   }
-  // };
   const getHd = async (page) => {
     try {
-        const resHd = await fetchAllHd(page); // Fetch device information
-        if (resHd && resHd.data) {
-            const { data, total_pages } = resHd.data;
-            setTotalHd(resHd.total);
-            const updatedHdList = resHd.data.map(tb => ({
-                ...tb,
-                roomNumber: roomNumbers.find(room => room.roomId === tb.roomId)?.roomNumber
-            }));
-            setListHd(updatedHdList);
-            setTotalPageHd(resHd.total_pages);
-        }
+      const resHd = await fetchAllHd(page); // Fetch device information
+      if (resHd && resHd.data) {
+        const { data, total_pages } = resHd.data;
+        setTotalHd(resHd.total);
+        const updatedHdList = resHd.data.map(tb => ({
+          ...tb,
+          roomNumber: roomNumbers.find(room => room.roomId === tb.roomId)?.roomNumber
+        }));
+        setListHd(updatedHdList);
+        setTotalPageHd(resHd.total_pages);
+      }
     } catch (error) {
-        console.error("Error fetching tb data:", error);
+      console.error("Error fetching tb data:", error);
     }
-};
+  };
 
 
   const handlePageClick = (event) => {
@@ -159,19 +144,19 @@ const TableManageHd = (props) => {
 
 
   const handleSearchHd = debounce((event) => {
-    const term = event.target.value.toLowerCase(); 
+    const term = event.target.value.toLowerCase();
     if (term) {
-        const filteredHd = listHd.filter((item) => {
-            
-            const roomNumberStr = item.roomNumber ? item.roomNumber.toString().toLowerCase() : "";
-            return roomNumberStr.includes(term);
-        });
-        setListHd(filteredHd);
+      const filteredHd = listHd.filter((item) => {
+
+        const roomNumberStr = item.roomNumber ? item.roomNumber.toString().toLowerCase() : "";
+        return roomNumberStr.includes(term);
+      });
+      setListHd(filteredHd);
     } else {
-        
-        getHd(1);
+
+      getHd(1);
     }
-}, 200);
+  }, 200);
 
 
   const handDetailHd = (hd) => {
@@ -189,19 +174,19 @@ const TableManageHd = (props) => {
       className="UserInfo_Manager"
       style={{ width: "80%", margin: "0px 0px 0px auto" }}
     >
-        <button
-          className="btn btn "
-          style={{backgroundColor: "#1c75b1", color: "white",marginLeft: "875px",marginBottom: "-90px"}}
-    
-          onClick={() => setIsShowModalAdd(true)}
-        >
-          <BiSolidBookAdd
-            className="mr-2 mx-1"
-            style={{ fontSize: "1.5em", marginTop: "-5px" }}
-          />
-          Tạo hợp đồng
-        </button>
-    
+      <button
+        className="btn btn "
+        style={{ backgroundColor: "#1c75b1", color: "white", marginLeft: "875px", marginBottom: "-90px" }}
+
+        onClick={() => setIsShowModalAdd(true)}
+      >
+        <BiSolidBookAdd
+          className="mr-2 mx-1"
+          style={{ fontSize: "1.5em", marginTop: "-5px" }}
+        />
+        Tạo hợp đồng
+      </button>
+
       <div className="col-4 my-3">
         <input
           className="form-control"
@@ -210,7 +195,7 @@ const TableManageHd = (props) => {
         />
       </div>
       <Table striped bordered hover>
-<thead>
+        <thead>
           <tr>
             <th>Phòng thuê</th>
             <th>Tiền phòng</th>
@@ -221,22 +206,37 @@ const TableManageHd = (props) => {
           </tr>
         </thead>
         <tbody>
-        {listHd &&
-  listHd.map((item, index) => (
-    <tr key={`hd-${index}`}>
-      <td>{roomNumbers.find(room => room.roomId === item.roomId)?.roomNumber}</td>
-      <td>{item.rentAmount ? item.rentAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</td>
-      <td>{item.depositAmount ? item.depositAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</td>
-      <td>{formatDate(item.startDay)}</td> 
-      <td>{formatDate(item.endDate)}</td>
-      
-      <td>
-        <button className='btn btn-warning mx-3' onClick={() => handleEditHd(item)}>Edit</button>
-        <button className='btn btn-danger' onClick={() => handDeleteHd(item)}>Delete</button>
-        <button className='btn btn-success mx-3' onClick={() => handDetailHd(item)}>Chi tiết</button>
-      </td>
-    </tr>
-  ))}
+          {listHd &&
+            listHd.map((item, index) => (
+              <tr key={`hd-${index}`}>
+                <td>{roomNumbers.find(room => room.roomId === item.roomId)?.roomNumber}</td>
+                <td>{item.rentAmount ? item.rentAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</td>
+                <td>{item.depositAmount ? item.depositAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" }) : ""}</td>
+                <td>{formatDate(item.startDay)}</td>
+                <td>{formatDate(item.endDate)}</td>
+
+                <td>
+                  <button
+                    className="btn btn-warning mx-3"
+                    onClick={() => handleEditHd(item)}
+                  >
+                    Cập nhật <FaEdit size={15} style={{ marginBottom: "3px" }} />
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handDeleteHd(item)}
+                  >
+                    Xóa <FaTrash size={15} style={{ marginBottom: "3px" }} />
+                  </button>
+                  <button
+                    className="btn btn-success mx-2"
+                    onClick={() => handDetailHd(item)}
+                  >
+                    Chi Tiết <FaInfoCircle size={15} style={{ marginBottom: "2px" }} />
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
       <ReactPaginate
@@ -264,7 +264,7 @@ const TableManageHd = (props) => {
         handUpdateTableHd={handUpdateTableHd}
       />
 
-        <ModalAddrenter
+      <ModalAddrenter
         show={isShowModalAdd}
         handleCloseHd={handleCloseHd}
         handUpdateTable={handUpdateTable}

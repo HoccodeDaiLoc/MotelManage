@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { basicSchema } from "../schemas/index";
-import logo from "../asset/image/imagethuetro.png";
+
 
 <script
   src="https://kit.fontawesome.com/657d725d03.js"
