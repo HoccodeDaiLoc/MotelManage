@@ -80,7 +80,7 @@ const ModalDetailTro = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Chi tiết phòng trọ</Modal.Title>
+          <Modal.Title>Chi tiết phòng</Modal.Title>
         </Modal.Header>
         <Modal.Body className="body_add_new">
           <div className="row g-3">

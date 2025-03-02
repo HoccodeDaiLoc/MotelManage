@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { Loggin } from "../schemas/index";
 import { useFormik } from "formik";
-import imagethuetro from "../asset/image/imagethuetro.png";
+
 <script
   src="https://kit.fontawesome.com/657d725d03.js"
   crossorigin="anonymous"
@@ -53,10 +53,7 @@ function Login() {
 
   return (
     <section className="LogginWrapper">
-      {/* <Link to={"/"} className="logo_container">
-        <img className="logo" src={imagethuetro} alt="" srcSet="" />
-      </Link> */}
-
+ 
       <form
         onSubmit={handleSubmit}
         className="LogginContainer"
@@ -106,7 +103,7 @@ function Login() {
             <div className="forgetpass_container">
               <Link to={"/Identify"}>
                 <h6 onClick={() => {}} className="forgetpass_text">
-                  Bạn quên mật khẩu?
+                  Bạn quên mật khẩu? 
                 </h6>
               </Link>
             </div>

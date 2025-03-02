@@ -3,13 +3,14 @@ import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
 import { fetchAllTro } from "../../service/ManageService";
 import ModalEditTro from "./modalEditTro";
-import ModalAddTro from "./modalAddTro"; 
+import ModalAddTro from "./modalAddTro";
 import ModalConfirmTro from "./ModalCofirmTro";
 import { debounce } from "lodash";
 import style from "../../styles/UserHomePage.modules.scss";
 import _ from "lodash";
 import ModalDetailTro from "../manageTro/modalDetailTro";
 import { MdAddHomeWork } from "react-icons/md";
+import { FaEdit, FaTrash, FaInfoCircle } from "react-icons/fa";
 
 const TableManageTro = (props) => {
   const [listTro, setListTro] = useState([]);
@@ -50,7 +51,7 @@ const TableManageTro = (props) => {
 
     setListTro(cloneListTro);
   };
-  
+
 
   useEffect(() => {
     // Call API
@@ -125,20 +126,20 @@ const TableManageTro = (props) => {
 
   return (
     <div className="UserInfo_Manager" style={{ width: "80%" }}>
-  
-      
-        <button
-         className="them btn"
-         style={{backgroundColor: "#1c75b1", color: "white",  marginLeft: "860px" ,marginBottom: "-90px"}}
-          onClick={() => setIsShowModalAddTro(true)}
-        >
-          <MdAddHomeWork
-            className="mr-2 mx-1"
-            style={{ fontSize: "1.3em", marginTop: "-5px" }}
-          />
-          Thêm Phòng
-        </button>
-      
+
+
+      <button
+        className="them btn"
+        style={{ backgroundColor: "#1c75b1", color: "white", marginLeft: "860px", marginBottom: "-90px" }}
+        onClick={() => setIsShowModalAddTro(true)}
+      >
+        <MdAddHomeWork
+          className="mr-2 mx-1"
+          style={{ fontSize: "1.3em", marginTop: "-5px" }}
+        />
+        Thêm Phòng
+      </button>
+
       <div className="col-4 my-3">
         <input
           className="form-control"
@@ -170,19 +171,19 @@ const TableManageTro = (props) => {
                     className="btn btn-warning mx-3"
                     onClick={() => handleEditTro(item)}
                   >
-                    Edit
+                    Cập nhật <FaEdit size={15} style={{ marginBottom: "3px" }} />
                   </button>
                   <button
                     className="btn btn-danger"
                     onClick={() => handDeleteTro(item)}
                   >
-                    Delete
+                    Xóa <FaTrash size={15} style={{ marginBottom: "3px" }} />
                   </button>
                   <button
                     className="btn btn-success mx-3"
                     onClick={() => handDetailTro(item)}
                   >
-                    Chi tiết
+                    Chi Tiết <FaInfoCircle size={15} style={{ marginBottom: "2px" }} />
                   </button>
                 </td>
               </tr>
