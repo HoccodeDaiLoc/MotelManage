@@ -30,6 +30,9 @@ import ManageHopDong from "./Pages/ManageHopdong";
 import TableManageHoadon from "./Components/manageHoadon/TableManageHoadon";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import RoomImages from "./Components/manageTro/RoomImages"; 
+
+
 function PrivateRoute({ children }) {
   const auth = useSelector((state) => state.user.account.auth);
   if (!auth) {
@@ -136,6 +139,7 @@ function App() {
               </SuperPrivateRoute>
             }
           />
+          <Route path="/room-images" element={<RoomImages />} />
           <Route
             path="/pageHD"
             element={
@@ -144,6 +148,7 @@ function App() {
               </SuperPrivateRoute>
             }
           />
+
           <Route
             path="/PageQLHD"
             element={

@@ -98,7 +98,8 @@ export class RenterRepository
     address: string | undefined,
     phone: string | undefined,
     email: string | undefined,
-    cccd: string | undefined
+    cccd: string | undefined,
+
   ): Promise<Renter> {
     try {
       const newRenter = await Renter.create({
@@ -108,6 +109,7 @@ export class RenterRepository
         phone,
         email,
         cccd,
+
       });
       return newRenter;
     } catch (err) {

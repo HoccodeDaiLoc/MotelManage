@@ -64,17 +64,30 @@ function Header({ socket }) {
           // handleclick();
         }}
       >
-        <div className="nav_left">
+        <div className="nav_left" style={{ display: "flex", alignItems: "center" }}>
           {isAdmin === true ? (
-            <Link to="/Home">
-              <img className="logo" src={LogoFinal} alt="logo"></img>
+            <Link to="/Home" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+              <img className="logo" src={LogoFinal} alt="logo" />
+              <div style={{ marginLeft: "10px", marginBottom:"-8px", fontWeight: "bold", fontSize: "17px", lineHeight: "1.5" , color :"#334d91" }}>
+                KÍ TÚC XÁ SINH VIÊN
+                <br />
+                ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG
+              </div>
             </Link>
           ) : (
-            <Link to="/">
-              <img className="logo" src={LogoFinal} alt="logo"></img>
+            <Link to="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+              <img className="logo" src={LogoFinal} alt="logo" />
+              <div style={{ marginLeft: "10px", marginBottom:"-8px", fontWeight: "bold", fontSize: "17px", lineHeight: "1.5" ,color :"#334d91" }}>
+                KÍ TÚC XÁ SINH VIÊN
+                <br />
+                ĐẠI HỌC BÁCH KHOA ĐÀ NẴNG
+              </div>
             </Link>
           )}
         </div>
+
+
+
         <div className="nav_right">
           <div className="nav_right_item">
             <span
@@ -88,20 +101,20 @@ function Header({ socket }) {
                 <img className="icon" src={bell} alt="help me nick"></img>
                 {console.log(notifications)}
                 {notifications.length === 0 ||
-                notifications.status === "error" ||
-                notifications.status === "fail" ||
-                notifications === undefined ||
-                notifications === null
+                  notifications.status === "error" ||
+                  notifications.status === "fail" ||
+                  notifications === undefined ||
+                  notifications === null
                   ? ""
                   : notifications.find((noti) => {
-                      console.log(noti);
-                      if (noti.notificationSubjects[0].isRead === false) {
-                        counter += 1;
-                        {
-                          console.log(counter);
-                        }
+                    console.log(noti);
+                    if (noti.notificationSubjects[0].isRead === false) {
+                      counter += 1;
+                      {
+                        console.log(counter);
                       }
-                    })}
+                    }
+                  })}
               </div>
               {show1 ? (
                 <div
@@ -111,56 +124,56 @@ function Header({ socket }) {
                 >
                   <div className="modal_noti">
                     {notifications.length === 0 ||
-                    notifications.status === "error" ||
-                    notifications.status === "fail" ||
-                    notifications === undefined ||
-                    notifications === null
+                      notifications.status === "error" ||
+                      notifications.status === "fail" ||
+                      notifications === undefined ||
+                      notifications === null
                       ? "Bạn chưa có thông báo mới"
                       : notifications.reverse().map((noti) => (
-                          <div
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              if (
-                                noti.notificationSubjects[0].isRead === false
-                              ) {
-                                postNotification(noti.notificationId);
-                              }
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            if (
+                              noti.notificationSubjects[0].isRead === false
+                            ) {
+                              postNotification(noti.notificationId);
+                            }
 
-                              navigate("user/Bill");
-                            }}
-                            key={noti.notificationId}
-                            className="modal_part_noti"
-                          >
-                            <div className="modal_icon_container">
-                              <img
-                                srcSet={taolaadminne}
-                                style={{ borderRadius: "50%" }}
-                                alt=""
-                                className="modal_icon"
-                              />
-                            </div>
-                            {noti.notificationSubjects[0].isRead === false ||
-                            noti.notificationSubjects[0].isRead === "false" ? (
-                              <div className="bluepoint"></div>
-                            ) : (
-                              ""
-                            )}
-                            <div className="Notification">
-                              <p style={{ margin: "0px" }}>
-                                {noti.content + " vnđ"}
-                              </p>
-                              <h6
-                                style={{
-                                  fontSize: "small",
-                                  marginTop: "10px",
-                                  float: "right",
-                                }}
-                              >
-                                {noti.dateCreated.slice(0, 10)}
-                              </h6>
-                            </div>
+                            navigate("user/Bill");
+                          }}
+                          key={noti.notificationId}
+                          className="modal_part_noti"
+                        >
+                          <div className="modal_icon_container">
+                            <img
+                              srcSet={taolaadminne}
+                              style={{ borderRadius: "50%" }}
+                              alt=""
+                              className="modal_icon"
+                            />
                           </div>
-                        ))}
+                          {noti.notificationSubjects[0].isRead === false ||
+                            noti.notificationSubjects[0].isRead === "false" ? (
+                            <div className="bluepoint"></div>
+                          ) : (
+                            ""
+                          )}
+                          <div className="Notification">
+                            <p style={{ margin: "0px" }}>
+                              {noti.content + " vnđ"}
+                            </p>
+                            <h6
+                              style={{
+                                fontSize: "small",
+                                marginTop: "10px",
+                                float: "right",
+                              }}
+                            >
+                              {noti.dateCreated.slice(0, 10)}
+                            </h6>
+                          </div>
+                        </div>
+                      ))}
                   </div>
                 </div>
               ) : (
@@ -192,8 +205,8 @@ function Header({ socket }) {
                 }
                 srcSet={
                   avatarLink === null ||
-                  avatarLink === null ||
-                  avatarLink === ""
+                    avatarLink === null ||
+                    avatarLink === ""
                     ? ava
                     : avatarLink
                 }

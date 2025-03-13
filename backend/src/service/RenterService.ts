@@ -78,7 +78,7 @@ export class RenterService implements IRenterService {
           address,
           phone,
           email,
-          cccd
+          cccd,
         );
       }
       if(roomId){

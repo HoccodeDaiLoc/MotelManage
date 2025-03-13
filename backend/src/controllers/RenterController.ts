@@ -94,6 +94,7 @@ export class RenterController {
         phone,
         email,
         cccd,
+
         roomId,
         checkInDate,
         checkOutDate

@@ -48,7 +48,7 @@ export class AccountService implements IAccountService {
           undefined,
           undefined,
           email,
-          undefined
+          undefined,
         );
         renterId = newRenter.renterId;
       } else {

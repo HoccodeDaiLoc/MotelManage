@@ -13,7 +13,8 @@ export interface IRenterRepository extends BaseInterface {
     address: string | undefined,
     phone: string | undefined,
     email: string | undefined,
-    cccd: string | undefined
+    classId: string | undefined,
+
   ): Promise<Renter>;
   getRenterByEmail(email: string): Promise<Renter | null>;
   updateRenterById(id: number, newData: any): Promise<Renter>;

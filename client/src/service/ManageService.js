@@ -9,7 +9,7 @@ const fetchAllTro = (page) => {
 };
 
 const fetchAllIdroom = () => {
-  return axios.get(`/api/room/roomNumber/`,); // Sử dụng dấu nháy kép để bao quanh chuỗi
+  return axios.get(`/api/room/roomNumber/`,); 
 };
 
 const fetchAllTb = (page) => {
@@ -17,11 +17,11 @@ const fetchAllTb = (page) => {
 };
 
 const fetchAllHoadon = (page) => {
-  return axios.get(`/api/bill?page=${page}&limit=8`); // Sử dụng dấu nháy kép để bao quanh chuỗi
+  return axios.get(`/api/bill?page=${page}&limit=8`); 
 };
 
 const fetchAllstatusHd = (status) => {
-  return axios.get(`/api/bill?status=${status}`); // Sử dụng dấu nháy kép để bao quanh chuỗi/api/room/${roomId}`
+  return axios.get(`/api/bill?status=${status}`); 
 };
 const fetchAllHd = (page) => {
   return axios.get(`/api/contract?page=${page}&limit=8`);
