@@ -88,7 +88,7 @@ const ModalDetailHd = (props) => {
                     <p>
                       <strong>Bên A (Bên cho thuê):</strong>
                     </p>
-                    <p>Họ và tên: Phòng trọ sinh viên</p>
+                    <p>Họ và tên: phòng sinh viên</p>
                     <p>Địa chỉ: Hòa Khánh Bắc, Đà Nẵng</p>
                     <p>Số điện thoại: 0222.211.133</p>
                   </MDBCol>

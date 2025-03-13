@@ -115,7 +115,7 @@ const ModalEditHd = (props) => {
                
                     
                     <div className="col-md-6">
-                        <label htmlFor="depositAmount" className="form-label">Tiền cọc</label>
+                        <label htmlFor="depositAmount" className="form-label">Tiền nộp</label>
                         <input type="text" className="form-control" value={depositAmount} onChange={(event) => setDepositAmount(event.target.value)} />
                     </div>
                     

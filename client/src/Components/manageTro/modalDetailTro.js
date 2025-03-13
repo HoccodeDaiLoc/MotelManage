@@ -4,6 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import Carousel from "react-bootstrap/Carousel";
 import { fetchAllDetailRoom, fetchAllDetailRenter } from "../../service/ManageService";
 import "./ManagerModalDetailTro.modules.scss"; 
+import { useNavigate } from "react-router-dom";
+
 
 const ModalDetailTro = (props) => {
   const { show, handleCloseTro, dataDetailTro } = props;
@@ -13,11 +15,15 @@ const ModalDetailTro = (props) => {
   const [roomDetails, setRoomDetails] = useState(null);
   const [renterDetails, setRenterDetails] = useState([]);
   const [roomId, setRoomId] = useState(null);
-
+  const navigate = useNavigate();
   const handleImageClick = (images) => {
-    setSelectedRoomImages(images || []);
-    setShowImageModal(true);
+    if (images && images.length > 0) {
+      navigate("/room-images", { state: { images } });
+    } else {
+      alert("Không có hình ảnh để hiển thị!");
+    }
   };
+
 
   const formatPrice = (price) => {
     if (!price) return "";
@@ -173,12 +179,9 @@ const ModalDetailTro = (props) => {
             </div>
 
             <div className="col-md-12 my-3 text-center">
-              <Button
-                variant="danger"
-                onClick={() => handleImageClick(dataDetailTro?.roomImage)}
-              >
-                Xem ảnh chi tiết phòng
-              </Button>
+            <Button variant="danger" onClick={() => handleImageClick(dataDetailTro?.roomImage)}>
+      Xem ảnh chi tiết phòng
+    </Button>
             </div>
           </div>
         </Modal.Body>

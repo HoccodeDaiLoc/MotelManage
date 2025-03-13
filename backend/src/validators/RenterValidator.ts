@@ -31,7 +31,8 @@ export const validateRenter = [
   body("email")
     .optional()
     .isEmail()
-    .withMessage("Email must be a valid email address"),
+    .withMessage("Class must be a valid email address"),
+
   body("cccd")
     .optional()
     .isLength({ min: 12, max: 12 })

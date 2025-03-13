@@ -199,7 +199,7 @@ const TableManageHd = (props) => {
           <tr>
             <th>Phòng thuê</th>
             <th>Tiền phòng</th>
-            <th>Tiền cọc</th>
+            <th>Tiền phải nộp</th>
             <th>Ngày bắt đầu</th>
             <th>Ngày hết hạn</th>
             <th>Khác</th>

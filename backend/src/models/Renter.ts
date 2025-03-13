@@ -14,8 +14,7 @@ export class Renter extends Model {
     private static RENTER_ADDRESS = "address" as string;
     private static RENTER_PHONE = "phone" as string;
     private static RENTER_EMAIL = "email" as string;
-    private static RENTER_CCCD = "cccd" as string;
-
+    private static RENTER_CCCD = "cccd" as string
     @Column({
         type: DataType.INTEGER,
         primaryKey: true,
@@ -54,6 +53,8 @@ export class Renter extends Model {
         unique: true
     })
     email!: number;
+
+  
 
     @Column({
         type: DataType.STRING(12),

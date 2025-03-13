@@ -129,7 +129,7 @@ const ModalAddHd = (props) => {
             </FormSelect>
           </div>
           <div className="col-md-12">
-            <label htmlFor="inputRoomId" className="form-label">Số tiền thanh toántoán</label>
+            <label htmlFor="inputRoomId" className="form-label">Số tiền thanh toán</label>
             <input
               type="text"
               className="form-control"

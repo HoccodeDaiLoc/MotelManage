@@ -46,8 +46,8 @@ export class AuthController {
     } catch (err) {
       next(err);
     }
-  }
-
+  }  
+    
   login = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { username, password } = req.body;
@@ -63,7 +63,7 @@ export class AuthController {
       next(err);
     }
   };
-
+   
   changePassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.payload.userId;
@@ -83,7 +83,7 @@ export class AuthController {
       next(err);
     }
   };
-
+   
   getAccessToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { refreshToken } = req.body;
@@ -115,7 +115,7 @@ export class AuthController {
       next(err);
     }
   };
-
+    
   resetPassword = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, token, newPassword } = req.body;
@@ -127,7 +127,7 @@ export class AuthController {
       next(err);
     }
   };
-
+   
   checkResetToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, token } = req.body;

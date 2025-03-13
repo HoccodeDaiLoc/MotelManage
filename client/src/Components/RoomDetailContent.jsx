@@ -78,7 +78,7 @@ function RoomDetailContent() {
                   <div className="Room_Desc">{data.description}</div>
                   <div className="Room_furniture_container">
                     <div className="Room_furniture_text">
-                      Những tiện ích mà phòng trọ này mang lại:
+                      Những tiện ích mà phòng này mang lại:
                     </div>
                     {devices.map((device, index) => (
                       <div className="Room_furniture" key={index}>

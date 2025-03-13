@@ -88,7 +88,7 @@ const ModalAddTro = (props) => {
                 })
                 .catch(error => {
                   console.error("Error creating tro:", error);
-                  toast.error("Đã xảy ra lỗi khi tạo phòng trọ");
+                  toast.error("Đã xảy ra lỗi khi tạo phòng");
                 });
             }
           });
