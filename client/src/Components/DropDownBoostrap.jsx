@@ -28,41 +28,41 @@ function DropDownBoostrap({ items }) {
             className="DropdownItem"
             onClick={() => {
               navigate(`/room/price?lp=0&rp=1000000&limit=12&page=1`, {
-                state: { lp: 0, hp: 1000000 },
+                state: { lp: 0, hp: 120000 },
               });
             }}
           >
-            Dưới 1 triệu
+             120.000VNĐ/người
           </ListGroup.Item>
           <ListGroup.Item
             className="DropdownItem "
             onClick={() => {
-              navigate(`/room/price?lp=1000000&rp=1200000&limit=12&page=1`, {
-                state: { lp: 1000000, hp: 1200000 },
+              navigate(`/room/price?lp=121000&rp=140000&limit=12&page=1`, {
+                state: { lp: 120000, hp: 140000 },
               });
             }}
           >
-            1-1,2 triệu
+            140.000VNĐ/người
           </ListGroup.Item>
           <ListGroup.Item
             className="DropdownItem"
             onClick={() => {
-              navigate(`/room/price?lp=1200000&rp=1500000&limit=12&page=1`, {
-                state: { lp: 1200000, hp: 1500000 },
+              navigate(`/room/price?lp=141000&rp=150000&limit=12&page=1`, {
+                state: { lp: 140000, hp: 150000 },
               });
             }}
           >
-            1,2-1,5 triệu
+            150.000VNĐ/người
           </ListGroup.Item>
           <ListGroup.Item
             className="DropdownItem"
             onClick={() => {
-              navigate(`/room/price?lp=1500000&rp=15000000&limit=12&page=1`, {
-                state: { lp: 1500000, hp: 15000000 },
+              navigate(`/room/price?lp=1000000&rp=10000000&limit=12&page=1`, {
+                state: { lp: 1000000, hp: 10000000 },
               });
             }}
           >
-            Hơn 1,5 triệu
+            1.000.000VNĐ/người 
           </ListGroup.Item>
         </ListGroup>
         <Dropdown.Menu>

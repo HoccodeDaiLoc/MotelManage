@@ -9,18 +9,8 @@ function Footer() {
     <>
       <div className="footer_container">
         <div className="footer">
-          <div className="left_nav">© 2024 Trọ việt, Inc.</div>
-          <div className="right_nav">
-            <a href={"https://www.facebook.com/"} className="icon_container">
-              <img className="icon" src={facebook} alt="" />
-            </a>
-            <a href={"https://www.instagram.com/"} className="icon_container">
-              <img className="icon" src={instagram} alt="" />
-            </a>
-            <a href={"https://www.youtube.com/"} className="icon_container">
-              <img className="icon youtube" src={youtube} alt="" />
-            </a>
-          </div>
+
+          
         </div>
       </div>
     </>

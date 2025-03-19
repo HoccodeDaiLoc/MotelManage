@@ -52,7 +52,7 @@ function UserRoom() {
             disabled
             className={"UserInfo_Item_Input"}
           />
-          {/* chưa có value, đang hard code */}
+    
         </div>{" "}
         <div className="UserInfo_Item">
           <h6 className="UserInfo_Item_Text">Diện tích</h6>

@@ -64,7 +64,7 @@ const ModalDetailHd = (props) => {
         <MDBContainer className="py-5">
           <MDBCard>
             <MDBCardHeader className="bg-dark text-white text-center">
-              HỢP ĐỒNG THUÊ TRỌ
+              HỢP ĐỒNG THUÊ 
             </MDBCardHeader>
             <MDBCardBody>
               <MDBContainer>
@@ -79,7 +79,7 @@ const ModalDetailHd = (props) => {
                 </MDBRow>
                 <MDBRow className="text-center">
                   <h3 className="text-uppercase text-center mt-3" style={{ fontSize: '40px' ,color:"red" }}>
-                    HỢP ĐỒNG THUÊ TRỌ
+                    HỢP ĐỒNG THUÊ
                   </h3>
                   <p>Kính gửi: {dataDetailHd.tenantName}</p>
                 </MDBRow>

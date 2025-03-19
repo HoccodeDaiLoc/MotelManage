@@ -58,7 +58,7 @@ const Header = () => {
                 }}
               >
                  <FaUserFriends className="mr-2 mx-1" style={{ fontSize: "1.5em", marginTop: "-8px" }} />
-                Quản lý khách hàng
+                Quản lý sinh viên
               </Nav.Link>
               <Nav.Link
                 as={Link}
