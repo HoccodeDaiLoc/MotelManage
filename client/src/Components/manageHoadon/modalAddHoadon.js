@@ -181,7 +181,7 @@ const ModalAddHoadon = (props) => {
           </div>
           <div className="col-md-6">
             <label htmlFor="inputRoomNumber" className="form-label">
-              Phòng đang sử dụng
+              Phòng thuê
             </label>
             <FormSelect
               className="form-select"

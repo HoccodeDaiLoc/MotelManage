@@ -14,7 +14,7 @@ const ModalAddrenter = (props) => {
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("@gmail.com");
+  const [email, setEmail] = useState("@sv1.dut.udn.vn");
   const [cccd, setCccd] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
   const [roomMapping, setRoomMapping] = useState({});
@@ -160,7 +160,7 @@ const ModalAddrenter = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="inputRoomNumber" className="form-label">Phòng đang sử dụng</label>
+              <label htmlFor="inputRoomNumber" className="form-label">Phòng thuê</label>
               <FormSelect
                 className="form-select"
                 value={roomNumber}
